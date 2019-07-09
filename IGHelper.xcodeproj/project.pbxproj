@@ -12,6 +12,12 @@
 		0C1D2E9E22D3C17F0015135F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9C22D3C17F0015135F /* Main.storyboard */; };
 		0C1D2EA022D3C1800015135F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9F22D3C1800015135F /* Assets.xcassets */; };
 		0C1D2EA322D3C1800015135F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C1D2EA122D3C1800015135F /* LaunchScreen.storyboard */; };
+		0C1D2EAC22D3DF720015135F /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EAB22D3DF720015135F /* UIViewExtension.swift */; };
+		0C1D2EB122D46F1A0015135F /* UIButton+ScalableFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EAD22D46F1A0015135F /* UIButton+ScalableFont.swift */; };
+		0C1D2EB222D46F1A0015135F /* Double+Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EAE22D46F1A0015135F /* Double+Scale.swift */; };
+		0C1D2EB322D46F1A0015135F /* UILabel+ScalableFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EAF22D46F1A0015135F /* UILabel+ScalableFont.swift */; };
+		0C1D2EB422D46F1A0015135F /* NSLayoutConstraint+Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EB022D46F1A0015135F /* NSLayoutConstraint+Scale.swift */; };
+		0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EB522D470E90015135F /* ScalableConstraint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +28,12 @@
 		0C1D2E9F22D3C1800015135F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C1D2EA222D3C1800015135F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C1D2EA422D3C1800015135F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C1D2EAB22D3DF720015135F /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		0C1D2EAD22D46F1A0015135F /* UIButton+ScalableFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+ScalableFont.swift"; sourceTree = "<group>"; };
+		0C1D2EAE22D46F1A0015135F /* Double+Scale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Scale.swift"; sourceTree = "<group>"; };
+		0C1D2EAF22D46F1A0015135F /* UILabel+ScalableFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+ScalableFont.swift"; sourceTree = "<group>"; };
+		0C1D2EB022D46F1A0015135F /* NSLayoutConstraint+Scale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Scale.swift"; sourceTree = "<group>"; };
+		0C1D2EB522D470E90015135F /* ScalableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableConstraint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +66,7 @@
 		0C1D2E9722D3C17F0015135F /* IGHelper */ = {
 			isa = PBXGroup;
 			children = (
+				0C1D2EAA22D3DF590015135F /* Extension */,
 				0C1D2E9822D3C17F0015135F /* AppDelegate.swift */,
 				0C1D2E9A22D3C17F0015135F /* ViewController.swift */,
 				0C1D2E9C22D3C17F0015135F /* Main.storyboard */,
@@ -62,6 +75,19 @@
 				0C1D2EA422D3C1800015135F /* Info.plist */,
 			);
 			path = IGHelper;
+			sourceTree = "<group>";
+		};
+		0C1D2EAA22D3DF590015135F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0C1D2EAB22D3DF720015135F /* UIViewExtension.swift */,
+				0C1D2EAE22D46F1A0015135F /* Double+Scale.swift */,
+				0C1D2EB022D46F1A0015135F /* NSLayoutConstraint+Scale.swift */,
+				0C1D2EAD22D46F1A0015135F /* UIButton+ScalableFont.swift */,
+				0C1D2EAF22D46F1A0015135F /* UILabel+ScalableFont.swift */,
+				0C1D2EB522D470E90015135F /* ScalableConstraint.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +161,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C1D2EB222D46F1A0015135F /* Double+Scale.swift in Sources */,
+				0C1D2EAC22D3DF720015135F /* UIViewExtension.swift in Sources */,
+				0C1D2EB322D46F1A0015135F /* UILabel+ScalableFont.swift in Sources */,
+				0C1D2EB122D46F1A0015135F /* UIButton+ScalableFont.swift in Sources */,
+				0C1D2EB422D46F1A0015135F /* NSLayoutConstraint+Scale.swift in Sources */,
 				0C1D2E9B22D3C17F0015135F /* ViewController.swift in Sources */,
 				0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */,
+				0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
