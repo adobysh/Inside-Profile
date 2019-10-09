@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dkn-dy-E4N">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,319 +10,466 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Get Started View Controller-->
+        <scene sceneID="QlJ-Rf-6WG">
+            <objects>
+                <viewController storyboardIdentifier="GetStartedViewController" id="IU4-mr-cFb" customClass="GetStartedViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="udf-A8-az5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgMain" translatesAutoresizingMaskIntoConstraints="NO" id="2Q0-Qo-daU">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaN-FL-EM0">
+                                <rect key="frame" x="45.666666666666657" y="340.33333333333331" width="284" height="131.33333333333331"/>
+                                <string key="text">Social
+Tracker</string>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="55"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4y1-Cp-9go">
+                                <rect key="frame" x="45.666666666666657" y="671" width="284" height="55"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="4y1-Cp-9go" secondAttribute="height" multiplier="310:60" id="HQZ-qS-HaM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <state key="normal" title="Get Started">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="7"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="buttonAction:" destination="IU4-mr-cFb" eventType="touchUpInside" id="oB3-V3-p86"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lcu-2r-6vO">
+                                <rect key="frame" x="0.0" y="471.66666666666669" width="375" height="195.33333333333331"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track you Instagram followers, find out your unfollowers, people who is not following you back and many others" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2X-9w-7nk">
+                                        <rect key="frame" x="45.666666666666657" y="68.999999999999943" width="284" height="57.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="g2X-9w-7nk" firstAttribute="centerX" secondItem="lcu-2r-6vO" secondAttribute="centerX" id="E2F-Sw-JZB"/>
+                                    <constraint firstItem="g2X-9w-7nk" firstAttribute="centerY" secondItem="lcu-2r-6vO" secondAttribute="centerY" id="guW-eV-hhL"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZaN-FL-EM0" firstAttribute="centerX" secondItem="udf-A8-az5" secondAttribute="centerX" id="13S-ek-mlP"/>
+                            <constraint firstItem="lcu-2r-6vO" firstAttribute="leading" secondItem="hLI-2s-uhE" secondAttribute="leading" id="1tZ-NF-GLr"/>
+                            <constraint firstAttribute="bottom" secondItem="2Q0-Qo-daU" secondAttribute="bottom" id="DLH-b4-vlA"/>
+                            <constraint firstItem="4y1-Cp-9go" firstAttribute="top" secondItem="lcu-2r-6vO" secondAttribute="bottom" constant="4" id="G0w-A7-Fqo"/>
+                            <constraint firstItem="4y1-Cp-9go" firstAttribute="centerX" secondItem="udf-A8-az5" secondAttribute="centerX" id="JqH-lW-FG5"/>
+                            <constraint firstItem="hLI-2s-uhE" firstAttribute="bottom" secondItem="4y1-Cp-9go" secondAttribute="bottom" constant="52" id="NPF-tw-LUd"/>
+                            <constraint firstItem="4y1-Cp-9go" firstAttribute="width" secondItem="g2X-9w-7nk" secondAttribute="width" id="OIO-tw-pFn"/>
+                            <constraint firstItem="ZaN-FL-EM0" firstAttribute="centerY" secondItem="udf-A8-az5" secondAttribute="centerY" id="UF2-fF-aSL"/>
+                            <constraint firstItem="g2X-9w-7nk" firstAttribute="width" secondItem="ZaN-FL-EM0" secondAttribute="width" id="YyG-sJ-NmS"/>
+                            <constraint firstItem="2Q0-Qo-daU" firstAttribute="trailing" secondItem="hLI-2s-uhE" secondAttribute="trailing" id="eh5-cf-CDF"/>
+                            <constraint firstItem="2Q0-Qo-daU" firstAttribute="top" secondItem="udf-A8-az5" secondAttribute="top" id="flT-GT-nWO"/>
+                            <constraint firstItem="hLI-2s-uhE" firstAttribute="trailing" secondItem="lcu-2r-6vO" secondAttribute="trailing" id="ihf-zA-eK5"/>
+                            <constraint firstItem="lcu-2r-6vO" firstAttribute="top" secondItem="ZaN-FL-EM0" secondAttribute="bottom" id="nC8-Ho-c2J"/>
+                            <constraint firstItem="ZaN-FL-EM0" firstAttribute="width" secondItem="udf-A8-az5" secondAttribute="width" multiplier="284:375" id="pW4-lz-vO6"/>
+                            <constraint firstItem="2Q0-Qo-daU" firstAttribute="leading" secondItem="hLI-2s-uhE" secondAttribute="leading" id="t4m-6x-0th"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hLI-2s-uhE"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QJz-gQ-KYa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-903" y="-738"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="IBx-vW-ESl">
+            <objects>
+                <navigationController id="dkn-dy-E4N" sceneMemberID="viewController">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="gtg-Hg-bUe">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="r4C-gh-4FF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VSJ-GF-sto" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-974" y="21"/>
+        </scene>
+        <!--Title-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="BYZ-38-t0r" customClass="MainViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XRi-gu-dWl">
-                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
-                                <items>
-                                    <navigationItem title="UserName" id="8Ux-he-SQF"/>
-                                </items>
-                            </navigationBar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5O7-e6-Lbv">
-                                <rect key="frame" x="27.666666666666657" y="102" width="320" height="116"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgMain" translatesAutoresizingMaskIntoConstraints="NO" id="Qxy-J5-oJM">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="bEJ-FH-6hi">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="bEJ-FH-6hi" secondAttribute="height" multiplier="25:8" id="SG0-l3-JCN"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ssa-3R-MRV">
+                                <rect key="frame" x="125.66666666666669" y="104" width="124" height="124"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ssa-3R-MRV" secondAttribute="height" multiplier="1:1" id="L66-qg-5zN"/>
+                                    <constraint firstAttribute="height" constant="124" id="OuP-8d-cn6"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="62"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@jessica_jones" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsC-IY-bFl">
+                                <rect key="frame" x="95.666666666666671" y="240" width="183.66666666666663" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="aRd-YQ-rSn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Sye-oX-SoT">
+                                <rect key="frame" x="31.666666666666657" y="300" width="312" height="50"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cl6-oa-YUI">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="B96-nT-frl">
+                                        <rect key="frame" x="0.0" y="0.0" width="78" height="50"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="9fV-wj-ag8">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UFj-i7-qpz">
-                                                        <rect key="frame" x="0.0" y="0.0" width="106.66666666666667" height="58"/>
-                                                        <string key="text">2K
-Followers</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aSM-qG-9kW">
-                                                        <rect key="frame" x="106.66666666666666" y="0.0" width="106.66666666666666" height="58"/>
-                                                    </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1OE-ir-wIo">
-                                                        <rect key="frame" x="213.33333333333334" y="0.0" width="106.66666666666666" height="58"/>
-                                                        <string key="text">200
-Following</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="BYv-d2-Eiv">
-                                                <rect key="frame" x="0.0" y="58" width="320" height="58"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20 posts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFX-DW-Bpp">
-                                                        <rect key="frame" x="0.0" y="0.0" width="106.66666666666667" height="58"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14,6K likes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgx-37-Tuq">
-                                                        <rect key="frame" x="106.66666666666666" y="0.0" width="106.66666666666666" height="58"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="338 comments" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKN-W8-Abv">
-                                                        <rect key="frame" x="213.33333333333334" y="0.0" width="106.66666666666666" height="58"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dRj-2M-PHW">
+                                                <rect key="frame" x="0.0" y="0.0" width="78" height="25"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vMe-Og-DDW">
+                                                <rect key="frame" x="0.0" y="25" width="78" height="25"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ZsJ-v1-RJl">
+                                        <rect key="frame" x="78" y="0.0" width="78" height="50"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="efT-c9-7wG">
+                                                <rect key="frame" x="0.0" y="0.0" width="78" height="25"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Following" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjH-T8-d2I">
+                                                <rect key="frame" x="0.0" y="25" width="78" height="25"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="it9-HW-vLo">
+                                        <rect key="frame" x="156" y="0.0" width="78" height="50"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XX-C8-gDa">
+                                                <rect key="frame" x="0.0" y="0.0" width="78" height="25"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Likes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcT-Vz-cxu">
+                                                <rect key="frame" x="0.0" y="25" width="78" height="25"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Om6-5U-znI">
+                                        <rect key="frame" x="234" y="0.0" width="78" height="50"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vk2-gt-f9d">
+                                                <rect key="frame" x="0.0" y="0.0" width="78" height="25"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QvQ-Bj-fzT">
+                                                <rect key="frame" x="0.0" y="25" width="78" height="25"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="cl6-oa-YUI" secondAttribute="trailing" id="48z-y1-Lgt"/>
-                                    <constraint firstItem="cl6-oa-YUI" firstAttribute="leading" secondItem="5O7-e6-Lbv" secondAttribute="leading" id="A4x-x3-exE"/>
-                                    <constraint firstAttribute="bottom" secondItem="cl6-oa-YUI" secondAttribute="bottom" id="D3g-P7-BXC"/>
-                                    <constraint firstItem="cl6-oa-YUI" firstAttribute="top" secondItem="5O7-e6-Lbv" secondAttribute="top" id="Rky-qx-QMe"/>
-                                    <constraint firstAttribute="width" secondItem="5O7-e6-Lbv" secondAttribute="height" multiplier="353:128" id="iqW-OT-HxL"/>
+                                    <constraint firstAttribute="width" secondItem="Sye-oX-SoT" secondAttribute="height" multiplier="312:50" id="ap9-2p-3bm"/>
                                 </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r7B-9a-6e3">
-                                <rect key="frame" x="27.666666666666657" y="231.66666666666666" width="320" height="72.666666666666657"/>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="WmQ-wQ-aX1">
+                                <rect key="frame" x="27" y="377" width="321" height="374"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VIP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFd-1w-98O">
-                                        <rect key="frame" x="147" y="26.000000000000028" width="25.666666666666657" height="20.333333333333329"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uje-VE-u9J">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="72.666666666666671"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="PFd-1w-98O" firstAttribute="centerY" secondItem="r7B-9a-6e3" secondAttribute="centerY" id="Cjc-k5-6VB"/>
-                                    <constraint firstAttribute="width" secondItem="r7B-9a-6e3" secondAttribute="height" multiplier="353:80" id="Em6-NO-qRp"/>
-                                    <constraint firstItem="Uje-VE-u9J" firstAttribute="top" secondItem="r7B-9a-6e3" secondAttribute="top" id="NoG-V9-4oZ"/>
-                                    <constraint firstItem="Uje-VE-u9J" firstAttribute="leading" secondItem="r7B-9a-6e3" secondAttribute="leading" id="WBi-d8-4bi"/>
-                                    <constraint firstAttribute="trailing" secondItem="Uje-VE-u9J" secondAttribute="trailing" id="gRf-EA-Smg"/>
-                                    <constraint firstItem="PFd-1w-98O" firstAttribute="centerX" secondItem="r7B-9a-6e3" secondAttribute="centerX" id="hzJ-9f-zxR"/>
-                                    <constraint firstAttribute="bottom" secondItem="Uje-VE-u9J" secondAttribute="bottom" id="kAn-6X-ggx"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <integer key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="heV-9i-k9J">
-                                <rect key="frame" x="27.666666666666657" y="332" width="320" height="418.33333333333326"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="WmQ-wQ-aX1">
-                                        <rect key="frame" x="13.666666666666657" y="13.666666666666686" width="292.33333333333337" height="390.66666666666669"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="FDg-gE-CPE">
+                                        <rect key="frame" x="0.0" y="0.0" width="153.66666666666666" height="374"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="FDg-gE-CPE">
-                                                <rect key="frame" x="0.0" y="0.0" width="139.33333333333334" height="390.66666666666669"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LzH-TB-VmL">
-                                                        <rect key="frame" x="0.0" y="0.0" width="139.33333333333334" height="87.333333333333329"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="22"/>
-                                                        <string key="text">174
-Followers lost</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                <integer key="value" value="2"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7xX-D0-8dc">
-                                                        <rect key="frame" x="0.0" y="101.33333333333331" width="139.33333333333334" height="87"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="22"/>
-                                                        <string key="text">174
-Followers lost</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                <integer key="value" value="2"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rdd-mk-hYe">
-                                                        <rect key="frame" x="0.0" y="202.33333333333331" width="139.33333333333334" height="87.333333333333314"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="22"/>
-                                                        <string key="text">174
-Followers lost</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                <integer key="value" value="2"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8J-Vy-1g6">
-                                                        <rect key="frame" x="0.0" y="303.66666666666669" width="139.33333333333334" height="87"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="22"/>
-                                                        <string key="text">174
-Followers lost</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                <integer key="value" value="2"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="PXS-Qk-iTo">
-                                                <rect key="frame" x="153.33333333333331" y="0.0" width="139" height="390.66666666666669"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Et2-5x-Bjl">
-                                                        <rect key="frame" x="0.0" y="0.0" width="139" height="87.333333333333329"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="22"/>
-                                                        <string key="text">174
-Followers lost</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                <integer key="value" value="2"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmT-YC-zfY">
-                                                        <rect key="frame" x="0.0" y="101.33333333333331" width="139" height="87"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="22"/>
-                                                        <string key="text">174
-Followers lost</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                <integer key="value" value="2"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KjP-AJ-hhp">
-                                                        <rect key="frame" x="0.0" y="202.33333333333331" width="139" height="87.333333333333314"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="22"/>
-                                                        <string key="text">174
-Followers lost</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                <integer key="value" value="2"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCp-6q-19m">
-                                                        <rect key="frame" x="0.0" y="303.66666666666669" width="139" height="87"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="22"/>
-                                                        <string key="text">174
-Followers lost</string>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                <integer key="value" value="2"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKe-oT-mHF">
+                                                <rect key="frame" x="0.0" y="0.0" width="153.66666666666666" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment>
+                                                            <string key="content">32
+lost followers</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tvL-iv-nR0">
+                                                <rect key="frame" x="0.0" y="97" width="153.66666666666666" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment>
+                                                            <string key="content">32
+lost followers</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZPf-X2-oJa">
+                                                <rect key="frame" x="0.0" y="194" width="153.66666666666666" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment>
+                                                            <string key="content">32
+lost followers</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FEg-km-dIW">
+                                                <rect key="frame" x="0.0" y="291" width="153.66666666666666" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment>
+                                                            <string key="content">32
+lost followers</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="0Od-Jf-IBP">
+                                        <rect key="frame" x="167.66666666666663" y="0.0" width="153.33333333333337" height="374"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jim-Cm-0HO">
+                                                <rect key="frame" x="0.0" y="0.0" width="153.33333333333334" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment>
+                                                            <string key="content">32
+lost followers</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4a7-a6-vhn">
+                                                <rect key="frame" x="0.0" y="97" width="153.33333333333334" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment>
+                                                            <string key="content">32
+lost followers</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ne8-Ad-WLn">
+                                                <rect key="frame" x="0.0" y="194" width="153.33333333333334" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment>
+                                                            <string key="content">32
+lost followers</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Et-lo-qNU">
+                                                <rect key="frame" x="0.0" y="291" width="153.33333333333334" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment>
+                                                            <string key="content">32
+lost followers</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" metaFont="system" size="14"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="WmQ-wQ-aX1" secondAttribute="trailing" constant="13.84" id="JJ6-Uk-WzE"/>
-                                    <constraint firstItem="WmQ-wQ-aX1" firstAttribute="leading" secondItem="heV-9i-k9J" secondAttribute="leading" constant="13.84" id="alB-Fr-UP4"/>
-                                    <constraint firstItem="WmQ-wQ-aX1" firstAttribute="top" secondItem="heV-9i-k9J" secondAttribute="top" constant="13.84" id="eHx-sg-dbb"/>
-                                    <constraint firstAttribute="bottom" secondItem="WmQ-wQ-aX1" secondAttribute="bottom" constant="13.84" id="w1e-fq-Gee"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <integer key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="r7B-9a-6e3" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="320:375" id="3jg-ob-9JG"/>
-                            <constraint firstItem="heV-9i-k9J" firstAttribute="top" secondItem="r7B-9a-6e3" secondAttribute="bottom" constant="27.670000000000002" id="8gK-ZX-5L3" customClass="ScalableConstraint" customModule="IGHelper" customModuleProvider="target"/>
-                            <constraint firstItem="5O7-e6-Lbv" firstAttribute="top" secondItem="XRi-gu-dWl" secondAttribute="bottom" constant="13.84" id="GVT-IB-Opu"/>
-                            <constraint firstItem="heV-9i-k9J" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="320:375" id="N3i-1w-Qvq"/>
-                            <constraint firstItem="r7B-9a-6e3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Q6H-Lw-G9Y"/>
-                            <constraint firstItem="r7B-9a-6e3" firstAttribute="top" secondItem="5O7-e6-Lbv" secondAttribute="bottom" constant="13.84" id="QML-gC-blh" customClass="ScalableConstraint" customModule="IGHelper" customModuleProvider="target"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="heV-9i-k9J" secondAttribute="bottom" constant="27.670000000000002" id="Y5b-h9-bst" customClass="ScalableConstraint" customModule="IGHelper" customModuleProvider="target"/>
-                            <constraint firstItem="5O7-e6-Lbv" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="320:375" id="djF-RZ-bCI"/>
-                            <constraint firstItem="XRi-gu-dWl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nrQ-mS-uSe"/>
-                            <constraint firstItem="XRi-gu-dWl" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="qBl-bf-tVb"/>
-                            <constraint firstItem="heV-9i-k9J" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="s7N-vS-ewK"/>
-                            <constraint firstItem="5O7-e6-Lbv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="txf-vW-mcg"/>
-                            <constraint firstItem="XRi-gu-dWl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uez-Gi-WlX"/>
+                            <constraint firstItem="ssa-3R-MRV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3lU-1m-QUS"/>
+                            <constraint firstItem="WmQ-wQ-aX1" firstAttribute="top" secondItem="Sye-oX-SoT" secondAttribute="bottom" constant="27" id="7vI-Pa-4RN"/>
+                            <constraint firstItem="WmQ-wQ-aX1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="27" id="B6d-oh-7f2"/>
+                            <constraint firstItem="Qxy-J5-oJM" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="Fj9-eV-j6i"/>
+                            <constraint firstItem="bEJ-FH-6hi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Knl-JE-pcU"/>
+                            <constraint firstAttribute="bottom" secondItem="Qxy-J5-oJM" secondAttribute="bottom" id="LtV-r2-6f8"/>
+                            <constraint firstItem="bEJ-FH-6hi" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="NeG-IT-rbd"/>
+                            <constraint firstItem="Sye-oX-SoT" firstAttribute="top" secondItem="vsC-IY-bFl" secondAttribute="bottom" constant="22" id="PIS-CA-IZi"/>
+                            <constraint firstItem="Qxy-J5-oJM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PkQ-cm-pm2"/>
+                            <constraint firstItem="vsC-IY-bFl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QC6-W4-rx6"/>
+                            <constraint firstItem="vsC-IY-bFl" firstAttribute="top" secondItem="ssa-3R-MRV" secondAttribute="bottom" constant="12" id="StS-hc-eDW"/>
+                            <constraint firstItem="Sye-oX-SoT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VEd-Ak-yjf"/>
+                            <constraint firstItem="Sye-oX-SoT" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="312:375" id="WbR-Xl-VPA"/>
+                            <constraint firstItem="ssa-3R-MRV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="b3k-1k-AuB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WmQ-wQ-aX1" secondAttribute="trailing" constant="27" id="mQR-PB-Uwq"/>
+                            <constraint firstItem="bEJ-FH-6hi" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="n09-AB-BgH"/>
+                            <constraint firstItem="Qxy-J5-oJM" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="uKn-d5-pgt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WmQ-wQ-aX1" secondAttribute="bottom" constant="27" id="zTa-9Z-1Tw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" largeTitleDisplayMode="never" id="K31-QT-JD9">
+                        <barButtonItem key="leftBarButtonItem" image="icSettings2" id="Q1N-An-uuM">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="refreshButtonAction:" destination="BYZ-38-t0r" id="DhR-lc-X5U"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="h8I-BU-bH0">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="refreshButtonAction:" destination="BYZ-38-t0r" id="2Fx-hb-Qjk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <connections>
+                        <outlet property="avatarImageView" destination="ssa-3R-MRV" id="XvZ-Yf-59G"/>
+                        <outlet property="commentsCountLabel" destination="Vk2-gt-f9d" id="KqC-3t-GKe"/>
+                        <outlet property="followersCountLabel" destination="dRj-2M-PHW" id="4OP-J8-bCp"/>
+                        <outlet property="followingCountLabel" destination="efT-c9-7wG" id="xMu-bP-lfd"/>
+                        <outlet property="likesCountLabel" destination="8XX-C8-gDa" id="H0I-Ks-yK4"/>
+                        <outlet property="loginLabel" destination="vsC-IY-bFl" id="7pM-vl-Anz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="37.600000000000001" y="20.689655172413794"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bgMain" width="375" height="812"/>
+        <image name="bgNavBar" width="374" height="120"/>
+        <image name="icSettings2" width="36" height="36"/>
+    </resources>
 </document>

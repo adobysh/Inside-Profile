@@ -3,12 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9822D3C17F0015135F /* AppDelegate.swift */; };
-		0C1D2E9B22D3C17F0015135F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9A22D3C17F0015135F /* ViewController.swift */; };
+		0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9A22D3C17F0015135F /* MainViewController.swift */; };
 		0C1D2E9E22D3C17F0015135F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9C22D3C17F0015135F /* Main.storyboard */; };
 		0C1D2EA022D3C1800015135F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9F22D3C1800015135F /* Assets.xcassets */; };
 		0C1D2EA322D3C1800015135F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C1D2EA122D3C1800015135F /* LaunchScreen.storyboard */; };
@@ -18,12 +18,22 @@
 		0C1D2EB322D46F1A0015135F /* UILabel+ScalableFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EAF22D46F1A0015135F /* UILabel+ScalableFont.swift */; };
 		0C1D2EB422D46F1A0015135F /* NSLayoutConstraint+Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EB022D46F1A0015135F /* NSLayoutConstraint+Scale.swift */; };
 		0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EB522D470E90015135F /* ScalableConstraint.swift */; };
+		0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C274CAF234A7F4700BC8C11 /* ProfileInfoData.swift */; };
+		0C32D3FA22E59AB30092B6AD /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */; };
+		0C5A9CEE22E8E8F100A6ED2E /* UIStorybard+AppStoryboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CED22E8E8F100A6ED2E /* UIStorybard+AppStoryboards.swift */; };
+		0C5A9CF022E8E93700A6ED2E /* UIViewController+AppViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */; };
+		0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */; };
+		0C653E8B234A36B1002C9095 /* AuthorizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C653E8A234A36B1002C9095 /* AuthorizationData.swift */; };
+		0C669657234C6C8400845BB0 /* PostsContainerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C669656234C6C8400845BB0 /* PostsContainerData.swift */; };
+		0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12C22E775BC00C85B75 /* ApiManager.swift */; };
+		0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */; };
+		2508CF7AB963B0B93253DCBD /* Pods_IGHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5A458EA9A43CE3BEA52AD6 /* Pods_IGHelper.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0C1D2E9522D3C17F0015135F /* IGHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IGHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C1D2E9822D3C17F0015135F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0C1D2E9A22D3C17F0015135F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0C1D2E9A22D3C17F0015135F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0C1D2E9D22D3C17F0015135F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0C1D2E9F22D3C1800015135F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C1D2EA222D3C1800015135F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -34,6 +44,18 @@
 		0C1D2EAF22D46F1A0015135F /* UILabel+ScalableFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+ScalableFont.swift"; sourceTree = "<group>"; };
 		0C1D2EB022D46F1A0015135F /* NSLayoutConstraint+Scale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Scale.swift"; sourceTree = "<group>"; };
 		0C1D2EB522D470E90015135F /* ScalableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableConstraint.swift; sourceTree = "<group>"; };
+		0C274CAF234A7F4700BC8C11 /* ProfileInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoData.swift; sourceTree = "<group>"; };
+		0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
+		0C5A9CED22E8E8F100A6ED2E /* UIStorybard+AppStoryboards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStorybard+AppStoryboards.swift"; sourceTree = "<group>"; };
+		0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AppViewControllers.swift"; sourceTree = "<group>"; };
+		0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
+		0C653E8A234A36B1002C9095 /* AuthorizationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationData.swift; sourceTree = "<group>"; };
+		0C669656234C6C8400845BB0 /* PostsContainerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsContainerData.swift; sourceTree = "<group>"; };
+		0CF1F12C22E775BC00C85B75 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IGHelper.release.xcconfig"; path = "Target Support Files/Pods-IGHelper/Pods-IGHelper.release.xcconfig"; sourceTree = "<group>"; };
+		5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IGHelper.debug.xcconfig"; path = "Target Support Files/Pods-IGHelper/Pods-IGHelper.debug.xcconfig"; sourceTree = "<group>"; };
+		AE5A458EA9A43CE3BEA52AD6 /* Pods_IGHelper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IGHelper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2508CF7AB963B0B93253DCBD /* Pods_IGHelper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +75,8 @@
 			children = (
 				0C1D2E9722D3C17F0015135F /* IGHelper */,
 				0C1D2E9622D3C17F0015135F /* Products */,
+				8928E9977B5B15536083CB5B /* Pods */,
+				986AB714E7F75199121F7187 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,9 +91,11 @@
 		0C1D2E9722D3C17F0015135F /* IGHelper */ = {
 			isa = PBXGroup;
 			children = (
+				0CFFA9E222E6E246009AB882 /* API */,
+				0C32D3F822E59A960092B6AD /* Manager */,
+				0C5A9CEC22E8E7D700A6ED2E /* ViewController */,
 				0C1D2EAA22D3DF590015135F /* Extension */,
 				0C1D2E9822D3C17F0015135F /* AppDelegate.swift */,
-				0C1D2E9A22D3C17F0015135F /* ViewController.swift */,
 				0C1D2E9C22D3C17F0015135F /* Main.storyboard */,
 				0C1D2E9F22D3C1800015135F /* Assets.xcassets */,
 				0C1D2EA122D3C1800015135F /* LaunchScreen.storyboard */,
@@ -86,8 +113,64 @@
 				0C1D2EAD22D46F1A0015135F /* UIButton+ScalableFont.swift */,
 				0C1D2EAF22D46F1A0015135F /* UILabel+ScalableFont.swift */,
 				0C1D2EB522D470E90015135F /* ScalableConstraint.swift */,
+				0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */,
+				0C5A9CED22E8E8F100A6ED2E /* UIStorybard+AppStoryboards.swift */,
+				0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		0C32D3F822E59A960092B6AD /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		0C5A9CEC22E8E7D700A6ED2E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0C1D2E9A22D3C17F0015135F /* MainViewController.swift */,
+				0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		0C963ED822F028D300DC03BD /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				0C653E8A234A36B1002C9095 /* AuthorizationData.swift */,
+				0C274CAF234A7F4700BC8C11 /* ProfileInfoData.swift */,
+				0C669656234C6C8400845BB0 /* PostsContainerData.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		0CFFA9E222E6E246009AB882 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				0C963ED822F028D300DC03BD /* Entity */,
+				0CF1F12C22E775BC00C85B75 /* ApiManager.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		8928E9977B5B15536083CB5B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */,
+				26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		986AB714E7F75199121F7187 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AE5A458EA9A43CE3BEA52AD6 /* Pods_IGHelper.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -97,9 +180,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C1D2EA722D3C1800015135F /* Build configuration list for PBXNativeTarget "IGHelper" */;
 			buildPhases = (
+				D8C36C52DE766F2D92FEFF04 /* [CP] Check Pods Manifest.lock */,
 				0C1D2E9122D3C17F0015135F /* Sources */,
 				0C1D2E9222D3C17F0015135F /* Frameworks */,
 				0C1D2E9322D3C17F0015135F /* Resources */,
+				9A0068F419951784862AC2AC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -156,19 +241,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9A0068F419951784862AC2AC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IGHelper/Pods-IGHelper-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IGHelper/Pods-IGHelper-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IGHelper/Pods-IGHelper-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D8C36C52DE766F2D92FEFF04 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-IGHelper-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0C1D2E9122D3C17F0015135F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C5A9CF022E8E93700A6ED2E /* UIViewController+AppViewControllers.swift in Sources */,
 				0C1D2EB222D46F1A0015135F /* Double+Scale.swift in Sources */,
 				0C1D2EAC22D3DF720015135F /* UIViewExtension.swift in Sources */,
+				0C32D3FA22E59AB30092B6AD /* AuthorizationManager.swift in Sources */,
+				0C5A9CEE22E8E8F100A6ED2E /* UIStorybard+AppStoryboards.swift in Sources */,
 				0C1D2EB322D46F1A0015135F /* UILabel+ScalableFont.swift in Sources */,
+				0C669657234C6C8400845BB0 /* PostsContainerData.swift in Sources */,
 				0C1D2EB122D46F1A0015135F /* UIButton+ScalableFont.swift in Sources */,
+				0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */,
 				0C1D2EB422D46F1A0015135F /* NSLayoutConstraint+Scale.swift in Sources */,
-				0C1D2E9B22D3C17F0015135F /* ViewController.swift in Sources */,
+				0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */,
+				0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */,
+				0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */,
+				0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */,
 				0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */,
 				0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */,
+				0C653E8B234A36B1002C9095 /* AuthorizationData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +448,7 @@
 		};
 		0C1D2EA822D3C1800015135F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -323,13 +460,14 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.andromeda.IGHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		0C1D2EA922D3C1800015135F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -341,7 +479,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.andromeda.IGHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
