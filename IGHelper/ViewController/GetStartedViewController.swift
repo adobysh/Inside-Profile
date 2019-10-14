@@ -10,27 +10,19 @@ import UIKit
 
 class GetStartedViewController: UIViewController {
     
+    @IBOutlet var loginTextField: UITextField?
+    @IBOutlet var passwordTextField: UITextField?
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
     @IBAction func buttonAction(_ sender: Any) {
-        AuthorizationManager.shared.login(loginOrEmail: "andrey_dobysh", password: "Testpass1", onSuccess: { [weak self] (authorizationData) in
-            print("!!! autorization success \(authorizationData)")
+        let vc = UIViewController.authorization
+        vc.onSuccess = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
-        }) { [weak self] (error) in
-            print("!!! error \(error)")
-            self?.showErrorAlert(error)
         }
-        
-//        AuthorizationManager.shared.login(self, onSuccess: {
-//            ApiManager.shared.getUserInfo(onComplete: { [weak self] (userMainInfo) in
-//                print("!!! userMainInfo \(userMainInfo)")
-//                self?.dismiss(animated: true, completion: nil)
-//            }) { [weak self] (error) in
-//                self?.showErrorAlert(error)
-//            }
-//        })
+        present(vc, animated: true, completion: nil)
     }
     
 }

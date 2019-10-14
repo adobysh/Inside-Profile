@@ -17,6 +17,7 @@ class MainViewController: UIViewController {
     @IBOutlet var likesCountLabel: UILabel?
     @IBOutlet var commentsCountLabel: UILabel?
     @IBOutlet var loginLabel: UILabel?
+    @IBOutlet var recomendationButton: UIButton?
     
     var mainScreenInfo: ProfileInfoData? {
         didSet {
@@ -37,6 +38,7 @@ class MainViewController: UIViewController {
             commentsCountLabel?.text = "\(commentsCount)"
         }
     }
+    var users: [UserData]?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -45,7 +47,10 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchInfo()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            self?.fetchInfo()
+        }
+        
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -65,6 +70,16 @@ class MainViewController: UIViewController {
         fetchInfo()
     }
     
+    @IBAction func recomendationButtonAction(_ sender: Any) {
+        let vc = UIViewController.recomendation
+        ApiManager.shared.getSuggestedUser(onComplete: { users in
+            vc.users = users
+            self.navigationController?.pushViewController(vc, animated: true)
+        }) { error in
+            self.showErrorAlert(error)
+        }
+    }
+    
 }
 
 // MARK: - Private funcs
@@ -74,6 +89,12 @@ extension MainViewController {
         ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
             self?.mainScreenInfo = info.profileInfo
             self?.posts = info.postDataArray
+            ApiManager.shared.getSuggestedUser(onComplete: { users in
+                self?.recomendationButton?.setTitle("\(users.count ?? 0)\nrecomendations", for: .normal)
+                self?.users = users
+            }) { error in
+                self?.showErrorAlert(error)
+            }
         }) { (error) in
             self.showErrorAlert(error)
         }

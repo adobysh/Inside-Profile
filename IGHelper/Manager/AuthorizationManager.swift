@@ -46,9 +46,8 @@ class AuthorizationManager: NSObject {
                     return
                 }
                 onSuccess(authorizationData)
-                guard let cookies = authorizationData.cookies, let session = authorizationData.session else { return }
+                guard let cookies = authorizationData.cookies else { return }
                 UserDefaults.standard.set(cookies, forKey: "cookies")
-                UserDefaults.standard.set(session, forKey: "session")
             } catch {
                 onError(error)
             }

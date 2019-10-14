@@ -23,7 +23,7 @@ class ApiManager {
     
     private init() {}
     
-    func getUserInfo(onComplete: @escaping ((profileInfo: ProfileInfoData, postDataArray: [PostData])) -> (), onError: @escaping (Error) -> ()) {
+    public func getUserInfo(onComplete: @escaping ((profileInfo: ProfileInfoData, postDataArray: [PostData])) -> (), onError: @escaping (Error) -> ()) {
         getProfileInfo(onComplete: { [weak self] profileInfoData in
             self?.getPosts(onComplete: { postDataArray in
                 onComplete((profileInfoData, postDataArray))
@@ -35,15 +35,17 @@ class ApiManager {
         }
     }
     
-    private func getProfileInfo(onComplete: @escaping (ProfileInfoData) -> (), onError: @escaping (Error) -> ()) {
+    public func getProfileInfo(cookieBase64: String? = nil, onComplete: @escaping (ProfileInfoData) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://i-info.n44.me/user/info/me"
-        guard let cookies = AuthorizationManager.shared.cookies else { return }
-        guard let session = AuthorizationManager.shared.session else { return }
         
-        let parameters: [String: String] = [
-            "cookies" : cookies,
-            "session" : session
-        ]
+        let parameters: [String: String]
+        if let cookieBase64 = cookieBase64 {
+            parameters = [
+                "cookies" : cookieBase64
+            ]
+        } else {
+            parameters = getParameters()
+        }
         
         Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).response { response in
             guard let data = response.data else { return }
@@ -62,15 +64,10 @@ class ApiManager {
         }
     }
     
-    private func getPosts(onComplete: @escaping ([PostData]) -> (), onError: @escaping (Error) -> ()) {
+    public func getPosts(onComplete: @escaping ([PostData]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://i-info.n44.me/user/posts/me"
-        guard let cookies = AuthorizationManager.shared.cookies else { return }
-        guard let session = AuthorizationManager.shared.session else { return }
         
-        let parameters: [String: String] = [
-            "cookies" : cookies,
-            "session" : session
-        ]
+        let parameters: [String: String] = getParameters()
         
         Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).response { response in
             guard let data = response.data else { return }
@@ -88,6 +85,37 @@ class ApiManager {
                 onError(error)
             }
         }
+    }
+    
+    public func getSuggestedUser(onComplete: @escaping ([UserData]) -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://i-info.n44.me/user/suggestedUsers"
+        
+        let parameters: [String: String] = getParameters()
+        
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).response { response in
+            guard let data = response.data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let container = try decoder.decode(SuggestedUserContainerData.self, from: data)
+                print("!!! ProfileInfoData \(container)")
+                guard let suggestedUserArray = container.feed else {
+                    onError(ApiError.unknown)
+                    return
+                }
+                let notNilUsers = suggestedUserArray.compactMap { $0?.user }
+                onComplete(notNilUsers)
+            } catch {
+                onError(error)
+            }
+        }
+    }
+    
+    private func getParameters() -> [String: String] {
+        guard let cookies = AuthorizationManager.shared.cookies else { return [:] }
+        let parameters: [String: String] = [
+            "cookies" : cookies
+        ]
+        return parameters
     }
     
 }
