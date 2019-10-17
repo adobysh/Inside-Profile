@@ -247,21 +247,14 @@ Tracker</string>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="FDg-gE-CPE">
                                         <rect key="frame" x="0.0" y="0.0" width="153.66666666666666" height="374"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKe-oT-mHF">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="fKe-oT-mHF">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.66666666666666" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment>
-                                                            <string key="content">32
+                                                    <string key="title">32
 lost followers</string>
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -269,21 +262,14 @@ lost followers</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tvL-iv-nR0">
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="tvL-iv-nR0">
                                                 <rect key="frame" x="0.0" y="97" width="153.66666666666666" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment>
-                                                            <string key="content">5
+                                                    <string key="title">5
 new guests</string>
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -291,21 +277,14 @@ new guests</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZPf-X2-oJa">
+                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZPf-X2-oJa">
                                                 <rect key="frame" x="0.0" y="194" width="153.66666666666666" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment>
-                                                            <string key="content">8
+                                                    <string key="title">8
 top likers</string>
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -313,21 +292,14 @@ top likers</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FEg-km-dIW">
+                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="FEg-km-dIW">
                                                 <rect key="frame" x="0.0" y="291" width="153.66666666666666" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment>
-                                                            <string key="content">23
+                                                    <string key="title">23
 recommendation</string>
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -343,21 +315,14 @@ recommendation</string>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="0Od-Jf-IBP">
                                         <rect key="frame" x="167.66666666666663" y="0.0" width="153.33333333333337" height="374"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jim-Cm-0HO">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Jim-Cm-0HO">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.33333333333334" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
                                                 <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment>
-                                                            <string key="content">12
+                                                    <string key="title">12
 gained followers</string>
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -365,21 +330,14 @@ gained followers</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4a7-a6-vhn">
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4a7-a6-vhn">
                                                 <rect key="frame" x="0.0" y="97" width="153.33333333333334" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment>
-                                                            <string key="content">15
+                                                    <string key="title">15
 unfollowers</string>
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -387,21 +345,14 @@ unfollowers</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ne8-Ad-WLn">
+                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Ne8-Ad-WLn">
                                                 <rect key="frame" x="0.0" y="194" width="153.33333333333334" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment>
-                                                            <string key="content">4
+                                                    <string key="title">4
 top commenters</string>
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -409,21 +360,14 @@ top commenters</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Et-lo-qNU">
+                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4Et-lo-qNU">
                                                 <rect key="frame" x="0.0" y="291" width="153.33333333333334" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment>
-                                                            <string key="content">2k
+                                                    <string key="title">2k
 you don't follow</string>
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" metaFont="system" size="14"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -463,7 +407,7 @@ you don't follow</string>
                         <barButtonItem key="leftBarButtonItem" image="icSettings2" id="Q1N-An-uuM">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <action selector="refreshButtonAction:" destination="BYZ-38-t0r" id="DhR-lc-X5U"/>
+                                <action selector="settingsButtonAction:" destination="BYZ-38-t0r" id="8H1-TP-rER"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="h8I-BU-bH0">
@@ -481,7 +425,14 @@ you don't follow</string>
                         <outlet property="followingCountLabel" destination="efT-c9-7wG" id="xMu-bP-lfd"/>
                         <outlet property="likesCountLabel" destination="8XX-C8-gDa" id="H0I-Ks-yK4"/>
                         <outlet property="loginLabel" destination="vsC-IY-bFl" id="7pM-vl-Anz"/>
-                        <outlet property="recomendationButton" destination="FEg-km-dIW" id="pJm-Q2-0lq"/>
+                        <outletCollection property="buttons" destination="fKe-oT-mHF" collectionClass="NSMutableArray" id="Duk-Yg-Ozq"/>
+                        <outletCollection property="buttons" destination="Jim-Cm-0HO" collectionClass="NSMutableArray" id="07z-Wt-SSd"/>
+                        <outletCollection property="buttons" destination="tvL-iv-nR0" collectionClass="NSMutableArray" id="B7M-mu-OXX"/>
+                        <outletCollection property="buttons" destination="4a7-a6-vhn" collectionClass="NSMutableArray" id="lL9-fd-fLa"/>
+                        <outletCollection property="buttons" destination="ZPf-X2-oJa" collectionClass="NSMutableArray" id="Xb0-wy-aMP"/>
+                        <outletCollection property="buttons" destination="Ne8-Ad-WLn" collectionClass="NSMutableArray" id="NNy-we-iO0"/>
+                        <outletCollection property="buttons" destination="FEg-km-dIW" collectionClass="NSMutableArray" id="qvQ-44-p51"/>
+                        <outletCollection property="buttons" destination="4Et-lo-qNU" collectionClass="NSMutableArray" id="5Qb-PF-f68"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -602,6 +553,34 @@ you don't follow</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JjD-Rj-Rms" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="934" y="21"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="7me-zB-n0Q">
+            <objects>
+                <viewController storyboardIdentifier="SettingsViewController" id="xP4-iB-xRO" customClass="SettingsViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z9T-rl-djL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xs4-uN-Dpb">
+                                <rect key="frame" x="163.66666666666666" y="391" width="48" height="30"/>
+                                <state key="normal" title="log out"/>
+                                <connections>
+                                    <action selector="logOutButtonAction:" destination="xP4-iB-xRO" eventType="touchUpInside" id="OHw-He-Pm1"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Xs4-uN-Dpb" firstAttribute="centerX" secondItem="Z9T-rl-djL" secondAttribute="centerX" id="JQ8-Sp-Egz"/>
+                            <constraint firstItem="Xs4-uN-Dpb" firstAttribute="centerY" secondItem="Z9T-rl-djL" secondAttribute="centerY" id="wzj-rZ-7xL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="9nJ-sh-FcN"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zsE-j4-g4J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1805.5999999999999" y="20.689655172413794"/>
         </scene>
         <!--Recomendation-->
         <scene sceneID="avo-EE-Dtk">

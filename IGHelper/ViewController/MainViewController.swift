@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
     @IBOutlet var likesCountLabel: UILabel?
     @IBOutlet var commentsCountLabel: UILabel?
     @IBOutlet var loginLabel: UILabel?
-    @IBOutlet var recomendationButton: UIButton?
+    @IBOutlet var buttons: [UIButton]?
     
     var mainScreenInfo: ProfileInfoData? {
         didSet {
@@ -46,11 +46,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-            self?.fetchInfo()
-        }
-        
+        fetchInfo()
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -62,22 +58,49 @@ class MainViewController: UIViewController {
         super.viewDidAppear(animated)
         if !AuthorizationManager.shared.isLoggedIn {
             let vc = UIViewController.getStarted
+            vc.onAuthorizationSuccess = { [weak self] in
+                self?.fetchInfo()
+            }
             present(vc, animated: false, completion: nil)
         }
+        setupButtons()
+    }
+        
+    func setupButtons() {
+        func setupButton(button: UIButton, title: String) {
+
+            //        let mySelectedAttributedTitle = NSAttributedString(string: "Click Here",
+            //            attributes: [NSForegroundColorAttributeName : UIColor.greenColor()])
+            //        button.setAttributedTitle(mySelectedAttributedTitle, forState: .Selected)
+        }
+        
+        buttons?.forEach { button in
+            switch button.tag {
+            case 0:
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+    @IBAction func settingsButtonAction(_ sender: Any) {
+        let vc = UIViewController.settings
+        vc.onLogOut = { [weak self] in
+            let vc = UIViewController.getStarted
+            self?.present(vc, animated: false, completion: nil)
+        }
+        present(vc, animated: true, completion: nil)
     }
     
     @IBAction func refreshButtonAction(_ sender: Any) {
         fetchInfo()
     }
     
-    @IBAction func recomendationButtonAction(_ sender: Any) {
+    @IBAction func recomendationButtonAction(_ sender: UIButton) {
         let vc = UIViewController.recomendation
-        ApiManager.shared.getSuggestedUser(onComplete: { users in
-            vc.users = users
-            self.navigationController?.pushViewController(vc, animated: true)
-        }) { error in
-            self.showErrorAlert(error)
-        }
+        vc.contentType = .recommendation
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
@@ -89,14 +112,8 @@ extension MainViewController {
         ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
             self?.mainScreenInfo = info.profileInfo
             self?.posts = info.postDataArray
-            ApiManager.shared.getSuggestedUser(onComplete: { users in
-                self?.recomendationButton?.setTitle("\(users.count ?? 0)\nrecomendations", for: .normal)
-                self?.users = users
-            }) { error in
-                self?.showErrorAlert(error)
-            }
-        }) { (error) in
-            self.showErrorAlert(error)
+        }) { [weak self] error in
+            self?.showErrorAlert(error)
         }
     }
     

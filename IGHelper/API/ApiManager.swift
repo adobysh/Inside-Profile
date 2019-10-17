@@ -53,7 +53,7 @@ class ApiManager {
                 let decoder = JSONDecoder()
                 let container = try decoder.decode(ProfileInfoData.self, from: data)
                 print("!!! ProfileInfoData \(container)")
-                guard let _ = container.username else {
+                guard let _ = container.username, let _ = container.follower_count else {
                     onError(ApiError.unknown)
                     return
                 }
@@ -87,23 +87,50 @@ class ApiManager {
         }
     }
     
-    public func getSuggestedUser(onComplete: @escaping ([UserData]) -> (), onError: @escaping (Error) -> ()) {
-        let url = "https://i-info.n44.me/user/suggestedUsers"
+    public func getSuggestedUser(suggestedUser: [SuggestedUser] = [], onComplete: @escaping ([SuggestedUser]) -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://www.instagram.com/graphql/query/"
         
-        let parameters: [String: String] = getParameters()
+        guard let cookiesBase64 = AuthorizationManager.shared.cookies else { return }
+        guard let cookiesJsonData = Data(base64Encoded: cookiesBase64) else { return }
+        guard let cookiesDictionary = (try? JSONSerialization.jsonObject(with: cookiesJsonData, options: [])) as? [String: Any] else { return }
+        guard let cookeisArray = cookiesDictionary["cookies"] as? [[String: Any]] else { return }
         
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).response { response in
+        var cookieString = ""
+        cookeisArray.forEach {
+            cookieString = cookieString + (($0["key"] as? String) ?? "") + "="
+            cookieString = cookieString + (($0["value"] as? String) ?? "") + "; "
+        }
+        
+        print("!!! cookeisArray \(cookeisArray)")
+        print("!!! cookieString \(cookieString)")
+        
+        let headers: HTTPHeaders = [
+            "Cookie": cookieString
+        ]
+
+        //        "seen_ids":["263874345","1247439238",
+        let seen_ids_array = suggestedUser.map { "\($0.id ?? "")" }
+        let seen_ids = seen_ids_array.joined(separator:",")
+        
+        let parameters: [String: String] = [
+            "query_hash": "bd90987150a65578bc0dd5d4e60f113d",
+            "variables": "{\"fetch_media_count\":0,\"fetch_suggested_count\":30,\"ignore_cache\":false,\"filter_followed_friends\":true,\"seen_ids\":[\(seen_ids)],\"include_reel\":true}"
+        ]
+        
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { [weak self] response in
+            print("!!! response \(response)")
             guard let data = response.data else { return }
+            print("!!! data \(data)")
             do {
                 let decoder = JSONDecoder()
-                let container = try decoder.decode(SuggestedUserContainerData.self, from: data)
+                let container = try decoder.decode(SuggestedUsersWebContainer.self, from: data)
                 print("!!! ProfileInfoData \(container)")
-                guard let suggestedUserArray = container.feed else {
+                guard let status = container.status, status == "ok" else {
                     onError(ApiError.unknown)
                     return
                 }
-                let notNilUsers = suggestedUserArray.compactMap { $0?.user }
-                onComplete(notNilUsers)
+                let users: [SuggestedUser] = container.data?.user?.edge_suggested_users?.edges.compactMap { $0.node?.user } ?? []
+                onComplete(users)
             } catch {
                 onError(error)
             }

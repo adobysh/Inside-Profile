@@ -8,25 +8,37 @@
 
 import UIKit
 import Alamofire
+import WebKit
 
 class AuthorizationManager: NSObject {
     
-    static let shared = AuthorizationManager()
+    public static let shared = AuthorizationManager()
     private override init() {}
     
-    let baseUrl = "https://i-info.n44.me/login/"
+    private let baseUrl = "https://i-info.n44.me/login/"
     
-    var isLoggedIn: Bool {
+    public var isLoggedIn: Bool {
         return UserDefaults.standard.string(forKey: "cookies") != nil
     }
-    var cookies: String? {
+    public var cookies: String? {
         return UserDefaults.standard.string(forKey: "cookies")
     }
-    var session: String? {
-        return UserDefaults.standard.string(forKey: "session")
+    
+    public func logOut() {
+        let dataStore = WKWebsiteDataStore.default()
+        dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: records) { /* onComplete */ }
+            
+//          dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: records.filter { $0.displayName.contains("facebook") },
+//            completionHandler: {
+//
+//            }
+//          )
+        }
+        UserDefaults.standard.removeObject(forKey: "cookies")
     }
     
-    func login(loginOrEmail: String, password: String, onSuccess: @escaping (AuthorizationData)->(), onError: @escaping (Error)->()) {
+    public func login(loginOrEmail: String, password: String, onSuccess: @escaping (AuthorizationData)->(), onError: @escaping (Error)->()) {
         
         let fullUrl = baseUrl + loginOrEmail + "/" + password
         
@@ -52,23 +64,6 @@ class AuthorizationManager: NSObject {
                 onError(error)
             }
         }
-    }
-    
-    private func authorization(_ viewController: UIViewController) {
-//        let clientId = "ad813357a78e49bf810e179999ea65ea"
-////        let clientId = "fd647b267a0e444cbad03e4b96e7c43c"
-//        let redirectUri = "https://andromeda-group.jimdosite.com/"
-//
-//        let isClientSide = true
-//        let responseType = isClientSide ? "token" : "code"
-//
-//        let link = "https://api.instagram.com/oauth/authorize/?client_id=\(clientId)&redirect_uri=\(redirectUri)&response_type=\(responseType)"
-//
-//        guard let url = URL(string: link) else { return }
-//
-//        let svc = SFSafariViewController(url: url)
-//        svc.delegate = self
-//        viewController.present(svc, animated: true, completion: nil)
     }
     
 }

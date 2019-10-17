@@ -13,6 +13,8 @@ class GetStartedViewController: UIViewController {
     @IBOutlet var loginTextField: UITextField?
     @IBOutlet var passwordTextField: UITextField?
     
+    public var onAuthorizationSuccess: (()->())?
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -21,6 +23,7 @@ class GetStartedViewController: UIViewController {
         let vc = UIViewController.authorization
         vc.onSuccess = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
+            self?.onAuthorizationSuccess?()
         }
         present(vc, animated: true, completion: nil)
     }

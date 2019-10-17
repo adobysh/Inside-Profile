@@ -43,12 +43,14 @@ extension AuthorizationViewController: WKNavigationDelegate {
 //            cookie["creation"] = "2019-10-11T20:06:52.642Z"
 //            cookie["lastAccessed"] = "2019-10-11T20:06:52.642Z"
             (json[$0] as? [String: Any])?.forEach {
-                if let date = $0.value as? Date {
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'.000Z'"
-                    cookie[$0.key.lowercaseFirstLetter()] = dateFormatter.string(from: date)
-                } else {
-                    cookie[$0.key.lowercaseFirstLetter()] = $0.value
+                if $0.key.lowercased() != "name" {
+                    if let date = $0.value as? Date {
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'.000Z'"
+                        cookie[$0.key.lowercaseFirstLetter()] = dateFormatter.string(from: date)
+                    } else {
+                        cookie[$0.key.lowercaseFirstLetter()] = $0.value
+                    }
                 }
             }
             if let domain = cookie["domain"] as? String, domain.first == "." {
@@ -63,24 +65,28 @@ extension AuthorizationViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
         print("!!! redirect to \(navigationAction.request.url)")
         
-//         get cookies for domain
-        webView.getCookies() { [weak self] (json: [String : Any]) in
-              print("!!! =========================================")
-//              print("!!! https://www.instagram.com")
-            
-            let convertedJson = self?.convertToApiV1JSONFormat(json) ?? [:]
-            
-            let data = try? JSONSerialization.data(withJSONObject: convertedJson)
-            let base64 = data?.base64EncodedString()
-            ApiManager.shared.getProfileInfo(cookieBase64: base64, onComplete: { _ in
-                guard let cookies = base64 else { return }
-                UserDefaults.standard.set(cookies, forKey: "cookies")
-                self?.dismiss(animated: true, completion: nil)
-                self?.onSuccess?()
-            }) { _ in
-                /* ignore error here */
-            }
+        if navigationAction.request.url?.host?.contains("instagram.com") == true {
+            webView.getCookies() { [weak self] (json: [String : Any]) in
+                          print("!!! =========================================")
+            //              print("!!! https://www.instagram.com")
+                        
+                        let convertedJson = self?.convertToApiV1JSONFormat(json) ?? [:]
+                        print("!!! convertedJson \(convertedJson)")
+                        
+                        let data = try? JSONSerialization.data(withJSONObject: convertedJson)
+                        let base64 = data?.base64EncodedString()
+                        print("!!! base64 \(base64)")
+                        ApiManager.shared.getProfileInfo(cookieBase64: base64, onComplete: { _ in
+                            guard let cookies = base64 else { return }
+                            UserDefaults.standard.set(cookies, forKey: "cookies")
+                            self?.dismiss(animated: true, completion: nil)
+                            self?.onSuccess?()
+                        }) { _ in
+                            /* ignore error here */
+                        }
+                    }
         }
+        
         
 //        if(navigationAction.navigationType == .other)
 //        {
