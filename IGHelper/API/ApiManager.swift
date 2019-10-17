@@ -87,6 +87,76 @@ class ApiManager {
         }
     }
     
+    public func getFollowing(users: [ApiUser] = [], state: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+        struct FollowingContainer: Codable {
+            let feed: [ApiUser]?
+            let state: String? // "{\"moreAvailable\":false,\"rankToken\":\"40a13a91-bbeb-5334-b287-265872c32210\",\"nextMaxId\":null}",
+        }
+        
+        let url = "https://i-info.n44.me/user/following/me"
+
+        var parameters = getParameters()
+        if let state = state {
+            parameters["state"] = state
+        }
+
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).response { [weak self] response in
+            guard let data = response.data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let container = try decoder.decode(FollowingContainer.self, from: data)
+                print("!!! ProfileInfoData \(container)")
+                guard var following = container.feed else {
+                    onError(ApiError.unknown)
+                    return
+                }
+                following.append(contentsOf: users)
+                if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
+                    self?.getFollowing(users: following, state: container.state, onComplete: onComplete, onError: onError)
+                } else {
+                    onComplete(following)
+                }
+            } catch {
+                onError(error)
+            }
+        }
+    }
+    
+    public func getFollowers(users: [ApiUser] = [], state: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+        struct FollowersContainer: Codable {
+            let feed: [ApiUser]?
+            let state: String? // "{\"moreAvailable\":false,\"rankToken\":\"40a13a91-bbeb-5334-b287-265872c32210\",\"nextMaxId\":null}",
+        }
+        
+        let url = "https://i-info.n44.me/user/followers/me"
+
+        var parameters = getParameters()
+        if let state = state {
+            parameters["state"] = state
+        }
+
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).response { [weak self] response in
+            guard let data = response.data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let container = try decoder.decode(FollowersContainer.self, from: data)
+                print("!!! ProfileInfoData \(container)")
+                guard var followers = container.feed else {
+                    onError(ApiError.unknown)
+                    return
+                }
+                followers.append(contentsOf: users)
+                if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
+                    self?.getFollowers(users: followers, state: container.state, onComplete: onComplete, onError: onError)
+                } else {
+                    onComplete(followers)
+                }
+            } catch {
+                onError(error)
+            }
+        }
+    }
+    
     public func getSuggestedUser(suggestedUser: [SuggestedUser] = [], onComplete: @escaping ([SuggestedUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
         
@@ -117,10 +187,8 @@ class ApiManager {
             "variables": "{\"fetch_media_count\":0,\"fetch_suggested_count\":30,\"ignore_cache\":false,\"filter_followed_friends\":true,\"seen_ids\":[\(seen_ids)],\"include_reel\":true}"
         ]
         
-        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { [weak self] response in
-            print("!!! response \(response)")
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { response in
             guard let data = response.data else { return }
-            print("!!! data \(data)")
             do {
                 let decoder = JSONDecoder()
                 let container = try decoder.decode(SuggestedUsersWebContainer.self, from: data)
@@ -129,7 +197,7 @@ class ApiManager {
                     onError(ApiError.unknown)
                     return
                 }
-                let users: [SuggestedUser] = container.data?.user?.edge_suggested_users?.edges.compactMap { $0.node?.user } ?? []
+                let users: [SuggestedUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { $0.node?.user } ?? []
                 onComplete(users)
             } catch {
                 onError(error)
@@ -142,6 +210,7 @@ class ApiManager {
         let parameters: [String: String] = [
             "cookies" : cookies
         ]
+        print("!!! cookiesBase64 \(cookies)")
         return parameters
     }
     

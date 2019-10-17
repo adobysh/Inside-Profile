@@ -8,7 +8,8 @@
 
 import Foundation
 
-protocol User {
+protocol User: Codable {
+    var id: String? { get }
     var full_name: String? { get }
     var username: String? { get }
     var profile_pic_url: String? { get }
@@ -33,7 +34,7 @@ struct SuggestedUsersWebContainerUser: Codable {
 
 struct EdgeSuggestedUsers: Codable {
     let page_info: SuggestedUsersPageInfo?
-    let edges: [SuggestedUserContainer]
+    let edges: [SuggestedUserContainer]?
 }
 
 struct SuggestedUsersPageInfo: Codable {
@@ -49,7 +50,7 @@ struct SuggestedUserNode: Codable {
     let description: String? // Followed by lizaveta_glazina
 }
 
-struct SuggestedUser: Codable, User {
+struct SuggestedUser: User, Codable, Comparable {
     let edge_followed_by: EdgeFollowedBy?
     let followed_by_viewer: Bool?
     let full_name: String?
@@ -65,6 +66,14 @@ struct SuggestedUser: Codable, User {
         get {
             return edge_followed_by?.count
         }
+    }
+    
+    static func ==(lhs: SuggestedUser, rhs: SuggestedUser) -> Bool {
+        return lhs.username == rhs.username
+    }
+    
+    static func < (lhs: SuggestedUser, rhs: SuggestedUser) -> Bool {
+        return (lhs.full_name ?? "") < (rhs.full_name ?? "")
     }
 }
 

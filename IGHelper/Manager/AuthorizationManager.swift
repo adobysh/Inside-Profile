@@ -38,32 +38,4 @@ class AuthorizationManager: NSObject {
         UserDefaults.standard.removeObject(forKey: "cookies")
     }
     
-    public func login(loginOrEmail: String, password: String, onSuccess: @escaping (AuthorizationData)->(), onError: @escaping (Error)->()) {
-        
-        let fullUrl = baseUrl + loginOrEmail + "/" + password
-        
-        Alamofire.request(fullUrl).response { response in
-            guard let data = response.data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let authorizationData = try decoder.decode(AuthorizationData.self, from: data)
-                guard authorizationData.ok == 1 else {
-                    if authorizationData.error == "bad_password" {
-                        onError(ApiError.bad_password)
-                    } else if authorizationData.error == "invalid_user" {
-                        onError(ApiError.invalid_user)
-                    } else {
-                        onError(ApiError.unknown)
-                    }
-                    return
-                }
-                onSuccess(authorizationData)
-                guard let cookies = authorizationData.cookies else { return }
-                UserDefaults.standard.set(cookies, forKey: "cookies")
-            } catch {
-                onError(error)
-            }
-        }
-    }
-    
 }

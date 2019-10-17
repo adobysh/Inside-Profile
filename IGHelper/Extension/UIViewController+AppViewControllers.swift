@@ -20,8 +20,8 @@ extension UIViewController {
         return UIStoryboard.main.instantiateViewControllerCustom(withIdentifier: GetStartedViewController.identifier) as! GetStartedViewController
     }
     
-    class var recomendation: RecomendationViewController {
-        return UIStoryboard.main.instantiateViewControllerCustom(withIdentifier: RecomendationViewController.identifier) as! RecomendationViewController
+    class var detail: DetailViewController {
+        return UIStoryboard.main.instantiateViewControllerCustom(withIdentifier: DetailViewController.identifier) as! DetailViewController
     }
     
     class var authorization: AuthorizationViewController {

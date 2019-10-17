@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C080C3F234E401400FCF53D /* RecomendationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C080C3E234E401400FCF53D /* RecomendationViewController.swift */; };
+		0C080C3F234E401400FCF53D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C080C3E234E401400FCF53D /* DetailViewController.swift */; };
 		0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9822D3C17F0015135F /* AppDelegate.swift */; };
 		0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9A22D3C17F0015135F /* MainViewController.swift */; };
 		0C1D2E9E22D3C17F0015135F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9C22D3C17F0015135F /* Main.storyboard */; };
@@ -24,9 +24,7 @@
 		0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */; };
 		0C5A9CF022E8E93700A6ED2E /* UIViewController+AppViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */; };
 		0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */; };
-		0C653E8B234A36B1002C9095 /* AuthorizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C653E8A234A36B1002C9095 /* AuthorizationData.swift */; };
 		0C669657234C6C8400845BB0 /* PostsContainerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C669656234C6C8400845BB0 /* PostsContainerData.swift */; };
-		0C6C9840234DAB5200DBB4D9 /* SuggestedUserContainerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6C983F234DAB5200DBB4D9 /* SuggestedUserContainerData.swift */; };
 		0CAEE549234E50F00040284C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEE548234E50F00040284C /* UserCell.swift */; };
 		0CC0B77B2354ABFA00E1DBA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */; };
 		0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */; };
@@ -39,7 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C080C3E234E401400FCF53D /* RecomendationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecomendationViewController.swift; sourceTree = "<group>"; };
+		0C080C3E234E401400FCF53D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0C1D2E9522D3C17F0015135F /* IGHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IGHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C1D2E9822D3C17F0015135F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C1D2E9A22D3C17F0015135F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -58,9 +56,7 @@
 		0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStorybardExtension.swift; sourceTree = "<group>"; };
 		0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AppViewControllers.swift"; sourceTree = "<group>"; };
 		0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
-		0C653E8A234A36B1002C9095 /* AuthorizationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationData.swift; sourceTree = "<group>"; };
 		0C669656234C6C8400845BB0 /* PostsContainerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsContainerData.swift; sourceTree = "<group>"; };
-		0C6C983F234DAB5200DBB4D9 /* SuggestedUserContainerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedUserContainerData.swift; sourceTree = "<group>"; };
 		0CAEE548234E50F00040284C /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -151,7 +147,7 @@
 			children = (
 				0C1D2E9A22D3C17F0015135F /* MainViewController.swift */,
 				0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */,
-				0C080C3E234E401400FCF53D /* RecomendationViewController.swift */,
+				0C080C3E234E401400FCF53D /* DetailViewController.swift */,
 				0CAEE548234E50F00040284C /* UserCell.swift */,
 				0CC879AC2350526500489169 /* AuthorizationViewController.swift */,
 				0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */,
@@ -162,10 +158,8 @@
 		0C963ED822F028D300DC03BD /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				0C653E8A234A36B1002C9095 /* AuthorizationData.swift */,
 				0C274CAF234A7F4700BC8C11 /* ProfileInfoData.swift */,
 				0C669656234C6C8400845BB0 /* PostsContainerData.swift */,
-				0C6C983F234DAB5200DBB4D9 /* SuggestedUserContainerData.swift */,
 				0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */,
 			);
 			path = Entity;
@@ -319,7 +313,7 @@
 				0C1D2EAC22D3DF720015135F /* UIViewExtension.swift in Sources */,
 				0C32D3FA22E59AB30092B6AD /* AuthorizationManager.swift in Sources */,
 				0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */,
-				0C080C3F234E401400FCF53D /* RecomendationViewController.swift in Sources */,
+				0C080C3F234E401400FCF53D /* DetailViewController.swift in Sources */,
 				0C1D2EB322D46F1A0015135F /* UILabel+ScalableFont.swift in Sources */,
 				0C669657234C6C8400845BB0 /* PostsContainerData.swift in Sources */,
 				0CAEE549234E50F00040284C /* UserCell.swift in Sources */,
@@ -330,13 +324,11 @@
 				0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */,
 				0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */,
 				0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */,
-				0C6C9840234DAB5200DBB4D9 /* SuggestedUserContainerData.swift in Sources */,
 				0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */,
 				0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */,
 				0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */,
 				0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */,
 				0CC0B77B2354ABFA00E1DBA5 /* StringExtension.swift in Sources */,
-				0C653E8B234A36B1002C9095 /* AuthorizationData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

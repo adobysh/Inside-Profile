@@ -38,7 +38,6 @@ class MainViewController: UIViewController {
             commentsCountLabel?.text = "\(commentsCount)"
         }
     }
-    var users: [UserData]?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -97,9 +96,11 @@ class MainViewController: UIViewController {
         fetchInfo()
     }
     
-    @IBAction func recomendationButtonAction(_ sender: UIButton) {
-        let vc = UIViewController.recomendation
-        vc.contentType = .recommendation
+    @IBAction func detailButtonAction(_ sender: UIButton) {
+        guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
+        let vc = UIViewController.detail
+        vc.contentType = contentType
+        vc.posts = posts
         navigationController?.pushViewController(vc, animated: true)
     }
     

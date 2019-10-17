@@ -12,11 +12,9 @@ class UserCell: UITableViewCell {
     
     @IBOutlet var avatarImageView: UIImageView?
     @IBOutlet var nameLabel: UILabel?
-    @IBOutlet var usernameLabel: UILabel?
     
     func configure(imagePath: String?, name: String?, username: String?) {
-        nameLabel?.text = name
-        usernameLabel?.text = "@" + (username ?? "")
+        nameLabel?.text = username
         if let imagePath = imagePath, let imageUrl = URL(string: imagePath), let imageData = try? Data(contentsOf: imageUrl) {
             avatarImageView?.image = UIImage(data: imageData)
         }

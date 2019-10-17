@@ -261,9 +261,30 @@ lost followers</string>
                                                         <integer key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="detailButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="L68-Ei-Dqf"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="tvL-iv-nR0">
                                                 <rect key="frame" x="0.0" y="97" width="153.66666666666666" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                                <state key="normal">
+                                                    <string key="title">2k
+you don’t follow</string>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="detailButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZoJ-jc-1lJ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZPf-X2-oJa">
+                                                <rect key="frame" x="0.0" y="194" width="153.66666666666666" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
@@ -276,9 +297,12 @@ new guests</string>
                                                         <integer key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="detailButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DH2-rF-BUk"/>
+                                                </connections>
                                             </button>
-                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZPf-X2-oJa">
-                                                <rect key="frame" x="0.0" y="194" width="153.66666666666666" height="83"/>
+                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="FEg-km-dIW">
+                                                <rect key="frame" x="0.0" y="291" width="153.66666666666666" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
@@ -291,23 +315,8 @@ top likers</string>
                                                         <integer key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
-                                            </button>
-                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="FEg-km-dIW">
-                                                <rect key="frame" x="0.0" y="291" width="153.66666666666666" height="83"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                                <state key="normal">
-                                                    <string key="title">23
-recommendation</string>
-                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="4"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="recomendationButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="83k-bl-ffM"/>
+                                                    <action selector="detailButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sdj-Wq-pLE"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -329,6 +338,9 @@ gained followers</string>
                                                         <integer key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="detailButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Na1-k5-qbZ"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4a7-a6-vhn">
                                                 <rect key="frame" x="0.0" y="97" width="153.33333333333334" height="83"/>
@@ -344,9 +356,30 @@ unfollowers</string>
                                                         <integer key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="detailButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wma-xu-8rE"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Ne8-Ad-WLn">
                                                 <rect key="frame" x="0.0" y="194" width="153.33333333333334" height="83"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                                <state key="normal">
+                                                    <string key="title">23
+recommendation</string>
+                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="detailButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2oU-Jl-VG6"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4Et-lo-qNU">
+                                                <rect key="frame" x="0.0" y="291" width="153.33333333333334" height="83"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                 <state key="normal">
@@ -359,21 +392,9 @@ top commenters</string>
                                                         <integer key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
-                                            </button>
-                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4Et-lo-qNU">
-                                                <rect key="frame" x="0.0" y="291" width="153.33333333333334" height="83"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                                <state key="normal">
-                                                    <string key="title">2k
-you don't follow</string>
-                                                    <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="4"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="detailButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tCR-A5-Qr8"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -442,7 +463,7 @@ you don't follow</string>
         <!--Recomendation-->
         <scene sceneID="JXT-EV-36u">
             <objects>
-                <viewController storyboardIdentifier="RecomendationViewController" id="6Nn-Yq-xDm" customClass="RecomendationViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="6Nn-Yq-xDm" customClass="DetailViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SvL-wb-b5M">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -483,13 +504,7 @@ you don't follow</string>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-6a-khh">
                                                     <rect key="frame" x="106" y="45.666666666666664" width="254" height="20.999999999999993"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bgM-lw-3Ql">
-                                                    <rect key="frame" x="106" y="84" width="254" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -497,11 +512,8 @@ you don't follow</string>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="hdx-6a-khh" firstAttribute="leading" secondItem="WtN-jZ-iXX" secondAttribute="trailing" constant="20" id="D2O-3D-UKH"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="bgM-lw-3Ql" secondAttribute="trailing" id="SFK-qV-f0r"/>
                                                 <constraint firstItem="hdx-6a-khh" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" id="UoN-O4-BUZ"/>
-                                                <constraint firstItem="bgM-lw-3Ql" firstAttribute="bottom" secondItem="WtN-jZ-iXX" secondAttribute="bottom" id="YyR-2Q-zXg"/>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="leading" secondItem="avT-i0-r1N" secondAttribute="leadingMargin" constant="11" id="ajT-1V-wqy"/>
-                                                <constraint firstItem="bgM-lw-3Ql" firstAttribute="leading" secondItem="WtN-jZ-iXX" secondAttribute="trailing" constant="20" id="d5a-0I-n04"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="hdx-6a-khh" secondAttribute="trailing" id="gs9-ak-gdp"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="WtN-jZ-iXX" secondAttribute="bottom" id="mXz-W0-0mz"/>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="top" secondItem="avT-i0-r1N" secondAttribute="topMargin" id="uJs-Wn-GIk"/>
@@ -511,7 +523,6 @@ you don't follow</string>
                                         <connections>
                                             <outlet property="avatarImageView" destination="WtN-jZ-iXX" id="xoh-JN-Ofk"/>
                                             <outlet property="nameLabel" destination="hdx-6a-khh" id="qsF-YN-V3S"/>
-                                            <outlet property="usernameLabel" destination="bgM-lw-3Ql" id="Stn-2K-EFV"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -639,7 +650,7 @@ you don't follow</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l4E-fd-49b" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="63" y="-732"/>
+            <point key="canvasLocation" x="38" y="-732"/>
         </scene>
     </scenes>
     <resources>
