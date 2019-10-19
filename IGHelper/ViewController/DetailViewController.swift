@@ -29,6 +29,10 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
         guard let contentType = contentType else { return }
         switch contentType {
         case .new_guests:
@@ -140,6 +144,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configure(imagePath: item.profile_pic_url, name: item.full_name, username: item.username)
         }
         return cell
+    }
+    
+}
+
+extension DetailViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
 }
