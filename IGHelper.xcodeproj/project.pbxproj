@@ -30,6 +30,7 @@
 		0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */; };
 		0CC0B77F2355C8B700E1DBA5 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77E2355C8B700E1DBA5 /* ArrayExtension.swift */; };
 		0CC0B7812357A61F00E1DBA5 /* SuggestedUserWebContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */; };
+		0CC0B7832359EBEF00E1DBA5 /* PastFollowersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */; };
 		0CC879AD2350526500489169 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC879AC2350526500489169 /* AuthorizationViewController.swift */; };
 		0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12C22E775BC00C85B75 /* ApiManager.swift */; };
 		0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */; };
@@ -62,6 +63,7 @@
 		0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		0CC0B77E2355C8B700E1DBA5 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedUserWebContainer.swift; sourceTree = "<group>"; };
+		0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastFollowersManager.swift; sourceTree = "<group>"; };
 		0CC879AC2350526500489169 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		0CF1F12C22E775BC00C85B75 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				0C963ED822F028D300DC03BD /* Entity */,
 				0CF1F12C22E775BC00C85B75 /* ApiManager.swift */,
+				0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				0CAEE549234E50F00040284C /* UserCell.swift in Sources */,
 				0C1D2EB122D46F1A0015135F /* UIButton+ScalableFont.swift in Sources */,
 				0CC0B7812357A61F00E1DBA5 /* SuggestedUserWebContainer.swift in Sources */,
+				0CC0B7832359EBEF00E1DBA5 /* PastFollowersManager.swift in Sources */,
 				0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */,
 				0C1D2EB422D46F1A0015135F /* NSLayoutConstraint+Scale.swift in Sources */,
 				0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */,

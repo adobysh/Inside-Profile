@@ -17,6 +17,15 @@ protocol User: Codable {
     var followers: Int? { get }
 }
 
+struct BaseUser: User {
+    var id: String?
+    var full_name: String?
+    var username: String?
+    var profile_pic_url: String?
+    var is_verified: Bool?
+    var followers: Int?
+}
+
 struct SuggestedUsersWebContainer: Codable {
     let data: SuggestedUsersWebContainerData?
     let status: String? // "ok"
@@ -46,11 +55,11 @@ struct SuggestedUserContainer: Codable {
 }
 
 struct SuggestedUserNode: Codable {
-    let user: SuggestedUser?
+    let user: GraphUser?
     let description: String? // Followed by lizaveta_glazina
 }
 
-struct SuggestedUser: User, Codable, Comparable {
+struct GraphUser: User, Codable, Comparable {
     let edge_followed_by: EdgeFollowedBy?
     let followed_by_viewer: Bool?
     let full_name: String?
@@ -68,11 +77,11 @@ struct SuggestedUser: User, Codable, Comparable {
         }
     }
     
-    static func ==(lhs: SuggestedUser, rhs: SuggestedUser) -> Bool {
+    static func ==(lhs: GraphUser, rhs: GraphUser) -> Bool {
         return lhs.username == rhs.username
     }
     
-    static func < (lhs: SuggestedUser, rhs: SuggestedUser) -> Bool {
+    static func < (lhs: GraphUser, rhs: GraphUser) -> Bool {
         return (lhs.full_name ?? "") < (rhs.full_name ?? "")
     }
 }

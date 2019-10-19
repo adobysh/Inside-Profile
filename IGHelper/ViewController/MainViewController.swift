@@ -19,25 +19,11 @@ class MainViewController: UIViewController {
     @IBOutlet var loginLabel: UILabel?
     @IBOutlet var buttons: [UIButton]?
     
-    var mainScreenInfo: ProfileInfoData? {
-        didSet {
-            guard let imageUrl = URL(string: mainScreenInfo?.profile_pic_url ?? ""), let imageData = try? Data(contentsOf: imageUrl) else { return }
-            avatarImageView?.image = UIImage(data: imageData)
-            followersCountLabel?.text = "\(mainScreenInfo?.follower_count ?? 0)"
-            followingCountLabel?.text = "\(mainScreenInfo?.following_count ?? 0)"
-            navigationItem.title = mainScreenInfo?.full_name
-            loginLabel?.text = "@\(mainScreenInfo?.username ?? "")"
-        }
-    }
-    var posts: [PostData]? {
-        didSet {
-            guard let posts = posts else { return }
-            let likesCount = posts.compactMap { $0.like_count }.reduce(0, +)
-            let commentsCount = posts.compactMap { $0.comment_count }.reduce(0, +)
-            likesCountLabel?.text = "\(likesCount)"
-            commentsCountLabel?.text = "\(commentsCount)"
-        }
-    }
+    var mainScreenInfo: ProfileInfoData?
+    var posts: [PostData]?
+    var followers: [ApiUser]?
+    var following: [ApiUser]?
+    var suggestedUsers: [GraphUser]?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -55,31 +41,13 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        updateUI()
         if !AuthorizationManager.shared.isLoggedIn {
             let vc = UIViewController.getStarted
             vc.onAuthorizationSuccess = { [weak self] in
                 self?.fetchInfo()
             }
             present(vc, animated: false, completion: nil)
-        }
-        setupButtons()
-    }
-        
-    func setupButtons() {
-        func setupButton(button: UIButton, title: String) {
-
-            //        let mySelectedAttributedTitle = NSAttributedString(string: "Click Here",
-            //            attributes: [NSForegroundColorAttributeName : UIColor.greenColor()])
-            //        button.setAttributedTitle(mySelectedAttributedTitle, forState: .Selected)
-        }
-        
-        buttons?.forEach { button in
-            switch button.tag {
-            case 0:
-                break
-            default:
-                break
-            }
         }
     }
     
@@ -106,6 +74,68 @@ class MainViewController: UIViewController {
     
 }
 
+// MARK: - Setup
+extension MainViewController {
+    
+    func updateUI() {
+        updateMainInfo()
+        updateLikeCount()
+        updateCommentCount()
+        updateButtons()
+    }
+    
+    func updateMainInfo() {
+        guard let imageUrl = URL(string: mainScreenInfo?.profile_pic_url ?? ""), let imageData = try? Data(contentsOf: imageUrl) else { return }
+        avatarImageView?.image = UIImage(data: imageData)
+        followersCountLabel?.text = "\(mainScreenInfo?.follower_count ?? 0)"
+        followingCountLabel?.text = "\(mainScreenInfo?.following_count ?? 0)"
+        navigationItem.title = mainScreenInfo?.full_name
+        loginLabel?.text = "@\(mainScreenInfo?.username ?? "")"
+    }
+    
+    func updateLikeCount() {
+        guard let posts = posts else { return }
+        let likesCount = posts.compactMap { $0.like_count }.reduce(0, +)
+        likesCountLabel?.text = "\(likesCount)"
+    }
+    
+    func updateCommentCount() {
+        guard let posts = posts else { return }
+        let commentsCount = posts.compactMap { $0.comment_count }.reduce(0, +)
+        commentsCountLabel?.text = "\(commentsCount)"
+    }
+    
+    func updateButtons() {
+        func setupButton(_ button: UIButton, _ title: String) {
+            button.setTitle(nil, for: .normal)
+
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
+            let attributedTitle = NSAttributedString(
+                string: title,
+                attributes: [
+                    NSAttributedString.Key.foregroundColor: UIColor.black,
+                    NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                    NSAttributedString.Key.paragraphStyle: style])
+            button.setAttributedTitle(attributedTitle, for: .normal)
+        }
+        
+        buttons?.forEach { button in
+            guard let contentType: ContentType = ContentType(rawValue: button.tag) else { return }
+            switch contentType {
+            case .lost_followers:
+                let previousFollowersIds = PastFollowersManager.shared.getIds()
+                let currentFollowersIds = followers?.compactMap { $0.id } ?? []
+                let lostFollowersIds = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
+                setupButton(button, "\(lostFollowersIds.count)" + "\n" + "lost followers")
+            default:
+                setupButton(button, "1k\nLovers")
+            }
+        }
+    }
+    
+}
+
 // MARK: - Private funcs
 extension MainViewController {
     
@@ -113,6 +143,10 @@ extension MainViewController {
         ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
             self?.mainScreenInfo = info.profileInfo
             self?.posts = info.postDataArray
+            self?.followers = info.followers
+            self?.following = info.following
+            self?.suggestedUsers = info.suggestedUsers
+            self?.updateUI()
         }) { [weak self] error in
             self?.showErrorAlert(error)
         }

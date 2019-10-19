@@ -23,16 +23,18 @@ class ApiManager {
     
     private init() {}
     
-    public func getUserInfo(onComplete: @escaping ((profileInfo: ProfileInfoData, postDataArray: [PostData])) -> (), onError: @escaping (Error) -> ()) {
+    public func getUserInfo(onComplete: @escaping ((profileInfo: ProfileInfoData, postDataArray: [PostData], followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser])) -> (), onError: @escaping (Error) -> ()) {
         getProfileInfo(onComplete: { [weak self] profileInfoData in
-            self?.getPosts(onComplete: { postDataArray in
-                onComplete((profileInfoData, postDataArray))
-            }, onError: { error in
-                onError(error)
-            })
-        }) { error in
-            onError(error)
-        }
+            self?.getPosts(onComplete: { [weak self] postDataArray in
+                self?.getFollowers(onComplete: { [weak self] followers in
+                    self?.getFollowing(onComplete: { [weak self] following in
+                        self?.getSuggestedUser(onComplete: { suggestedUsers in
+                            onComplete((profileInfoData, postDataArray, followers, following, suggestedUsers))
+                        }, onError: onError)
+                    }, onError: onError)
+                }, onError: onError)
+            }, onError: onError)
+        }, onError: onError)
     }
     
     public func getProfileInfo(cookieBase64: String? = nil, onComplete: @escaping (ProfileInfoData) -> (), onError: @escaping (Error) -> ()) {
@@ -149,6 +151,8 @@ class ApiManager {
                 if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
                     self?.getFollowers(users: followers, state: container.state, onComplete: onComplete, onError: onError)
                 } else {
+                    let ids = followers.compactMap { $0.id }
+                    PastFollowersManager.shared.save(ids)
                     onComplete(followers)
                 }
             } catch {
@@ -157,26 +161,71 @@ class ApiManager {
         }
     }
     
-    public func getSuggestedUser(suggestedUser: [SuggestedUser] = [], onComplete: @escaping ([SuggestedUser]) -> (), onError: @escaping (Error) -> ()) {
-        let url = "https://www.instagram.com/graphql/query/"
-        
-        guard let cookiesBase64 = AuthorizationManager.shared.cookies else { return }
-        guard let cookiesJsonData = Data(base64Encoded: cookiesBase64) else { return }
-        guard let cookiesDictionary = (try? JSONSerialization.jsonObject(with: cookiesJsonData, options: [])) as? [String: Any] else { return }
-        guard let cookeisArray = cookiesDictionary["cookies"] as? [[String: Any]] else { return }
-        
-        var cookieString = ""
-        cookeisArray.forEach {
-            cookieString = cookieString + (($0["key"] as? String) ?? "") + "="
-            cookieString = cookieString + (($0["value"] as? String) ?? "") + "; "
+    public func getUserInfoArray_graph(userInfoArray: [BaseUser] = [], ids: [String], onComplete: @escaping ([BaseUser]) -> (), onError: @escaping (Error) -> ()) {
+        // Если сделать запрос с пустым списком айдишек то вернёт инфу о себе.
+        if ids.isEmpty {
+            onComplete([])
+            return
         }
         
-        print("!!! cookeisArray \(cookeisArray)")
-        print("!!! cookieString \(cookieString)")
+        let url = "https://www.instagram.com/graphql/query/"
         
-        let headers: HTTPHeaders = [
-            "Cookie": cookieString
+        guard let headers = getHeaders() else { return }
+        
+        let parameters: [String: String] = [
+            "query_hash": "aec5501414615eca36a9acf075655b1e",
+            "variables": "{\"user_id\":\"\(ids.first ?? "")\",\"include_chaining\":false,\"include_reel\":true,\"include_suggested_users\":false,\"include_logged_out_extras\":false,\"include_highlight_reels\":false}"
         ]
+        
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).responseJSON { [weak self] response in
+            let json = response.value as? [String: Any]
+            let data = json?["data"] as? [String: Any]
+            let user = data?["user"] as? [String: Any]
+            let reel = user?["reel"] as? [String: Any]
+
+            // owner и user одинаковые.
+            // Можно попробовать взять инфу у одного, если не получится у другого.
+            let userDictionary: [String: Any]
+            if let owner = reel?["owner"] as? [String: Any],
+                let _ = owner["id"],
+                let _ = owner["profile_pic_url"],
+                let _ = owner["username"] {
+                userDictionary = owner
+            } else if let owner = reel?["user"] as? [String: Any],
+                let _ = owner["id"],
+                let _ = owner["profile_pic_url"],
+                let _ = owner["username"] {
+                userDictionary = owner
+            } else {
+                userDictionary = [:]
+                onError(ApiError.unknown)
+                return
+            }
+            
+            let baseUser = BaseUser(
+                id: userDictionary["id"] as? String,
+                full_name: nil,
+                username: userDictionary["username"] as? String,
+                profile_pic_url: userDictionary["profile_pic_url"] as? String,
+                is_verified: nil,
+                followers: nil)
+            
+            var users = userInfoArray
+            users.append(baseUser)
+            if ids.count == 1 || ids.isEmpty {
+                onComplete(users)
+            } else {
+                var idsWithoutFirst = ids
+                idsWithoutFirst.removeFirst()
+                self?.getUserInfoArray_graph(userInfoArray: users, ids: idsWithoutFirst, onComplete: onComplete, onError: onError)
+            }
+        }
+    }
+    
+    public func getSuggestedUser(suggestedUser: [GraphUser] = [], onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://www.instagram.com/graphql/query/"
+        
+        guard let headers = getHeaders() else { return }
 
         //        "seen_ids":["263874345","1247439238",
         let seen_ids_array = suggestedUser.map { "\($0.id ?? "")" }
@@ -197,7 +246,7 @@ class ApiManager {
                     onError(ApiError.unknown)
                     return
                 }
-                let users: [SuggestedUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { $0.node?.user } ?? []
+                let users: [GraphUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { $0.node?.user } ?? []
                 onComplete(users)
             } catch {
                 onError(error)
@@ -212,6 +261,27 @@ class ApiManager {
         ]
         print("!!! cookiesBase64 \(cookies)")
         return parameters
+    }
+    
+    private func getHeaders() -> HTTPHeaders? {
+        guard let cookiesBase64 = AuthorizationManager.shared.cookies else { return nil }
+        guard let cookiesJsonData = Data(base64Encoded: cookiesBase64) else { return nil }
+        guard let cookiesDictionary = (try? JSONSerialization.jsonObject(with: cookiesJsonData, options: [])) as? [String: Any] else { return nil }
+        guard let cookeisArray = cookiesDictionary["cookies"] as? [[String: Any]] else { return nil }
+        
+        var cookieString = ""
+        cookeisArray.forEach {
+            cookieString = cookieString + (($0["key"] as? String) ?? "") + "="
+            cookieString = cookieString + (($0["value"] as? String) ?? "") + "; "
+        }
+        
+        print("!!! cookeisArray \(cookeisArray)")
+        print("!!! cookieString \(cookieString)")
+        
+        let headers: HTTPHeaders = [
+            "Cookie": cookieString
+        ]
+        return headers
     }
     
 }

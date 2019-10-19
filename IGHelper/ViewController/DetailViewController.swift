@@ -94,8 +94,31 @@ class DetailViewController: UIViewController {
             }) { [weak self] error in
                 self?.showErrorAlert(error)
             }
-        default:
-            break
+        case .gained_followers:
+            navigationItem.title = "Gained Followers"
+            ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
+                let previousFollowersIds = PastFollowersManager.shared.getIds()
+                self?.users = followers.filter { !previousFollowersIds.contains($0.id ?? "") }
+                self?.tableView?.reloadData()
+            }) { [weak self] error in
+                self?.showErrorAlert(error)
+            }
+        case .lost_followers:
+            navigationItem.title = "Lost Followers"
+            ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
+                let previousFollowersIds = PastFollowersManager.shared.getIds()
+                let currentFollowersIds = followers.compactMap { $0.id }
+                let lostFollowersIds = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
+                
+                ApiManager.shared.getUserInfoArray_graph(ids: lostFollowersIds, onComplete: { [weak self] users in
+                    self?.users = users
+                    self?.tableView?.reloadData()
+                }) { error in
+                    self?.showErrorAlert(error)
+                }
+            }) { [weak self] error in
+                self?.showErrorAlert(error)
+            }
         }
     }
     
