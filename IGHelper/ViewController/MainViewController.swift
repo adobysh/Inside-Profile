@@ -85,12 +85,16 @@ extension MainViewController {
     }
     
     func updateMainInfo() {
-        guard let imageUrl = URL(string: mainScreenInfo?.profile_pic_url ?? ""), let imageData = try? Data(contentsOf: imageUrl) else { return }
-        avatarImageView?.image = UIImage(data: imageData)
         followersCountLabel?.text = "\(mainScreenInfo?.follower_count ?? 0)"
         followingCountLabel?.text = "\(mainScreenInfo?.following_count ?? 0)"
         navigationItem.title = mainScreenInfo?.full_name
-        loginLabel?.text = "@\(mainScreenInfo?.username ?? "")"
+        if let username = mainScreenInfo?.username {
+            loginLabel?.text = "@" + username
+        } else {
+            loginLabel?.text = nil
+        }
+        guard let imageUrl = URL(string: mainScreenInfo?.profile_pic_url ?? ""), let imageData = try? Data(contentsOf: imageUrl) else { return }
+        avatarImageView?.image = UIImage(data: imageData)
     }
     
     func updateLikeCount() {
@@ -124,12 +128,40 @@ extension MainViewController {
             guard let contentType: ContentType = ContentType(rawValue: button.tag) else { return }
             switch contentType {
             case .lost_followers:
-                let previousFollowersIds = PastFollowersManager.shared.getIds()
-                let currentFollowersIds = followers?.compactMap { $0.id } ?? []
-                let lostFollowersIds = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
+                var lostFollowersIds: [String] = []
+                if let followers = followers {
+                    let previousFollowersIds = PastFollowersManager.shared.getIds()
+                    let currentFollowersIds = followers.compactMap { $0.id } ?? []
+                    lostFollowersIds = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
+                }
                 setupButton(button, "\(lostFollowersIds.count)" + "\n" + "lost followers")
-            default:
-                setupButton(button, "1k\nLovers")
+            case .gained_followers:
+                let previousFollowersIds = PastFollowersManager.shared.getIds()
+                let gainedFollowers = followers?.filter { !previousFollowersIds.contains($0.id ?? "") } ?? []
+                setupButton(button, "\(gainedFollowers.count)" + "\n" + "gained followers")
+            case .you_dont_follow:
+                let youDontFollow = followers?.filter({ !(following ?? []).contains($0) }) ?? []
+                setupButton(button, "\(youDontFollow.count)" + "\n" + "you dont follow")
+            case .unfollowers:
+                let unfollowers = following?.filter({ !(followers ?? []).contains($0) }) ?? []
+                setupButton(button, "\(unfollowers.count)" + "\n" + "unfollowers")
+            case .new_guests:
+                // пока показываем рекомендуемых пользователей кроме:
+                // 1. подтверждённых аккаунтов
+                // 2. пользователи с более чем 1к подписчиков
+                let newGuests = suggestedUsers?.filter { $0.is_verified == false && ($0.followers ?? 0) < 1000 } ?? []
+                setupButton(button, "\(newGuests.count)" + "\n" + "new guests")
+            case .recommendation:
+                setupButton(button, "\(suggestedUsers?.count ?? 0)" + "\n" + "recommendation")
+            case .top_likers:
+                let usersWithDublicates = posts?.compactMap { $0.facepile_top_likers }.flatMap { $0 } ?? []
+                let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
+                setupButton(button, "\(userIds.count)" + "\n" + "top likers")
+            case .top_commenters:
+                // Пока считаем просто всех коментаторов
+                let usersWithDublicates = posts?.compactMap { $0.preview_comments }.flatMap { $0 }.compactMap { $0.user } ?? []
+                let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
+                setupButton(button, "\(userIds.count)" + "\n" + "top commenters")
             }
         }
     }
