@@ -25,6 +25,7 @@
 		0C5A9CF022E8E93700A6ED2E /* UIViewController+AppViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */; };
 		0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */; };
 		0C669657234C6C8400845BB0 /* PostsContainerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C669656234C6C8400845BB0 /* PostsContainerData.swift */; };
+		0C766139235DD3A800DDE439 /* VipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C766138235DD3A800DDE439 /* VipViewController.swift */; };
 		0CAEE549234E50F00040284C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEE548234E50F00040284C /* UserCell.swift */; };
 		0CC0B77B2354ABFA00E1DBA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */; };
 		0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */; };
@@ -58,6 +59,7 @@
 		0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AppViewControllers.swift"; sourceTree = "<group>"; };
 		0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
 		0C669656234C6C8400845BB0 /* PostsContainerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsContainerData.swift; sourceTree = "<group>"; };
+		0C766138235DD3A800DDE439 /* VipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VipViewController.swift; sourceTree = "<group>"; };
 		0CAEE548234E50F00040284C /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -107,7 +109,11 @@
 			children = (
 				0CFFA9E222E6E246009AB882 /* API */,
 				0C32D3F822E59A960092B6AD /* Manager */,
-				0C5A9CEC22E8E7D700A6ED2E /* ViewController */,
+				0C766134235DD21200DDE439 /* GetStarted */,
+				0C766135235DD23600DDE439 /* Detail */,
+				0C5A9CEC22E8E7D700A6ED2E /* Main */,
+				0C766136235DD36F00DDE439 /* Settings */,
+				0C766137235DD37D00DDE439 /* Vip */,
 				0C1D2EAA22D3DF590015135F /* Extension */,
 				0C1D2E9822D3C17F0015135F /* AppDelegate.swift */,
 				0C1D2E9C22D3C17F0015135F /* Main.storyboard */,
@@ -144,17 +150,46 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		0C5A9CEC22E8E7D700A6ED2E /* ViewController */ = {
+		0C5A9CEC22E8E7D700A6ED2E /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				0C1D2E9A22D3C17F0015135F /* MainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		0C766134235DD21200DDE439 /* GetStarted */ = {
+			isa = PBXGroup;
+			children = (
 				0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */,
+				0CC879AC2350526500489169 /* AuthorizationViewController.swift */,
+			);
+			path = GetStarted;
+			sourceTree = "<group>";
+		};
+		0C766135235DD23600DDE439 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
 				0C080C3E234E401400FCF53D /* DetailViewController.swift */,
 				0CAEE548234E50F00040284C /* UserCell.swift */,
-				0CC879AC2350526500489169 /* AuthorizationViewController.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		0C766136235DD36F00DDE439 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
 				0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */,
 			);
-			path = ViewController;
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		0C766137235DD37D00DDE439 /* Vip */ = {
+			isa = PBXGroup;
+			children = (
+				0C766138235DD3A800DDE439 /* VipViewController.swift */,
+			);
+			path = Vip;
 			sourceTree = "<group>";
 		};
 		0C963ED822F028D300DC03BD /* Entity */ = {
@@ -315,6 +350,7 @@
 				0CC0B77F2355C8B700E1DBA5 /* ArrayExtension.swift in Sources */,
 				0C1D2EAC22D3DF720015135F /* UIViewExtension.swift in Sources */,
 				0C32D3FA22E59AB30092B6AD /* AuthorizationManager.swift in Sources */,
+				0C766139235DD3A800DDE439 /* VipViewController.swift in Sources */,
 				0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */,
 				0C080C3F234E401400FCF53D /* DetailViewController.swift in Sources */,
 				0C1D2EB322D46F1A0015135F /* UILabel+ScalableFont.swift in Sources */,

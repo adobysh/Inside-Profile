@@ -22,7 +22,7 @@ extension UIStoryboard {
         let vc = self.instantiateViewController(withIdentifier: identifier)
         vc.modalPresentationStyle = .fullScreen
         if #available(iOS 13.0, *) {
-            vc.overrideUserInterfaceStyle = .light
+            vc.overrideUserInterfaceStyle = .dark
         }
         return vc
     }

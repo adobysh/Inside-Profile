@@ -18,6 +18,8 @@ class MainViewController: UIViewController {
     @IBOutlet var commentsCountLabel: UILabel?
     @IBOutlet var loginLabel: UILabel?
     @IBOutlet var buttons: [UIButton]?
+    private var blurEffectView: UIVisualEffectView?
+    private var spinner: UIActivityIndicatorView?
     
     var mainScreenInfo: ProfileInfoData?
     var posts: [PostData]?
@@ -31,7 +33,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchInfo()
+//        setupLoadingBlur()
+//        fetchInfo() { [weak self] in
+//            self?.dismissLoadingBlur()
+//        }
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -51,13 +56,37 @@ class MainViewController: UIViewController {
         }
     }
     
+    private func setupLoadingBlur() {
+        let blurEffect = UIBlurEffect(style: .light)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        spinner = UIActivityIndicatorView(style: .white)
+        
+        guard let blurEffectView = blurEffectView, let spinner = spinner else { return }
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        navigationController?.view.addSubview(blurEffectView)
+        
+        navigationController?.view.addSubview(spinner)
+        spinner.center = view.center
+        spinner.startAnimating()
+    }
+    
+    func dismissLoadingBlur() {
+        blurEffectView?.removeFromSuperview()
+        spinner?.stopAnimating()
+        spinner?.removeFromSuperview()
+    }
+    
     @IBAction func settingsButtonAction(_ sender: Any) {
         let vc = UIViewController.settings
         vc.onLogOut = { [weak self] in
             let vc = UIViewController.getStarted
-            self?.present(vc, animated: false, completion: nil)
+            vc.onAuthorizationSuccess = { [weak self] in
+                self?.fetchInfo()
+            }
+            self?.present(vc, animated: true, completion: nil)
         }
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func refreshButtonAction(_ sender: Any) {
@@ -131,7 +160,7 @@ extension MainViewController {
                 var lostFollowersIds: [String] = []
                 if let followers = followers {
                     let previousFollowersIds = PastFollowersManager.shared.getIds()
-                    let currentFollowersIds = followers.compactMap { $0.id } ?? []
+                    let currentFollowersIds = followers.compactMap { $0.id } 
                     lostFollowersIds = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
                 }
                 setupButton(button, "\(lostFollowersIds.count)" + "\n" + "lost followers")
@@ -171,7 +200,7 @@ extension MainViewController {
 // MARK: - Private funcs
 extension MainViewController {
     
-    func fetchInfo() {
+    func fetchInfo(onComplete: (()->())? = nil) {
         ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
             self?.mainScreenInfo = info.profileInfo
             self?.posts = info.postDataArray
@@ -179,6 +208,7 @@ extension MainViewController {
             self?.following = info.following
             self?.suggestedUsers = info.suggestedUsers
             self?.updateUI()
+            onComplete?()
         }) { [weak self] error in
             self?.showErrorAlert(error)
         }
