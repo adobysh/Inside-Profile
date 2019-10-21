@@ -33,10 +33,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupLoadingBlur()
-//        fetchInfo() { [weak self] in
-//            self?.dismissLoadingBlur()
-//        }
+        setupLoadingBlur()
+        fetchInfo() { [weak self] in
+            self?.dismissLoadingBlur()
+        }
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
