@@ -81,8 +81,8 @@ class ApiManager {
                     onError(ApiError.unknown)
                     return
                 }
-                let notNilposts = posts.compactMap { $0 }
-                onComplete(notNilposts)
+                let notNilPosts = posts.compactMap { $0 }
+                onComplete(notNilPosts)
             } catch {
                 onError(error)
             }
@@ -222,13 +222,13 @@ class ApiManager {
         }
     }
     
-    public func getSuggestedUser(suggestedUser: [GraphUser] = [], onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+    public func getSuggestedUser(suggestedUsers: [GraphUser] = [], onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
         
         guard let headers = getHeaders() else { return }
 
         //        "seen_ids":["263874345","1247439238",
-        let seen_ids_array = suggestedUser.map { "\($0.id ?? "")" }
+        let seen_ids_array = suggestedUsers.map { "\($0.id ?? "")" }
         let seen_ids = seen_ids_array.joined(separator:",")
         
         let parameters: [String: String] = [
@@ -236,7 +236,7 @@ class ApiManager {
             "variables": "{\"fetch_media_count\":0,\"fetch_suggested_count\":30,\"ignore_cache\":false,\"filter_followed_friends\":true,\"seen_ids\":[\(seen_ids)],\"include_reel\":true}"
         ]
         
-        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { response in
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { [weak self] response in
             guard let data = response.data else { return }
             do {
                 let decoder = JSONDecoder()
@@ -246,8 +246,13 @@ class ApiManager {
                     onError(ApiError.unknown)
                     return
                 }
-                let users: [GraphUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { $0.node?.user } ?? []
-                onComplete(users)
+                var users: [GraphUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { $0.node?.user } ?? []
+                users.append(contentsOf: suggestedUsers)
+                if container.data?.user?.edge_suggested_users?.page_info?.has_next_page == true {
+                    self?.getSuggestedUser(suggestedUsers: users, onComplete: onComplete, onError: onError)
+                } else {
+                    onComplete(users)
+                }
             } catch {
                 onError(error)
             }

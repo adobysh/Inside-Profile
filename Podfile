@@ -8,7 +8,7 @@ target 'IGHelper' do
 
   # Pods for IGHelper
   pod 'Alamofire', '~> 4.7'
-  #pod 'SwiftInstagram'
-  #pod 'AeroGearOAuth2'
+  pod 'Fabric'
+  pod 'Crashlytics'
   
 end

@@ -10,6 +10,8 @@ import UIKit
 
 class VipViewController: UIViewController {
     
-    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
 }
