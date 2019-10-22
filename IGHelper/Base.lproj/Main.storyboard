@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaN-FL-EM0">
-                                <rect key="frame" x="49.333333333333343" y="269.66666666666669" width="276.33333333333326" height="131.33333333333331"/>
+                                <rect key="frame" x="49.333333333333343" y="283.66666666666669" width="276.33333333333326" height="131.33333333333331"/>
                                 <string key="text">Social
 Tracker</string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="55"/>
@@ -28,10 +29,10 @@ Tracker</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4y1-Cp-9go">
-                                <rect key="frame" x="49.333333333333343" y="684.66666666666663" width="276.33333333333326" height="53.333333333333371"/>
+                                <rect key="frame" x="49.333333333333343" y="698.66666666666663" width="276.33333333333326" height="39.333333333333371"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="4y1-Cp-9go" secondAttribute="height" multiplier="310:60" id="HQZ-qS-HaM"/>
+                                    <constraint firstAttribute="width" secondItem="4y1-Cp-9go" secondAttribute="height" multiplier="280:40" id="HQZ-qS-HaM"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <state key="normal" title="Get Started">
@@ -48,7 +49,7 @@ Tracker</string>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lcu-2r-6vO">
-                                <rect key="frame" x="0.0" y="401" width="375" height="183.66666666666663"/>
+                                <rect key="frame" x="0.0" y="415" width="375" height="183.66666666666663"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track you Instagram followers, find out your unfollowers, people who is not following you back and many others" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2X-9w-7nk">
                                         <rect key="frame" x="49.333333333333343" y="53.333333333333321" width="276.33333333333326" height="76.666666666666686"/>
@@ -561,26 +562,50 @@ top commenters</string>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-6a-khh">
-                                                    <rect key="frame" x="106" y="45.666666666666664" width="254" height="20.999999999999993"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLa" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-6a-khh">
+                                                    <rect key="frame" x="106" y="11" width="168" height="90"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="AbW-tD-ajW">
+                                                    <rect key="frame" x="279" y="42.666666666666664" width="81" height="26.999999999999993"/>
+                                                    <color key="backgroundColor" name="followButtonColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="27" id="UtZ-AN-QtG"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <state key="normal" title="Follow">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="4"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="AbW-tD-ajW" firstAttribute="leading" secondItem="hdx-6a-khh" secondAttribute="trailing" constant="5" id="7Fz-4J-nS3"/>
                                                 <constraint firstItem="hdx-6a-khh" firstAttribute="leading" secondItem="WtN-jZ-iXX" secondAttribute="trailing" constant="20" id="D2O-3D-UKH"/>
                                                 <constraint firstItem="hdx-6a-khh" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" id="UoN-O4-BUZ"/>
+                                                <constraint firstItem="AbW-tD-ajW" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" id="XY3-zI-OdA"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="AbW-tD-ajW" secondAttribute="trailing" id="aMt-Vn-F0f"/>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="leading" secondItem="avT-i0-r1N" secondAttribute="leadingMargin" constant="11" id="ajT-1V-wqy"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="hdx-6a-khh" secondAttribute="trailing" id="gs9-ak-gdp"/>
+                                                <constraint firstItem="AbW-tD-ajW" firstAttribute="width" secondItem="AbW-tD-ajW" secondAttribute="height" multiplier="81:27" id="ipq-0G-2RC"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="WtN-jZ-iXX" secondAttribute="bottom" id="mXz-W0-0mz"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="hdx-6a-khh" secondAttribute="bottom" id="qil-vk-e8L"/>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="top" secondItem="avT-i0-r1N" secondAttribute="topMargin" id="uJs-Wn-GIk"/>
+                                                <constraint firstItem="hdx-6a-khh" firstAttribute="top" secondItem="avT-i0-r1N" secondAttribute="topMargin" id="vDA-If-vqh"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="avatarImageView" destination="WtN-jZ-iXX" id="xoh-JN-Ofk"/>
+                                            <outlet property="followButton" destination="AbW-tD-ajW" id="4oc-t1-7Wq"/>
                                             <outlet property="nameLabel" destination="hdx-6a-khh" id="qsF-YN-V3S"/>
                                         </connections>
                                     </tableViewCell>
@@ -849,5 +874,8 @@ top commenters</string>
         <image name="bgNavBar" width="374" height="120"/>
         <image name="icBack" width="21" height="21"/>
         <image name="icSettings2" width="36" height="36"/>
+        <namedColor name="followButtonColor">
+            <color red="0.20494750142097473" green="0.59658509492874146" blue="0.94123929738998413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

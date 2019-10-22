@@ -33,6 +33,7 @@
 		0CC0B7812357A61F00E1DBA5 /* SuggestedUserWebContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */; };
 		0CC0B7832359EBEF00E1DBA5 /* PastFollowersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */; };
 		0CC879AD2350526500489169 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC879AC2350526500489169 /* AuthorizationViewController.swift */; };
+		0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */; };
 		0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12C22E775BC00C85B75 /* ApiManager.swift */; };
 		0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */; };
 		2508CF7AB963B0B93253DCBD /* Pods_IGHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5A458EA9A43CE3BEA52AD6 /* Pods_IGHelper.framework */; };
@@ -67,6 +68,7 @@
 		0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedUserWebContainer.swift; sourceTree = "<group>"; };
 		0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastFollowersManager.swift; sourceTree = "<group>"; };
 		0CC879AC2350526500489169 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
+		0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		0CF1F12C22E775BC00C85B75 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IGHelper.release.xcconfig"; path = "Target Support Files/Pods-IGHelper/Pods-IGHelper.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,15 +129,10 @@
 		0C1D2EAA22D3DF590015135F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				0C1D2EAB22D3DF720015135F /* UIViewExtension.swift */,
+				0CF10A0E235F0FDD00746334 /* UI */,
 				0C1D2EAE22D46F1A0015135F /* Double+Scale.swift */,
 				0C1D2EB022D46F1A0015135F /* NSLayoutConstraint+Scale.swift */,
-				0C1D2EAD22D46F1A0015135F /* UIButton+ScalableFont.swift */,
-				0C1D2EAF22D46F1A0015135F /* UILabel+ScalableFont.swift */,
 				0C1D2EB522D470E90015135F /* ScalableConstraint.swift */,
-				0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */,
-				0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */,
-				0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */,
 				0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */,
 				0CC0B77E2355C8B700E1DBA5 /* ArrayExtension.swift */,
 			);
@@ -200,6 +197,20 @@
 				0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		0CF10A0E235F0FDD00746334 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0C1D2EAB22D3DF720015135F /* UIViewExtension.swift */,
+				0C1D2EAD22D46F1A0015135F /* UIButton+ScalableFont.swift */,
+				0C1D2EAF22D46F1A0015135F /* UILabel+ScalableFont.swift */,
+				0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */,
+				0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */,
+				0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */,
+				0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		0CFFA9E222E6E246009AB882 /* API */ = {
@@ -383,6 +394,7 @@
 				0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */,
 				0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */,
 				0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */,
+				0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */,
 				0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */,
 				0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */,
 				0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */,

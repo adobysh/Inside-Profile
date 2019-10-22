@@ -21,6 +21,7 @@ class AuthorizationManager: NSObject {
         return UserDefaults.standard.string(forKey: "cookies") != nil
     }
     public var cookies: String? {
+        print("!!! cookiesBase64 \(UserDefaults.standard.string(forKey: "cookies") ?? "")")
         return UserDefaults.standard.string(forKey: "cookies")
     }
     

@@ -33,10 +33,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLoadingBlur()
-        fetchInfo() { [weak self] in
-            self?.dismissLoadingBlur()
-        }
+        fetchInfo()
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -98,6 +95,7 @@ class MainViewController: UIViewController {
         let vc = UIViewController.detail
         vc.contentType = contentType
         vc.posts = posts
+        vc.following = following
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -201,6 +199,7 @@ extension MainViewController {
 extension MainViewController {
     
     func fetchInfo(onComplete: (()->())? = nil) {
+        setupLoadingBlur()
         ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
             self?.mainScreenInfo = info.profileInfo
             self?.posts = info.postDataArray
@@ -208,9 +207,10 @@ extension MainViewController {
             self?.following = info.following
             self?.suggestedUsers = info.suggestedUsers
             self?.updateUI()
-            onComplete?()
+            self?.dismissLoadingBlur()
         }) { [weak self] error in
             self?.showErrorAlert(error)
+            self?.dismissLoadingBlur()
         }
     }
     
