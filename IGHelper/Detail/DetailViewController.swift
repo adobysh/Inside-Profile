@@ -26,7 +26,9 @@ class DetailViewController: UIViewController {
     private var users: [User] = []
     public var contentType: ContentType?
     public var posts: [PostData]?
+    public var followers: [ApiUser]?
     public var following: [ApiUser]?
+    public var suggestedUsers: [GraphUser]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,94 +39,40 @@ class DetailViewController: UIViewController {
         guard let contentType = contentType else { return }
         switch contentType {
         case .new_guests:
-            // пока показываем рекомендуемых пользователей кроме:
-            // 1. подтверждённых аккаунтов
-            // 2. пользователи с более чем 1к подписчиков
             navigationItem.title = "New Guests"
-            ApiManager.shared.getSuggestedUser(onComplete: { [weak self] users in
-                self?.users = users.filter { $0.is_verified == false && ($0.followers ?? 0) < 1000 }
-                self?.tableView?.reloadData()
-            }) { [weak self] error in
-                self?.showErrorAlert(error)
-            }
+            users = UserModel.newGuests(suggestedUsers)
         case .recommendation:
             navigationItem.title = "Recommendation"
-            ApiManager.shared.getSuggestedUser(onComplete: { [weak self] users in
+            users = suggestedUsers ?? []
+        case .top_likers:
+            navigationItem.title = "Top Likers"
+            users = UserModel.topLikers(posts)
+        case .top_commenters:
+            navigationItem.title = "Top Commenters"
+            users = UserModel.topCommenters(posts)
+        case .you_dont_follow: // followers
+            navigationItem.title = "You Dont Follow"
+            users = UserModel.youDontFollow(followers: followers, following: following)
+        case .unfollowers: // following
+            navigationItem.title = "Unfollowers"
+            users = UserModel.unfollowers(followers: followers, following: following)
+        case .gained_followers:
+            navigationItem.title = "Gained Followers"
+            let previousFollowersIds = PastFollowersManager.shared.getIds()
+            users = UserModel.gainedFollowers(previousFollowersIds, followers)
+        case .lost_followers:
+            navigationItem.title = "Lost Followers"
+            let previousFollowersIds = PastFollowersManager.shared.getIds()
+            let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
+            
+            ApiManager.shared.getUserInfoArray_graph(ids: lostFollowersIds, onComplete: { [weak self] users in
                 self?.users = users
                 self?.tableView?.reloadData()
             }) { [weak self] error in
                 self?.showErrorAlert(error)
             }
-        case .top_likers:
-            navigationItem.title = "Top Likers"
-            let usersWithDublicates = posts?.compactMap { $0.facepile_top_likers }.flatMap { $0 } ?? []
-            let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
-            userIds.forEach { userId in
-                if let uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
-                    users.append(uniqueUser)
-                }
-            }
-            tableView?.reloadData()
-        case .top_commenters:
-            navigationItem.title = "Top Commenters"
-            let usersWithDublicates = posts?.compactMap { $0.preview_comments }.flatMap { $0 }.compactMap { $0.user } ?? []
-            let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
-            userIds.forEach { userId in
-                if let uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
-                    users.append(uniqueUser)
-                }
-            }
-            tableView?.reloadData()
-        case .you_dont_follow: // followers
-            navigationItem.title = "You Dont Follow"
-            ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
-                ApiManager.shared.getFollowing(onComplete: { [weak self] following in
-                    self?.users = followers.filter({ !following.contains($0) })
-                    self?.tableView?.reloadData()
-                }) { [weak self] error in
-                    self?.showErrorAlert(error)
-                }
-            }) { [weak self] error in
-                self?.showErrorAlert(error)
-            }
-        case .unfollowers: // following
-            navigationItem.title = "Unfollowers"
-            ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
-                ApiManager.shared.getFollowing(onComplete: { [weak self] following in
-                    self?.users = following.filter({ !followers.contains($0) })
-                    self?.tableView?.reloadData()
-                }) { [weak self] error in
-                    self?.showErrorAlert(error)
-                }
-            }) { [weak self] error in
-                self?.showErrorAlert(error)
-            }
-        case .gained_followers:
-            navigationItem.title = "Gained Followers"
-            ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
-                let previousFollowersIds = PastFollowersManager.shared.getIds()
-                self?.users = followers.filter { !previousFollowersIds.contains($0.id ?? "") }
-                self?.tableView?.reloadData()
-            }) { [weak self] error in
-                self?.showErrorAlert(error)
-            }
-        case .lost_followers:
-            navigationItem.title = "Lost Followers"
-            ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
-                let previousFollowersIds = PastFollowersManager.shared.getIds()
-                let currentFollowersIds = followers.compactMap { $0.id }
-                let lostFollowersIds = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
-                
-                ApiManager.shared.getUserInfoArray_graph(ids: lostFollowersIds, onComplete: { [weak self] users in
-                    self?.users = users
-                    self?.tableView?.reloadData()
-                }) { error in
-                    self?.showErrorAlert(error)
-                }
-            }) { [weak self] error in
-                self?.showErrorAlert(error)
-            }
         }
+        tableView?.reloadData()
     }
     
     @IBAction func backButtonAction(_ sender: Any) {
@@ -148,6 +96,20 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             })
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if let item = users[safe: indexPath.row] {
+            let instagramHooks = "instagram://user?username=" + (item.username ?? "")
+            if let instagramUrl = URL(string: instagramHooks), UIApplication.shared.canOpenURL(instagramUrl) {
+                UIApplication.shared.open(instagramUrl)
+            } else {
+                //redirect to safari because the user doesn't have Instagram
+                guard let instagramUrl = URL(string: "https://instagram.com/" + (item.username ?? "") + "/") else { return }
+                UIApplication.shared.open(instagramUrl)
+            }
+        }
     }
     
 }

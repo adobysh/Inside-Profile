@@ -29,8 +29,12 @@ class UserCell: UITableViewCell {
             followButton?.setTitle("Follow", for: .normal)
         }
         nameLabel?.text = username
-        if let imagePath = imagePath, let imageUrl = URL(string: imagePath), let imageData = try? Data(contentsOf: imageUrl) {
-            avatarImageView?.image = UIImage(data: imageData)
+        
+        avatarImageView?.image = nil
+        UIImage.load(imagePath) { [weak self] image, url in
+            if imagePath == url {
+                self?.avatarImageView?.image = image
+            }
         }
     }
     

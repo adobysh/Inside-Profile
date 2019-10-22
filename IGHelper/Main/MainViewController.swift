@@ -21,11 +21,11 @@ class MainViewController: UIViewController {
     private var blurEffectView: UIVisualEffectView?
     private var spinner: UIActivityIndicatorView?
     
-    var mainScreenInfo: ProfileInfoData?
-    var posts: [PostData]?
-    var followers: [ApiUser]?
-    var following: [ApiUser]?
-    var suggestedUsers: [GraphUser]?
+    private var mainScreenInfo: ProfileInfoData?
+    private var posts: [PostData]?
+    private var followers: [ApiUser]?
+    private var following: [ApiUser]?
+    private var suggestedUsers: [GraphUser]?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -96,6 +96,8 @@ class MainViewController: UIViewController {
         vc.contentType = contentType
         vc.posts = posts
         vc.following = following
+        vc.followers = followers
+        vc.suggestedUsers = suggestedUsers
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -120,8 +122,10 @@ extension MainViewController {
         } else {
             loginLabel?.text = nil
         }
-        guard let imageUrl = URL(string: mainScreenInfo?.profile_pic_url ?? ""), let imageData = try? Data(contentsOf: imageUrl) else { return }
-        avatarImageView?.image = UIImage(data: imageData)
+        
+        UIImage.load(mainScreenInfo?.profile_pic_url) { [weak self] image, url in
+            self?.avatarImageView?.image = image
+        }
     }
     
     func updateLikeCount() {
@@ -155,40 +159,30 @@ extension MainViewController {
             guard let contentType: ContentType = ContentType(rawValue: button.tag) else { return }
             switch contentType {
             case .lost_followers:
-                var lostFollowersIds: [String] = []
-                if let followers = followers {
-                    let previousFollowersIds = PastFollowersManager.shared.getIds()
-                    let currentFollowersIds = followers.compactMap { $0.id } 
-                    lostFollowersIds = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
-                }
+                let previousFollowersIds = PastFollowersManager.shared.getIds()
+                let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
                 setupButton(button, "\(lostFollowersIds.count)" + "\n" + "lost followers")
             case .gained_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
-                let gainedFollowers = followers?.filter { !previousFollowersIds.contains($0.id ?? "") } ?? []
+                let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers)
                 setupButton(button, "\(gainedFollowers.count)" + "\n" + "gained followers")
             case .you_dont_follow:
-                let youDontFollow = followers?.filter({ !(following ?? []).contains($0) }) ?? []
+                let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
                 setupButton(button, "\(youDontFollow.count)" + "\n" + "you dont follow")
             case .unfollowers:
-                let unfollowers = following?.filter({ !(followers ?? []).contains($0) }) ?? []
+                let unfollowers = UserModel.unfollowers(followers: followers, following: following)
                 setupButton(button, "\(unfollowers.count)" + "\n" + "unfollowers")
             case .new_guests:
-                // пока показываем рекомендуемых пользователей кроме:
-                // 1. подтверждённых аккаунтов
-                // 2. пользователи с более чем 1к подписчиков
-                let newGuests = suggestedUsers?.filter { $0.is_verified == false && ($0.followers ?? 0) < 1000 } ?? []
+                let newGuests = UserModel.newGuests(suggestedUsers)
                 setupButton(button, "\(newGuests.count)" + "\n" + "new guests")
             case .recommendation:
                 setupButton(button, "\(suggestedUsers?.count ?? 0)" + "\n" + "recommendation")
             case .top_likers:
-                let usersWithDublicates = posts?.compactMap { $0.facepile_top_likers }.flatMap { $0 } ?? []
-                let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
-                setupButton(button, "\(userIds.count)" + "\n" + "top likers")
+                let topLikers = UserModel.topLikers(posts)
+                setupButton(button, "\(topLikers.count)" + "\n" + "top likers")
             case .top_commenters:
-                // Пока считаем просто всех коментаторов
-                let usersWithDublicates = posts?.compactMap { $0.preview_comments }.flatMap { $0 }.compactMap { $0.user } ?? []
-                let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
-                setupButton(button, "\(userIds.count)" + "\n" + "top commenters")
+                let topСommenters = UserModel.topCommenters(posts)
+                setupButton(button, "\(topСommenters.count)" + "\n" + "top commenters")
             }
         }
     }

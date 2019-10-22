@@ -34,6 +34,8 @@
 		0CC0B7832359EBEF00E1DBA5 /* PastFollowersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */; };
 		0CC879AD2350526500489169 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC879AC2350526500489169 /* AuthorizationViewController.swift */; };
 		0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */; };
+		0CF10A10235F12B600746334 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A0F235F12B600746334 /* UserModel.swift */; };
+		0CF10A12235F255600746334 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A11235F255600746334 /* UIImageExtension.swift */; };
 		0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12C22E775BC00C85B75 /* ApiManager.swift */; };
 		0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */; };
 		2508CF7AB963B0B93253DCBD /* Pods_IGHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5A458EA9A43CE3BEA52AD6 /* Pods_IGHelper.framework */; };
@@ -69,6 +71,8 @@
 		0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastFollowersManager.swift; sourceTree = "<group>"; };
 		0CC879AC2350526500489169 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
+		0CF10A0F235F12B600746334 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		0CF10A11235F255600746334 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		0CF1F12C22E775BC00C85B75 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IGHelper.release.xcconfig"; path = "Target Support Files/Pods-IGHelper/Pods-IGHelper.release.xcconfig"; sourceTree = "<group>"; };
@@ -142,6 +146,8 @@
 		0C32D3F822E59A960092B6AD /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				0CF10A0F235F12B600746334 /* UserModel.swift */,
+				0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */,
 				0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */,
 			);
 			path = Manager;
@@ -209,6 +215,7 @@
 				0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */,
 				0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */,
 				0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */,
+				0CF10A11235F255600746334 /* UIImageExtension.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -218,7 +225,6 @@
 			children = (
 				0C963ED822F028D300DC03BD /* Entity */,
 				0CF1F12C22E775BC00C85B75 /* ApiManager.swift */,
-				0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -389,12 +395,14 @@
 				0CC0B7812357A61F00E1DBA5 /* SuggestedUserWebContainer.swift in Sources */,
 				0CC0B7832359EBEF00E1DBA5 /* PastFollowersManager.swift in Sources */,
 				0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */,
+				0CF10A10235F12B600746334 /* UserModel.swift in Sources */,
 				0C1D2EB422D46F1A0015135F /* NSLayoutConstraint+Scale.swift in Sources */,
 				0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */,
 				0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */,
 				0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */,
 				0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */,
 				0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */,
+				0CF10A12235F255600746334 /* UIImageExtension.swift in Sources */,
 				0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */,
 				0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */,
 				0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */,
