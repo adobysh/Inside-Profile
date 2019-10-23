@@ -22,6 +22,7 @@ class MainViewController: UIViewController {
     private var spinner: UIActivityIndicatorView?
     
     private var mainScreenInfo: ProfileInfoData?
+    private var followRequests: FollowRequests?
     private var posts: [PostData]?
     private var followers: [ApiUser]?
     private var following: [ApiUser]?
@@ -94,10 +95,18 @@ class MainViewController: UIViewController {
         guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
         let vc = UIViewController.detail
         vc.contentType = contentType
+        vc.followRequests = followRequests
         vc.posts = posts
         vc.following = following
         vc.followers = followers
         vc.suggestedUsers = suggestedUsers
+        vc.onFollow = { [weak self] onUpdate in
+            self?.fetchFollowRequests_and_following(onComplete: { [weak self] in
+                vc.following = self?.following
+                vc.followRequests = self?.followRequests
+                onUpdate?()
+            })
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -189,13 +198,31 @@ extension MainViewController {
     
 }
 
-// MARK: - Private funcs
+// MARK: - Info Fetching
 extension MainViewController {
+    
+    func fetchFollowRequests_and_following(onComplete: (()->())? = nil) {
+        ApiManager.shared.getFollowRequests(onComplete: { [weak self] followRequests in
+            ApiManager.shared.getFollowing(onComplete: { [weak self] following in
+                self?.following = following
+                self?.followRequests = followRequests
+                self?.updateUI()
+                onComplete?()
+            }) { [weak self] error in
+                onComplete?()
+                self?.showErrorAlert(error)
+            }
+        }) { [weak self] error in
+            onComplete?()
+            self?.showErrorAlert(error)
+        }
+    }
     
     func fetchInfo(onComplete: (()->())? = nil) {
         setupLoadingBlur()
         ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
             self?.mainScreenInfo = info.profileInfo
+            self?.followRequests = info.followRequests
             self?.posts = info.postDataArray
             self?.followers = info.followers
             self?.following = info.following

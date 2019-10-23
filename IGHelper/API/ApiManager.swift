@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftSoup
 
 enum ApiError: Error {
     case unknown
@@ -23,13 +24,15 @@ class ApiManager {
     
     private init() {}
     
-    public func getUserInfo(onComplete: @escaping ((profileInfo: ProfileInfoData, postDataArray: [PostData], followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser])) -> (), onError: @escaping (Error) -> ()) {
+    public func getUserInfo(onComplete: @escaping ((profileInfo: ProfileInfoData, followRequests: FollowRequests, postDataArray: [PostData], followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser])) -> (), onError: @escaping (Error) -> ()) {
         getProfileInfo(onComplete: { [weak self] profileInfoData in
-            self?.getPosts(onComplete: { [weak self] postDataArray in
-                self?.getFollowers(onComplete: { [weak self] followers in
-                    self?.getFollowing(onComplete: { [weak self] following in
-                        self?.getSuggestedUser(onComplete: { suggestedUsers in
-                            onComplete((profileInfoData, postDataArray, followers, following, suggestedUsers))
+            self?.getFollowRequests(onComplete: { [weak self] followRequests in
+                self?.getPosts(onComplete: { [weak self] postDataArray in
+                    self?.getFollowers(onComplete: { [weak self] followers in
+                        self?.getFollowing(onComplete: { [weak self] following in
+                            self?.getSuggestedUser(onComplete: { suggestedUsers in
+                                onComplete((profileInfoData, followRequests, postDataArray, followers, following, suggestedUsers))
+                            }, onError: onError)
                         }, onError: onError)
                     }, onError: onError)
                 }, onError: onError)
@@ -37,8 +40,8 @@ class ApiManager {
         }, onError: onError)
     }
     
-    public func getProfileInfo(cookieBase64: String? = nil, onComplete: @escaping (ProfileInfoData) -> (), onError: @escaping (Error) -> ()) {
-        let url = "https://i-info.n44.me/user/info/me"
+    public func getProfileInfo(cookieBase64: String? = nil, id: String = "me", onComplete: @escaping (ProfileInfoData) -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://i-info.n44.me/user/info/" + id
         
         let parameters: [String: String]
         if let cookieBase64 = cookieBase64 {
@@ -161,6 +164,60 @@ class ApiManager {
         }
     }
     
+    public func unfollow(id: String, onComplete: @escaping () -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://www.instagram.com/web/friendships/" + id + "/unfollow/"
+        guard let headers = getHeaders(XCsrftocken: true) else { onError(ApiError.unknown); return }
+        
+        Alamofire.request(url, method: .post, headers: headers).response { response in
+            if response.response?.statusCode == 200 {
+                onComplete()
+            } else {
+                onError(ApiError.unknown)
+            }
+        }
+    }
+    
+    public func follow(id: String, username: String, onComplete: @escaping () -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://www.instagram.com/web/friendships/" + id + "/follow/"
+        guard let headers = getHeaders(XCsrftocken: true) else { onError(ApiError.unknown); return }
+        
+        Alamofire.request(url, method: .post, headers: headers).response { response in
+            if response.response?.statusCode == 200 {
+                onComplete()
+            } else {
+                onError(ApiError.unknown)
+            }
+        }
+    }
+    
+    public func getFollowRequests(onComplete: @escaping (FollowRequests) -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://www.instagram.com/accounts/access_tool/current_follow_requests"
+
+        guard let headers = getHeaders() else { onError(ApiError.unknown); return }
+        
+        Alamofire.request(url, method: .get, headers: headers).responseString { [weak self] response in
+            guard let result = response.value else { onError(ApiError.unknown); return }
+            do {
+                let html: Document = try SwiftSoup.parse(result)
+                let body = html.body()
+                var current_follow_requests_Element: Element?
+                body?.callRecursively({ element, level in
+                    if element.description.contains("current_follow_requests") {
+                        current_follow_requests_Element = element
+                    }
+                })
+                print("!!! current_follow_requests \(current_follow_requests_Element)")
+                guard let followRequestsString = current_follow_requests_Element?.description else {
+                    onError(ApiError.unknown)
+                    return
+                }
+                onComplete(FollowRequests(value: followRequestsString))
+            } catch {
+                onError(error)
+            }
+        }
+    }
+    
     public func getUserInfoArray_graph(userInfoArray: [BaseUser] = [], ids: [String], onComplete: @escaping ([BaseUser]) -> (), onError: @escaping (Error) -> ()) {
         // Если сделать запрос с пустым списком айдишек то вернёт инфу о себе.
         if ids.isEmpty {
@@ -268,7 +325,7 @@ class ApiManager {
         return parameters
     }
     
-    private func getHeaders() -> HTTPHeaders? {
+    private func getHeaders(XCsrftocken: Bool = false) -> HTTPHeaders? {
         guard let cookiesBase64 = AuthorizationManager.shared.cookies else { return nil }
         guard let cookiesJsonData = Data(base64Encoded: cookiesBase64) else { return nil }
         guard let cookiesDictionary = (try? JSONSerialization.jsonObject(with: cookiesJsonData, options: [])) as? [String: Any] else { return nil }
@@ -283,10 +340,27 @@ class ApiManager {
         print("!!! cookeisArray \(cookeisArray)")
         print("!!! cookieString \(cookieString)")
         
-        let headers: HTTPHeaders = [
+        var headers: HTTPHeaders = [
             "Cookie": cookieString
         ]
+        if XCsrftocken {
+            headers["x-csrftoken"] = ((cookeisArray.first(where: { ($0["key"] as? String) == "csrftoken" }))?["value"] as? String) ?? ""
+        }
+        print("!!! headers \(headers)")
         return headers
     }
     
+}
+
+extension Element {
+    
+    func callRecursively(level: Int = 0, _ body: (_ subview: Element, _ level: Int) -> Void) {
+        body(self, level)
+        for i in 0..<self.children().count {
+            let children = self.children().get(i)
+            children.callRecursively(level: level + 1, body)
+        }
+        
+    }
+
 }

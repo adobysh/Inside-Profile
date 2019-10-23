@@ -25,10 +25,13 @@ class DetailViewController: UIViewController {
     
     private var users: [User] = []
     public var contentType: ContentType?
+    public var followRequests: FollowRequests?
     public var posts: [PostData]?
     public var followers: [ApiUser]?
     public var following: [ApiUser]?
     public var suggestedUsers: [GraphUser]?
+    
+    public var onFollow: (( _ onUpdate: (()->Void)? )->())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,10 +92,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier, for: indexPath) as! UserCell
-        if let item = users[safe: indexPath.row], let following = following {
-            let isFollowing: Bool = following.first { $0.id == item.id } != nil
-            cell.configure(imagePath: item.profile_pic_url, name: item.full_name, username: item.username, isFollowing: isFollowing, onFollow: { isFollowing in
-                #warning("put onFollow logic here")
+        if var user = users[safe: indexPath.row] {
+            user = UserModel.addFollowStatus(user, following, followRequests)
+            cell.configure(user: user, onFollow: { [weak self] onFollow in
+                self?.onFollow?() {
+                    user = UserModel.addFollowStatus(user, self?.following, self?.followRequests)
+                    guard let followStatus = user.followStatus else { return }
+                    onFollow?(followStatus)
+                }
             })
         }
         return cell

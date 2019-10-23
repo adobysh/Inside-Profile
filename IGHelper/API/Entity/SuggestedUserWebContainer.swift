@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum FollowStatus {
+    case yes
+    case no
+    case requested
+}
+
 protocol User: Codable {
     var id: String? { get }
     var full_name: String? { get }
@@ -15,6 +21,8 @@ protocol User: Codable {
     var profile_pic_url: String? { get }
     var is_verified: Bool? { get }
     var followers: Int? { get }
+    
+    var followStatus: FollowStatus? { get set }
 }
 
 struct BaseUser: User {
@@ -24,6 +32,12 @@ struct BaseUser: User {
     var profile_pic_url: String?
     var is_verified: Bool?
     var followers: Int?
+    
+    var followStatus: FollowStatus?
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, full_name, username, profile_pic_url, is_verified, followers
+    }
 }
 
 struct SuggestedUsersWebContainer: Codable {
@@ -75,6 +89,12 @@ struct GraphUser: User, Codable, Comparable {
         get {
             return edge_followed_by?.count
         }
+    }
+    
+    var followStatus: FollowStatus?
+    
+    private enum CodingKeys: String, CodingKey {
+        case edge_followed_by, followed_by_viewer, full_name, id, is_private, is_verified, is_viewer, profile_pic_url, requested_by_viewer, username
     }
     
     static func ==(lhs: GraphUser, rhs: GraphUser) -> Bool {

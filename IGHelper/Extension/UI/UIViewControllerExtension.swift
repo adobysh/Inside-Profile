@@ -23,4 +23,19 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func showAlert(title: String, message: String? = nil, firstActionTitle: String = "OK", secondActionTitle: String? = nil, firstCompletion: (() -> ())? = nil, secondCompletion: (() -> ())? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let firstAction = UIAlertAction(title: firstActionTitle, style: .cancel) { (action) in
+            firstCompletion?()
+        }
+        alertController.addAction(firstAction)
+        if let secondActionTitle = secondActionTitle {
+            let secondAction = UIAlertAction(title: secondActionTitle, style: .default) { (action) in
+                secondCompletion?()
+            }
+            alertController.addAction(secondAction)
+        }
+        present(alertController, animated: true)
+    }
+    
 }

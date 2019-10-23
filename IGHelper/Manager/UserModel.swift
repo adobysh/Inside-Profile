@@ -15,7 +15,7 @@ class UserModel {
     // 2. пользователи с более чем 1к подписчиков
     #warning("нужна серьёзная доработка")
     public static func newGuests(_ suggestedUser: [GraphUser]?) -> [GraphUser] {
-        return suggestedUser?.filter { $0.is_verified == false && ($0.followers ?? 0) < 500 } ?? []
+        return suggestedUser?.filter { $0.is_verified == false } ?? []
     }
 
     #warning("Пока считаем просто всех коментаторов")
@@ -59,6 +59,28 @@ class UserModel {
     public static func lostFollowersIds(_ previousFollowersIds: [String], _ followers: [ApiUser]?) -> [String] {
         let currentFollowersIds = followers?.compactMap { $0.id } ?? []
         return previousFollowersIds.filter { !currentFollowersIds.contains($0) }
+    }
+    
+}
+
+// MARK: - For Single User
+extension UserModel {
+    
+    public static func addFollowStatus(_ user: User, _ following: [ApiUser]?, _ followRequests: FollowRequests?) -> User {
+        let isFollowing: Bool = following?.first { $0.id == user.id } != nil
+        let isRequested: Bool = followRequests?.contain(username: user.username ?? "") == true
+    
+        let followStatus: FollowStatus
+        if isFollowing {
+            followStatus = .yes
+        } else if isRequested {
+            followStatus = .requested
+        } else {
+            followStatus = .no
+        }
+        var userWithFollowStatus = user
+        userWithFollowStatus.followStatus = followStatus
+        return userWithFollowStatus
     }
     
 }

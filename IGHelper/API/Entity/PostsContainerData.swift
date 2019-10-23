@@ -41,6 +41,12 @@ struct ApiUser: User, Comparable, Hashable {
         }
     }
     
+    var followStatus: FollowStatus?
+    
+    private enum CodingKeys: String, CodingKey {
+        case pk, full_name, username, profile_pic_url, is_verified, followers
+    }
+    
     static func ==(lhs: ApiUser, rhs: ApiUser) -> Bool {
         return lhs.username == rhs.username
     }

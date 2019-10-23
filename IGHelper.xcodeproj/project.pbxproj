@@ -33,6 +33,9 @@
 		0CC0B7812357A61F00E1DBA5 /* SuggestedUserWebContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */; };
 		0CC0B7832359EBEF00E1DBA5 /* PastFollowersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */; };
 		0CC879AD2350526500489169 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC879AC2350526500489169 /* AuthorizationViewController.swift */; };
+		0CCA085723609439008C3AD2 /* SubscriptionKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA085523609439008C3AD2 /* SubscriptionKeychain.swift */; };
+		0CCA085823609439008C3AD2 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA085623609439008C3AD2 /* SubscriptionManager.swift */; };
+		0CCA085A2360D4C0008C3AD2 /* FollowRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA08592360D4C0008C3AD2 /* FollowRequests.swift */; };
 		0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */; };
 		0CF10A10235F12B600746334 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A0F235F12B600746334 /* UserModel.swift */; };
 		0CF10A12235F255600746334 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A11235F255600746334 /* UIImageExtension.swift */; };
@@ -70,6 +73,9 @@
 		0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedUserWebContainer.swift; sourceTree = "<group>"; };
 		0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastFollowersManager.swift; sourceTree = "<group>"; };
 		0CC879AC2350526500489169 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
+		0CCA085523609439008C3AD2 /* SubscriptionKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionKeychain.swift; sourceTree = "<group>"; };
+		0CCA085623609439008C3AD2 /* SubscriptionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		0CCA08592360D4C0008C3AD2 /* FollowRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowRequests.swift; sourceTree = "<group>"; };
 		0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		0CF10A0F235F12B600746334 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		0CF10A11235F255600746334 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
@@ -149,6 +155,8 @@
 				0CF10A0F235F12B600746334 /* UserModel.swift */,
 				0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */,
 				0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */,
+				0CCA085523609439008C3AD2 /* SubscriptionKeychain.swift */,
+				0CCA085623609439008C3AD2 /* SubscriptionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -201,6 +209,7 @@
 				0C274CAF234A7F4700BC8C11 /* ProfileInfoData.swift */,
 				0C669656234C6C8400845BB0 /* PostsContainerData.swift */,
 				0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */,
+				0CCA08592360D4C0008C3AD2 /* FollowRequests.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -388,10 +397,12 @@
 				0C766139235DD3A800DDE439 /* VipViewController.swift in Sources */,
 				0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */,
 				0C080C3F234E401400FCF53D /* DetailViewController.swift in Sources */,
+				0CCA085A2360D4C0008C3AD2 /* FollowRequests.swift in Sources */,
 				0C1D2EB322D46F1A0015135F /* UILabel+ScalableFont.swift in Sources */,
 				0C669657234C6C8400845BB0 /* PostsContainerData.swift in Sources */,
 				0CAEE549234E50F00040284C /* UserCell.swift in Sources */,
 				0C1D2EB122D46F1A0015135F /* UIButton+ScalableFont.swift in Sources */,
+				0CCA085723609439008C3AD2 /* SubscriptionKeychain.swift in Sources */,
 				0CC0B7812357A61F00E1DBA5 /* SuggestedUserWebContainer.swift in Sources */,
 				0CC0B7832359EBEF00E1DBA5 /* PastFollowersManager.swift in Sources */,
 				0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */,
@@ -404,6 +415,7 @@
 				0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */,
 				0CF10A12235F255600746334 /* UIImageExtension.swift in Sources */,
 				0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */,
+				0CCA085823609439008C3AD2 /* SubscriptionManager.swift in Sources */,
 				0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */,
 				0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */,
 				0CC0B77B2354ABFA00E1DBA5 /* StringExtension.swift in Sources */,
@@ -553,7 +565,9 @@
 			baseConfigurationReference = 5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = IGHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -562,6 +576,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.andromeda.IGHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -572,7 +587,9 @@
 			baseConfigurationReference = 26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = IGHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -581,6 +598,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.andromeda.IGHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

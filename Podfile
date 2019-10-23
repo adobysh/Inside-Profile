@@ -10,5 +10,9 @@ target 'IGHelper' do
   pod 'Alamofire', '~> 4.7'
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'RxSwift',    '~> 4.0'
+  pod 'RxCocoa',    '~> 4.0'
+  pod 'SwiftyStoreKit'
+  pod 'SwiftSoup'
   
 end
