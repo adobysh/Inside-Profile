@@ -12,11 +12,19 @@ import WebKit
 class AuthorizationViewController: UIViewController {
     
     @IBOutlet var webView: WKWebView?
+    @IBOutlet var customNavigationBar: UINavigationBar?
     
     public var onSuccess: (()->())?
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        customNavigationBar?.setBackgroundImage(UIImage(), for: .default)
+        customNavigationBar?.shadowImage = UIImage()
+        
         guard let link = URL(string:"https://www.instagram.com/accounts/login") else { return }
         let request = URLRequest(url: link)
         webView?.navigationDelegate = self
