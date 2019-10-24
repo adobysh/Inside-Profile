@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RxSwift
 import SwiftyStoreKit
     
 class VipViewController: UIViewController {
@@ -16,121 +15,115 @@ class VipViewController: UIViewController {
     @IBOutlet var closeButton: UIButton?
     @IBOutlet var subscribeButton: UIButton?
     
-    let bag = DisposeBag()
-    var onPaymentOrRestoreSuccess: (()->())?
+    private let currentSubscription: SubscriptionType = .month
+    
+    public var onPaymentSuccess: (()->())?
+    public var onClose: (()->())?
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        subscribeButton?.setTitle("PLEASE WAIT...", for: .disabled)
+    }
     
     @IBAction func closeAction(_ sender: Any) {
-        dismiss(animated: true)
+        onClose?()
     }
     
     @IBAction func restoreAction(_ sender: UIButton) {
-        sender.isUserInteractionEnabled = false
-        SubscriptionManager.restore()
-            .subscribe(onNext: { [weak self] results in
-                if let firstResult = results.first {
-                    switch firstResult {
-                    case .purchased(let expiryDate, _):
-                        self?.showAlert(title: "Success", message: "Your purchase has been restored", firstCompletion: {
-                            self?.dismiss(animated: true)
-                            self?.onPaymentOrRestoreSuccess?()
-                        })
-                        SubscriptionKeychain.registerSubscription(expirationDate: expiryDate)
-                    case .expired(_, _):
-                        self?.showAlert(title: "Subscription expired")
-                        sender.isUserInteractionEnabled = true
-                    case .notPurchased:
-                        self?.showAlert(title: "Not Purchased")
-                        sender.isUserInteractionEnabled = true
-                    }
-                } else {
-                    self?.showAlert(title: "Failure to connect to iTunes Store")
-                    sender.isUserInteractionEnabled = true
-                }
-                }, onError: { error in
-                    // Cancel
-                    sender.isUserInteractionEnabled = true
-            }).disposed(by: bag)
-    }
-    
-    @IBAction func subscribeAction(_ sender: Any) {
-        setupButton(inProgress: true)
-        
-        let verifyCount = 5
-        
-        SubscriptionManager.purchase(.month)
-            .subscribe(onNext: { [weak self] (results: [VerifySubscriptionResult]) in
-                results.forEach {
-                    switch $0 {
-                    case .purchased(_, let items):
-                        items.forEach {
-                            print("!!! $0.productId \($0.productId)")
-                            if $0.productId == SubscriptionType.month.rawValue {
-                                self?.verifyPurchase(levels: verifyCount, onErrorOrNotPurchased: { [weak self] in
-                                    self?.showAlert(title: "Failure to connect to iTunes Store")
-                                    self?.setupButton(inProgress: false)
-                                })
+        sender.isEnabled = false
+        SubscriptionManager.restore(onSuccess: { [weak self] verifySubscriptionResultArray in
+            verifySubscriptionResultArray.forEach { verifySubscriptionResult in
+                switch verifySubscriptionResult {
+                case .purchased(_, let receiptItemArray):
+                    receiptItemArray.forEach {
+                        let haveThisSybscription: Bool = SubscriptionType.allCases.map { $0.rawValue }.contains($0.productId)
+                        if haveThisSybscription {
+                            if let subscriptionExpirationDate = $0.subscriptionExpirationDate {
+                                SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
                             }
                         }
-                    case .expired(_, _):
-                        self?.verifyPurchase(levels: verifyCount, onErrorOrNotPurchased: { [weak self] in
-                            self?.showAlert(title: "Subscription expired")
-                            self?.setupButton(inProgress: false)
-                        })
-                    case .notPurchased:
-                        self?.verifyPurchase(levels: verifyCount, onErrorOrNotPurchased: { [weak self] in
-                            self?.showAlert(title: "Not purchased")
-                            self?.setupButton(inProgress: false)
-                        })
+                    }
+                case .expired(_, _):
+                    // do nothing
+                    break
+                case .notPurchased:
+                    // do nothing
+                    break
+                }
+            }
+            sender.isEnabled = true
+            self?.showAlert(title: "Success", message: "All your purchases have been restored")
+        }) { error in
+            // do nothing
+            print("!!! ERROR: restore error \(error)")
+            sender.isEnabled = true
+        }
+    }
+    
+    @IBAction func subscribeAction(_ sender: UIButton) {
+        sender.isEnabled = false
+        SubscriptionManager.purchase(currentSubscription, onSuccess: { [weak self] verifySubscriptionResult in
+            switch verifySubscriptionResult {
+            case .purchased(_, let receiptItemArray):
+                receiptItemArray.forEach {
+                    if $0.productId == self?.currentSubscription.rawValue {
+                        if let subscriptionExpirationDate = $0.subscriptionExpirationDate {
+                            SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
+                            self?.onPaymentSuccess?()
+                        }
                     }
                 }
-                }, onError: { [weak self] error in
-                    // Cancel
-                    print("!!! ERROR: \(error)")
-                    self?.verifyPurchase()
-                    self?.setupButton(inProgress: false)
-                    self?.showAlert(title: "Failure to connect to iTunes Store")
-            }).disposed(by: bag)
-    }
-    
-    func verifyPurchase(levels: Int = 1, onErrorOrNotPurchased: (()->())? = nil) {
-        if levels <= 0 {
-            onErrorOrNotPurchased?()
-            return
-        }
-        SubscriptionManager.verify(onSuccess: { [weak self] (date, items) in
-            if let date = date, let items = items {
-                self?.registerPurchase(date, items)
-            } else {
-                self?.verifyPurchase(levels: levels - 1, onErrorOrNotPurchased: onErrorOrNotPurchased)
+            case .expired(_, let receiptItemArray):
+                receiptItemArray.forEach {
+                    if $0.productId == self?.currentSubscription.rawValue {
+                        self?.showAlert(title: "Expired")
+                    }
+                }
+            case .notPurchased:
+                self?.showAlert(title: "Not purchased")
             }
-            }, onError: { [weak self] _ in
-                self?.verifyPurchase(levels: levels - 1, onErrorOrNotPurchased: onErrorOrNotPurchased)
-        })
-    }
-    
-    func registerPurchase(_ expiryDate: Date, _ items: [ReceiptItem]) {
-        if items.count > 0, let item = items.first, let subscriptionExpirationDate = item.subscriptionExpirationDate {
-            SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
-            dismiss(animated: true, completion: nil)
-            onPaymentOrRestoreSuccess?()
-        } else {
-            showAlert(title: "Failure to connect to iTunes Store")
-            setupButton(inProgress: false)
+            sender.isEnabled = true
+        }) { error in
+            // just cancel. do nothing
+            print("!!! ERROR: subscribe error \(error)")
+            sender.isEnabled = true
         }
     }
     
-    func setupButton(inProgress: Bool) {
-        subscribeButton?.isEnabled = !inProgress
-        
-        UIView.animate(withDuration: 0.2, animations: { [weak self] in
-            self?.subscribeButton?.alpha = inProgress ? 0.5 : 1
-        })
-        
-        if inProgress {
-            subscribeButton?.setTitle("PLEASE WAIT...", for: .normal)
-        } else {
-            subscribeButton?.setTitle("SUBSCRIBE", for: .normal)
-        }
-    }
+}
+
+// MARK: - Old Shit
+extension VipViewController {
+    
+//    func verifyPurchase(levels: Int = 5, onErrorOrNotPurchased: (()->())? = nil) {
+//        if levels <= 0 {
+//            onErrorOrNotPurchased?()
+//            return
+//        }
+//        SubscriptionManager.verify(onSuccess: { [weak self] (date, items) in
+//            if let date = date, let items = items {
+//                self?.registerPurchase(date, items)
+//            } else {
+//                self?.verifyPurchase(levels: levels - 1, onErrorOrNotPurchased: onErrorOrNotPurchased)
+//            }
+//        }, onError: { [weak self] _ in
+//            self?.verifyPurchase(levels: levels - 1, onErrorOrNotPurchased: onErrorOrNotPurchased)
+//        })
+//    }
+    
+//    func registerPurchase(_ expiryDate: Date, _ items: [ReceiptItem]) {
+//        if items.count > 0, let item = items.first, let subscriptionExpirationDate = item.subscriptionExpirationDate {
+//            SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
+//            dismiss(animated: true, completion: nil)
+//            onPaymentOrRestoreSuccess?()
+//        } else {
+//            showAlert(title: "Failure to connect to iTunes Store")
+//            setupButton(inProgress: false)
+//        }
+//    }
     
 }

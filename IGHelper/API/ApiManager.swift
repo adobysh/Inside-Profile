@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-import SwiftSoup
+//import SwiftSoup
 
 enum ApiError: Error {
     case unknown
@@ -197,24 +197,24 @@ class ApiManager {
         
         Alamofire.request(url, method: .get, headers: headers).responseString { [weak self] response in
             guard let result = response.value else { onError(ApiError.unknown); return }
-            do {
-                let html: Document = try SwiftSoup.parse(result)
-                let body = html.body()
-                var current_follow_requests_Element: Element?
-                body?.callRecursively({ element, level in
-                    if element.description.contains("current_follow_requests") {
-                        current_follow_requests_Element = element
-                    }
-                })
-                print("!!! current_follow_requests \(current_follow_requests_Element)")
-                guard let followRequestsString = current_follow_requests_Element?.description else {
-                    onError(ApiError.unknown)
-                    return
-                }
-                onComplete(FollowRequests(value: followRequestsString))
-            } catch {
-                onError(error)
-            }
+            onComplete(FollowRequests(value: result))
+//            do {
+//                let html: Document = try SwiftSoup.parse(result)
+//                let body = html.body()
+//                var current_follow_requests_Element: Element?
+//                body?.callRecursively({ element, level in
+//                    if element.description.contains("current_follow_requests") {
+//                        current_follow_requests_Element = element
+//                    }
+//                })
+//                guard let followRequestsString = current_follow_requests_Element?.description else {
+//                    onError(ApiError.unknown)
+//                    return
+//                }
+//                onComplete(FollowRequests(value: followRequestsString))
+//            } catch {
+//                onError(error)
+//            }
         }
     }
     
@@ -352,15 +352,15 @@ class ApiManager {
     
 }
 
-extension Element {
-    
-    func callRecursively(level: Int = 0, _ body: (_ subview: Element, _ level: Int) -> Void) {
-        body(self, level)
-        for i in 0..<self.children().count {
-            let children = self.children().get(i)
-            children.callRecursively(level: level + 1, body)
-        }
-        
-    }
-
-}
+//extension Element {
+//    
+//    func callRecursively(level: Int = 0, _ body: (_ subview: Element, _ level: Int) -> Void) {
+//        body(self, level)
+//        for i in 0..<self.children().count {
+//            let children = self.children().get(i)
+//            children.callRecursively(level: level + 1, body)
+//        }
+//        
+//    }
+//
+//}

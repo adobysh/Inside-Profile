@@ -21,10 +21,41 @@ class SettingsViewController: UIViewController {
     
     @IBAction func getPremiumButtonAction(_ sender: Any) {
         let vc = UIViewController.vip
-        present(vc, animated: true, completion: nil)
+        vc.onClose = {
+            vc.dismiss(animated: true)
+        }
+        present(vc, animated: true)
     }
     
-    @IBAction func restoreButtonAction(_ sender: Any) {
+    @IBAction func restoreButtonAction(_ sender: UIButton) {
+        sender.isEnabled = false
+        SubscriptionManager.restore(onSuccess: { [weak self] verifySubscriptionResultArray in
+            verifySubscriptionResultArray.forEach { verifySubscriptionResult in
+                switch verifySubscriptionResult {
+                case .purchased(_, let receiptItemArray):
+                    receiptItemArray.forEach {
+                        let haveThisSybscription: Bool = SubscriptionType.allCases.map { $0.rawValue }.contains($0.productId)
+                        if haveThisSybscription {
+                            if let subscriptionExpirationDate = $0.subscriptionExpirationDate {
+                                SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
+                            }
+                        }
+                    }
+                case .expired(_, _):
+                    // do nothing
+                    break
+                case .notPurchased:
+                    // do nothing
+                    break
+                }
+            }
+            self?.showAlert(title: "Success", message: "All your purchases have been restored")
+            sender.isEnabled = true
+        }) { error in
+            // do nothing
+            print("!!! ERROR: restore error \(error)")
+            sender.isEnabled = true
+        }
     }
     
     @IBAction func privatyButtonAction(_ sender: Any) {
@@ -48,7 +79,7 @@ class SettingsViewController: UIViewController {
     func openUrl(url: String) {
         guard let newUrl = URL(string: url) else { return }
         let svc = SFSafariViewController(url: newUrl)
-        present(svc, animated: true, completion: nil)
+        present(svc, animated: true)
     }
     
 }

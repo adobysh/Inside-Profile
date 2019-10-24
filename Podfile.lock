@@ -3,19 +3,12 @@ PODS:
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - Fabric (1.10.2)
-  - RxCocoa (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxSwift (4.5.0)
-  - SwiftSoup (2.2.1)
   - SwiftyStoreKit (0.15.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - Crashlytics
   - Fabric
-  - RxCocoa (~> 4.0)
-  - RxSwift (~> 4.0)
-  - SwiftSoup
   - SwiftyStoreKit
 
 SPEC REPOS:
@@ -23,20 +16,14 @@ SPEC REPOS:
     - Alamofire
     - Crashlytics
     - Fabric
-    - RxCocoa
-    - RxSwift
-    - SwiftSoup
     - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
-  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
-  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
-  SwiftSoup: a91d3c96ecb6f8f13005552ef60f9075aae4a7f3
   SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: 3f0e9224082b1c76ec5f5fada02f982549d9d438
+PODFILE CHECKSUM: 34a9883403231bbffad488d2f5f230908c3686cb
 
 COCOAPODS: 1.7.1
