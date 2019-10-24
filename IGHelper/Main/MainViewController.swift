@@ -132,7 +132,8 @@ extension MainViewController {
             loginLabel?.text = nil
         }
         
-        UIImage.load(mainScreenInfo?.profile_pic_url) { [weak self] image, url in
+        let bestQualityAvatarUrl = mainScreenInfo?.hd_profile_pic_url_info?.url ?? mainScreenInfo?.profile_pic_url
+        UIImage.load(bestQualityAvatarUrl) { [weak self] image, url in
             self?.avatarImageView?.image = image
         }
     }

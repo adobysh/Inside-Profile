@@ -9,13 +9,18 @@
 import Foundation
 
 struct ProfileInfoData: Codable {
-    
     let profile_pic_url: String?
     let follower_count: Int?
     let following_count: Int?
     let username: String?
     let full_name: String?
-    
+    let hd_profile_pic_url_info: HDProfilePicUrlInfo?
+}
+
+struct HDProfilePicUrlInfo: Codable {
+    let width: Int?
+    let height: Int?
+    let url: String?
 }
 
 //{

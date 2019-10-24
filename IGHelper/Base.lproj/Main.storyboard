@@ -806,7 +806,7 @@ top commenters</string>
         <!--Vip View Controller-->
         <scene sceneID="grL-pm-ikF">
             <objects>
-                <viewController storyboardIdentifier="VipViewController" id="zKi-3r-KKn" customClass="VipViewController" customModule="ReadOrDie" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VipViewController" id="zKi-3r-KKn" customClass="VipViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cxT-6h-vK9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
