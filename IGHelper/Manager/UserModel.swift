@@ -18,9 +18,15 @@ class UserModel {
         return suggestedUser?.filter { $0.is_verified == false } ?? []
     }
 
-    #warning("Пока считаем просто всех коментаторов")
+    // Показываем первых трёх коментаторов со всех постов. Логика как у топ лайкеров из api инстаграма
     public static func topCommenters(_ posts: [PostData]?) -> [ApiUser] {
-        let usersWithDublicates = posts?.compactMap { $0.preview_comments }.flatMap { $0 }.compactMap { $0.user } ?? []
+        let usersWithDublicates = posts?.compactMap { post in
+            return [
+                post.preview_comments?.first?.user,
+                post.preview_comments?[safe: 1]?.user,
+                post.preview_comments?[safe: 2]?.user
+            ]
+        }.flatMap { $0 }.compactMap { $0 } ?? []
         let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
         var users: [ApiUser] = []
         userIds.forEach { userId in

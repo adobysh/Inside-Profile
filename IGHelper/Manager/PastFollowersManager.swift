@@ -12,7 +12,7 @@ import Foundation
 //  "2019.10.17": { "123214124", "123124124124" },
 //  "2019.10.18": { "123214124", "123124124124" }
 //}
-
+//
 //{
 //  day(String): { userId(String), userId(String) },
 //  day(String): { userId(String), userId(String) }

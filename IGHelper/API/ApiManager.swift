@@ -30,7 +30,7 @@ class ApiManager {
                 self?.getPosts(onComplete: { [weak self] postDataArray in
                     self?.getFollowers(onComplete: { [weak self] followers in
                         self?.getFollowing(onComplete: { [weak self] following in
-                            self?.getSuggestedUser(onComplete: { suggestedUsers in
+                            self?.getGoodSuggestedUser(onComplete: { suggestedUsers in
                                 onComplete((profileInfoData, followRequests, postDataArray, followers, following, suggestedUsers))
                             }, onError: onError)
                         }, onError: onError)
@@ -279,7 +279,42 @@ class ApiManager {
         }
     }
     
-    public func getSuggestedUser(suggestedUsers: [GraphUser] = [], onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+    public func getGoodSuggestedUser(onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+        
+        getSuggestedUser(onComplete: { [weak self] suggestedUserArray in
+            let suggestedUserArray1 = suggestedUserArray.filter { $0.is_verified == false }
+            self?.getSuggestedUser(onComplete: { suggestedUserArray in
+                let suggestedUserArray2 = suggestedUserArray.filter { $0.is_verified == false }
+                
+                let totalFollowers1 = suggestedUserArray1.compactMap { $0.followers }.reduce(0, +)
+                let totalFollowers2 = suggestedUserArray2.compactMap { $0.followers }.reduce(0, +)
+                
+//                print("!!! GoodSuggestedUser1 count \(suggestedUserArray1.count), totalFollowers \(totalFollowers1)")
+//                print("!!! GoodSuggestedUser2 count \(suggestedUserArray2.count), totalFollowers \(totalFollowers2)")
+                
+                var sortedListWithDublicates: [GraphUser] = []
+                if totalFollowers1 < totalFollowers2 {
+                    sortedListWithDublicates.append(contentsOf: suggestedUserArray1)
+                    sortedListWithDublicates.append(contentsOf: suggestedUserArray2)
+                } else {
+                    sortedListWithDublicates.append(contentsOf: suggestedUserArray2)
+                    sortedListWithDublicates.append(contentsOf: suggestedUserArray1)
+                }
+                
+                let userIds = Array(Set(sortedListWithDublicates.compactMap { $0.id }))
+                
+                var users: [GraphUser] = []
+                userIds.forEach { userId in
+                    if let uniqueUser = sortedListWithDublicates.first(where: { $0.id == userId }) {
+                        users.append(uniqueUser)
+                    }
+                }
+                onComplete(users)
+            }, onError: onError)
+        }, onError: onError)
+    }
+    
+    private func getSuggestedUser(suggestedUsers: [GraphUser] = [], onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
         
         guard let headers = getHeaders() else { return }
