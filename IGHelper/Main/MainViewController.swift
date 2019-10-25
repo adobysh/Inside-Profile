@@ -18,8 +18,8 @@ class MainViewController: UIViewController {
     @IBOutlet var commentsCountLabel: UILabel?
     @IBOutlet var loginLabel: UILabel?
     @IBOutlet var buttons: [UIButton]?
-    private var blurEffectView: UIVisualEffectView?
-    private var spinner: UIActivityIndicatorView?
+    @IBOutlet var activityIndicatorViews: [UIActivityIndicatorView]?
+    @IBOutlet var scrollView: UIScrollView?
     
     private var mainScreenInfo: ProfileInfoData?
     private var followRequests: FollowRequests?
@@ -34,6 +34,8 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupRefreshControl()
         fetchInfo()
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -54,25 +56,10 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func setupLoadingBlur() {
-        let blurEffect = UIBlurEffect(style: .light)
-        blurEffectView = UIVisualEffectView(effect: blurEffect)
-        spinner = UIActivityIndicatorView(style: .white)
-        
-        guard let blurEffectView = blurEffectView, let spinner = spinner else { return }
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        navigationController?.view.addSubview(blurEffectView)
-        
-        navigationController?.view.addSubview(spinner)
-        spinner.center = view.center
-        spinner.startAnimating()
-    }
-    
-    func dismissLoadingBlur() {
-        blurEffectView?.removeFromSuperview()
-        spinner?.stopAnimating()
-        spinner?.removeFromSuperview()
+    @objc func handleRefreshControl() {
+        fetchInfo() { [weak self] in
+            self?.scrollView?.refreshControl?.endRefreshing()
+        }
     }
     
     @IBAction func settingsButtonAction(_ sender: Any) {
@@ -113,6 +100,18 @@ class MainViewController: UIViewController {
 }
 
 // MARK: - Setup
+extension MainViewController {
+    
+    func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .white
+        scrollView?.refreshControl = refreshControl
+        scrollView?.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+}
+
+// MARK: - Update UI
 extension MainViewController {
     
     func updateUI() {
@@ -162,7 +161,14 @@ extension MainViewController {
                     NSAttributedString.Key.foregroundColor: UIColor.black,
                     NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold),
                     NSAttributedString.Key.paragraphStyle: style])
+            let attributedTitleDisabled = NSAttributedString(
+            string: title,
+            attributes: [
+                NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                NSAttributedString.Key.paragraphStyle: style])
             button.setAttributedTitle(attributedTitle, for: .normal)
+            button.setAttributedTitle(attributedTitleDisabled, for: .disabled)
         }
         
         buttons?.forEach { button in
@@ -219,20 +225,34 @@ extension MainViewController {
         }
     }
     
-    func fetchInfo(onComplete: (()->())? = nil) {
-        setupLoadingBlur()
-        ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
-            self?.mainScreenInfo = info.profileInfo
-            self?.followRequests = info.followRequests
-            self?.posts = info.postDataArray
-            self?.followers = info.followers
-            self?.following = info.following
-            self?.suggestedUsers = info.suggestedUsers
+    func fetchInfo(onFetchProfileInfo: (()->())? = nil) {
+        buttons?.forEach { $0.isEnabled = false }
+        activityIndicatorViews?.forEach { $0.startAnimating() }
+        ApiManager.shared.getProfileInfo(onComplete: { [weak self] profileInfoData in
+            onFetchProfileInfo?()
+            self?.mainScreenInfo = profileInfoData
             self?.updateUI()
-            self?.dismissLoadingBlur()
+            
+            ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
+                self?.followRequests = info.followRequests
+                self?.posts = info.postDataArray
+                self?.followers = info.followers
+                self?.following = info.following
+                self?.suggestedUsers = info.suggestedUsers
+                
+                self?.updateUI()
+                self?.activityIndicatorViews?.forEach { $0.stopAnimating() }
+                self?.buttons?.forEach { $0.isEnabled = true }
+            }) { [weak self] error in
+                self?.showErrorAlert(error)
+                self?.activityIndicatorViews?.forEach { $0.stopAnimating() }
+                self?.buttons?.forEach { $0.isEnabled = true }
+            }
         }) { [weak self] error in
             self?.showErrorAlert(error)
-            self?.dismissLoadingBlur()
+            self?.activityIndicatorViews?.forEach { $0.stopAnimating() }
+            self?.buttons?.forEach { $0.isEnabled = true }
+            onFetchProfileInfo?()
         }
     }
     

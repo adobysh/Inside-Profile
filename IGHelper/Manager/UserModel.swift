@@ -63,7 +63,8 @@ class UserModel {
     }
     
     public static func lostFollowersIds(_ previousFollowersIds: [String], _ followers: [ApiUser]?) -> [String] {
-        let currentFollowersIds = followers?.compactMap { $0.id } ?? []
+        guard let followers = followers else { return [] }
+        let currentFollowersIds = followers.compactMap { $0.id }
         return previousFollowersIds.filter { !currentFollowersIds.contains($0) }
     }
     

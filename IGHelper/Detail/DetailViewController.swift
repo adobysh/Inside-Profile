@@ -23,6 +23,13 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView?
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
+        refreshControl.tintColor = .white
+        return refreshControl
+    }()
+    
     private var users: [User] = []
     public var contentType: ContentType?
     public var followRequests: FollowRequests?
@@ -35,6 +42,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView?.addSubview(self.refreshControl)
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
@@ -76,6 +85,12 @@ class DetailViewController: UIViewController {
             }
         }
         tableView?.reloadData()
+    }
+    
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            refreshControl.endRefreshing()
+        }
     }
     
     @IBAction func backButtonAction(_ sender: Any) {

@@ -24,15 +24,14 @@ class ApiManager {
     
     private init() {}
     
-    public func getUserInfo(onComplete: @escaping ((profileInfo: ProfileInfoData, followRequests: FollowRequests, postDataArray: [PostData], followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser])) -> (), onError: @escaping (Error) -> ()) {
-        getProfileInfo(onComplete: { [weak self] profileInfoData in
+    public func getUserInfo(onComplete: @escaping ((followRequests: FollowRequests, postDataArray: [PostData], followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser])) -> (), onError: @escaping (Error) -> ()) {
+        
+        getPosts(onComplete: { [weak self] postDataArray in
             self?.getFollowRequests(onComplete: { [weak self] followRequests in
-                self?.getPosts(onComplete: { [weak self] postDataArray in
-                    self?.getFollowers(onComplete: { [weak self] followers in
-                        self?.getFollowing(onComplete: { [weak self] following in
-                            self?.getGoodSuggestedUser(onComplete: { suggestedUsers in
-                                onComplete((profileInfoData, followRequests, postDataArray, followers, following, suggestedUsers))
-                            }, onError: onError)
+                self?.getFollowers(onComplete: { [weak self] followers in
+                    self?.getFollowing(onComplete: { [weak self] following in
+                        self?.getGoodSuggestedUser(onComplete: { suggestedUsers in
+                            onComplete((followRequests, postDataArray, followers, following, suggestedUsers))
                         }, onError: onError)
                     }, onError: onError)
                 }, onError: onError)
