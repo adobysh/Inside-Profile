@@ -77,7 +77,7 @@ class ApiManager {
         }
     }
     
-    public func getPosts(previuosPosts: [PostData] = [], state: String? = nil, onComplete: @escaping ([PostData]) -> (), onError: @escaping (Error) -> ()) {
+    public func getPosts(onComplete: @escaping ([PostData]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://i-info.n44.me/user/posts/me"
         
         let parameters: [String: String] = getParameters()
@@ -92,13 +92,8 @@ class ApiManager {
                     onError(ApiError.unknown)
                     return
                 }
-                var notNilPosts = posts.compactMap { $0 }
-                notNilPosts.append(contentsOf: previuosPosts)
-                if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
-                    self?.getPosts(previuosPosts: notNilPosts, state: container.state, onComplete: onComplete, onError: onError)
-                } else {
-                    onComplete(notNilPosts)
-                }
+                let notNilPosts = posts.compactMap { $0 }
+                onComplete(notNilPosts)
             } catch {
                 onError(error)
             }

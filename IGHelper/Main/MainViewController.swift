@@ -118,6 +118,56 @@ class MainViewController: UIViewController {
                 onUpdate?()
             })
         }
+        vc.onUpdate = { [weak self] onUpdate in
+            switch contentType {
+            case .lost_followers, .gained_followers:
+                ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
+                    self?.followers = followers
+                    vc.followers = followers
+                    onUpdate?()
+                }) { _ in
+                    onUpdate?()
+                }
+            case .you_dont_follow, .unfollowers:
+                ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
+                    ApiManager.shared.getFollowing(onComplete: { [weak self] following in
+                        self?.followers = followers
+                        self?.following = following
+                        vc.followers = followers
+                        vc.following = following
+                        onUpdate?()
+                    }) { _ in
+                        onUpdate?()
+                    }
+                }) { _ in
+                    onUpdate?()
+                }
+            case .new_guests:
+                ApiManager.shared.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
+                    self?.userDirectSearch = userDirectSearch
+                    vc.userDirectSearch = userDirectSearch
+                    onUpdate?()
+                }) { _ in
+                    onUpdate?()
+                }
+            case .recommendation:
+                ApiManager.shared.getGoodSuggestedUser(onComplete: { [weak self] goodSuggestedUser in
+                    self?.suggestedUsers = goodSuggestedUser
+                    vc.suggestedUsers = goodSuggestedUser
+                    onUpdate?()
+                }) { _ in
+                    onUpdate?()
+                }
+            case .top_likers, .top_commenters:
+                ApiManager.shared.getPosts(onComplete: { [weak self] posts in
+                    self?.posts = posts
+                    vc.posts = posts
+                    onUpdate?()
+                }) { _ in
+                    onUpdate?()
+                }
+            }
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

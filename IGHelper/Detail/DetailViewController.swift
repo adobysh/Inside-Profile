@@ -42,6 +42,7 @@ class DetailViewController: UIViewController {
     public var userDirectSearch: [ApiUser]?
     
     public var onFollow: (( _ onUpdate: (()->Void)? )->())?
+    public var onUpdate: (( _ onUpdate: (()->Void)? )->())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,30 +52,46 @@ class DetailViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
+        updateUsers()
+    }
+    
+    func updateUsers(onComplete: (()->())? = nil) {
+        func complete() {
+            tableView?.reloadData()
+            onComplete?()
+        }
+        
         guard let contentType = contentType else { return }
         switch contentType {
         case .new_guests:
             navigationItem.title = "New Guests"
             users = UserModel.newGuests(userDirectSearch)
+            complete()
         case .recommendation:
             navigationItem.title = "Recommendation"
             users = suggestedUsers ?? []
+            complete()
         case .top_likers:
             navigationItem.title = "Top Likers"
             users = UserModel.topLikers(mainScreenInfo?.username, posts)
+            complete()
         case .top_commenters:
             navigationItem.title = "Top Commenters"
             users = UserModel.topCommenters(mainScreenInfo?.username, posts)
+            complete()
         case .you_dont_follow: // followers
             navigationItem.title = "You Dont Follow"
             users = UserModel.youDontFollow(followers: followers, following: following)
+            complete()
         case .unfollowers: // following
             navigationItem.title = "Unfollowers"
             users = UserModel.unfollowers(followers: followers, following: following)
+            complete()
         case .gained_followers:
             navigationItem.title = "Gained Followers"
             let previousFollowersIds = PastFollowersManager.shared.getIds()
             users = UserModel.gainedFollowers(previousFollowersIds, followers)
+            complete()
         case .lost_followers:
             navigationItem.title = "Lost Followers"
             let previousFollowersIds = PastFollowersManager.shared.getIds()
@@ -82,17 +99,20 @@ class DetailViewController: UIViewController {
             
             ApiManager.shared.getUserInfoArray_graph(ids: lostFollowersIds, onComplete: { [weak self] users in
                 self?.users = users
-                self?.tableView?.reloadData()
+                complete()
             }) { [weak self] error in
                 self?.showErrorAlert(error)
+                complete()
             }
         }
-        tableView?.reloadData()
+        
     }
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            refreshControl.endRefreshing()
+        onUpdate?() { [weak self] in
+            self?.updateUsers() {
+                refreshControl.endRefreshing()
+            }
         }
     }
     
