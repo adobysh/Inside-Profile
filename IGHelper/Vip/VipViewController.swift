@@ -42,9 +42,9 @@ class VipViewController: UIViewController {
                 switch verifySubscriptionResult {
                 case .purchased(_, let receiptItemArray):
                     receiptItemArray.forEach {
-                        let haveThisSybscription: Bool = SubscriptionType.allCases.map { $0.rawValue }.contains($0.productId)
-                        if haveThisSybscription {
-                            if let subscriptionExpirationDate = $0.subscriptionExpirationDate {
+                        let haveThisSubscription: Bool = SubscriptionType.allCases.map { $0.rawValue }.contains($0.productId)
+                        if haveThisSubscription {
+                            if let subscriptionExpirationDate = $0.subscriptionExpirationDate, !$0.isExpired {
                                 SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
                             }
                         }
@@ -72,7 +72,7 @@ class VipViewController: UIViewController {
             switch verifySubscriptionResult {
             case .purchased(_, let receiptItemArray):
                 receiptItemArray.forEach {
-                    if $0.productId == self?.currentSubscription.rawValue {
+                    if $0.productId == self?.currentSubscription.rawValue && !$0.isExpired {
                         if let subscriptionExpirationDate = $0.subscriptionExpirationDate {
                             SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
                             self?.onPaymentSuccess?()

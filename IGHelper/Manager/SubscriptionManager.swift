@@ -36,31 +36,6 @@ class SubscriptionManager {
         return verifyReceiptURLType == .production
     }
     
-    static func verify(onSuccess: @escaping (Date?, [ReceiptItem]?)->(), onError: @escaping (Error)->()) {
-        let appleValidator = AppleReceiptValidator(service: verifyReceiptURLType, sharedSecret: sharedSecret)
-        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-            switch result {
-            case .success(let receipt):
-                let productId = SubscriptionType.month.rawValue
-                let purchaseResult = SwiftyStoreKit.verifySubscription(
-                    ofType: .autoRenewable,
-                    productId: productId,
-                    inReceipt: receipt)
-                
-                switch purchaseResult {
-                case .purchased(let expiryDate, let items):
-                    SubscriptionKeychain.registerSubscription(expirationDate: expiryDate)
-                    onSuccess(expiryDate, items)
-                case .expired(_, _), .notPurchased:
-                    SubscriptionKeychain.unsubscribe()
-                    onSuccess(nil, nil)
-                }
-            case .error(let error):
-                onError(error)
-            }
-        }
-    }
-    
     static func verify(onSuccess: ((Bool) -> Void)? = nil) {
         let appleValidator = AppleReceiptValidator(service: verifyReceiptURLType, sharedSecret: sharedSecret)
         SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
@@ -142,6 +117,19 @@ class SubscriptionManager {
             case .error(let error):
                 onError(error)
             }
+        }
+    }
+    
+}
+
+extension ReceiptItem {
+    
+    var isExpired: Bool {
+        let now = Date()
+        if subscriptionExpirationDate ?? now < now {
+            return true
+        } else {
+            return false
         }
     }
     
