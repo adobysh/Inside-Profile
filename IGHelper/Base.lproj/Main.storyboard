@@ -561,7 +561,7 @@ top commenters</string>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLa" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-6a-khh">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabe" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-6a-khh">
                                                     <rect key="frame" x="106" y="11" width="168" height="90"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -588,17 +588,26 @@ top commenters</string>
                                                         <action selector="followButtonAction:" destination="KFQ-Jd-GQQ" eventType="touchUpInside" id="hap-gW-yms"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHn-8g-bDD">
+                                                    <rect key="frame" x="106" y="80" width="168" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.73333333333333328" green="0.73333333333333328" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="AbW-tD-ajW" firstAttribute="leading" secondItem="hdx-6a-khh" secondAttribute="trailing" constant="5" id="7Fz-4J-nS3"/>
                                                 <constraint firstItem="hdx-6a-khh" firstAttribute="leading" secondItem="WtN-jZ-iXX" secondAttribute="trailing" constant="20" id="D2O-3D-UKH"/>
+                                                <constraint firstItem="tHn-8g-bDD" firstAttribute="bottom" secondItem="avT-i0-r1N" secondAttribute="bottomMargin" id="Pj2-jH-OUS"/>
                                                 <constraint firstItem="hdx-6a-khh" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" id="UoN-O4-BUZ"/>
+                                                <constraint firstItem="tHn-8g-bDD" firstAttribute="leading" secondItem="hdx-6a-khh" secondAttribute="leading" id="Wif-6m-x1y"/>
                                                 <constraint firstItem="AbW-tD-ajW" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" id="XY3-zI-OdA"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="AbW-tD-ajW" secondAttribute="trailing" id="aMt-Vn-F0f"/>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="leading" secondItem="avT-i0-r1N" secondAttribute="leadingMargin" constant="11" id="ajT-1V-wqy"/>
                                                 <constraint firstItem="AbW-tD-ajW" firstAttribute="width" secondItem="AbW-tD-ajW" secondAttribute="height" multiplier="81:27" id="ipq-0G-2RC"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="WtN-jZ-iXX" secondAttribute="bottom" id="mXz-W0-0mz"/>
+                                                <constraint firstItem="tHn-8g-bDD" firstAttribute="trailing" secondItem="hdx-6a-khh" secondAttribute="trailing" id="oYd-4p-Me0"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="hdx-6a-khh" secondAttribute="bottom" id="qil-vk-e8L"/>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="top" secondItem="avT-i0-r1N" secondAttribute="topMargin" id="uJs-Wn-GIk"/>
                                                 <constraint firstItem="hdx-6a-khh" firstAttribute="top" secondItem="avT-i0-r1N" secondAttribute="topMargin" id="vDA-If-vqh"/>
@@ -607,6 +616,7 @@ top commenters</string>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="avatarImageView" destination="WtN-jZ-iXX" id="xoh-JN-Ofk"/>
+                                            <outlet property="descriptionLabel" destination="tHn-8g-bDD" id="oEx-xa-0dQ"/>
                                             <outlet property="followButton" destination="AbW-tD-ajW" id="4oc-t1-7Wq"/>
                                             <outlet property="nameLabel" destination="hdx-6a-khh" id="qsF-YN-V3S"/>
                                         </connections>

@@ -33,6 +33,7 @@ struct ApiUser: User, Comparable, Hashable {
     var profile_pic_url: String?
     var is_verified: Bool?
     var followers: Int?
+    var descriptionText: String?
     
     var id: String? {
         get {

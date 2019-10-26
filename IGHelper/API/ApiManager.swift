@@ -315,36 +315,9 @@ class ApiManager {
     
     public func getGoodSuggestedUser(onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
         
-        getSuggestedUser(onComplete: { [weak self] suggestedUserArray in
-            let suggestedUserArray1 = suggestedUserArray.filter { $0.is_verified == false }
-            self?.getSuggestedUser(onComplete: { suggestedUserArray in
-                let suggestedUserArray2 = suggestedUserArray.filter { $0.is_verified == false }
-                
-                let totalFollowers1 = suggestedUserArray1.compactMap { $0.followers }.reduce(0, +)
-                let totalFollowers2 = suggestedUserArray2.compactMap { $0.followers }.reduce(0, +)
-                
-//                print("!!! GoodSuggestedUser1 count \(suggestedUserArray1.count), totalFollowers \(totalFollowers1)")
-//                print("!!! GoodSuggestedUser2 count \(suggestedUserArray2.count), totalFollowers \(totalFollowers2)")
-                
-                var sortedListWithDublicates: [GraphUser] = []
-                if totalFollowers1 < totalFollowers2 {
-                    sortedListWithDublicates.append(contentsOf: suggestedUserArray1)
-                    sortedListWithDublicates.append(contentsOf: suggestedUserArray2)
-                } else {
-                    sortedListWithDublicates.append(contentsOf: suggestedUserArray2)
-                    sortedListWithDublicates.append(contentsOf: suggestedUserArray1)
-                }
-                
-                let userIds = Array(Set(sortedListWithDublicates.compactMap { $0.id }))
-                
-                var users: [GraphUser] = []
-                userIds.forEach { userId in
-                    if let uniqueUser = sortedListWithDublicates.first(where: { $0.id == userId }) {
-                        users.append(uniqueUser)
-                    }
-                }
-                onComplete(users)
-            }, onError: onError)
+        getSuggestedUser(onComplete: { suggestedUsers in
+            let goodSuggestedUsers = suggestedUsers.filter { $0.is_verified == false && $0.isGood() && $0.id != "7265304034" }
+            onComplete(goodSuggestedUsers)
         }, onError: onError)
     }
     
@@ -372,7 +345,11 @@ class ApiManager {
                     onError(ApiError.unknown)
                     return
                 }
-                var users: [GraphUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { $0.node?.user } ?? []
+                var users: [GraphUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { edge in
+                    var user = edge.node?.user
+                    user?.descriptionText = edge.node?.description
+                    return user
+                } ?? []
                 users.append(contentsOf: suggestedUsers)
                 if container.data?.user?.edge_suggested_users?.page_info?.has_next_page == true {
                     self?.getSuggestedUser(suggestedUsers: users, onComplete: onComplete, onError: onError)

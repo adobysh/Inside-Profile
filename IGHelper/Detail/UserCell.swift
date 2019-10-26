@@ -12,6 +12,7 @@ class UserCell: UITableViewCell {
     
     @IBOutlet var avatarImageView: UIImageView?
     @IBOutlet var nameLabel: UILabel?
+    @IBOutlet var descriptionLabel: UILabel?
     @IBOutlet var followButton: UIButton?
     public var onFollow: (( ((FollowStatus)->Void)? )->())?
     
@@ -23,6 +24,7 @@ class UserCell: UITableViewCell {
         
         followButton?.setTitle("wait...", for: .disabled)
         nameLabel?.text = user.username
+        descriptionLabel?.text = user.descriptionText
         updateFollowButton()
         avatarImageView?.image = nil
         UIImage.load(user.profile_pic_url) { [weak self] image, url in

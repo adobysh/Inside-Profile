@@ -21,8 +21,22 @@ protocol User: Codable {
     var profile_pic_url: String? { get }
     var is_verified: Bool? { get }
     var followers: Int? { get }
+    var descriptionText: String? { get }
     
     var followStatus: FollowStatus? { get set }
+    
+    func isGood() -> Bool
+}
+
+extension User {
+    func isGood() -> Bool {
+        guard let descriptionText = descriptionText else { return true }
+        if descriptionText.lowercased() == "suggested for you" {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 struct BaseUser: User {
@@ -32,6 +46,7 @@ struct BaseUser: User {
     var profile_pic_url: String?
     var is_verified: Bool?
     var followers: Int?
+    var descriptionText: String?
     
     var followStatus: FollowStatus?
     
@@ -84,6 +99,7 @@ struct GraphUser: User, Codable, Comparable {
     let profile_pic_url: String?
     let requested_by_viewer: Bool?
     let username: String?
+    var descriptionText: String?
     
     var followers: Int? {
         get {
