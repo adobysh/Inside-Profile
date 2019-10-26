@@ -124,8 +124,8 @@ extension MainViewController {
     }
     
     func updateMainInfo() {
-        followersCountLabel?.text = "\(mainScreenInfo?.follower_count ?? 0)"
-        followingCountLabel?.text = "\(mainScreenInfo?.following_count ?? 0)"
+        followersCountLabel?.text = "\(mainScreenInfo?.follower_count?.bigBeauty ?? "0")"
+        followingCountLabel?.text = "\(mainScreenInfo?.following_count?.bigBeauty ?? "0")"
         navigationItem.title = mainScreenInfo?.full_name
         if let username = mainScreenInfo?.username {
             loginLabel?.text = "@" + username
@@ -142,29 +142,31 @@ extension MainViewController {
     func updateLikeCount() {
         guard let posts = posts else { return }
         let likesCount = posts.compactMap { $0.like_count }.reduce(0, +)
-        likesCountLabel?.text = "\(likesCount)"
+        likesCountLabel?.text = likesCount.bigBeauty
     }
     
     func updateCommentCount() {
         guard let posts = posts else { return }
         let commentsCount = posts.compactMap { $0.comment_count }.reduce(0, +)
-        commentsCountLabel?.text = "\(commentsCount)"
+        commentsCountLabel?.text = commentsCount.bigBeauty
     }
     
     func updateButtons() {
-        func setupButton(_ button: UIButton, _ title: String) {
+        func setupButton(_ button: UIButton, _ value: Int, _ title: String) {
             button.setTitle(nil, for: .normal)
 
+            let valueWithTitle = "\(value.bigBeauty)" + "\n" + title
+            
             let style = NSMutableParagraphStyle()
             style.alignment = .center
             let attributedTitle = NSAttributedString(
-                string: title,
+                string: valueWithTitle,
                 attributes: [
                     NSAttributedString.Key.foregroundColor: UIColor.black,
                     NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0.scalable, weight: .bold),
                     NSAttributedString.Key.paragraphStyle: style])
             let attributedTitleDisabled = NSAttributedString(
-            string: title,
+            string: valueWithTitle,
             attributes: [
                 NSAttributedString.Key.foregroundColor: UIColor.lightGray,
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0.scalable, weight: .bold),
@@ -179,28 +181,28 @@ extension MainViewController {
             case .lost_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
                 let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
-                setupButton(button, "\(lostFollowersIds.count)" + "\n" + "lost followers")
+                setupButton(button, lostFollowersIds.count, "lost followers")
             case .gained_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
                 let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers)
-                setupButton(button, "\(gainedFollowers.count)" + "\n" + "gained followers")
+                setupButton(button, gainedFollowers.count, "gained followers")
             case .you_dont_follow:
                 let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
-                setupButton(button, "\(youDontFollow.count)" + "\n" + "you dont follow")
+                setupButton(button, youDontFollow.count, "you dont follow")
             case .unfollowers:
                 let unfollowers = UserModel.unfollowers(followers: followers, following: following)
-                setupButton(button, "\(unfollowers.count)" + "\n" + "unfollowers")
+                setupButton(button, unfollowers.count, "unfollowers")
             case .new_guests:
                 let newGuests = UserModel.newGuests(suggestedUsers)
-                setupButton(button, "\(newGuests.count)" + "\n" + "new guests")
+                setupButton(button, newGuests.count, "new guests")
             case .recommendation:
-                setupButton(button, "\(suggestedUsers?.count ?? 0)" + "\n" + "recommendation")
+                setupButton(button, suggestedUsers?.count ?? 0, "recommendation")
             case .top_likers:
                 let topLikers = UserModel.topLikers(mainScreenInfo?.username, posts)
-                setupButton(button, "\(topLikers.count)" + "\n" + "top likers")
+                setupButton(button, topLikers.count, "top likers")
             case .top_commenters:
                 let topСommenters = UserModel.topCommenters(mainScreenInfo?.username, posts)
-                setupButton(button, "\(topСommenters.count)" + "\n" + "top commenters")
+                setupButton(button, topСommenters.count, "top commenters")
             }
         }
     }
@@ -230,14 +232,14 @@ extension MainViewController {
     func fetchInfo(onFetchProfileInfo: (()->())? = nil) {
         buttons?.forEach { $0.isEnabled = false }
         activityIndicatorViews?.forEach { $0.startAnimating() }
-        ApiManager.shared.getProfileInfo(onComplete: { [weak self] profileInfoData in
+        ApiManager.shared.getProfileInfoAndPosts(onComplete: { [weak self] result in
             onFetchProfileInfo?()
-            self?.mainScreenInfo = profileInfoData
+            self?.mainScreenInfo = result.profileInfo
+            self?.posts = result.postDataArray
             self?.updateUI()
             
             ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
                 self?.followRequests = info.followRequests
-                self?.posts = info.postDataArray
                 self?.followers = info.followers
                 self?.following = info.following
                 self?.suggestedUsers = info.suggestedUsers

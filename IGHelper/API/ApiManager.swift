@@ -24,17 +24,24 @@ class ApiManager {
     
     private init() {}
     
-    public func getUserInfo(onComplete: @escaping ((followRequests: FollowRequests, postDataArray: [PostData], followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser])) -> (), onError: @escaping (Error) -> ()) {
+    public func getUserInfo(onComplete: @escaping ((followRequests: FollowRequests, followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser])) -> (), onError: @escaping (Error) -> ()) {
         
-        getPosts(onComplete: { [weak self] postDataArray in
-            self?.getFollowRequests(onComplete: { [weak self] followRequests in
-                self?.getFollowers(onComplete: { [weak self] followers in
-                    self?.getFollowing(onComplete: { [weak self] following in
-                        self?.getGoodSuggestedUser(onComplete: { suggestedUsers in
-                            onComplete((followRequests, postDataArray, followers, following, suggestedUsers))
-                        }, onError: onError)
+        getFollowRequests(onComplete: { [weak self] followRequests in
+            self?.getFollowers(onComplete: { [weak self] followers in
+                self?.getFollowing(onComplete: { [weak self] following in
+                    self?.getGoodSuggestedUser(onComplete: { suggestedUsers in
+                        onComplete((followRequests, followers, following, suggestedUsers))
                     }, onError: onError)
                 }, onError: onError)
+            }, onError: onError)
+        }, onError: onError)
+    }
+    
+    public func getProfileInfoAndPosts(onComplete: @escaping ((profileInfo: ProfileInfoData, postDataArray: [PostData])) -> (), onError: @escaping (Error) -> ()) {
+        
+        getProfileInfo(onComplete: { [weak self] profileInfo in
+            self?.getPosts(onComplete: { postDataArray in
+                onComplete((profileInfo, postDataArray))
             }, onError: onError)
         }, onError: onError)
     }
