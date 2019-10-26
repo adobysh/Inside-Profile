@@ -195,7 +195,7 @@ extension MainViewController {
             case .recommendation:
                 setupButton(button, "\(suggestedUsers?.count ?? 0)" + "\n" + "recommendation")
             case .top_likers:
-                let topLikers = UserModel.topLikers(posts)
+                let topLikers = UserModel.topLikers(mainScreenInfo?.username, posts)
                 setupButton(button, "\(topLikers.count)" + "\n" + "top likers")
             case .top_commenters:
                 let topСommenters = UserModel.topCommenters(mainScreenInfo?.username, posts)

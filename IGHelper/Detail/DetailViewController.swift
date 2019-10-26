@@ -59,7 +59,7 @@ class DetailViewController: UIViewController {
             users = suggestedUsers ?? []
         case .top_likers:
             navigationItem.title = "Top Likers"
-            users = UserModel.topLikers(posts)
+            users = UserModel.topLikers(mainScreenInfo?.username, posts)
         case .top_commenters:
             navigationItem.title = "Top Commenters"
             users = UserModel.topCommenters(mainScreenInfo?.username, posts)
