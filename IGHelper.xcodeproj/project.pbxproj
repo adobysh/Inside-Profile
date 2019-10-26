@@ -21,6 +21,7 @@
 		0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EB522D470E90015135F /* ScalableConstraint.swift */; };
 		0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C274CAF234A7F4700BC8C11 /* ProfileInfoData.swift */; };
 		0C32D3FA22E59AB30092B6AD /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */; };
+		0C3DEEE223642228008D8F36 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE123642228008D8F36 /* Settings.bundle */; };
 		0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */; };
 		0C5A9CF022E8E93700A6ED2E /* UIViewController+AppViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */; };
 		0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */; };
@@ -61,6 +62,7 @@
 		0C1D2EB522D470E90015135F /* ScalableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableConstraint.swift; sourceTree = "<group>"; };
 		0C274CAF234A7F4700BC8C11 /* ProfileInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoData.swift; sourceTree = "<group>"; };
 		0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
+		0C3DEEE123642228008D8F36 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStorybardExtension.swift; sourceTree = "<group>"; };
 		0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AppViewControllers.swift"; sourceTree = "<group>"; };
 		0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				0C1D2E9C22D3C17F0015135F /* Main.storyboard */,
 				0C1D2E9F22D3C1800015135F /* Assets.xcassets */,
 				0C1D2EA122D3C1800015135F /* LaunchScreen.storyboard */,
+				0C3DEEE123642228008D8F36 /* Settings.bundle */,
 				0C1D2EA422D3C1800015135F /* Info.plist */,
 			);
 			path = IGHelper;
@@ -268,6 +271,7 @@
 				0C1D2E9322D3C17F0015135F /* Resources */,
 				9A0068F419951784862AC2AC /* [CP] Embed Pods Frameworks */,
 				0CF10A0B235E369700746334 /* ShellScript */,
+				0C3DEEE32364225F008D8F36 /* Settings */,
 			);
 			buildRules = (
 			);
@@ -316,6 +320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C3DEEE223642228008D8F36 /* Settings.bundle in Resources */,
 				0C1D2EA322D3C1800015135F /* LaunchScreen.storyboard in Resources */,
 				0C1D2EA022D3C1800015135F /* Assets.xcassets in Resources */,
 				0C1D2E9E22D3C17F0015135F /* Main.storyboard in Resources */,
@@ -325,6 +330,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0C3DEEE32364225F008D8F36 /* Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Settings;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" == \"Debug\" ]; then\ncp -r \"${PROJECT_DIR}/${PRODUCT_NAME}/Settings.bundle\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nfi\n";
+		};
 		0CF10A0B235E369700746334 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

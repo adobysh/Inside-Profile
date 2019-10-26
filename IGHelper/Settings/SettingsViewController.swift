@@ -11,17 +11,32 @@ import SafariServices
 
 class SettingsViewController: UIViewController {
     
+    @IBOutlet var getPremiumButton: UIButton?
+    @IBOutlet var restoreButton: UIButton?
+    
     public var onLogOut: (()->())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        if SubscriptionKeychain.isSubscribed() {
+            getPremiumButton?.removeFromSuperview()
+            restoreButton?.removeFromSuperview()
+        }
     }
     
     @IBAction func getPremiumButtonAction(_ sender: Any) {
         let vc = UIViewController.vip
         vc.onClose = {
+            vc.dismiss(animated: true)
+        }
+        vc.onPaymentSuccess = { [weak self] in
+            if SubscriptionKeychain.isSubscribed() {
+                self?.getPremiumButton?.removeFromSuperview()
+                self?.restoreButton?.removeFromSuperview()
+            }
             vc.dismiss(animated: true)
         }
         present(vc, animated: true)

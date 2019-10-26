@@ -786,17 +786,18 @@ top commenters</string>
                             <constraint firstItem="osE-4O-Pc5" firstAttribute="leading" secondItem="5Wv-yU-nUw" secondAttribute="leading" id="A5b-fv-27t"/>
                             <constraint firstItem="p5P-5t-q96" firstAttribute="leading" secondItem="lyu-OP-vZ5" secondAttribute="leading" id="AVz-ko-Fjj"/>
                             <constraint firstItem="JJ0-A2-Vja" firstAttribute="top" secondItem="lyu-OP-vZ5" secondAttribute="top" id="EcE-fk-Tgg"/>
-                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="leading" secondItem="Yxa-8t-yHG" secondAttribute="leading" id="GFO-am-PhI"/>
                             <constraint firstItem="7xd-Ei-WMo" firstAttribute="top" secondItem="3Uk-5P-3NF" secondAttribute="bottom" constant="26" id="GTm-ji-djG"/>
                             <constraint firstItem="p5P-5t-q96" firstAttribute="top" secondItem="lyu-OP-vZ5" secondAttribute="top" id="I4X-il-rUU"/>
                             <constraint firstItem="5Wv-yU-nUw" firstAttribute="centerX" secondItem="lyu-OP-vZ5" secondAttribute="centerX" id="JIZ-IB-9LW"/>
                             <constraint firstItem="7xd-Ei-WMo" firstAttribute="width" secondItem="3Uk-5P-3NF" secondAttribute="width" id="Nft-CH-dbr"/>
-                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="width" secondItem="Yxa-8t-yHG" secondAttribute="width" id="QGn-WM-Pa6"/>
                             <constraint firstItem="7xd-Ei-WMo" firstAttribute="leading" secondItem="3Uk-5P-3NF" secondAttribute="leading" id="SYb-bI-Vm7"/>
                             <constraint firstItem="Yxa-8t-yHG" firstAttribute="leading" secondItem="osE-4O-Pc5" secondAttribute="leading" id="X67-CR-WbM"/>
                             <constraint firstItem="Yxa-8t-yHG" firstAttribute="width" secondItem="Yxa-8t-yHG" secondAttribute="height" multiplier="280:40" id="Z9I-ct-JJ3"/>
+                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="top" secondItem="L7Q-pY-W03" secondAttribute="top" priority="250" constant="60" id="a4J-jz-abL"/>
                             <constraint firstItem="5Wv-yU-nUw" firstAttribute="width" secondItem="L7Q-pY-W03" secondAttribute="width" multiplier="280:380" id="aMM-79-akh"/>
                             <constraint firstItem="JJ0-A2-Vja" firstAttribute="trailing" secondItem="lyu-OP-vZ5" secondAttribute="trailing" id="doO-WC-LYV"/>
+                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="leading" secondItem="5Wv-yU-nUw" secondAttribute="leading" id="fBI-B9-AKc"/>
+                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="width" secondItem="5Wv-yU-nUw" secondAttribute="width" id="igl-gd-Yap"/>
                             <constraint firstItem="Yxa-8t-yHG" firstAttribute="top" secondItem="osE-4O-Pc5" secondAttribute="bottom" constant="26" id="k7w-T5-nal"/>
                             <constraint firstItem="JJ0-A2-Vja" firstAttribute="leading" secondItem="lyu-OP-vZ5" secondAttribute="leading" id="seU-Yj-7tY"/>
                             <constraint firstItem="osE-4O-Pc5" firstAttribute="top" secondItem="L7Q-pY-W03" secondAttribute="top" constant="60" id="upV-5f-MIL"/>
@@ -815,6 +816,10 @@ top commenters</string>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <connections>
+                        <outlet property="getPremiumButton" destination="osE-4O-Pc5" id="37W-Pl-9WT"/>
+                        <outlet property="restoreButton" destination="Yxa-8t-yHG" id="cz0-qu-x51"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ka0-X3-Nmm" sceneMemberID="firstResponder"/>
             </objects>
