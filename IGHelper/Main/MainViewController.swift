@@ -82,6 +82,7 @@ class MainViewController: UIViewController {
         guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
         let vc = UIViewController.detail
         vc.contentType = contentType
+        vc.mainScreenInfo = mainScreenInfo
         vc.followRequests = followRequests
         vc.posts = posts
         vc.following = following
@@ -197,7 +198,7 @@ extension MainViewController {
                 let topLikers = UserModel.topLikers(posts)
                 setupButton(button, "\(topLikers.count)" + "\n" + "top likers")
             case .top_commenters:
-                let topСommenters = UserModel.topCommenters(posts)
+                let topСommenters = UserModel.topCommenters(mainScreenInfo?.username, posts)
                 setupButton(button, "\(topСommenters.count)" + "\n" + "top commenters")
             }
         }

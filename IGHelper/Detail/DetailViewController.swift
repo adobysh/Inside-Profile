@@ -31,6 +31,7 @@ class DetailViewController: UIViewController {
     }()
     
     private var users: [User] = []
+    public var mainScreenInfo: ProfileInfoData?
     public var contentType: ContentType?
     public var followRequests: FollowRequests?
     public var posts: [PostData]?
@@ -61,7 +62,7 @@ class DetailViewController: UIViewController {
             users = UserModel.topLikers(posts)
         case .top_commenters:
             navigationItem.title = "Top Commenters"
-            users = UserModel.topCommenters(posts)
+            users = UserModel.topCommenters(mainScreenInfo?.username, posts)
         case .you_dont_follow: // followers
             navigationItem.title = "You Dont Follow"
             users = UserModel.youDontFollow(followers: followers, following: following)
