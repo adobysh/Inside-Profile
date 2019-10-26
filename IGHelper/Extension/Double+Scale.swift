@@ -11,7 +11,7 @@ import UIKit
 extension Double {
     
     var scalable: CGFloat {
-        let scaleFactor = UIScreen.main.bounds.width / 375
+        let scaleFactor = min(UIScreen.main.bounds.width / 375, 1)
         return CGFloat(self) * scaleFactor
     }
     

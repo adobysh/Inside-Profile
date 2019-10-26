@@ -22,6 +22,8 @@ class AuthorizationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.scale()
+        
         customNavigationBar?.setBackgroundImage(UIImage(), for: .default)
         customNavigationBar?.shadowImage = UIImage()
         

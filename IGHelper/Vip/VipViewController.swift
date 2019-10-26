@@ -26,6 +26,8 @@ class VipViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.scale()
+        
         subscribeButton?.setTitle("PLEASE WAIT...", for: .disabled)
     }
     

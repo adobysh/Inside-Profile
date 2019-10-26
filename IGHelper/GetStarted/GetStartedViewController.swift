@@ -19,6 +19,11 @@ class GetStartedViewController: UIViewController {
         return .lightContent
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.scale()
+    }
+    
     @IBAction func buttonAction(_ sender: Any) {
         let vc = UIViewController.authorization
         vc.onSuccess = { [weak self] in

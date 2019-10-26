@@ -34,6 +34,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.scale()
         
         setupRefreshControl()
         fetchInfo()
@@ -160,13 +161,13 @@ extension MainViewController {
                 string: title,
                 attributes: [
                     NSAttributedString.Key.foregroundColor: UIColor.black,
-                    NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                    NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0.scalable, weight: .bold),
                     NSAttributedString.Key.paragraphStyle: style])
             let attributedTitleDisabled = NSAttributedString(
             string: title,
             attributes: [
                 NSAttributedString.Key.foregroundColor: UIColor.lightGray,
-                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0.scalable, weight: .bold),
                 NSAttributedString.Key.paragraphStyle: style])
             button.setAttributedTitle(attributedTitle, for: .normal)
             button.setAttributedTitle(attributedTitleDisabled, for: .disabled)

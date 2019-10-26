@@ -41,6 +41,12 @@ extension UIView {
             if let button = subview as? UIButton {
                 button.scaleFont()
             }
+//            if let stackView = subview as? UIStackView {
+//                stackView.scaleSpacing()
+//            }
+//            if let textView = subview as? UITextView {
+//                textView.scaleFont()
+//            }
             for constraint in subview.constraints {
                 if let constraint = constraint as? ScalableConstraint {
                     constraint.scale()
