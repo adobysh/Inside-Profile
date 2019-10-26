@@ -15,19 +15,19 @@ extension Int {
     var bigBeauty: String {
         if self >= 1_000_000_000_000_000 {
             let newNumber = Double(self) / 1_000_000_000_000_000.0
-            return "\(String(format: "%.1f", newNumber)) P"
+            return "\(String(format: "%.1f", newNumber))P"
         } else if self >= 1_000_000_000_000 {
             let newNumber = Double(self) / 1_000_000_000_000.0
-            return "\(String(format: "%.1f", newNumber)) T"
+            return "\(String(format: "%.1f", newNumber))T"
         } else if self >= 1_000_000_000 {
             let newNumber = Double(self) / 1_000_000_000.0
-            return "\(String(format: "%.1f", newNumber)) G"
+            return "\(String(format: "%.1f", newNumber))G"
         } else if self >= 1_000_000 {
             let newNumber = Double(self) / 1_000_000.0
-            return "\(String(format: "%.1f", newNumber)) M"
+            return "\(String(format: "%.1f", newNumber))M"
         } else if self >= 10_000 {
             let newNumber = Double(self) / 1_000.0
-            return "\(String(format: "%.1f", newNumber)) k"
+            return "\(String(format: "%.1f", newNumber))K"
         } else {
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = .decimal

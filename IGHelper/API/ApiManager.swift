@@ -201,7 +201,7 @@ class ApiManager {
 
         guard let headers = getHeaders() else { onError(ApiError.unknown); return }
         
-        Alamofire.request(url, method: .get, headers: headers).responseString { [weak self] response in
+        Alamofire.request(url, method: .get, headers: headers).responseString { response in
             guard let result = response.value else { onError(ApiError.unknown); return }
             onComplete(FollowRequests(value: result))
 //            do {
