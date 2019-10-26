@@ -39,6 +39,7 @@ class DetailViewController: UIViewController {
     public var followers: [ApiUser]?
     public var following: [ApiUser]?
     public var suggestedUsers: [GraphUser]?
+    public var userDirectSearch: [ApiUser]?
     
     public var onFollow: (( _ onUpdate: (()->Void)? )->())?
     
@@ -54,7 +55,7 @@ class DetailViewController: UIViewController {
         switch contentType {
         case .new_guests:
             navigationItem.title = "New Guests"
-            users = UserModel.newGuests(suggestedUsers)
+            users = UserModel.newGuests(userDirectSearch)
         case .recommendation:
             navigationItem.title = "Recommendation"
             users = suggestedUsers ?? []

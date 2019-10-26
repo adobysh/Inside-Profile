@@ -24,13 +24,15 @@ class ApiManager {
     
     private init() {}
     
-    public func getUserInfo(onComplete: @escaping ((followRequests: FollowRequests, followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser])) -> (), onError: @escaping (Error) -> ()) {
+    public func getUserInfo(onComplete: @escaping ((followRequests: FollowRequests, followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser], userDirectSearch: [ApiUser])) -> (), onError: @escaping (Error) -> ()) {
         
         getFollowRequests(onComplete: { [weak self] followRequests in
             self?.getFollowers(onComplete: { [weak self] followers in
                 self?.getFollowing(onComplete: { [weak self] following in
-                    self?.getGoodSuggestedUser(onComplete: { suggestedUsers in
-                        onComplete((followRequests, followers, following, suggestedUsers))
+                    self?.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
+                        self?.getUserDirectSearch(onComplete: { userDirectSearch in
+                            onComplete((followRequests, followers, following, suggestedUsers, userDirectSearch))
+                        }, onError: onError)
                     }, onError: onError)
                 }, onError: onError)
             }, onError: onError)
@@ -193,6 +195,32 @@ class ApiManager {
             } else {
                 onError(ApiError.unknown)
             }
+        }
+    }
+    
+    public func getUserDirectSearch(onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://www.instagram.com/direct_v2/web/ranked_recipients/?mode=raven&query=&show_threads=false"
+
+        guard var headers = getHeaders() else { onError(ApiError.unknown); return }
+        headers["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
+        
+        Alamofire.request(url, method: .get, headers: headers).responseJSON { response in
+//                guard let result = response.value else { onError(ApiError.unknown); return }
+            let json = response.value as? [String: Any]
+            let ranked_recipients = json?["ranked_recipients"] as? [[String: Any]?]
+            let threadArray = ranked_recipients?.compactMap { $0?["thread"] as? [String: Any] }
+            let users = threadArray?.compactMap { $0["users"] as? [[String: Any]?] }.flatMap { $0 }.compactMap { $0 }
+            let apiUsers = users?.map { user in
+                return ApiUser(
+                    pk: user["pk"] as? Int,
+                    full_name: user["full_name"] as? String,
+                    username:  user["username"] as? String,
+                    profile_pic_url: user["profile_pic_url"] as? String,
+                    is_verified: user["is_verified"] as? Bool,
+                    followers: nil,
+                    followStatus: nil)
+            } ?? []
+            onComplete(apiUsers)
         }
     }
     

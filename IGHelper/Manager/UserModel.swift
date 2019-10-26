@@ -13,9 +13,9 @@ class UserModel {
     // пока показываем рекомендуемых пользователей кроме:
     // 1. подтверждённых аккаунтов
     // 2. пользователи с более чем 1к подписчиков
-    #warning("нужна серьёзная доработка")
-    public static func newGuests(_ suggestedUser: [GraphUser]?) -> [GraphUser] {
-        return suggestedUser?.filter { $0.is_verified == false } ?? []
+    #warning("добавить юзеров из пункта 11 спецификации")
+    public static func newGuests(_ userDirectSearch: [ApiUser]?) -> [ApiUser] {
+        return userDirectSearch?.filter { $0.is_verified == false } ?? []
     }
 
     #warning("незначительная проблема")

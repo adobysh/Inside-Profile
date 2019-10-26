@@ -27,6 +27,7 @@ class MainViewController: UIViewController {
     private var followers: [ApiUser]?
     private var following: [ApiUser]?
     private var suggestedUsers: [GraphUser]?
+    private var userDirectSearch: [ApiUser]?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -109,6 +110,7 @@ class MainViewController: UIViewController {
         vc.following = following
         vc.followers = followers
         vc.suggestedUsers = suggestedUsers
+        vc.userDirectSearch = userDirectSearch
         vc.onFollow = { [weak self] onUpdate in
             self?.fetchFollowRequests_and_following(onComplete: { [weak self] in
                 vc.following = self?.following
@@ -213,7 +215,7 @@ extension MainViewController {
                 let unfollowers = UserModel.unfollowers(followers: followers, following: following)
                 setupButton(button, unfollowers.count, "unfollowers")
             case .new_guests:
-                let newGuests = UserModel.newGuests(suggestedUsers)
+                let newGuests = UserModel.newGuests(userDirectSearch)
                 setupButton(button, newGuests.count, "new guests")
             case .recommendation:
                 setupButton(button, suggestedUsers?.count ?? 0, "recommendation")
@@ -263,6 +265,7 @@ extension MainViewController {
                 self?.followers = info.followers
                 self?.following = info.following
                 self?.suggestedUsers = info.suggestedUsers
+                self?.userDirectSearch = info.userDirectSearch
                 
                 self?.updateUI()
                 self?.activityIndicatorViews?.forEach { $0.stopAnimating() }
