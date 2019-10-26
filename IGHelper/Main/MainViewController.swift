@@ -81,6 +81,21 @@ class MainViewController: UIViewController {
     
     @IBAction func detailButtonAction(_ sender: UIButton) {
         guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
+        
+        if contentType == .new_guests && !SubscriptionKeychain.isSubscribed() {
+            let vc = UIViewController.vip
+            vc.onClose = {
+                vc.dismiss(animated: true)
+            }
+            vc.onPaymentSuccess = { [weak self] in
+                if SubscriptionKeychain.isSubscribed() {
+                    self?.detailButtonAction(sender)
+                }
+            }
+            present(vc, animated: true)
+            return
+        }
+        
         let vc = UIViewController.detail
         vc.contentType = contentType
         vc.mainScreenInfo = mainScreenInfo
