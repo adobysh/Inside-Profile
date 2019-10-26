@@ -22,6 +22,7 @@ enum ContentType: Int {
 class DetailViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView?
+    @IBOutlet var emptyTableLabel: UILabel?
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -103,6 +104,7 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
         return users.count
     }
     
