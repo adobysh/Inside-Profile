@@ -83,14 +83,15 @@ class MainViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func refreshButtonAction(_ sender: Any) {
-        fetchInfo()
-    }
-    
     @IBAction func detailButtonAction(_ sender: UIButton) {
         guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
         
-        if !SubscriptionKeychain.isSubscribed() && contentType == .new_guests {
+        if !SubscriptionKeychain.isSubscribed()
+            && (contentType == .new_guests
+            || contentType == .recommendation
+            || contentType == .top_commenters
+            || contentType == .top_likers)
+        {
             let vc = UIViewController.vip
             vc.onClose = {
                 vc.dismiss(animated: true)
