@@ -60,6 +60,12 @@ class MainViewController: UIViewController {
     }
     
     @objc func handleRefreshControl() {
+        // защита от двойного запуска обновления
+        guard mainActivityIndicatorView?.isAnimating != true else {
+            scrollView?.refreshControl?.endRefreshing()
+            return
+        }
+        
         fetchInfo() { [weak self] in
             self?.scrollView?.refreshControl?.endRefreshing()
         }
