@@ -23,6 +23,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView?
     @IBOutlet var emptyTableLabel: UILabel?
+    @IBOutlet var activityIndicatorView: UIActivityIndicatorView?
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -40,12 +41,15 @@ class DetailViewController: UIViewController {
     public var following: [ApiUser]?
     public var suggestedUsers: [GraphUser]?
     public var userDirectSearch: [ApiUser]?
+    public var topLikersFollowers: [ApiUser]?
     
     public var onFollow: (( _ onUpdate: (()->Void)? )->())?
     public var onUpdate: (( _ onUpdate: (()->Void)? )->())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        emptyTableLabel?.alpha = 0
         
         tableView?.addSubview(self.refreshControl)
         
@@ -65,32 +69,52 @@ class DetailViewController: UIViewController {
         switch contentType {
         case .new_guests:
             navigationItem.title = "New Guests"
-            users = UserModel.newGuests(userDirectSearch)
-            complete()
+            let guestsResult = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, following, followers)
+            if let guests = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, following, followers).guests {
+                users = guests
+                emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
+                complete()
+            } else {
+                ApiManager.shared.getUserInfoArray_graph(ids: guestsResult.guestsIds ?? [], onComplete: { [weak self] users in
+                    self?.users = users
+                    self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
+                    complete()
+                }) { [weak self] error in
+                    self?.showErrorAlert(error)
+                    self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
+                    complete()
+                }
+            }
         case .recommendation:
             navigationItem.title = "Recommendation"
             users = suggestedUsers ?? []
+            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
             complete()
         case .top_likers:
             navigationItem.title = "Top Likers"
             users = UserModel.topLikers(mainScreenInfo?.username, posts)
+            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
             complete()
         case .top_commenters:
             navigationItem.title = "Top Commenters"
             users = UserModel.topCommenters(mainScreenInfo?.username, posts)
+            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
             complete()
         case .you_dont_follow: // followers
             navigationItem.title = "You Dont Follow"
             users = UserModel.youDontFollow(followers: followers, following: following)
+            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
             complete()
         case .unfollowers: // following
             navigationItem.title = "Unfollowers"
             users = UserModel.unfollowers(followers: followers, following: following)
+            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
             complete()
         case .gained_followers:
             navigationItem.title = "Gained Followers"
             let previousFollowersIds = PastFollowersManager.shared.getIds()
             users = UserModel.gainedFollowers(previousFollowersIds, followers)
+            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
             complete()
         case .lost_followers:
             navigationItem.title = "Lost Followers"
@@ -99,9 +123,11 @@ class DetailViewController: UIViewController {
             
             ApiManager.shared.getUserInfoArray_graph(ids: lostFollowersIds, onComplete: { [weak self] users in
                 self?.users = users
+                self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
                 complete()
             }) { [weak self] error in
                 self?.showErrorAlert(error)
+                self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
                 complete()
             }
         }
@@ -125,7 +151,6 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
         return users.count
     }
     

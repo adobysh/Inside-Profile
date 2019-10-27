@@ -24,6 +24,8 @@ protocol User: Codable {
     var descriptionText: String? { get }
     
     var followStatus: FollowStatus? { get set }
+    var yourPostsLikes: Int? { get set }
+    var connectionsCount: Int? { get set }
 }
 
 struct BaseUser: User {
@@ -36,6 +38,8 @@ struct BaseUser: User {
     var descriptionText: String?
     
     var followStatus: FollowStatus?
+    var yourPostsLikes: Int?
+    var connectionsCount: Int?
     
     private enum CodingKeys: String, CodingKey {
         case id, full_name, username, profile_pic_url, is_verified, followers
@@ -95,6 +99,8 @@ struct GraphUser: User, Codable, Comparable {
     }
     
     var followStatus: FollowStatus?
+    var yourPostsLikes: Int?
+    var connectionsCount: Int?
     
     private enum CodingKeys: String, CodingKey {
         case edge_followed_by, followed_by_viewer, full_name, id, is_private, is_verified, is_viewer, profile_pic_url, requested_by_viewer, username

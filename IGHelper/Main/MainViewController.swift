@@ -29,6 +29,7 @@ class MainViewController: UIViewController {
     private var following: [ApiUser]?
     private var suggestedUsers: [GraphUser]?
     private var userDirectSearch: [ApiUser]?
+    private var topLikersFollowers: [ApiUser]?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -119,6 +120,7 @@ class MainViewController: UIViewController {
         vc.followers = followers
         vc.suggestedUsers = suggestedUsers
         vc.userDirectSearch = userDirectSearch
+        vc.topLikersFollowers = topLikersFollowers
         vc.onFollow = { [weak self] onUpdate in
             self?.fetchFollowRequests_and_following(onComplete: { [weak self] in
                 vc.following = self?.following
@@ -138,7 +140,7 @@ class MainViewController: UIViewController {
                 }
             case .you_dont_follow, .unfollowers:
                 ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
-                    ApiManager.shared.getFollowing(onComplete: { [weak self] following in
+                    ApiManager.shared.getFollowings(onComplete: { [weak self] following in
                         self?.followers = followers
                         self?.following = following
                         vc.followers = followers
@@ -250,8 +252,12 @@ extension MainViewController {
                 let unfollowers = UserModel.unfollowers(followers: followers, following: following)
                 label.text = unfollowers.count.bigBeauty
             case .new_guests:
-                let newGuests = UserModel.newGuests(userDirectSearch)
-                label.text = newGuests.count.bigBeauty
+                let newGuests = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, following, followers)
+                if let newGuestsCount = newGuests.guests?.count {
+                    label.text = newGuestsCount.bigBeauty
+                } else {
+                    label.text = (newGuests.guestsIds?.count ?? 0).bigBeauty
+                }
             case .recommendation:
                 label.text = (suggestedUsers?.count ?? 0).bigBeauty
             case .top_likers:
@@ -271,7 +277,7 @@ extension MainViewController {
     
     func fetchFollowRequests_and_following(onComplete: (()->())? = nil) {
         ApiManager.shared.getFollowRequests(onComplete: { [weak self] followRequests in
-            ApiManager.shared.getFollowing(onComplete: { [weak self] following in
+            ApiManager.shared.getFollowings(onComplete: { [weak self] following in
                 self?.following = following
                 self?.followRequests = followRequests
                 self?.updateUI()
@@ -308,9 +314,24 @@ extension MainViewController {
                 self?.suggestedUsers = info.suggestedUsers
                 self?.userDirectSearch = info.userDirectSearch
                 
-                self?.updateUI()
-                self?.mainActivityIndicatorView?.stopAnimating()
-                self?.buttons?.forEach { $0.isEnabled = true }
+                if GuestsManager.shared.containIds() {
+                    self?.updateUI()
+                    self?.mainActivityIndicatorView?.stopAnimating()
+                    self?.buttons?.forEach { $0.isEnabled = true }
+                } else {
+                    let topLikers = UserModel.topLikers(self?.mainScreenInfo?.username, self?.posts)
+                    ApiManager.shared.getTopLikersFriends(topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
+                        self?.topLikersFollowers = topLikersFollowers
+                        
+                        self?.updateUI()
+                        self?.mainActivityIndicatorView?.stopAnimating()
+                        self?.buttons?.forEach { $0.isEnabled = true }
+                    }) { [weak self] error in
+                        self?.showErrorAlert(error)
+                        self?.mainActivityIndicatorView?.stopAnimating()
+                        self?.buttons?.forEach { $0.isEnabled = true }
+                    }
+                }
             }) { [weak self] error in
                 self?.showErrorAlert(error)
                 self?.mainActivityIndicatorView?.stopAnimating()

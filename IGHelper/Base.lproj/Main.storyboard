@@ -119,7 +119,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="bEJ-FH-6hi">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bEJ-FH-6hi" secondAttribute="height" multiplier="25:8" id="SG0-l3-JCN"/>
                                 </constraints>
@@ -379,7 +379,7 @@ Tracker</string>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="FFm-zc-JKV">
                                         <rect key="frame" x="27" y="305" width="153.5" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p0R-qV-f7f">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p0R-qV-f7f">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -396,7 +396,7 @@ Tracker</string>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="7Y2-Sk-Fp6">
                                         <rect key="frame" x="27" y="385.5" width="153.5" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxB-cV-spO">
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxB-cV-spO">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -413,7 +413,7 @@ Tracker</string>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xID-h9-OTh">
                                         <rect key="frame" x="27" y="465.5" width="153.5" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aoS-EL-0FT">
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aoS-EL-0FT">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -430,7 +430,7 @@ Tracker</string>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="rZI-0O-hMv">
                                         <rect key="frame" x="27" y="546" width="153.5" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NhL-eI-o9Q">
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NhL-eI-o9Q">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -447,7 +447,7 @@ Tracker</string>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6Yd-I1-Av9">
                                         <rect key="frame" x="194.5" y="305" width="153.5" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjZ-f0-1Js">
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjZ-f0-1Js">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -464,7 +464,7 @@ Tracker</string>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="kiZ-TC-bBf">
                                         <rect key="frame" x="194.5" y="385.5" width="153.5" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZH1-nx-L8V">
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZH1-nx-L8V">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -481,7 +481,7 @@ Tracker</string>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="SEu-Gl-wql">
                                         <rect key="frame" x="194.5" y="465.5" width="153.5" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GYo-We-m1v">
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GYo-We-m1v">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -498,7 +498,7 @@ Tracker</string>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="9da-Qk-7eu">
                                         <rect key="frame" x="194.5" y="546" width="153.5" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaC-RX-r8y">
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaC-RX-r8y">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="17"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -628,7 +628,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="zVU-dA-rdF">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zVU-dA-rdF" secondAttribute="height" multiplier="25:8" id="NyX-z2-bNX"/>
                                 </constraints>
@@ -685,7 +685,7 @@ Tracker</string>
                                                         <action selector="followButtonAction:" destination="KFQ-Jd-GQQ" eventType="touchUpInside" id="hap-gW-yms"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tHn-8g-bDD">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tHn-8g-bDD">
                                                     <rect key="frame" x="91" y="80" width="180" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.73333333333333328" green="0.73333333333333328" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
@@ -722,12 +722,18 @@ Tracker</string>
                                     <outlet property="delegate" destination="6Nn-Yq-xDm" id="gQ6-fq-864"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need more data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdn-5o-UFt">
-                                <rect key="frame" x="126" y="345" width="123" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdn-5o-UFt">
+                                <rect key="frame" x="120.5" y="335" width="134.5" height="41"/>
+                                <string key="text">Need more data
+Update tomorrow</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="agq-Rg-xFe">
+                                <rect key="frame" x="169" y="337" width="37" height="37"/>
+                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -737,8 +743,10 @@ Tracker</string>
                             <constraint firstItem="tdn-5o-UFt" firstAttribute="centerY" secondItem="X5o-yZ-MnD" secondAttribute="centerY" id="AfQ-Rk-aKD"/>
                             <constraint firstItem="zVU-dA-rdF" firstAttribute="leading" secondItem="SvL-wb-b5M" secondAttribute="leading" id="D9F-HY-26E"/>
                             <constraint firstItem="TE6-xN-Lb5" firstAttribute="leading" secondItem="SvL-wb-b5M" secondAttribute="leading" id="UW3-dP-cfk"/>
+                            <constraint firstItem="agq-Rg-xFe" firstAttribute="centerX" secondItem="X5o-yZ-MnD" secondAttribute="centerX" id="YiP-Q9-xyh"/>
                             <constraint firstItem="TE6-xN-Lb5" firstAttribute="top" secondItem="SvL-wb-b5M" secondAttribute="top" id="agX-F1-KEU"/>
                             <constraint firstItem="zVU-dA-rdF" firstAttribute="top" secondItem="SvL-wb-b5M" secondAttribute="top" id="ayF-Ep-Z4q"/>
+                            <constraint firstItem="agq-Rg-xFe" firstAttribute="centerY" secondItem="X5o-yZ-MnD" secondAttribute="centerY" id="bRU-aN-BTV"/>
                             <constraint firstAttribute="bottom" secondItem="TE6-xN-Lb5" secondAttribute="bottom" id="fRt-Kq-bli"/>
                             <constraint firstItem="X5o-yZ-MnD" firstAttribute="trailing" secondItem="wAI-WK-Oul" secondAttribute="trailing" id="gqd-QG-Ftb"/>
                             <constraint firstAttribute="bottom" secondItem="wAI-WK-Oul" secondAttribute="bottom" id="jPw-LC-byp"/>
@@ -757,6 +765,7 @@ Tracker</string>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="agq-Rg-xFe" id="T8c-pD-DZK"/>
                         <outlet property="emptyTableLabel" destination="tdn-5o-UFt" id="808-nR-my6"/>
                         <outlet property="tableView" destination="wAI-WK-Oul" id="lS6-BF-KBb"/>
                     </connections>
@@ -777,7 +786,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="p5P-5t-q96">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="p5P-5t-q96" secondAttribute="height" multiplier="25:8" id="kpS-tE-AeM"/>
                                 </constraints>
@@ -942,7 +951,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="DTz-E9-z4Y">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="DTz-E9-z4Y" secondAttribute="height" multiplier="25:8" id="WJ3-h1-t2Y"/>
                                 </constraints>

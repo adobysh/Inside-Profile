@@ -10,12 +10,80 @@ import Foundation
 
 class UserModel {
     
-    // пока показываем рекомендуемых пользователей кроме:
-    // 1. подтверждённых аккаунтов
-    // 2. пользователи с более чем 1к подписчиков
-    #warning("добавить юзеров из пункта 11 спецификации")
-    public static func newGuests(_ userDirectSearch: [ApiUser]?) -> [ApiUser] {
-        return userDirectSearch?.filter { $0.is_verified == false } ?? []
+    #warning("первый рабочий вариант гостей. нужна доработка")
+    public static func newGuests(_ username: String?, _ userDirectSearch: [ApiUser]?, _ topLikersFriends: [ApiUser]?, _ myFollowing: [ApiUser]?, _ myFollowers: [ApiUser]?) -> (guests: [ApiUser]?, guestsIds: [String]?) {
+        guard (myFollowing?.count ?? 0) != 0
+            && (myFollowers?.count ?? 0) != 0
+            && (userDirectSearch?.count ?? 0) != 0 else { return (nil, nil) }
+        
+        let guestsIds = GuestsManager.shared.getIds()
+        if !guestsIds.isEmpty {
+            return (nil, guestsIds)
+        }
+        
+        print("!!! topLiker friends finish total count \(topLikersFriends?.count ?? 0)")
+        
+        let usersWithDublicates = topLikersFriends.flatMap { $0 } ?? []
+        let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
+        print("!!! topLiker userIds count \(userIds.count)")
+        var users: [(user: ApiUser, count: Int)] = []
+        userIds.forEach { userId in
+            let count = usersWithDublicates.filter { $0.id == userId }.count
+            if var uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
+                uniqueUser.connectionsCount = count
+                print("!!! topLiker count \(count)")
+                if myFollowing?.first(where: { $0.id == userId }) == nil {
+                    users.append((uniqueUser, count))
+                }
+            }
+        }
+        users = users.sorted(by: { $0.count > $1.count  })
+        users = users.filter { $0.user.username != username } // remove own account
+        
+        // ----------
+        // Вот они, три списка из которых мы формируем список гостей
+        let topLikersFriendsWithoudDublicates_I_dont_follow = users.map { $0.user }
+        let userDirectSearchCommon = (userDirectSearch?.filter { $0.is_verified == false } ?? [])
+        let myFriends = UserModel.friends(myFollowing, myFollowers)
+        
+        // количество гостей это корень от числа подписчиков
+        //let guestCount = sqrt(Double(myFollowers?.count ?? 0))
+        
+        // количество гостей это колличество подписчеков * 0.05
+        // у Коли это соотношение 1800 : 236 но в этих гостях есть боты а ботов мы стараемся не показывать, поэтому у нас оно меньше
+        let guestCount = Double(myFollowers?.count ?? 0) * Double.random(in: 0.1 ..< 0.15)
+        print("!!! ggg guestCount \(guestCount)")
+        
+        let followersAndFollowingCount = Double(myFollowing?.count ?? 0) + Double(myFollowers?.count ?? 0)
+        print("!!! ggg followersAndFollowingCount \(followersAndFollowingCount)")
+        
+        // отношение подписчиков к подпискам
+        // оно будет определять соотношение подписчиков к подпискам среди гостей
+        let followerToFollowingK = Double(myFollowers?.count ?? 0) / followersAndFollowingCount
+        print("!!! ggg followerToFollowingK \(followerToFollowingK)")
+        
+        let guests_I_do_not_following_count: Int = Int( guestCount * followerToFollowingK )
+        let guests_I_following_count: Int = Int( guestCount * (1.0 - followerToFollowingK) )
+        print("!!! ggg guests_I_do_not_following_count \(guests_I_do_not_following_count)")
+        print("!!! ggg guests_I_following_count \(guests_I_following_count)")
+        
+        var theGuests: [ApiUser] = []
+        
+        // guests_I_do_not_following
+        theGuests.append(contentsOf: Array(topLikersFriendsWithoudDublicates_I_dont_follow.prefix(guests_I_do_not_following_count)))
+        
+        // guests_I_following
+        theGuests.append(contentsOf: Array(userDirectSearchCommon.prefix(guests_I_following_count)))
+        
+        // если нужно больше гостей на которых я подписан чем 30 юзеров из поиска директа
+        // то берём их рандомно из друзей
+        if guests_I_following_count > userDirectSearchCommon.count {
+            let needMore_I_following_guests_count = guests_I_following_count - userDirectSearchCommon.count
+            theGuests.append(contentsOf: Array(myFriends.prefix(needMore_I_following_guests_count)))
+        }
+        
+        GuestsManager.shared.save(theGuests.compactMap { $0.id })
+        return (theGuests, nil)
     }
 
     #warning("незначительная проблема")
@@ -49,7 +117,8 @@ class UserModel {
         var users: [(user: ApiUser, count: Int)] = []
         userIds.forEach { userId in
             let count = usersWithDublicates.filter { $0.id == userId }.count
-            if let uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
+            if var uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
+                uniqueUser.yourPostsLikes = count
                 users.append((uniqueUser, count))
             }
         }
@@ -96,6 +165,29 @@ extension UserModel {
         var userWithFollowStatus = user
         userWithFollowStatus.followStatus = followStatus
         return userWithFollowStatus
+    }
+    
+}
+
+// MARK: - For Array Of Users
+extension UserModel {
+    
+    public static func friends(_ following: [ApiUser]?, _ followers: [ApiUser]?) -> [ApiUser] {
+        guard let following = following, let followers = followers else { return [] }
+        
+        var friendsWithDublicates: [ApiUser] = []
+        friendsWithDublicates.append(contentsOf: following)
+        friendsWithDublicates.append(contentsOf: followers)
+        
+        let userIds = Array(Set(friendsWithDublicates.map { $0.id }))
+        var friends: [ApiUser] = []
+        userIds.forEach { userId in
+            let count = friendsWithDublicates.filter { $0.id == userId }.count
+            if count == 2, let uniqueUser = friendsWithDublicates.first(where: { $0.id == userId }) {
+                friends.append(uniqueUser)
+            }
+        }
+        return friends
     }
     
 }

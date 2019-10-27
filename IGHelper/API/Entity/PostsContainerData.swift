@@ -43,6 +43,8 @@ struct ApiUser: User, Comparable, Hashable {
     }
     
     var followStatus: FollowStatus?
+    var yourPostsLikes: Int?
+    var connectionsCount: Int?
     
     private enum CodingKeys: String, CodingKey {
         case pk, full_name, username, profile_pic_url, is_verified, followers

@@ -28,7 +28,7 @@ class ApiManager {
         
         getFollowRequests(onComplete: { [weak self] followRequests in
             self?.getFollowers(onComplete: { [weak self] followers in
-                self?.getFollowing(onComplete: { [weak self] following in
+                self?.getFollowings(onComplete: { [weak self] following in
                     self?.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
                         self?.getUserDirectSearch(onComplete: { userDirectSearch in
                             onComplete((followRequests, followers, following, suggestedUsers, userDirectSearch))
@@ -100,48 +100,52 @@ class ApiManager {
         }
     }
     
-    public func getFollowing(users: [ApiUser] = [], state: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
-        struct FollowingContainer: Codable {
-            let feed: [ApiUser]?
-            let state: String? // "{\"moreAvailable\":false,\"rankToken\":\"40a13a91-bbeb-5334-b287-265872c32210\",\"nextMaxId\":null}",
+    public func getTopLikersFriends(topLikers: [ApiUser], onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+        guard !topLikers.isEmpty else {
+            onComplete([])
+            return
         }
         
-        let url = "https://i-info.n44.me/user/following/me"
-
-        var parameters = getParameters()
-        if let state = state {
-            parameters["state"] = state
-        }
-
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).response { [weak self] response in
-            guard let data = response.data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let container = try decoder.decode(FollowingContainer.self, from: data)
-                print("!!! ProfileInfoData \(container)")
-                guard var following = container.feed else {
-                    onError(ApiError.unknown)
-                    return
-                }
-                following.append(contentsOf: users)
-                if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
-                    self?.getFollowing(users: following, state: container.state, onComplete: onComplete, onError: onError)
+        print("!!! topLikers ids \(topLikers.map { $0.id })")
+        
+        var totalTopLikersFriends: [ApiUser] = [] // following and follower in one person
+        
+        getFollowings(userId: topLikers.first?.id, onComplete: { [weak self] followings in
+            print("!!! topLiker 1 followings count \(followings.count)")
+            
+            self?.getFollowers(userId: topLikers.first?.id, onComplete: { [weak self] followers in
+                print("!!! topLiker 1 followers count \(followers.count)")
+                let topLiker1Friends = UserModel.friends(followings, followers)
+                print("!!! topLiker 1 friends count \(topLiker1Friends.count)")
+                totalTopLikersFriends.append(contentsOf: topLiker1Friends)
+                
+                if topLikers.count <= 1 {
+                    onComplete(totalTopLikersFriends)
                 } else {
-                    onComplete(following)
+                    self?.getFollowings(userId: topLikers[safe: 1]?.id, onComplete: { [weak self] followings in
+                        print("!!! topLiker 2 followings count \(followings.count)")
+                        
+                        self?.getFollowers(userId: topLikers[safe: 1]?.id, onComplete: { followers in
+                            print("!!! topLiker 2 followers count \(followers.count)")
+                            let topLiker2Friends = UserModel.friends(followings, followers)
+                            print("!!! topLiker 2 friends count \(topLiker2Friends.count)")
+                            totalTopLikersFriends.append(contentsOf: topLiker2Friends)
+                            
+                            onComplete(totalTopLikersFriends)
+                        }, onError: onError)
+                    }, onError: onError)
                 }
-            } catch {
-                onError(error)
-            }
-        }
+            }, onError: onError)
+        }, onError: onError)
     }
     
-    public func getFollowers(users: [ApiUser] = [], state: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+    public func getFollowers(users: [ApiUser] = [], state: String? = nil, userId: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
         struct FollowersContainer: Codable {
             let feed: [ApiUser]?
             let state: String? // "{\"moreAvailable\":false,\"rankToken\":\"40a13a91-bbeb-5334-b287-265872c32210\",\"nextMaxId\":null}",
         }
         
-        let url = "https://i-info.n44.me/user/followers/me"
+        let url = "https://i-info.n44.me/user/followers/" + (userId ?? "me")
 
         var parameters = getParameters()
         if let state = state {
@@ -160,11 +164,46 @@ class ApiManager {
                 }
                 followers.append(contentsOf: users)
                 if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
-                    self?.getFollowers(users: followers, state: container.state, onComplete: onComplete, onError: onError)
+                    self?.getFollowers(users: followers, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
                 } else {
                     let ids = followers.compactMap { $0.id }
                     PastFollowersManager.shared.save(ids)
                     onComplete(followers)
+                }
+            } catch {
+                onError(error)
+            }
+        }
+    }
+    
+    public func getFollowings(users: [ApiUser] = [], state: String? = nil, userId: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+        struct FollowingContainer: Codable {
+            let feed: [ApiUser]?
+            let state: String? // "{\"moreAvailable\":false,\"rankToken\":\"40a13a91-bbeb-5334-b287-265872c32210\",\"nextMaxId\":null}",
+        }
+        
+        let url = "https://i-info.n44.me/user/following/" + (userId ?? "me")
+
+        var parameters = getParameters()
+        if let state = state {
+            parameters["state"] = state
+        }
+
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).response { [weak self] response in
+            guard let data = response.data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let container = try decoder.decode(FollowingContainer.self, from: data)
+                print("!!! ProfileInfoData \(container)")
+                guard var following = container.feed else {
+                    onError(ApiError.unknown)
+                    return
+                }
+                following.append(contentsOf: users)
+                if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
+                    self?.getFollowings(users: following, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
+                } else {
+                    onComplete(following)
                 }
             } catch {
                 onError(error)
