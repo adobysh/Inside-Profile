@@ -314,9 +314,24 @@ class ApiManager {
     }
     
     public func getGoodSuggestedUser(onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+        func isGood(_ user: GraphUser) -> Bool {
+            guard let description = user.descriptionText else { return true }
+            if description.lowercased() == "suggested for you" {
+                return true
+            } else if description.lowercased().contains("followed by") && description.lowercased().contains("more") {
+                return true
+            } else {
+                return false
+            }
+        }
         
         getSuggestedUser(onComplete: { suggestedUsers in
-            let goodSuggestedUsers = suggestedUsers.filter { $0.is_verified == false && $0.isGood() && $0.id != "7265304034" }
+            let notBadSuggestedUsers = suggestedUsers.filter { $0.is_verified == false }
+            
+            var goodSuggestedUsers = notBadSuggestedUsers.filter { isGood($0) }
+            if goodSuggestedUsers.isEmpty {
+                goodSuggestedUsers = notBadSuggestedUsers
+            }
             onComplete(goodSuggestedUsers)
         }, onError: onError)
     }
@@ -324,7 +339,8 @@ class ApiManager {
     private func getSuggestedUser(suggestedUsers: [GraphUser] = [], onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
         
-        guard let headers = getHeaders() else { return }
+        guard var headers = getHeaders() else { return }
+        headers["Accept-Language"] = "en"
 
         //        "seen_ids":["263874345","1247439238",
         let seen_ids_array = suggestedUsers.map { "\($0.id ?? "")" }
@@ -347,8 +363,13 @@ class ApiManager {
                 }
                 var users: [GraphUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { edge in
                     var user = edge.node?.user
-                    user?.descriptionText = edge.node?.description
-                    return user
+                        
+                    if user?.id == "7265304034" || user?.id == "7289403847" {
+                        return nil
+                    } else {
+                        user?.descriptionText = edge.node?.description
+                        return user
+                    }
                 } ?? []
                 users.append(contentsOf: suggestedUsers)
                 if container.data?.user?.edge_suggested_users?.page_info?.has_next_page == true {

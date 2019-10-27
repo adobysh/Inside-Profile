@@ -18,8 +18,9 @@ class MainViewController: UIViewController {
     @IBOutlet var commentsCountLabel: UILabel?
     @IBOutlet var loginLabel: UILabel?
     @IBOutlet var buttons: [UIButton]?
-    @IBOutlet var activityIndicatorViews: [UIActivityIndicatorView]?
+    @IBOutlet var buttonLabels: [UILabel]?
     @IBOutlet var scrollView: UIScrollView?
+    @IBOutlet var mainActivityIndicatorView: UIActivityIndicatorView?
     
     private var mainScreenInfo: ProfileInfoData?
     private var followRequests: FollowRequests?
@@ -224,57 +225,34 @@ extension MainViewController {
     }
     
     func updateButtons() {
-        func setupButton(_ button: UIButton, _ value: Int, _ title: String) {
-            button.setTitle(nil, for: .normal)
-
-            let valueWithTitle = "\(value.bigBeauty)" + "\n" + title
-            
-            let style = NSMutableParagraphStyle()
-            style.alignment = .center
-            let attributedTitle = NSAttributedString(
-                string: valueWithTitle,
-                attributes: [
-                    NSAttributedString.Key.foregroundColor: UIColor.black,
-                    NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0.scalable, weight: .bold),
-                    NSAttributedString.Key.paragraphStyle: style])
-            let attributedTitleDisabled = NSAttributedString(
-            string: valueWithTitle,
-            attributes: [
-                NSAttributedString.Key.foregroundColor: UIColor.lightGray,
-                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0.scalable, weight: .bold),
-                NSAttributedString.Key.paragraphStyle: style])
-            button.setAttributedTitle(attributedTitle, for: .normal)
-            button.setAttributedTitle(attributedTitleDisabled, for: .disabled)
-        }
-        
-        buttons?.forEach { button in
-            guard let contentType: ContentType = ContentType(rawValue: button.tag) else { return }
+        buttonLabels?.forEach { label in
+            guard let contentType: ContentType = ContentType(rawValue: label.tag) else { return }
             switch contentType {
             case .lost_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
                 let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
-                setupButton(button, lostFollowersIds.count, "lost followers")
+                label.text = lostFollowersIds.count.bigBeauty
             case .gained_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
                 let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers)
-                setupButton(button, gainedFollowers.count, "gained followers")
+                label.text = gainedFollowers.count.bigBeauty
             case .you_dont_follow:
                 let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
-                setupButton(button, youDontFollow.count, "you dont follow")
+                label.text = youDontFollow.count.bigBeauty
             case .unfollowers:
                 let unfollowers = UserModel.unfollowers(followers: followers, following: following)
-                setupButton(button, unfollowers.count, "unfollowers")
+                label.text = unfollowers.count.bigBeauty
             case .new_guests:
                 let newGuests = UserModel.newGuests(userDirectSearch)
-                setupButton(button, newGuests.count, "new guests")
+                label.text = newGuests.count.bigBeauty
             case .recommendation:
-                setupButton(button, suggestedUsers?.count ?? 0, "recommendation")
+                label.text = (suggestedUsers?.count ?? 0).bigBeauty
             case .top_likers:
                 let topLikers = UserModel.topLikers(mainScreenInfo?.username, posts)
-                setupButton(button, topLikers.count, "top likers")
+                label.text = topLikers.count.bigBeauty
             case .top_commenters:
                 let topСommenters = UserModel.topCommenters(mainScreenInfo?.username, posts)
-                setupButton(button, topСommenters.count, "top commenters")
+                label.text = topСommenters.count.bigBeauty
             }
         }
     }
@@ -303,13 +281,19 @@ extension MainViewController {
     
     func fetchInfo(onFetchProfileInfo: (()->())? = nil) {
         buttons?.forEach { $0.isEnabled = false }
-        activityIndicatorViews?.forEach { $0.startAnimating() }
         ApiManager.shared.getProfileInfoAndPosts(onComplete: { [weak self] result in
             onFetchProfileInfo?()
             self?.mainScreenInfo = result.profileInfo
             self?.posts = result.postDataArray
             self?.updateUI()
+            self?.buttons?.forEach { button in
+                guard let contentType: ContentType = ContentType(rawValue: button.tag) else { return }
+                if contentType == .top_commenters || contentType == .top_likers {
+                    button.isEnabled = true
+                }
+            }
             
+            self?.mainActivityIndicatorView?.startAnimating()
             ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
                 self?.followRequests = info.followRequests
                 self?.followers = info.followers
@@ -318,16 +302,15 @@ extension MainViewController {
                 self?.userDirectSearch = info.userDirectSearch
                 
                 self?.updateUI()
-                self?.activityIndicatorViews?.forEach { $0.stopAnimating() }
+                self?.mainActivityIndicatorView?.stopAnimating()
                 self?.buttons?.forEach { $0.isEnabled = true }
             }) { [weak self] error in
                 self?.showErrorAlert(error)
-                self?.activityIndicatorViews?.forEach { $0.stopAnimating() }
+                self?.mainActivityIndicatorView?.stopAnimating()
                 self?.buttons?.forEach { $0.isEnabled = true }
             }
         }) { [weak self] error in
             self?.showErrorAlert(error)
-            self?.activityIndicatorViews?.forEach { $0.stopAnimating() }
             self?.buttons?.forEach { $0.isEnabled = true }
             onFetchProfileInfo?()
         }

@@ -24,19 +24,6 @@ protocol User: Codable {
     var descriptionText: String? { get }
     
     var followStatus: FollowStatus? { get set }
-    
-    func isGood() -> Bool
-}
-
-extension User {
-    func isGood() -> Bool {
-        guard let descriptionText = descriptionText else { return true }
-        if descriptionText.lowercased() == "suggested for you" {
-            return true
-        } else {
-            return false
-        }
-    }
 }
 
 struct BaseUser: User {
