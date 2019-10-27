@@ -14,6 +14,7 @@ class VipViewController: UIViewController {
     @IBOutlet var restoreButton: UIButton?
     @IBOutlet var closeButton: UIButton?
     @IBOutlet var subscribeButton: UIButton?
+    @IBOutlet var closeButtonTopConstraint: NSLayoutConstraint?
     
     private let currentSubscription: SubscriptionType = .month
     
@@ -27,6 +28,10 @@ class VipViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.scale()
+        if #available(iOS 13.0, *) {
+            let constantForIOS13 = (closeButtonTopConstraint?.constant ?? 0) / 2.0
+            closeButtonTopConstraint?.constant = constantForIOS13
+        }
         
         subscribeButton?.setTitle("PLEASE WAIT...", for: .disabled)
     }

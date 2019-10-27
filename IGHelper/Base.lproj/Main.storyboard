@@ -119,7 +119,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="bEJ-FH-6hi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bEJ-FH-6hi" secondAttribute="height" multiplier="25:8" id="SG0-l3-JCN"/>
                                 </constraints>
@@ -628,7 +628,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="zVU-dA-rdF">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zVU-dA-rdF" secondAttribute="height" multiplier="25:8" id="NyX-z2-bNX"/>
                                 </constraints>
@@ -646,7 +646,7 @@ Tracker</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WtN-jZ-iXX">
-                                                    <rect key="frame" x="26" y="11" width="60" height="90"/>
+                                                    <rect key="frame" x="15" y="11" width="60" height="90"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="JFm-E2-Ldn"/>
                                                         <constraint firstAttribute="height" constant="60" id="tsq-2W-VU8"/>
@@ -658,8 +658,8 @@ Tracker</string>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabe" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-6a-khh">
-                                                    <rect key="frame" x="106" y="11" width="168" height="90"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-6a-khh">
+                                                    <rect key="frame" x="91" y="44.5" width="180" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -685,8 +685,8 @@ Tracker</string>
                                                         <action selector="followButtonAction:" destination="KFQ-Jd-GQQ" eventType="touchUpInside" id="hap-gW-yms"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tHn-8g-bDD">
-                                                    <rect key="frame" x="106" y="80" width="168" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tHn-8g-bDD">
+                                                    <rect key="frame" x="91" y="80" width="180" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.73333333333333328" green="0.73333333333333328" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -694,20 +694,18 @@ Tracker</string>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="AbW-tD-ajW" firstAttribute="leading" secondItem="hdx-6a-khh" secondAttribute="trailing" constant="5" id="7Fz-4J-nS3"/>
-                                                <constraint firstItem="hdx-6a-khh" firstAttribute="leading" secondItem="WtN-jZ-iXX" secondAttribute="trailing" constant="20" id="D2O-3D-UKH"/>
+                                                <constraint firstItem="AbW-tD-ajW" firstAttribute="leading" secondItem="hdx-6a-khh" secondAttribute="trailing" constant="8" id="7Fz-4J-nS3"/>
+                                                <constraint firstItem="hdx-6a-khh" firstAttribute="leading" secondItem="WtN-jZ-iXX" secondAttribute="trailing" constant="16" id="D2O-3D-UKH"/>
                                                 <constraint firstItem="tHn-8g-bDD" firstAttribute="bottom" secondItem="avT-i0-r1N" secondAttribute="bottomMargin" id="Pj2-jH-OUS"/>
-                                                <constraint firstItem="hdx-6a-khh" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" id="UoN-O4-BUZ"/>
+                                                <constraint firstItem="hdx-6a-khh" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" constant="-1" id="UoN-O4-BUZ"/>
                                                 <constraint firstItem="tHn-8g-bDD" firstAttribute="leading" secondItem="hdx-6a-khh" secondAttribute="leading" id="Wif-6m-x1y"/>
                                                 <constraint firstItem="AbW-tD-ajW" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" id="XY3-zI-OdA"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="AbW-tD-ajW" secondAttribute="trailing" id="aMt-Vn-F0f"/>
-                                                <constraint firstItem="WtN-jZ-iXX" firstAttribute="leading" secondItem="avT-i0-r1N" secondAttribute="leadingMargin" constant="11" id="ajT-1V-wqy"/>
+                                                <constraint firstItem="WtN-jZ-iXX" firstAttribute="leading" secondItem="avT-i0-r1N" secondAttribute="leadingMargin" id="ajT-1V-wqy"/>
                                                 <constraint firstItem="AbW-tD-ajW" firstAttribute="width" secondItem="AbW-tD-ajW" secondAttribute="height" multiplier="81:27" id="ipq-0G-2RC"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="WtN-jZ-iXX" secondAttribute="bottom" id="mXz-W0-0mz"/>
                                                 <constraint firstItem="tHn-8g-bDD" firstAttribute="trailing" secondItem="hdx-6a-khh" secondAttribute="trailing" id="oYd-4p-Me0"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="hdx-6a-khh" secondAttribute="bottom" id="qil-vk-e8L"/>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="top" secondItem="avT-i0-r1N" secondAttribute="topMargin" id="uJs-Wn-GIk"/>
-                                                <constraint firstItem="hdx-6a-khh" firstAttribute="top" secondItem="avT-i0-r1N" secondAttribute="topMargin" id="vDA-If-vqh"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -779,7 +777,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="p5P-5t-q96">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="p5P-5t-q96" secondAttribute="height" multiplier="25:8" id="kpS-tE-AeM"/>
                                 </constraints>
@@ -944,7 +942,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="DTz-E9-z4Y">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="DTz-E9-z4Y" secondAttribute="height" multiplier="25:8" id="WJ3-h1-t2Y"/>
                                 </constraints>
@@ -1017,7 +1015,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RmL-4t-HBz">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="533.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="527"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lZ2-y9-L6q">
@@ -1026,13 +1024,6 @@ Tracker</string>
                                             <constraint firstAttribute="width" secondItem="lZ2-y9-L6q" secondAttribute="height" multiplier="1:1" id="xOZ-ya-68w"/>
                                         </constraints>
                                     </imageView>
-                                    <view alpha="1.0000000000000001e-15" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gFU-I9-Ajd">
-                                        <rect key="frame" x="347" y="0.0" width="28" height="40"/>
-                                        <color key="backgroundColor" red="0.62841111419999995" green="0.50959402320000002" blue="0.93271690610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="gFU-I9-Ajd" secondAttribute="height" multiplier="28:40" id="ZHE-5g-9fY"/>
-                                        </constraints>
-                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fiu-xR-YCl">
                                         <rect key="frame" x="317" y="40" width="30" height="30"/>
                                         <constraints>
@@ -1060,21 +1051,17 @@ Tracker</string>
                                             <constraint firstAttribute="width" secondItem="ztw-ld-SFZ" secondAttribute="height" multiplier="1:1" id="o0Y-tV-jJT"/>
                                         </constraints>
                                     </view>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wnC-0S-3bu">
-                                        <rect key="frame" x="137.5" y="0.0" width="100" height="100"/>
-                                        <color key="backgroundColor" red="0.62841111419999995" green="0.50959402320000002" blue="0.93271690610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get VIP access" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oBk-bL-k8I">
-                                        <rect key="frame" x="62" y="100" width="251" height="43"/>
+                                        <rect key="frame" x="62" y="75" width="251" height="43"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0C-p0-7Nb">
-                                        <rect key="frame" x="0.0" y="143" width="375" height="240.5"/>
+                                        <rect key="frame" x="0.0" y="118" width="375" height="259"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icKing" translatesAutoresizingMaskIntoConstraints="NO" id="b0T-gl-cQe">
-                                                <rect key="frame" x="0.0" y="24" width="375" height="192.5"/>
+                                                <rect key="frame" x="0.0" y="26" width="375" height="207"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1086,7 +1073,7 @@ Tracker</string>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBT-au-XD9">
-                                        <rect key="frame" x="49.5" y="543.5" width="276" height="39.5"/>
+                                        <rect key="frame" x="49.5" y="537" width="276" height="39.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="gBT-au-XD9" secondAttribute="height" multiplier="280:40" id="U8S-oL-AvF"/>
@@ -1106,13 +1093,13 @@ Tracker</string>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unlimited access with detailed daily analitics for your Instagram account. Becoming a VIP user will unlock all the packs." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1e-Jz-9hl">
-                                        <rect key="frame" x="49.5" y="383.5" width="276" height="76.5"/>
+                                        <rect key="frame" x="49.5" y="377" width="276" height="76.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBp-m2-VCd">
-                                        <rect key="frame" x="106.5" y="480" width="162.5" height="38.5"/>
+                                        <rect key="frame" x="106.5" y="473.5" width="162.5" height="38.5"/>
                                         <string key="text">Start your 3-days trial 
 then $29.99/month</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -1120,13 +1107,13 @@ then $29.99/month</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto-renewable subscription" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NhQ-av-6Au">
-                                        <rect key="frame" x="111.5" y="598" width="152" height="14"/>
+                                        <rect key="frame" x="111.5" y="591.5" width="152" height="14"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="c9K-qo-FOY">
-                                        <rect key="frame" x="49.5" y="612" width="276" height="434"/>
+                                        <rect key="frame" x="49.5" y="605.5" width="276" height="434"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <string key="text">IInformation aboIt the auto-renewabIe nature of the subscription: Subscription periods are 1 month, price - $29.99. Every month your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current perIod. After the trial period, monthly subscription will start for $29.99. Trials will be 3 days, after which the subscription will auto-renew. - Information aboIt the auto-renewabIe nature of the subscription: Subscription periods are 1 month, price - $29.99. Every month your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current perIod. After the trial period, monthly subscription will start for $29.99. Trials will be 3 days, after which the subscription will auto-renew. - Information aboIt the auto-renewabIe nature of the subscription: Subscription periods are 1 month, price - $29.99. Every month your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current perIod. After the trial period, monthly subscription will start for $29.99. Trials will be 3 days, after which the subscription will auto-renew.</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1136,17 +1123,14 @@ then $29.99/month</string>
                                     </textView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="oBk-bL-k8I" firstAttribute="top" secondItem="WrL-0x-bTZ" secondAttribute="bottom" constant="5" id="0PV-Q8-7p5"/>
                                     <constraint firstItem="Y1e-Jz-9hl" firstAttribute="centerX" secondItem="aSe-wW-nmR" secondAttribute="centerX" id="0SM-R0-kG3"/>
                                     <constraint firstItem="iBp-m2-VCd" firstAttribute="centerX" secondItem="aSe-wW-nmR" secondAttribute="centerX" id="130-UK-xO2"/>
                                     <constraint firstItem="gBT-au-XD9" firstAttribute="top" secondItem="iBp-m2-VCd" secondAttribute="bottom" constant="25" id="2Ya-HS-kj9"/>
-                                    <constraint firstItem="wnC-0S-3bu" firstAttribute="centerX" secondItem="aSe-wW-nmR" secondAttribute="centerX" id="2hY-zc-OV5"/>
                                     <constraint firstItem="c9K-qo-FOY" firstAttribute="centerX" secondItem="aSe-wW-nmR" secondAttribute="centerX" id="3bg-V5-Icc"/>
-                                    <constraint firstItem="oBk-bL-k8I" firstAttribute="top" secondItem="wnC-0S-3bu" secondAttribute="bottom" id="5MX-Wa-1Jj"/>
-                                    <constraint firstItem="gFU-I9-Ajd" firstAttribute="leading" secondItem="fiu-xR-YCl" secondAttribute="trailing" id="8q6-dd-1hi"/>
                                     <constraint firstItem="c9K-qo-FOY" firstAttribute="top" secondItem="NhQ-av-6Au" secondAttribute="bottom" id="9Y5-lM-vva"/>
                                     <constraint firstItem="Y1e-Jz-9hl" firstAttribute="top" secondItem="k0C-p0-7Nb" secondAttribute="bottom" id="G9R-R2-7ws"/>
                                     <constraint firstItem="RmL-4t-HBz" firstAttribute="leading" secondItem="aSe-wW-nmR" secondAttribute="leading" id="HT9-ZF-CkD"/>
-                                    <constraint firstItem="wnC-0S-3bu" firstAttribute="width" secondItem="wnC-0S-3bu" secondAttribute="height" multiplier="1:1" id="JIm-dC-luF"/>
                                     <constraint firstItem="k0C-p0-7Nb" firstAttribute="width" secondItem="aSe-wW-nmR" secondAttribute="width" id="Lny-im-p3B"/>
                                     <constraint firstItem="ztw-ld-SFZ" firstAttribute="centerY" secondItem="WrL-0x-bTZ" secondAttribute="centerY" id="Ntm-Gg-4A9"/>
                                     <constraint firstAttribute="bottom" secondItem="c9K-qo-FOY" secondAttribute="bottom" id="RsN-Ju-11d"/>
@@ -1154,31 +1138,27 @@ then $29.99/month</string>
                                     <constraint firstItem="WrL-0x-bTZ" firstAttribute="leading" secondItem="ztw-ld-SFZ" secondAttribute="trailing" id="TPn-Jd-b6E"/>
                                     <constraint firstItem="WrL-0x-bTZ" firstAttribute="centerY" secondItem="fiu-xR-YCl" secondAttribute="centerY" id="V44-hS-qvE"/>
                                     <constraint firstItem="NhQ-av-6Au" firstAttribute="centerX" secondItem="aSe-wW-nmR" secondAttribute="centerX" id="YI3-lo-RnD"/>
-                                    <constraint firstAttribute="trailing" secondItem="gFU-I9-Ajd" secondAttribute="trailing" id="b1u-SA-O6C"/>
+                                    <constraint firstItem="fiu-xR-YCl" firstAttribute="top" secondItem="aSe-wW-nmR" secondAttribute="top" constant="40" id="YfY-Ig-Pxd"/>
                                     <constraint firstItem="gBT-au-XD9" firstAttribute="centerX" secondItem="aSe-wW-nmR" secondAttribute="centerX" id="bVh-Yi-JPX"/>
                                     <constraint firstAttribute="trailing" secondItem="lZ2-y9-L6q" secondAttribute="trailing" id="dIw-cV-1eS"/>
                                     <constraint firstItem="RmL-4t-HBz" firstAttribute="top" secondItem="aSe-wW-nmR" secondAttribute="top" id="dLH-Oa-6XQ"/>
                                     <constraint firstItem="oBk-bL-k8I" firstAttribute="centerX" secondItem="aSe-wW-nmR" secondAttribute="centerX" id="eH9-w1-v6y"/>
-                                    <constraint firstAttribute="trailing" secondItem="gFU-I9-Ajd" secondAttribute="trailing" id="fx2-eL-XmF"/>
+                                    <constraint firstAttribute="trailing" secondItem="fiu-xR-YCl" secondAttribute="trailing" constant="28" id="ggN-ry-M2l"/>
                                     <constraint firstItem="c9K-qo-FOY" firstAttribute="width" secondItem="gBT-au-XD9" secondAttribute="width" id="gxR-fA-gBH"/>
                                     <constraint firstItem="iBp-m2-VCd" firstAttribute="top" secondItem="Y1e-Jz-9hl" secondAttribute="bottom" constant="20" id="hLe-am-1Kh"/>
                                     <constraint firstItem="lZ2-y9-L6q" firstAttribute="leading" secondItem="aSe-wW-nmR" secondAttribute="leading" id="ihg-1Q-con"/>
                                     <constraint firstItem="Y1e-Jz-9hl" firstAttribute="width" secondItem="gBT-au-XD9" secondAttribute="width" id="kFF-pI-grb"/>
-                                    <constraint firstItem="fiu-xR-YCl" firstAttribute="top" secondItem="gFU-I9-Ajd" secondAttribute="bottom" id="mR9-F7-hvF"/>
                                     <constraint firstItem="lZ2-y9-L6q" firstAttribute="top" secondItem="aSe-wW-nmR" secondAttribute="top" id="oLH-XM-N6x"/>
                                     <constraint firstAttribute="trailing" secondItem="RmL-4t-HBz" secondAttribute="trailing" id="rbQ-nI-6bv"/>
                                     <constraint firstItem="ztw-ld-SFZ" firstAttribute="leading" secondItem="aSe-wW-nmR" secondAttribute="leading" id="sav-yR-Xic"/>
-                                    <constraint firstItem="wnC-0S-3bu" firstAttribute="top" secondItem="aSe-wW-nmR" secondAttribute="top" id="t4j-QY-jJq"/>
                                     <constraint firstItem="NhQ-av-6Au" firstAttribute="top" secondItem="gBT-au-XD9" secondAttribute="bottom" constant="15" id="tvQ-Cg-Ewf"/>
                                     <constraint firstItem="k0C-p0-7Nb" firstAttribute="top" secondItem="oBk-bL-k8I" secondAttribute="bottom" id="uIr-DH-cNq"/>
                                     <constraint firstItem="k0C-p0-7Nb" firstAttribute="centerX" secondItem="aSe-wW-nmR" secondAttribute="centerX" id="xQY-3C-dgc"/>
-                                    <constraint firstItem="gFU-I9-Ajd" firstAttribute="top" secondItem="aSe-wW-nmR" secondAttribute="top" id="xfO-2A-h8t"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="wnC-0S-3bu" firstAttribute="width" secondItem="cxT-6h-vK9" secondAttribute="width" multiplier="100:375" id="2Dc-Tk-X82"/>
                             <constraint firstItem="aSe-wW-nmR" firstAttribute="leading" secondItem="Hjk-a0-I7X" secondAttribute="leading" id="3am-vE-7mT"/>
                             <constraint firstItem="o1E-Z4-JbV" firstAttribute="leading" secondItem="Hjk-a0-I7X" secondAttribute="leading" id="DQY-YD-IFx"/>
                             <constraint firstItem="o1E-Z4-JbV" firstAttribute="top" secondItem="cxT-6h-vK9" secondAttribute="top" id="DeH-SA-zB9"/>
@@ -1186,11 +1166,10 @@ then $29.99/month</string>
                             <constraint firstAttribute="bottom" secondItem="aSe-wW-nmR" secondAttribute="bottom" id="Plh-25-gga"/>
                             <constraint firstAttribute="bottom" secondItem="o1E-Z4-JbV" secondAttribute="bottom" id="aEL-I0-2e5"/>
                             <constraint firstItem="Hjk-a0-I7X" firstAttribute="trailing" secondItem="aSe-wW-nmR" secondAttribute="trailing" id="dzS-vg-mnO"/>
-                            <constraint firstItem="RmL-4t-HBz" firstAttribute="height" secondItem="Hjk-a0-I7X" secondAttribute="height" multiplier="0.8" id="fF3-cq-eDn"/>
+                            <constraint firstItem="RmL-4t-HBz" firstAttribute="height" secondItem="Hjk-a0-I7X" secondAttribute="height" multiplier="0.79" id="fF3-cq-eDn"/>
                             <constraint firstItem="ztw-ld-SFZ" firstAttribute="width" secondItem="cxT-6h-vK9" secondAttribute="width" multiplier="28:375" id="fq6-aQ-mRO"/>
                             <constraint firstItem="o1E-Z4-JbV" firstAttribute="trailing" secondItem="Hjk-a0-I7X" secondAttribute="trailing" id="iNX-CU-3X5"/>
                             <constraint firstItem="aSe-wW-nmR" firstAttribute="width" secondItem="cxT-6h-vK9" secondAttribute="width" id="lBW-xJ-7eW"/>
-                            <constraint firstItem="gFU-I9-Ajd" firstAttribute="width" secondItem="cxT-6h-vK9" secondAttribute="width" multiplier="28:375" id="qeh-Uc-qDo"/>
                             <constraint firstItem="gBT-au-XD9" firstAttribute="width" secondItem="cxT-6h-vK9" secondAttribute="width" multiplier="280:380" id="wpv-2X-iWN"/>
                             <constraint firstItem="lZ2-y9-L6q" firstAttribute="width" secondItem="cxT-6h-vK9" secondAttribute="width" id="yap-Xl-y5c"/>
                         </constraints>
@@ -1198,6 +1177,7 @@ then $29.99/month</string>
                     </view>
                     <connections>
                         <outlet property="closeButton" destination="fiu-xR-YCl" id="rKL-lE-vte"/>
+                        <outlet property="closeButtonTopConstraint" destination="YfY-Ig-Pxd" id="eMn-nP-XDN"/>
                         <outlet property="restoreButton" destination="WrL-0x-bTZ" id="qf0-tb-8MO"/>
                         <outlet property="subscribeButton" destination="gBT-au-XD9" id="3jT-Ge-Vpy"/>
                     </connections>
