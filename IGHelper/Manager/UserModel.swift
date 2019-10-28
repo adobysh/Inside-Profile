@@ -82,6 +82,8 @@ class UserModel {
             theGuests.append(contentsOf: Array(myFriends.prefix(needMore_I_following_guests_count)))
         }
         
+        theGuests = theGuests.filter { $0.username != username }
+        
         GuestsManager.shared.save(theGuests.compactMap { $0.id })
         return (theGuests, nil)
     }

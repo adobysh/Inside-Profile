@@ -56,10 +56,10 @@ class DetailViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        updateUsers()
+        updateUsers(showProgress: true)
     }
     
-    func updateUsers(onComplete: (()->())? = nil) {
+    func updateUsers(showProgress: Bool = false, onComplete: (()->())? = nil) {
         func complete() {
             tableView?.reloadData()
             onComplete?()
@@ -75,11 +75,16 @@ class DetailViewController: UIViewController {
                 emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
                 complete()
             } else {
+                if showProgress {
+                    activityIndicatorView?.startAnimating()
+                }
                 ApiManager.shared.getUserInfoArray_graph(ids: guestsResult.guestsIds ?? [], onComplete: { [weak self] users in
+                    self?.activityIndicatorView?.stopAnimating()
                     self?.users = users
                     self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
                     complete()
                 }) { [weak self] error in
+                    self?.activityIndicatorView?.stopAnimating()
                     self?.showErrorAlert(error)
                     self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
                     complete()
@@ -121,11 +126,16 @@ class DetailViewController: UIViewController {
             let previousFollowersIds = PastFollowersManager.shared.getIds()
             let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
             
+            if showProgress {
+                activityIndicatorView?.startAnimating()
+            }
             ApiManager.shared.getUserInfoArray_graph(ids: lostFollowersIds, onComplete: { [weak self] users in
+                self?.activityIndicatorView?.stopAnimating()
                 self?.users = users
                 self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
                 complete()
             }) { [weak self] error in
+                self?.activityIndicatorView?.stopAnimating()
                 self?.showErrorAlert(error)
                 self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
                 complete()

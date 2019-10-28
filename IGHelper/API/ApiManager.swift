@@ -167,7 +167,11 @@ class ApiManager {
                     self?.getFollowers(users: followers, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
                 } else {
                     let ids = followers.compactMap { $0.id }
-                    PastFollowersManager.shared.save(ids)
+                    
+                    // это значит что фоловеры мои
+                    if userId == nil {
+                        PastFollowersManager.shared.save(ids)
+                    }
                     onComplete(followers)
                 }
             } catch {
