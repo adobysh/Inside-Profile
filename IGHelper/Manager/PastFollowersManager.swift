@@ -27,11 +27,10 @@ class PastFollowersManager {
     
     /// Save followers for this day or add additions for this day if they come later.
     public func save(_ followersIds: [String]) {
-        var todaysSavedId: [String] = getIdsForThisDay()
-        todaysSavedId.append(contentsOf: followersIds)
-        todaysSavedId = Array(Set(todaysSavedId))
+        if !getIdsForThisDay().isEmpty { return }
+        
         var dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] ?? [:]
-        dictionary[thisDayString()] = todaysSavedId
+        dictionary[thisDayString()] = followersIds
         saveDictionary(dictionary)
     }
     
