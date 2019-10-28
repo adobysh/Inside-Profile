@@ -24,7 +24,7 @@ class UserCell: UITableViewCell {
         
         followButton?.setTitle("wait...", for: .disabled)
         nameLabel?.text = user.username
-        descriptionLabel?.text = "\(user.connectionsCount ?? 0)"
+        descriptionLabel?.text = user.descriptionText
         updateFollowButton()
         avatarImageView?.image = nil
         UIImage.load(user.profile_pic_url) { [weak self] image, url in

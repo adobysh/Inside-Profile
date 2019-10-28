@@ -375,6 +375,14 @@ class ApiManager {
             if goodSuggestedUsers.isEmpty {
                 goodSuggestedUsers = notBadSuggestedUsers
             }
+            
+            goodSuggestedUsers = goodSuggestedUsers.map { user in
+                var user2 = user
+                user2.descriptionText = user2.descriptionText?.replacingOccurrences(of: "by\\s.+\\s\\+", with: "", options: [.regularExpression])
+                return user2
+            }
+            
+            goodSuggestedUsers.sort { ($0.descriptionText ?? "") > ($1.descriptionText ?? "") }
             onComplete(goodSuggestedUsers)
         }, onError: onError)
     }
