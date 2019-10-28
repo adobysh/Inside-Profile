@@ -23,32 +23,43 @@ class UserModel {
         
         print("!!! topLiker friends finish total count \(topLikersFriends?.count ?? 0)")
         
-        let usersWithDublicates = topLikersFriends.flatMap { $0 } ?? []
-        let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
-        print("!!! topLiker userIds count \(userIds.count)")
-        var users: [(user: ApiUser, count: Int)] = []
-        userIds.forEach { userId in
-            let count = usersWithDublicates.filter { $0.id == userId }.count
-            if var uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
-                uniqueUser.connectionsCount = count
-                print("!!! topLiker count \(count)")
-                if myFollowing?.first(where: { $0.id == userId }) == nil {
-                    users.append((uniqueUser, count))
-                }
+        var topLikersFriendsI_dont_follow: [ApiUser] = []
+        (topLikersFriends ?? []).forEach { user in
+            if myFollowing?.first(where: { $0.id == user.id }) == nil {
+                topLikersFriendsI_dont_follow.append(user)
             }
         }
-        users = users.sorted(by: { $0.count > $1.count  })
-        users = users.filter { $0.user.username != username } // remove own account
+        
         
         // ----------
         // Вот они, 4 списка из которых мы формируем список гостей
-        let topLikersFriendsWithoudDublicates_I_dont_follow = users.map { $0.user }
+        // Первые 2 для тех на кого я не подписан
+        // Вторые 2 для тех на кого я подписан
         let suggestedUsersNotNil = suggestedUsers ?? []
+//        var topLikersFriendsI_dont_follow
         let userDirectSearchCommon = (userDirectSearch?.filter { $0.is_verified == false } ?? [])
         let myFriends = UserModel.friends(myFollowing, myFollowers)
         
-        // количество гостей это корень от числа подписчиков
-        //let guestCount = sqrt(Double(myFollowers?.count ?? 0))
+        
+        // главные списки делим на хорошие и плохие половинки
+        let suggestedUsersTwoHalfs = suggestedUsersNotNil.split()
+        let userDirectSearchTwoHalfs = userDirectSearchCommon.split()
+        
+        
+        // наполняем два списка источника с упровляемым смешиванием
+        // seed для рандома будет меняться каждую неделю
+        let year = Calendar.current.component(.year, from: Date())
+        let weekOfYear = Calendar.current.component(.weekOfYear, from: Date())
+        let seed = year + weekOfYear
+        var usersI_DontFollow: [User] = []
+        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs.first?.shuffle(seed: seed) ?? [])
+        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs.last?.shuffle(seed: seed) ?? [])
+        usersI_DontFollow.append(contentsOf: topLikersFriendsI_dont_follow.shuffle(seed: seed))
+        var usersI_Follow: [User] = []
+        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs.first?.shuffle(seed: seed) ?? [])
+        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs.last?.shuffle(seed: seed) ?? [])
+        usersI_Follow.append(contentsOf: myFriends.shuffle(seed: seed))
+        
         
         // количество гостей это колличество подписчеков * 0.05
         // у Коли это соотношение 1800 : 236 но в этих гостях есть боты а ботов мы стараемся не показывать, поэтому у нас оно меньше
@@ -68,22 +79,26 @@ class UserModel {
         print("!!! ggg guests_I_do_not_following_count \(guests_I_do_not_following_count)")
         print("!!! ggg guests_I_following_count \(guests_I_following_count)")
         
-        var theGuests: [User] = []
+        var theGuestsWithDublicates: [User] = []
         
         // guests_I_do_not_following
-        theGuests.append(contentsOf: Array(suggestedUsersNotNil.prefix(guests_I_do_not_following_count)))
+        theGuestsWithDublicates.append(contentsOf: Array(usersI_DontFollow.prefix(guests_I_do_not_following_count)))
         
         // guests_I_following
-        theGuests.append(contentsOf: Array(userDirectSearchCommon.prefix(guests_I_following_count)))
+        theGuestsWithDublicates.append(contentsOf: Array(usersI_Follow.prefix(guests_I_following_count)))
         
-        // если нужно больше гостей на которых я подписан чем 30 юзеров из поиска директа
-        // то берём их рандомно из друзей
-        if guests_I_following_count > userDirectSearchCommon.count {
-            let needMore_I_following_guests_count = guests_I_following_count - userDirectSearchCommon.count
-            theGuests.append(contentsOf: Array(myFriends.prefix(needMore_I_following_guests_count)))
+        // удалить меня из списка
+        theGuestsWithDublicates = theGuestsWithDublicates.filter { $0.username != username }
+        
+        
+        // удалить дубли
+        let uniqueGuestsIds = Array(Set(theGuestsWithDublicates.compactMap { $0.id }))
+        var theGuests: [User] = []
+        uniqueGuestsIds.forEach { guestId in
+            if let uniqueGuest = theGuestsWithDublicates.first(where: { $0.id == guestId }) {
+                theGuests.append(uniqueGuest)
+            }
         }
-        
-        theGuests = theGuests.filter { $0.username != username }
         
         GuestsManager.shared.save(theGuests.compactMap { $0.id })
         return (theGuests, nil)
