@@ -252,7 +252,7 @@ extension MainViewController {
                 let unfollowers = UserModel.unfollowers(followers: followers, following: following)
                 label.text = unfollowers.count.bigBeauty
             case .new_guests:
-                let newGuests = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, following, followers)
+                let newGuests = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
                 if let newGuestsCount = newGuests.guests?.count {
                     label.text = newGuestsCount.bigBeauty
                 } else {

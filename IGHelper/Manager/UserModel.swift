@@ -11,7 +11,7 @@ import Foundation
 class UserModel {
     
     #warning("первый рабочий вариант гостей. нужна доработка")
-    public static func newGuests(_ username: String?, _ userDirectSearch: [ApiUser]?, _ topLikersFriends: [ApiUser]?, _ myFollowing: [ApiUser]?, _ myFollowers: [ApiUser]?) -> (guests: [ApiUser]?, guestsIds: [String]?) {
+    public static func newGuests(_ username: String?, _ userDirectSearch: [ApiUser]?, _ topLikersFriends: [ApiUser]?, _ suggestedUsers: [GraphUser]?, _ myFollowing: [ApiUser]?, _ myFollowers: [ApiUser]?) -> (guests: [User]?, guestsIds: [String]?) {
         guard (myFollowing?.count ?? 0) != 0
             && (myFollowers?.count ?? 0) != 0
             && (userDirectSearch?.count ?? 0) != 0 else { return (nil, nil) }
@@ -41,8 +41,9 @@ class UserModel {
         users = users.filter { $0.user.username != username } // remove own account
         
         // ----------
-        // Вот они, три списка из которых мы формируем список гостей
+        // Вот они, 4 списка из которых мы формируем список гостей
         let topLikersFriendsWithoudDublicates_I_dont_follow = users.map { $0.user }
+        let suggestedUsersNotNil = suggestedUsers ?? []
         let userDirectSearchCommon = (userDirectSearch?.filter { $0.is_verified == false } ?? [])
         let myFriends = UserModel.friends(myFollowing, myFollowers)
         
@@ -67,10 +68,10 @@ class UserModel {
         print("!!! ggg guests_I_do_not_following_count \(guests_I_do_not_following_count)")
         print("!!! ggg guests_I_following_count \(guests_I_following_count)")
         
-        var theGuests: [ApiUser] = []
+        var theGuests: [User] = []
         
         // guests_I_do_not_following
-        theGuests.append(contentsOf: Array(topLikersFriendsWithoudDublicates_I_dont_follow.prefix(guests_I_do_not_following_count)))
+        theGuests.append(contentsOf: Array(suggestedUsersNotNil.prefix(guests_I_do_not_following_count)))
         
         // guests_I_following
         theGuests.append(contentsOf: Array(userDirectSearchCommon.prefix(guests_I_following_count)))

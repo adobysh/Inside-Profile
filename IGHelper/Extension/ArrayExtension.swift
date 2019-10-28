@@ -20,4 +20,14 @@ extension Array {
             }
         }
     }
+    
+    mutating func shuffle(seed: Int) {
+        srand48(seed)
+        var shuffled: [(element: Element, index: Double)] = []
+        self.forEach { shuffled.append(($0, Double(drand48()))) }
+        shuffled.sort { $0.index > $1.index }
+        let shuffledElements = shuffled.map { $0.element }
+        self = shuffledElements
+    }
+    
 }

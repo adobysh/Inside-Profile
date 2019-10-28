@@ -69,8 +69,8 @@ class DetailViewController: UIViewController {
         switch contentType {
         case .new_guests:
             navigationItem.title = "New Guests"
-            let guestsResult = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, following, followers)
-            if let guests = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, following, followers).guests {
+            let guestsResult = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
+            if let guests = guestsResult.guests {
                 users = guests
                 emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
                 complete()

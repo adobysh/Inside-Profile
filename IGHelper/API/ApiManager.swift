@@ -108,33 +108,15 @@ class ApiManager {
         
         print("!!! topLikers ids \(topLikers.map { $0.id })")
         
-        var totalTopLikersFriends: [ApiUser] = [] // following and follower in one person
-        
         getFollowings(userId: topLikers.first?.id, onComplete: { [weak self] followings in
-            print("!!! topLiker 1 followings count \(followings.count)")
+            print("!!! topLiker followings count \(followings.count)")
             
-            self?.getFollowers(userId: topLikers.first?.id, onComplete: { [weak self] followers in
-                print("!!! topLiker 1 followers count \(followers.count)")
-                let topLiker1Friends = UserModel.friends(followings, followers)
-                print("!!! topLiker 1 friends count \(topLiker1Friends.count)")
-                totalTopLikersFriends.append(contentsOf: topLiker1Friends)
+            self?.getFollowers(userId: topLikers.first?.id, onComplete: { followers in
+                print("!!! topLiker followers count \(followers.count)")
+                let topLikerFriends = UserModel.friends(followings, followers)
+                print("!!! topLiker friends count \(topLikerFriends.count)")
                 
-                if topLikers.count <= 1 {
-                    onComplete(totalTopLikersFriends)
-                } else {
-                    self?.getFollowings(userId: topLikers[safe: 1]?.id, onComplete: { [weak self] followings in
-                        print("!!! topLiker 2 followings count \(followings.count)")
-                        
-                        self?.getFollowers(userId: topLikers[safe: 1]?.id, onComplete: { followers in
-                            print("!!! topLiker 2 followers count \(followers.count)")
-                            let topLiker2Friends = UserModel.friends(followings, followers)
-                            print("!!! topLiker 2 friends count \(topLiker2Friends.count)")
-                            totalTopLikersFriends.append(contentsOf: topLiker2Friends)
-                            
-                            onComplete(totalTopLikersFriends)
-                        }, onError: onError)
-                    }, onError: onError)
-                }
+                onComplete(topLikerFriends)
             }, onError: onError)
         }, onError: onError)
     }
