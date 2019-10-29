@@ -28,6 +28,8 @@ class ApiManager {
         
         getFollowRequests(onComplete: { [weak self] followRequests in
             self?.getFollowers(onComplete: { [weak self] followers in
+                let ids = followers.compactMap { $0.id }
+                PastFollowersManager.shared.save(ids)
                 self?.getFollowings(onComplete: { [weak self] following in
                     self?.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
                         self?.getUserDirectSearch(onComplete: { userDirectSearch in
@@ -152,12 +154,6 @@ class ApiManager {
                 if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
                     self?.getFollowers(users: followers, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
                 } else {
-                    let ids = followers.compactMap { $0.id }
-                    
-                    // это значит что фоловеры мои
-                    if userId == nil {
-                        PastFollowersManager.shared.save(ids)
-                    }
                     onComplete(followers)
                 }
             } catch {
