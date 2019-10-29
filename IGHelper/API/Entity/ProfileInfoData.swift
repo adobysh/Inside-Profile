@@ -9,12 +9,20 @@
 import Foundation
 
 struct ProfileInfoData: Codable {
+    let pk: Int?
     let profile_pic_url: String?
     let follower_count: Int?
     let following_count: Int?
     let username: String?
     let full_name: String?
     let hd_profile_pic_url_info: HDProfilePicUrlInfo?
+    
+    var id: String? {
+        get {
+            guard let pk = pk else { return nil }
+            return "\(pk)"
+        }
+    }
 }
 
 struct HDProfilePicUrlInfo: Codable {

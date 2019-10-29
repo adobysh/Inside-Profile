@@ -328,7 +328,7 @@ extension MainViewController {
                     self?.buttons?.forEach { $0.isEnabled = true }
                 } else {
                     let topLikers = UserModel.topLikers(self?.mainScreenInfo?.username, self?.posts)
-                    ApiManager.shared.getTopLikersFriends(topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
+                    ApiManager.shared.getTopLikersFriends(myId: self?.mainScreenInfo?.id, topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
                         self?.topLikersFollowers = topLikersFollowers
                         
                         self?.updateUI()
