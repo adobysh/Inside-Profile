@@ -37,17 +37,14 @@ extension Array {
         return [Array(leftSplit), Array(rightSplit)]
     }
     
-//    func split(parts: Int = 2) -> [[Element]] {
-//        let partCount = count / parts
-//        var newArray = [[Element]]
-//        for i in 0..<parts {
-//            
-//        }
-//        
-//        
-//        let leftSplit = self[0 ..< half]
-//        let rightSplit = self[half ..< count]
-//        return [Array(leftSplit), Array(rightSplit)]
-//    }
+    func split(parts: Int) -> [[Element]] {
+        let partCount = count / parts
+        var newArray: [[Element]] = []
+        for i in 0..<parts {
+            newArray.append(Array(self[(i * partCount) ..< (i * partCount + partCount)]))
+        }
+        newArray.append(Array(self[(partCount * parts) ..< count]))
+        return newArray
+    }
     
 }

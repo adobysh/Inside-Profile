@@ -42,8 +42,8 @@ class UserModel {
         
         
         // главные списки делим на хорошие и плохие половинки
-        let suggestedUsersTwoHalfs = suggestedUsersNotNil.split()
-        let userDirectSearchTwoHalfs = userDirectSearchCommon.split()
+        let suggestedUsersTwoHalfs = suggestedUsersNotNil.split(parts: 4)
+        let userDirectSearchTwoHalfs = userDirectSearchCommon.split(parts: 4)
         
         
         // наполняем два списка источника с упровляемым смешиванием
@@ -52,12 +52,18 @@ class UserModel {
         let weekOfYear = Calendar.current.component(.weekOfYear, from: Date())
         let seed = year + weekOfYear
         var usersI_DontFollow: [User] = []
-        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs.first?.shuffle(seed: seed) ?? [])
-        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs.last?.shuffle(seed: seed) ?? [])
+        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 0]?.shuffle(seed: seed) ?? [])
+        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 1]?.shuffle(seed: seed) ?? [])
+        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 2]?.shuffle(seed: seed) ?? [])
+        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 3]?.shuffle(seed: seed) ?? [])
+        usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 4]?.shuffle(seed: seed) ?? [])
         usersI_DontFollow.append(contentsOf: topLikersFriendsI_dont_follow.shuffle(seed: seed))
         var usersI_Follow: [User] = []
-        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs.first?.shuffle(seed: seed) ?? [])
-        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs.last?.shuffle(seed: seed) ?? [])
+        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs[safe: 0]?.shuffle(seed: seed) ?? [])
+        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs[safe: 1]?.shuffle(seed: seed) ?? [])
+        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs[safe: 2]?.shuffle(seed: seed) ?? [])
+        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs[safe: 3]?.shuffle(seed: seed) ?? [])
+        usersI_Follow.append(contentsOf: userDirectSearchTwoHalfs[safe: 4]?.shuffle(seed: seed) ?? [])
         usersI_Follow.append(contentsOf: myFriends.shuffle(seed: seed))
         
         

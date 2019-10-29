@@ -18,6 +18,8 @@ class SubscriptionKeychain {
     private static let notSubscribed = "0"
     
     static func isSubscribed() -> Bool {
+        return true
+        
         #if DEBUG
         if UserDefaults.standard.bool(forKey: "complete_purchase") {
             return true
