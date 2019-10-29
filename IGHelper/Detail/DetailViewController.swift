@@ -34,6 +34,7 @@ class DetailViewController: UIViewController {
     
     private var usersId: [String] = []
     private var users: [User] = []
+    private var usersCache: [String: User] = [:]
     public var mainScreenInfo: ProfileInfoData?
     public var contentType: ContentType?
     public var followRequests: FollowRequests?
@@ -75,7 +76,25 @@ class DetailViewController: UIViewController {
                 users = guests
                 emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
             } else {
-                usersId = guestsResult.guestsIds ?? []
+                var idBigArray: [String] = []
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                
+                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
+                usersId = idBigArray
             }
             complete()
         case .recommendation:
@@ -121,6 +140,7 @@ class DetailViewController: UIViewController {
     }
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        usersCache = [:]
         onUpdate?() { [weak self] in
             self?.updateUsers() {
                 refreshControl.endRefreshing()
@@ -145,8 +165,8 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier, for: indexPath) as! UserCell
-        if var user = users[safe: indexPath.row] {
+        func configureCell(_ cell: UserCell, _ userWithoutFollowStatus: User) {
+            var user = userWithoutFollowStatus
             user = UserModel.addFollowStatus(user, following, followRequests)
             cell.configure(user: user, onFollow: { [weak self] onFollow in
                 self?.onFollow?() {
@@ -155,28 +175,26 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                     onFollow?(followStatus)
                 }
             })
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier, for: indexPath) as! UserCell
+        if let user = users[safe: indexPath.row] ?? usersCache[usersId[safe: indexPath.row] ?? ""] {
+            configureCell(cell, user)
         } else if let userId = usersId[safe: indexPath.row] {
+            cell.configure(user: nil, onFollow: { _ in }) // to reset cell
             ApiManager.shared.getUserInfoArray_graph(ids: [userId], onComplete: { [weak self] users in
-                if var user = users.first as? User {
-                    user = UserModel.addFollowStatus(user, self?.following, self?.followRequests)
-                    cell.configure(user: user, onFollow: { [weak self] onFollow in
-                        self?.onFollow?() {
-                            user = UserModel.addFollowStatus(user, self?.following, self?.followRequests)
-                            guard let followStatus = user.followStatus else { return }
-                            onFollow?(followStatus)
-                        }
-                    })
+                if let user = users.first {
+                    self?.usersCache[userId] = user
+                    configureCell(cell, user)
                 }
-            }) { error in
-                // пофиг
-            }
+            }, onError: { _ in })
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let item = users[safe: indexPath.row] {
+        if let item = users[safe: indexPath.row] ?? usersCache[usersId[safe: indexPath.row] ?? ""] {
             let instagramHooks = "instagram://user?username=" + (item.username ?? "")
             if let instagramUrl = URL(string: instagramHooks), UIApplication.shared.canOpenURL(instagramUrl) {
                 UIApplication.shared.open(instagramUrl)

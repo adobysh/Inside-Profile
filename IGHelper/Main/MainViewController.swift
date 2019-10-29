@@ -225,7 +225,7 @@ extension MainViewController {
         
         let bestQualityAvatarUrl = mainScreenInfo?.hd_profile_pic_url_info?.url ?? mainScreenInfo?.profile_pic_url
         UIImage.load(bestQualityAvatarUrl) { [weak self] image, url in
-            self?.avatarImageView?.image = image
+            self?.avatarImageView?.imageWithFade = image
         }
     }
     

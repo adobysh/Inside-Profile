@@ -18,24 +18,33 @@ class UserCell: UITableViewCell {
     
     private var user: User?
     
-    func configure(user: User, onFollow: (( ((FollowStatus)->Void)? )->())?) {
+    func configure(user: User?, onFollow: (( ((FollowStatus)->Void)? )->())?) {
         self.user = user
         self.onFollow = onFollow
         
         followButton?.setTitle("wait...", for: .disabled)
-        nameLabel?.text = user.username
-        descriptionLabel?.text = user.descriptionText
+        
+        UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: { [weak self] in
+            self?.nameLabel?.text = user?.username
+            self?.descriptionLabel?.text = user?.descriptionText
+        })
         updateFollowButton()
         avatarImageView?.image = nil
-        UIImage.load(user.profile_pic_url) { [weak self] image, url in
-            if user.profile_pic_url == url {
-                self?.avatarImageView?.image = image
+        UIImage.load(user?.profile_pic_url) { [weak self] image, url in
+            if user?.profile_pic_url == url {
+                self?.avatarImageView?.imageWithFade = image
             }
         }
     }
     
     func updateFollowButton() {
-        guard let followStatus = user?.followStatus else { return }
+        guard let followStatus = user?.followStatus else {
+            followButton?.alpha = 0
+            return
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.followButton?.alpha = 1
+        }
         switch followStatus {
         case .yes:
             followButton?.setBackgroundColor(.white, for: .normal)

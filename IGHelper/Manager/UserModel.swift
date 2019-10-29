@@ -50,6 +50,9 @@ class UserModel {
         let year = Calendar.current.component(.year, from: Date())
         let weekOfYear = Calendar.current.component(.weekOfYear, from: Date())
         let seed = year + weekOfYear
+        var usersI_Follow: [User] = []
+        usersI_Follow.append(contentsOf: userDirectSearchCommon)
+        usersI_Follow.append(contentsOf: myFriends.shuffle(seed: seed))
         var usersI_DontFollow: [User] = []
         usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 0]?.shuffle(seed: seed) ?? [])
         usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 1]?.shuffle(seed: seed) ?? [])
@@ -57,14 +60,11 @@ class UserModel {
         usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 3]?.shuffle(seed: seed) ?? [])
         usersI_DontFollow.append(contentsOf: suggestedUsersTwoHalfs[safe: 4]?.shuffle(seed: seed) ?? [])
         usersI_DontFollow.append(contentsOf: topLikersFriendsI_dont_follow.shuffle(seed: seed))
-        var usersI_Follow: [User] = []
-        usersI_Follow.append(contentsOf: userDirectSearchCommon)
-        usersI_Follow.append(contentsOf: myFriends.shuffle(seed: seed))
         
         
         // количество гостей это колличество подписчеков * 0.05
         // у Коли это соотношение 1800 : 236 но в этих гостях есть боты а ботов мы стараемся не показывать, поэтому у нас оно меньше
-        let guestCount = Double(myFollowers?.count ?? 0) * Double.random(in: 0.1 ..< 0.15)
+        let guestCount = Double(myFollowers?.count ?? 0) * Double.random(in: 0.8 ..< 0.12)
         print("!!! ggg guestCount \(guestCount)")
         
         let followersAndFollowingCount = Double(myFollowing?.count ?? 0) + Double(myFollowers?.count ?? 0)
@@ -100,6 +100,8 @@ class UserModel {
                 theGuests.append(uniqueGuest)
             }
         }
+        
+        theGuests = theGuests.shuffle(seed: seed)
         
         GuestsManager.shared.save(theGuests.compactMap { $0.id })
         return (theGuests, nil)
