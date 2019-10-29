@@ -41,6 +41,12 @@ class SettingsViewController: UIViewController {
             }
             vc.dismiss(animated: true)
         }
+        vc.onRestoreSuccess = { [weak self] in
+           if SubscriptionKeychain.isSubscribed() {
+               self?.getPremiumButton?.removeFromSuperview()
+               self?.restoreButton?.removeFromSuperview()
+           }
+        }
         present(vc, animated: true)
     }
     

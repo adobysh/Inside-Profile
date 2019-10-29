@@ -19,6 +19,7 @@ class VipViewController: UIViewController {
     private let currentSubscription: SubscriptionType = .month
     
     public var onPaymentSuccess: (()->())?
+    public var onRestoreSuccess: (()->())?
     public var onClose: (()->())?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -43,7 +44,7 @@ class VipViewController: UIViewController {
     @IBAction func restoreAction(_ sender: UIButton) {
         sender.isEnabled = false
         SubscriptionManager.restore(onSuccess: { [weak self] verifySubscriptionResultArray in
-            verifySubscriptionResultArray.forEach { verifySubscriptionResult in
+            verifySubscriptionResultArray.forEach { [weak self] verifySubscriptionResult in
                 switch verifySubscriptionResult {
                 case .purchased(_, let receiptItemArray):
                     receiptItemArray.forEach {
@@ -51,6 +52,9 @@ class VipViewController: UIViewController {
                         if haveThisSubscription {
                             if let subscriptionExpirationDate = $0.subscriptionExpirationDate, !$0.isExpired {
                                 SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
+                                if SubscriptionKeychain.isSubscribed() {
+                                    self?.onRestoreSuccess?()
+                                }
                             }
                         }
                     }
