@@ -32,6 +32,7 @@ class DetailViewController: UIViewController {
         return refreshControl
     }()
     
+    private var usersId: [String] = []
     private var users: [User] = []
     public var mainScreenInfo: ProfileInfoData?
     public var contentType: ContentType?
@@ -73,23 +74,10 @@ class DetailViewController: UIViewController {
             if let guests = guestsResult.guests {
                 users = guests
                 emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
-                complete()
             } else {
-                if showProgress {
-                    activityIndicatorView?.startAnimating()
-                }
-                ApiManager.shared.getUserInfoArray_graph(ids: guestsResult.guestsIds ?? [], onComplete: { [weak self] users in
-                    self?.activityIndicatorView?.stopAnimating()
-                    self?.users = users
-                    self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
-                    complete()
-                }) { [weak self] error in
-                    self?.activityIndicatorView?.stopAnimating()
-                    self?.showErrorAlert(error)
-                    self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
-                    complete()
-                }
+                usersId = guestsResult.guestsIds ?? []
             }
+            complete()
         case .recommendation:
             navigationItem.title = "Recommendation"
             users = suggestedUsers ?? []
@@ -126,20 +114,8 @@ class DetailViewController: UIViewController {
             let previousFollowersIds = PastFollowersManager.shared.getIds()
             let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
             
-            if showProgress {
-                activityIndicatorView?.startAnimating()
-            }
-            ApiManager.shared.getUserInfoArray_graph(ids: lostFollowersIds, onComplete: { [weak self] users in
-                self?.activityIndicatorView?.stopAnimating()
-                self?.users = users
-                self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
-                complete()
-            }) { [weak self] error in
-                self?.activityIndicatorView?.stopAnimating()
-                self?.showErrorAlert(error)
-                self?.emptyTableLabel?.alpha = self?.users.isEmpty == true ? 1 : 0
-                complete()
-            }
+            usersId = lostFollowersIds
+            complete()
         }
         
     }
@@ -161,7 +137,11 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        if users.isEmpty {
+            return usersId.count
+        } else {
+            return users.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -175,6 +155,21 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                     onFollow?(followStatus)
                 }
             })
+        } else if let userId = usersId[safe: indexPath.row] {
+            ApiManager.shared.getUserInfoArray_graph(ids: [userId], onComplete: { [weak self] users in
+                if var user = users.first as? User {
+                    user = UserModel.addFollowStatus(user, self?.following, self?.followRequests)
+                    cell.configure(user: user, onFollow: { [weak self] onFollow in
+                        self?.onFollow?() {
+                            user = UserModel.addFollowStatus(user, self?.following, self?.followRequests)
+                            guard let followStatus = user.followStatus else { return }
+                            onFollow?(followStatus)
+                        }
+                    })
+                }
+            }) { error in
+                // пофиг
+            }
         }
         return cell
     }
