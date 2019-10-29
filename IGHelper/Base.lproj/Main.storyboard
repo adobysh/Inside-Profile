@@ -144,10 +144,6 @@ Tracker</string>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="sMu-3R-TTP">
-                                        <rect key="frame" x="169" y="59.5" width="37" height="37"/>
-                                        <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </activityIndicatorView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@jessica_jones" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsC-IY-bFl">
                                         <rect key="frame" x="96" y="152" width="183.5" height="38"/>
                                         <constraints>
@@ -532,7 +528,6 @@ Tracker</string>
                                     <constraint firstAttribute="bottom" secondItem="WmQ-wQ-aX1" secondAttribute="bottom" constant="27" id="XMl-gc-MKb"/>
                                     <constraint firstItem="ssa-3R-MRV" firstAttribute="centerX" secondItem="0k6-g2-t7T" secondAttribute="centerX" id="XP9-PH-99a"/>
                                     <constraint firstItem="xID-h9-OTh" firstAttribute="centerX" secondItem="ZPf-X2-oJa" secondAttribute="centerX" id="XhD-aB-169"/>
-                                    <constraint firstItem="sMu-3R-TTP" firstAttribute="centerX" secondItem="ssa-3R-MRV" secondAttribute="centerX" id="YBH-hC-vML"/>
                                     <constraint firstItem="FFm-zc-JKV" firstAttribute="centerY" secondItem="fKe-oT-mHF" secondAttribute="centerY" id="e3R-lf-Fib"/>
                                     <constraint firstItem="qGt-4d-cJk" firstAttribute="trailing" secondItem="0k6-g2-t7T" secondAttribute="trailing" id="eK8-gp-LUu"/>
                                     <constraint firstItem="xID-h9-OTh" firstAttribute="width" secondItem="ZPf-X2-oJa" secondAttribute="width" id="ePH-lI-9n0"/>
@@ -542,7 +537,6 @@ Tracker</string>
                                     <constraint firstItem="SEu-Gl-wql" firstAttribute="centerY" secondItem="Ne8-Ad-WLn" secondAttribute="centerY" id="lAo-hc-QSe"/>
                                     <constraint firstItem="7Y2-Sk-Fp6" firstAttribute="centerX" secondItem="tvL-iv-nR0" secondAttribute="centerX" id="mMT-Pg-uJy"/>
                                     <constraint firstAttribute="trailing" secondItem="WmQ-wQ-aX1" secondAttribute="trailing" constant="27" id="mo2-ex-Ebw"/>
-                                    <constraint firstItem="sMu-3R-TTP" firstAttribute="centerY" secondItem="ssa-3R-MRV" secondAttribute="centerY" id="s5i-ma-Qlh"/>
                                     <constraint firstItem="qGt-4d-cJk" firstAttribute="bottom" secondItem="0k6-g2-t7T" secondAttribute="bottom" id="s9a-Vs-Mjk"/>
                                     <constraint firstItem="qGt-4d-cJk" firstAttribute="leading" secondItem="0k6-g2-t7T" secondAttribute="leading" id="sHl-BH-R1M"/>
                                     <constraint firstItem="qGt-4d-cJk" firstAttribute="top" secondItem="0k6-g2-t7T" secondAttribute="top" id="sJ7-P8-kFk"/>
@@ -592,7 +586,6 @@ Tracker</string>
                         <outlet property="followingCountLabel" destination="efT-c9-7wG" id="xMu-bP-lfd"/>
                         <outlet property="likesCountLabel" destination="8XX-C8-gDa" id="H0I-Ks-yK4"/>
                         <outlet property="loginLabel" destination="vsC-IY-bFl" id="7pM-vl-Anz"/>
-                        <outlet property="mainActivityIndicatorView" destination="sMu-3R-TTP" id="enF-QH-lTN"/>
                         <outlet property="scrollView" destination="0k6-g2-t7T" id="wtx-jJ-HDx"/>
                         <outletCollection property="buttons" destination="4Et-lo-qNU" collectionClass="NSMutableArray" id="5Qb-PF-f68"/>
                         <outletCollection property="buttons" destination="FEg-km-dIW" collectionClass="NSMutableArray" id="qvQ-44-p51"/>
@@ -958,7 +951,7 @@ Update tomorrow</string>
                             </imageView>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KoH-eN-AAx">
                                 <rect key="frame" x="0.0" y="88" width="375" height="579"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>

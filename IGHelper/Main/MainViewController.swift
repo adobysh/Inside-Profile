@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     @IBOutlet var buttons: [UIButton]?
     @IBOutlet var buttonLabels: [UILabel]?
     @IBOutlet var scrollView: UIScrollView?
-    @IBOutlet var mainActivityIndicatorView: UIActivityIndicatorView?
+    var barActivityIndicatorView: UIActivityIndicatorView?
     
     private var mainScreenInfo: ProfileInfoData?
     private var followRequests: FollowRequests?
@@ -38,6 +38,14 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.scale()
+        
+        barActivityIndicatorView = UIActivityIndicatorView(style: .white)
+        barActivityIndicatorView?.hidesWhenStopped = true
+        if let barActivityIndicatorView = barActivityIndicatorView {
+            let barButton = UIBarButtonItem(customView: barActivityIndicatorView)
+            navigationItem.rightBarButtonItem = barButton
+        }
+        
         
         setupRefreshControl()
         fetchInfo()
@@ -62,7 +70,7 @@ class MainViewController: UIViewController {
     
     @objc func handleRefreshControl() {
         // защита от двойного запуска обновления
-        guard mainActivityIndicatorView?.isAnimating != true else {
+        guard barActivityIndicatorView?.isAnimating != true else {
             scrollView?.refreshControl?.endRefreshing()
             return
         }
@@ -306,7 +314,7 @@ extension MainViewController {
                 }
             }
             
-            self?.mainActivityIndicatorView?.startAnimating()
+            self?.barActivityIndicatorView?.startAnimating()
             ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
                 self?.followRequests = info.followRequests
                 self?.followers = info.followers
@@ -316,7 +324,7 @@ extension MainViewController {
                 
                 if GuestsManager.shared.containIds() {
                     self?.updateUI()
-                    self?.mainActivityIndicatorView?.stopAnimating()
+                    self?.barActivityIndicatorView?.stopAnimating()
                     self?.buttons?.forEach { $0.isEnabled = true }
                 } else {
                     let topLikers = UserModel.topLikers(self?.mainScreenInfo?.username, self?.posts)
@@ -324,17 +332,17 @@ extension MainViewController {
                         self?.topLikersFollowers = topLikersFollowers
                         
                         self?.updateUI()
-                        self?.mainActivityIndicatorView?.stopAnimating()
+                        self?.barActivityIndicatorView?.stopAnimating()
                         self?.buttons?.forEach { $0.isEnabled = true }
                     }) { [weak self] error in
                         self?.showErrorAlert(error)
-                        self?.mainActivityIndicatorView?.stopAnimating()
+                        self?.barActivityIndicatorView?.stopAnimating()
                         self?.buttons?.forEach { $0.isEnabled = true }
                     }
                 }
             }) { [weak self] error in
                 self?.showErrorAlert(error)
-                self?.mainActivityIndicatorView?.stopAnimating()
+                self?.barActivityIndicatorView?.stopAnimating()
                 self?.buttons?.forEach { $0.isEnabled = true }
             }
         }) { [weak self] error in
