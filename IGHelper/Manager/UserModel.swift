@@ -64,7 +64,8 @@ class UserModel {
         
         // количество гостей это колличество подписчеков * 0.05
         // у Коли это соотношение 1800 : 236 но в этих гостях есть боты а ботов мы стараемся не показывать, поэтому у нас оно меньше
-        let guestCount = Double(myFollowers?.count ?? 0) * Double.random(in: 0.8 ..< 0.12)
+        // примерно 0.5 и это примерно за 3 дня
+        let guestCount = Double(myFollowers?.count ?? 0) * Double.random(in: 0.4 ..< 0.6)
         print("!!! ggg guestCount \(guestCount)")
         
         let followersAndFollowingCount = Double(myFollowing?.count ?? 0) + Double(myFollowers?.count ?? 0)
