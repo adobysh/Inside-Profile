@@ -27,15 +27,54 @@ class GuestsManager {
     
     /// Save guests for this week
     public func save(_ guestsIds: [String]) {
+        if !getIdsForThisDay().isEmpty { return }
+        
         var dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] ?? [:]
         dictionary[thisDayString()] = guestsIds
         saveDictionary(dictionary)
     }
     
-    /// Get followers for this week
+    /// Get followers for last 3 days
     public func getIds() -> [String] {
+        guard var dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] else {
+            return []
+        }
+        
+        // dates.sorted() result: [2019-10-16 13:38:22 +0000, 2019-10-17 13:38:22 +0000, 2019-10-18 13:38:22 +0000]
+        var dates: [Date] = dictionary.keys.map { stringToDate($0) }.sorted()
+        
+        // Если есть две и более достаточно старых дат.
+        // Нужно оставить только самую свежую а followerIds более старых удалить.
+        if isOlderEnough(dates[safe: 1]) {
+            while(isOlderEnough(dates[safe: 1]) && dates.count >= 2) {
+                if let dateToDeleteIds = dates.first {
+                    dictionary.removeValue(forKey: dateToString(dateToDeleteIds))
+                    dates.removeFirst()
+                }
+            }
+            saveDictionary(dictionary)
+        }
+        return dictionary[dateToString(dates.first ?? Date())] ?? []
+    }
+    
+    private func getIdsForThisDay() -> [String] {
         guard let dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] else { return [] }
         return dictionary[thisDayString()] ?? []
+    }
+    
+    private func isOlderEnough(_ date: Date?) -> Bool {
+        let dateToCompare = date ?? Date()
+        let enoughOldDate = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
+        
+        print("!!! dateToCompare \(dateToCompare)")
+        print("!!! enoughOldDate \(enoughOldDate)")
+        if dateToCompare < enoughOldDate {
+            print("!!! dateToCompare < enoughOldDate")
+            return true
+        } else {
+            print("!!! dateToCompare >= enoughOldDate")
+            return false
+        }
     }
     
     /// Has saved guests ids
@@ -46,14 +85,14 @@ class GuestsManager {
     
     private func dateToString(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy w"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: date)
         return dateString
     }
     
     private func stringToDate(_ dateString: String) -> Date {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy w"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         let date = dateFormatter.date(from: dateString)
         return date ?? Date()
     }

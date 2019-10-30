@@ -48,8 +48,8 @@ class UserModel {
         // наполняем два списка источника с упровляемым смешиванием
         // seed для рандома будет меняться каждую неделю
         let year = Calendar.current.component(.year, from: Date())
-        let weekOfYear = Calendar.current.component(.weekOfYear, from: Date())
-        let seed = year + weekOfYear
+        let dayOfYear = Calendar.current.component(.day, from: Date())
+        let seed = year + dayOfYear
         var usersI_Follow: [User] = []
         usersI_Follow.append(contentsOf: userDirectSearchCommon)
         usersI_Follow.append(contentsOf: myFriends.shuffle(seed: seed))
