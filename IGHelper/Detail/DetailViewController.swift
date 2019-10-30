@@ -62,81 +62,40 @@ class DetailViewController: UIViewController {
     }
     
     func updateUsers(showProgress: Bool = false, onComplete: (()->())? = nil) {
-        func complete() {
-            tableView?.reloadData()
-            onComplete?()
-        }
-        
         guard let contentType = contentType else { return }
         switch contentType {
         case .new_guests:
             navigationItem.title = "New Guests"
             let guestsResult = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
-            if let guests = guestsResult.guests {
-                users = guests
-                emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
-            } else {
-                var idBigArray: [String] = []
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                
-                idBigArray.append(contentsOf: guestsResult.guestsIds ?? [])
-                usersId = idBigArray
-            }
-            complete()
+            users = guestsResult.guests ?? []
+            usersId = guestsResult.guestsIds ?? []
         case .recommendation:
             navigationItem.title = "Recommendation"
             users = suggestedUsers ?? []
-            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
-            complete()
         case .top_likers:
             navigationItem.title = "Top Likers"
             users = UserModel.topLikers(mainScreenInfo?.username, posts)
-            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
-            complete()
         case .top_commenters:
             navigationItem.title = "Top Commenters"
             users = UserModel.topCommenters(mainScreenInfo?.username, posts)
-            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
-            complete()
         case .you_dont_follow: // followers
             navigationItem.title = "You Dont Follow"
             users = UserModel.youDontFollow(followers: followers, following: following)
-            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
-            complete()
         case .unfollowers: // following
             navigationItem.title = "Unfollowers"
             users = UserModel.unfollowers(followers: followers, following: following)
-            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
-            complete()
         case .gained_followers:
             navigationItem.title = "Gained Followers"
             let previousFollowersIds = PastFollowersManager.shared.getIds()
             users = UserModel.gainedFollowers(previousFollowersIds, followers)
-            emptyTableLabel?.alpha = users.isEmpty ? 1 : 0
-            complete()
         case .lost_followers:
             navigationItem.title = "Lost Followers"
             let previousFollowersIds = PastFollowersManager.shared.getIds()
             let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
-            
             usersId = lostFollowersIds
-            complete()
         }
-        
+        tableView?.reloadData()
+        onComplete?()
     }
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -157,10 +116,11 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if users.isEmpty {
-            return usersId.count
-        } else {
+        if !users.isEmpty {
             return users.count
+        } else {
+            emptyTableLabel?.alpha = usersId.isEmpty ? 1 : 0
+            return usersId.count
         }
     }
     
