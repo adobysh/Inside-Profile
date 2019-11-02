@@ -29,7 +29,7 @@ class UserCell: UITableViewCell {
             self?.descriptionLabel?.text = user?.descriptionText
         })
         updateFollowButton()
-        avatarImageView?.image = nil
+        avatarImageView?.imageWithFade = UIImage()
         UIImage.load(user?.profile_pic_url) { [weak self] image, url in
             if user?.profile_pic_url == url {
                 self?.avatarImageView?.imageWithFade = image
@@ -58,6 +58,9 @@ class UserCell: UITableViewCell {
             followButton?.setBackgroundColor(.white, for: .normal)
             followButton?.setTitleColor(.black, for: .normal)
             followButton?.setTitle("Requested", for: .normal)
+        case .disabled:
+            followButton?.setBackgroundImage(UIImage(), for: .normal)
+            followButton?.setTitle("", for: .normal)
         }
     }
     
@@ -95,6 +98,8 @@ class UserCell: UITableViewCell {
             }) { (error) in
                 sender.isEnabled = true
             }
+        case .disabled:
+            sender.isEnabled = true
         }
     }
     

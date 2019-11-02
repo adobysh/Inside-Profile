@@ -25,6 +25,7 @@
 		0C3DEEE523643176008D8F36 /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE423643176008D8F36 /* IntExtensions.swift */; };
 		0C3DEEE723664583008D8F36 /* GuestsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE623664583008D8F36 /* GuestsManager.swift */; };
 		0C5761B22368C12B008138E0 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5761B12368C12B008138E0 /* UIImageViewExtension.swift */; };
+		0C5761B4236A2D05008138E0 /* HistoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5761B3236A2D05008138E0 /* HistoryData.swift */; };
 		0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */; };
 		0C5A9CF022E8E93700A6ED2E /* UIViewController+AppViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */; };
 		0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */; };
@@ -69,6 +70,7 @@
 		0C3DEEE423643176008D8F36 /* IntExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtensions.swift; sourceTree = "<group>"; };
 		0C3DEEE623664583008D8F36 /* GuestsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestsManager.swift; sourceTree = "<group>"; };
 		0C5761B12368C12B008138E0 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		0C5761B3236A2D05008138E0 /* HistoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryData.swift; sourceTree = "<group>"; };
 		0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStorybardExtension.swift; sourceTree = "<group>"; };
 		0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AppViewControllers.swift"; sourceTree = "<group>"; };
 		0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				0C669656234C6C8400845BB0 /* PostsContainerData.swift */,
 				0CC0B7802357A61F00E1DBA5 /* SuggestedUserWebContainer.swift */,
 				0CCA08592360D4C0008C3AD2 /* FollowRequests.swift */,
+				0C5761B3236A2D05008138E0 /* HistoryData.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				0CCA085723609439008C3AD2 /* SubscriptionKeychain.swift in Sources */,
 				0CC0B7812357A61F00E1DBA5 /* SuggestedUserWebContainer.swift in Sources */,
 				0CC0B7832359EBEF00E1DBA5 /* PastFollowersManager.swift in Sources */,
+				0C5761B4236A2D05008138E0 /* HistoryData.swift in Sources */,
 				0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */,
 				0CF10A10235F12B600746334 /* UserModel.swift in Sources */,
 				0C1D2EB422D46F1A0015135F /* NSLayoutConstraint+Scale.swift in Sources */,
@@ -602,7 +606,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = IGHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -624,7 +628,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = IGHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

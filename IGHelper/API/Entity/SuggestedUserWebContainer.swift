@@ -12,6 +12,7 @@ enum FollowStatus {
     case yes
     case no
     case requested
+    case disabled
 }
 
 protocol User: Codable {
@@ -43,6 +44,10 @@ struct BaseUser: User {
     
     private enum CodingKeys: String, CodingKey {
         case id, full_name, username, profile_pic_url, is_verified, followers
+    }
+    
+    static func disabled(_ id: String?) -> User {
+        return BaseUser(id: id, full_name: nil, username: "Account disabled", profile_pic_url: nil, is_verified: nil, followers: nil, descriptionText: nil, followStatus: nil, yourPostsLikes: nil, connectionsCount: nil)
     }
 }
 

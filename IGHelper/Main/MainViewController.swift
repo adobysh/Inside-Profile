@@ -49,6 +49,11 @@ class MainViewController: UIViewController {
         
         setupRefreshControl()
         fetchInfo()
+//        ApiManager.shared.getHistory(onComplete: { (history) in
+//            print("!!! history \(history)")
+//        }, onError: { (error) in
+//            print("!!! error \(error)")
+//        })
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()

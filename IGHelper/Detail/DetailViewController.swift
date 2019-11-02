@@ -147,7 +147,9 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                     self?.usersCache[userId] = user
                     configureCell(cell, user)
                 }
-            }, onError: { _ in })
+            }, onError: { _ in
+                configureCell(cell, BaseUser.disabled(userId))
+            })
         }
         return cell
     }

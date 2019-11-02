@@ -14,6 +14,7 @@ enum ApiError: Error {
     case unknown
     case bad_password
     case invalid_user
+    case nilValue
 }
 
 class ApiManager {
@@ -274,6 +275,45 @@ class ApiManager {
 //            } catch {
 //                onError(error)
 //            }
+        }
+    }
+    
+    public func getHistory(onComplete: @escaping ([HistoryData]) -> (), onError: @escaping (Error) -> ()) {
+        
+        let url = "https://www.instagram.com/accounts/activity/?__a=1&include_reel=true"
+        
+        guard let headers = getHeaders() else { return }
+        
+        Alamofire.request(url, method: .get, encoding: URLEncoding(destination: .queryString), headers: headers).responseJSON { response in
+            guard let json = response.value as? [String: Any] else { onError(ApiError.nilValue); return }
+            let graphql = json["graphql"] as? [String: Any]
+            let user = graphql?["user"] as? [String: Any]
+            let activity_feed = user?["activity_feed"] as? [String: Any]
+            let edge_web_activity_feed = activity_feed?["edge_web_activity_feed"] as? [String: Any]
+            let edges = edge_web_activity_feed?["edges"] as? [[String: Any]]
+            
+            let historyFollowArray = edges?.filter { edge in
+                let node = edge["node"] as? [String: Any]
+                return (node?["__typename"] as? String) == "GraphFollowAggregatedStory"
+            }
+            let historyArray: [HistoryData]? = historyFollowArray?.map { edge in
+                let node = edge["node"] as? [String: Any]
+                let user = node?["user"] as? [String: Any]
+                let baseUser = HistoryUser(
+                    id: user?["id"] as? String,
+                    full_name: user?["full_name"] as? String,
+                    username: user?["username"] as? String,
+                    profile_pic_url: user?["profile_pic_url"] as? String,
+                    is_verified: nil,
+                    followers: nil,
+                    descriptionText: nil,
+                    followStatus: nil,
+                    yourPostsLikes: nil,
+                    connectionsCount: nil,
+                    followed_by_viewer: user?["followed_by_viewer"] as? Bool)
+                return HistoryData(timestamp: node?["timestamp"] as? Double, user: baseUser)
+            }
+            onComplete(historyArray ?? [])
         }
     }
     

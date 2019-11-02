@@ -65,7 +65,7 @@ class UserModel {
         // количество гостей это колличество подписчеков * 0.05
         // у Коли это соотношение 1800 : 236 но в этих гостях есть боты а ботов мы стараемся не показывать, поэтому у нас оно меньше
         // примерно 0.5 и это примерно за 3 дня
-        let guestCount = Double(myFollowers?.count ?? 0) * Double.random(in: 0.4 ..< 0.6)
+        let guestCount = Double(myFollowers?.count ?? 0) * Double.random(in: 0.04 ..< 0.06)
         print("!!! ggg guestCount \(guestCount)")
         
         let followersAndFollowingCount = Double(myFollowing?.count ?? 0) + Double(myFollowers?.count ?? 0)
@@ -173,6 +173,10 @@ class UserModel {
 extension UserModel {
     
     public static func addFollowStatus(_ user: User, _ following: [ApiUser]?, _ followRequests: FollowRequests?) -> User {
+        if let followStatus = user.followStatus { // пользователь уже имеет статус подписки
+            return user
+        }
+        
         let isFollowing: Bool = following?.first { $0.id == user.id } != nil
         let isRequested: Bool = followRequests?.contain(username: user.username ?? "") == true
     
