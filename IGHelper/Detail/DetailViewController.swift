@@ -44,6 +44,7 @@ class DetailViewController: UIViewController {
     public var suggestedUsers: [GraphUser]?
     public var userDirectSearch: [ApiUser]?
     public var topLikersFollowers: [ApiUser]?
+    public var monthHistoryUsers: [HistoryUser]?
     
     public var onFollow: (( _ onUpdate: (()->Void)? )->())?
     public var onUpdate: (( _ onUpdate: (()->Void)? )->())?
@@ -87,11 +88,11 @@ class DetailViewController: UIViewController {
         case .gained_followers:
             navigationItem.title = "Gained Followers"
             let previousFollowersIds = PastFollowersManager.shared.getIds()
-            users = UserModel.gainedFollowers(previousFollowersIds, followers)
+            users = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
         case .lost_followers:
             navigationItem.title = "Lost Followers"
             let previousFollowersIds = PastFollowersManager.shared.getIds()
-            let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
+            let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
             usersId = lostFollowersIds
         }
         tableView?.reloadData()

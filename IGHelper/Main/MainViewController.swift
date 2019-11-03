@@ -30,6 +30,7 @@ class MainViewController: UIViewController {
     private var suggestedUsers: [GraphUser]?
     private var userDirectSearch: [ApiUser]?
     private var topLikersFollowers: [ApiUser]?
+    private var monthHistoryUsers: [HistoryUser]?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -46,14 +47,8 @@ class MainViewController: UIViewController {
             navigationItem.rightBarButtonItem = barButton
         }
         
-        
         setupRefreshControl()
         fetchInfo()
-//        ApiManager.shared.getHistory(onComplete: { (history) in
-//            print("!!! history \(history)")
-//        }, onError: { (error) in
-//            print("!!! error \(error)")
-//        })
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -134,6 +129,7 @@ class MainViewController: UIViewController {
         vc.suggestedUsers = suggestedUsers
         vc.userDirectSearch = userDirectSearch
         vc.topLikersFollowers = topLikersFollowers
+        vc.monthHistoryUsers = monthHistoryUsers
         vc.onFollow = { [weak self] onUpdate in
             self?.fetchFollowRequests_and_following(onComplete: { [weak self] in
                 vc.following = self?.following
@@ -252,11 +248,11 @@ extension MainViewController {
             switch contentType {
             case .lost_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
-                let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers)
+                let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
                 label.text = lostFollowersIds.count.bigBeauty
             case .gained_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
-                let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers)
+                let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
                 label.text = gainedFollowers.count.bigBeauty
             case .you_dont_follow:
                 let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
@@ -326,6 +322,7 @@ extension MainViewController {
                 self?.following = info.following
                 self?.suggestedUsers = info.suggestedUsers
                 self?.userDirectSearch = info.userDirectSearch
+                self?.monthHistoryUsers = info.monthHistoryUsers
                 
                 if GuestsManager.shared.containIds() {
                     self?.updateUI()

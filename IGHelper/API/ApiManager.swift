@@ -25,7 +25,7 @@ class ApiManager {
     
     private init() {}
     
-    public func getUserInfo(onComplete: @escaping ((followRequests: FollowRequests, followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser], userDirectSearch: [ApiUser])) -> (), onError: @escaping (Error) -> ()) {
+    public func getUserInfo(onComplete: @escaping ((followRequests: FollowRequests, followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser], userDirectSearch: [ApiUser], monthHistoryUsers: [HistoryUser])) -> (), onError: @escaping (Error) -> ()) {
         
         getFollowRequests(onComplete: { [weak self] followRequests in
             self?.getFollowers(onComplete: { [weak self] followers in
@@ -33,8 +33,10 @@ class ApiManager {
                 PastFollowersManager.shared.save(ids)
                 self?.getFollowings(onComplete: { [weak self] following in
                     self?.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
-                        self?.getUserDirectSearch(onComplete: { userDirectSearch in
-                            onComplete((followRequests, followers, following, suggestedUsers, userDirectSearch))
+                        self?.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
+                            self?.getMonthHistoryUsers(onComplete: { monthHistoryUsers in
+                                onComplete((followRequests, followers, following, suggestedUsers, userDirectSearch, monthHistoryUsers))
+                            }, onError: onError)
                         }, onError: onError)
                     }, onError: onError)
                 }, onError: onError)
@@ -278,7 +280,15 @@ class ApiManager {
         }
     }
     
-    public func getHistory(onComplete: @escaping ([HistoryData]) -> (), onError: @escaping (Error) -> ()) {
+    public func getMonthHistoryUsers(onComplete: @escaping ([HistoryUser]) -> (), onError: @escaping (Error) -> ()) {
+        getHistory(onComplete: { history in
+            let monthAgoDate = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
+            let monthHistoryUsers = history.filter { ($0.date ?? Date()) > monthAgoDate }.compactMap { $0.user }
+            onComplete(monthHistoryUsers)
+        }, onError: onError)
+    }
+    
+    private func getHistory(onComplete: @escaping ([HistoryData]) -> (), onError: @escaping (Error) -> ()) {
         
         let url = "https://www.instagram.com/accounts/activity/?__a=1&include_reel=true"
         

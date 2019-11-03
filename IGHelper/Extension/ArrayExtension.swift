@@ -37,6 +37,9 @@ extension Array {
         return [Array(leftSplit), Array(rightSplit)]
     }
     
+    // Метод работает дерьмово зато надёжно.
+    // Иногда когда делишь на 4 может выдать 5 массивов.
+    // Первые массивы вообще могут быть пустыми.
     func split(parts: Int) -> [[Element]] {
         let partCount = count / parts
         var newArray: [[Element]] = []
@@ -45,6 +48,37 @@ extension Array {
         }
         newArray.append(Array(self[(partCount * parts) ..< count]))
         return newArray
+    }
+    
+}
+
+extension Array where Element == User {
+
+    func uniqueUsers() -> [User] {
+        var usersWithoutDublicates: [User] = []
+        self.forEach { user in
+            let addedUser = usersWithoutDublicates.first(where: { $0.id == user.id })
+            if let _ = addedUser {
+                // пользователь уже добавлен - игнорим
+            } else {
+                usersWithoutDublicates.append(user)
+            }
+        }
+        return usersWithoutDublicates
+    }
+    
+    func uniqueUsersWithCounts() -> [(element: User, count: Int)] {
+        var usersWithoutDublicates: [(element: User, count: Int)] = []
+        self.forEach { user in
+            let addedUser = usersWithoutDublicates.first(where: { $0.element.id == user.id })
+            if let _ = addedUser {
+                // пользователь уже добавлен - игнорим
+            } else {
+                let count = self.filter { $0.id == user.id }.count
+                usersWithoutDublicates.append((user, count))
+            }
+        }
+        return usersWithoutDublicates
     }
     
 }

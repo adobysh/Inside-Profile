@@ -157,14 +157,31 @@ class UserModel {
         return following?.filter({ !(followers ?? []).contains($0) }) ?? []
     }
     
-    public static func gainedFollowers(_ previousFollowersIds: [String], _ followers: [ApiUser]?) -> [ApiUser] {
-        return followers?.filter { !previousFollowersIds.contains($0.id ?? "") } ?? []
+    // История инстаграма самых прям последних подписчиков не отдаёт.
+    // Примерно от недели до 50 последних недель.
+    // По этому есть смысл пользоваться моим старым алгоритмом.
+    public static func gainedFollowers(_ previousFollowersIds: [String], _ followers: [ApiUser]?, _ monthHistoryUsers: [HistoryUser]?) -> [User] {
+        let list1 = followers?.filter { !previousFollowersIds.contains($0.id ?? "") } ?? []
+        
+        let monthHistoryUsersIds = monthHistoryUsers?.compactMap { $0.id } ?? []
+        let list2 = followers?.filter { monthHistoryUsersIds.contains($0.id ?? "") } ?? []
+        
+        var gainedFollowers: [User] = list1
+        gainedFollowers.append(contentsOf: list2)
+        return gainedFollowers.uniqueUsers()
     }
     
-    public static func lostFollowersIds(_ previousFollowersIds: [String], _ followers: [ApiUser]?) -> [String] {
+    public static func lostFollowersIds(_ previousFollowersIds: [String], _ followers: [ApiUser]?, _ monthHistoryUsers: [HistoryUser]?) -> [String] {
         guard let followers = followers else { return [] }
         let currentFollowersIds = followers.compactMap { $0.id }
-        return previousFollowersIds.filter { !currentFollowersIds.contains($0) }
+        let list1 = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
+        
+        let monthHistoryUsersIds = monthHistoryUsers?.compactMap { $0.id } ?? []
+        let list2 = monthHistoryUsersIds.filter { !currentFollowersIds.contains($0) }
+        
+        var lostFollowersIds = list1
+        lostFollowersIds.append(contentsOf: list2)
+        return Array(Set(lostFollowersIds))
     }
     
 }
@@ -173,7 +190,7 @@ class UserModel {
 extension UserModel {
     
     public static func addFollowStatus(_ user: User, _ following: [ApiUser]?, _ followRequests: FollowRequests?) -> User {
-        if let followStatus = user.followStatus { // пользователь уже имеет статус подписки
+        if let _ = user.followStatus { // пользователь уже имеет статус подписки
             return user
         }
         
