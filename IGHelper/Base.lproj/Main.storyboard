@@ -119,7 +119,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="bEJ-FH-6hi">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bEJ-FH-6hi" secondAttribute="height" multiplier="25:8" id="SG0-l3-JCN"/>
                                 </constraints>
@@ -155,7 +155,7 @@ Tracker</string>
                                                 <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="progressLineWidth">
-                                                <real key="value" value="2"/>
+                                                <real key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="progressAngle">
                                                 <real key="value" value="100"/>
@@ -402,7 +402,6 @@ Tracker</string>
                         <outlet property="newGuestsButton" destination="TCe-NW-WyH" id="PQA-ZO-qKt"/>
                         <outlet property="recomendationButton" destination="m1H-an-dsy" id="exu-la-rHs"/>
                         <outlet property="scrollView" destination="0k6-g2-t7T" id="wtx-jJ-HDx"/>
-                        <outlet property="superButton" destination="OQa-4r-2mm" id="1jA-BJ-SfZ"/>
                         <outlet property="topCommentersButton" destination="aYe-oc-AOu" id="m0d-Zy-bNo"/>
                         <outlet property="topLikersButton" destination="DDT-9Z-Ydl" id="pad-vl-laX"/>
                         <outlet property="unfollowersButton" destination="5OI-2V-agn" id="npu-kq-qzm"/>

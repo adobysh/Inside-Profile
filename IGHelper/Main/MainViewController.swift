@@ -31,10 +31,6 @@ class MainViewController: UIViewController {
     
     @IBOutlet var scrollView: UIScrollView?
     @IBOutlet var circularProgressView: MBCircularProgressBarView?
-    var barActivityIndicatorView: UIActivityIndicatorView?
-    
-    @IBOutlet var superButton: ActivityIndicatorButton?
-    
     
     private var mainScreenInfo: ProfileInfoData?
     private var followRequests: FollowRequests?
@@ -61,13 +57,6 @@ class MainViewController: UIViewController {
             }
         }
         
-        barActivityIndicatorView = UIActivityIndicatorView(style: .white)
-        barActivityIndicatorView?.hidesWhenStopped = true
-        if let barActivityIndicatorView = barActivityIndicatorView {
-            let barButton = UIBarButtonItem(customView: barActivityIndicatorView)
-            navigationItem.rightBarButtonItem = barButton
-        }
-        
         setupRefreshControl()
         fetchInfo()
         
@@ -91,7 +80,7 @@ class MainViewController: UIViewController {
     
     @objc func handleRefreshControl() {
         // защита от двойного запуска обновления
-        guard barActivityIndicatorView?.isAnimating != true else {
+        guard (superButtons?.filter { $0.inProgress } ?? []).isEmpty == true else {
             scrollView?.refreshControl?.endRefreshing()
             return
         }
@@ -213,21 +202,18 @@ class MainViewController: UIViewController {
     }
     
     func setProgress(_ value: CGFloat) {
-        if value == 0 {
-            circularProgressView?.alpha = 0
-        } else if value == 100 {
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.circularProgressView?.value = value
+        })
+        
+        if value == 100 || value == 0 {
             UIView.animate(withDuration: 0.3, delay: 1.0, animations: { [weak self] in
                 self?.circularProgressView?.alpha = 0
             })
         } else {
-            if circularProgressView?.value == 0 {
-                UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                    self?.circularProgressView?.alpha = 1
-                })
-            }
-        }
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.circularProgressView?.value = value
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                self?.circularProgressView?.alpha = 1
+            })
         }
     }
     
@@ -344,7 +330,6 @@ extension MainViewController {
     
     func fetchInfo(onFetchProfileInfo: (()->())? = nil) {
         let onError: (Error)->() = { [weak self] error in
-            self?.barActivityIndicatorView?.stopAnimating()
             self?.showErrorAlert(error)
             self?.superButtons?.forEach { $0.inProgress = false }
             self?.setProgress(0)
@@ -362,8 +347,6 @@ extension MainViewController {
             self?.updateUI()
             
             self?.setProgress(20)
-            
-            self?.barActivityIndicatorView?.startAnimating()
             ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
                 self?.followers = followers
                 ApiManager.shared.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
@@ -402,7 +385,6 @@ extension MainViewController {
                                     
                                     if GuestsManager.shared.containIds() {
                                         self?.updateUI()
-                                        self?.barActivityIndicatorView?.stopAnimating()
                                         
                                         self?.setProgress(100)
                                         self?.superButtons?.forEach { $0.inProgress = false }
@@ -413,7 +395,6 @@ extension MainViewController {
                                             self?.topLikersFollowers = topLikersFollowers
                                             
                                             self?.updateUI()
-                                            self?.barActivityIndicatorView?.stopAnimating()
                                             
                                             self?.setProgress(100)
                                             self?.superButtons?.forEach { $0.inProgress = false }
