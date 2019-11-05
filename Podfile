@@ -12,5 +12,6 @@ target 'IGHelper' do
   pod 'Crashlytics'
   pod 'SwiftyStoreKit'
 #  pod 'SwiftSoup'
+  pod 'MBCircularProgressBar'
   
 end

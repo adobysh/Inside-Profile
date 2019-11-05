@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicatorView" destination="xl3-J7-e4e" id="VH1-RP-Xyu"/>
+                <outlet property="button" destination="V4H-f3-ORw" id="pQQ-rt-RPg"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="QuM-D5-0Di"/>
+                <outlet property="descriptionLabel" destination="Uwn-vP-bMA" id="KqT-Yi-gh6"/>
+                <outlet property="valueLabel" destination="LO7-wQ-4bp" id="UYG-IL-OYU"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="211"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hdd-RG-FgV">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="211"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V4H-f3-ORw">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="211"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="duV-rH-RWg">
+                            <rect key="frame" x="188.5" y="88.5" width="37.5" height="34"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LO7-wQ-4bp">
+                                    <rect key="frame" x="0.0" y="0.0" width="37.5" height="17"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uwn-vP-bMA">
+                                    <rect key="frame" x="0.0" y="17" width="37.5" height="17"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </stackView>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="xl3-J7-e4e">
+                            <rect key="frame" x="197" y="87" width="20" height="20"/>
+                            <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="V4H-f3-ORw" secondAttribute="bottom" id="01l-jC-Yxq"/>
+                        <constraint firstItem="xl3-J7-e4e" firstAttribute="centerY" secondItem="LO7-wQ-4bp" secondAttribute="centerY" id="49Q-HM-BkE"/>
+                        <constraint firstItem="xl3-J7-e4e" firstAttribute="centerX" secondItem="LO7-wQ-4bp" secondAttribute="centerX" id="5E9-kn-oRd"/>
+                        <constraint firstItem="V4H-f3-ORw" firstAttribute="leading" secondItem="Hdd-RG-FgV" secondAttribute="leading" id="BaK-WS-wm7"/>
+                        <constraint firstItem="V4H-f3-ORw" firstAttribute="top" secondItem="Hdd-RG-FgV" secondAttribute="top" id="EdL-DM-Che"/>
+                        <constraint firstAttribute="trailing" secondItem="V4H-f3-ORw" secondAttribute="trailing" id="aPx-cf-saw"/>
+                        <constraint firstItem="duV-rH-RWg" firstAttribute="centerY" secondItem="Hdd-RG-FgV" secondAttribute="centerY" id="coi-27-OE6"/>
+                        <constraint firstItem="duV-rH-RWg" firstAttribute="centerX" secondItem="Hdd-RG-FgV" secondAttribute="centerX" id="jQA-CY-eeA"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Hdd-RG-FgV" secondAttribute="bottom" id="0BH-eg-wea"/>
+                <constraint firstItem="Hdd-RG-FgV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="2Mj-Wb-caU"/>
+                <constraint firstAttribute="trailing" secondItem="Hdd-RG-FgV" secondAttribute="trailing" id="KPL-6v-B0x"/>
+                <constraint firstItem="Hdd-RG-FgV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gVS-Lz-gIx"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-16" y="130"/>
+        </view>
+    </objects>
+</document>

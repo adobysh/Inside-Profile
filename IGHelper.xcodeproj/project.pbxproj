@@ -24,6 +24,8 @@
 		0C3DEEE223642228008D8F36 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE123642228008D8F36 /* Settings.bundle */; };
 		0C3DEEE523643176008D8F36 /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE423643176008D8F36 /* IntExtensions.swift */; };
 		0C3DEEE723664583008D8F36 /* GuestsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE623664583008D8F36 /* GuestsManager.swift */; };
+		0C4219842370B96900A675E9 /* ActivityIndicatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4219832370B96900A675E9 /* ActivityIndicatorButton.swift */; };
+		0C4219862370B97F00A675E9 /* ActivityIndicatorButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0C4219852370B97F00A675E9 /* ActivityIndicatorButton.xib */; };
 		0C5761B22368C12B008138E0 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5761B12368C12B008138E0 /* UIImageViewExtension.swift */; };
 		0C5761B4236A2D05008138E0 /* HistoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5761B3236A2D05008138E0 /* HistoryData.swift */; };
 		0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */; };
@@ -69,6 +71,8 @@
 		0C3DEEE123642228008D8F36 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0C3DEEE423643176008D8F36 /* IntExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtensions.swift; sourceTree = "<group>"; };
 		0C3DEEE623664583008D8F36 /* GuestsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestsManager.swift; sourceTree = "<group>"; };
+		0C4219832370B96900A675E9 /* ActivityIndicatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorButton.swift; sourceTree = "<group>"; };
+		0C4219852370B97F00A675E9 /* ActivityIndicatorButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActivityIndicatorButton.xib; sourceTree = "<group>"; };
 		0C5761B12368C12B008138E0 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		0C5761B3236A2D05008138E0 /* HistoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryData.swift; sourceTree = "<group>"; };
 		0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStorybardExtension.swift; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				0C1D2E9A22D3C17F0015135F /* MainViewController.swift */,
+				0C4219832370B96900A675E9 /* ActivityIndicatorButton.swift */,
+				0C4219852370B97F00A675E9 /* ActivityIndicatorButton.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -335,6 +341,7 @@
 				0C3DEEE223642228008D8F36 /* Settings.bundle in Resources */,
 				0C1D2EA322D3C1800015135F /* LaunchScreen.storyboard in Resources */,
 				0C1D2EA022D3C1800015135F /* Assets.xcassets in Resources */,
+				0C4219862370B97F00A675E9 /* ActivityIndicatorButton.xib in Resources */,
 				0C1D2E9E22D3C17F0015135F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +452,7 @@
 				0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */,
 				0CF10A10235F12B600746334 /* UserModel.swift in Sources */,
 				0C1D2EB422D46F1A0015135F /* NSLayoutConstraint+Scale.swift in Sources */,
+				0C4219842370B96900A675E9 /* ActivityIndicatorButton.swift in Sources */,
 				0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */,
 				0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */,
 				0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */,
@@ -606,7 +614,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 37;
+				CURRENT_PROJECT_VERSION = 38;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = IGHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -628,7 +636,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 37;
+				CURRENT_PROJECT_VERSION = 38;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = IGHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

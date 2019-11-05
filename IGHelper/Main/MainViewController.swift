@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import MBCircularProgressBar
 
 class MainViewController: UIViewController {
     
@@ -17,10 +18,23 @@ class MainViewController: UIViewController {
     @IBOutlet var likesCountLabel: UILabel?
     @IBOutlet var commentsCountLabel: UILabel?
     @IBOutlet var loginLabel: UILabel?
-    @IBOutlet var buttons: [UIButton]?
-    @IBOutlet var buttonLabels: [UILabel]?
+    @IBOutlet var superButtons: [ActivityIndicatorButton]?
+    
+    @IBOutlet var lostFollowersButton: ActivityIndicatorButton?
+    @IBOutlet var gainedFollowersButton: ActivityIndicatorButton?
+    @IBOutlet var youDontFollowButton: ActivityIndicatorButton?
+    @IBOutlet var unfollowersButton: ActivityIndicatorButton?
+    @IBOutlet var newGuestsButton: ActivityIndicatorButton?
+    @IBOutlet var recomendationButton: ActivityIndicatorButton?
+    @IBOutlet var topLikersButton: ActivityIndicatorButton?
+    @IBOutlet var topCommentersButton: ActivityIndicatorButton?
+    
     @IBOutlet var scrollView: UIScrollView?
+    @IBOutlet var circularProgressView: MBCircularProgressBarView?
     var barActivityIndicatorView: UIActivityIndicatorView?
+    
+    @IBOutlet var superButton: ActivityIndicatorButton?
+    
     
     private var mainScreenInfo: ProfileInfoData?
     private var followRequests: FollowRequests?
@@ -39,6 +53,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.scale()
+        
+        setProgress(0)
+        superButtons?.forEach { button in
+            button.addTapGestureRecognizer { [weak self] in
+                self?.detailButtonAction(button)
+            }
+        }
         
         barActivityIndicatorView = UIActivityIndicatorView(style: .white)
         barActivityIndicatorView?.hidesWhenStopped = true
@@ -92,7 +113,8 @@ class MainViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func detailButtonAction(_ sender: UIButton) {
+    @IBAction func detailButtonAction(_ sender: ActivityIndicatorButton) {
+        guard !sender.inProgress else { return }
         guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
         
         if !SubscriptionKeychain.isSubscribed()
@@ -190,6 +212,25 @@ class MainViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func setProgress(_ value: CGFloat) {
+        if value == 0 {
+            circularProgressView?.alpha = 0
+        } else if value == 100 {
+            UIView.animate(withDuration: 0.3, delay: 1.0, animations: { [weak self] in
+                self?.circularProgressView?.alpha = 0
+            })
+        } else {
+            if circularProgressView?.value == 0 {
+                UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                    self?.circularProgressView?.alpha = 1
+                })
+            }
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.circularProgressView?.value = value
+        }
+    }
+    
 }
 
 // MARK: - Setup
@@ -243,38 +284,38 @@ extension MainViewController {
     }
     
     func updateButtons() {
-        buttonLabels?.forEach { label in
-            guard let contentType: ContentType = ContentType(rawValue: label.tag) else { return }
+        superButtons?.forEach { button in
+            guard let contentType: ContentType = ContentType(rawValue: button.tag) else { return }
             switch contentType {
             case .lost_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
                 let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
-                label.text = lostFollowersIds.count.bigBeauty
+                button.value = lostFollowersIds.count.bigBeauty
             case .gained_followers:
                 let previousFollowersIds = PastFollowersManager.shared.getIds()
                 let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
-                label.text = gainedFollowers.count.bigBeauty
+                button.value = gainedFollowers.count.bigBeauty
             case .you_dont_follow:
                 let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
-                label.text = youDontFollow.count.bigBeauty
+                button.value = youDontFollow.count.bigBeauty
             case .unfollowers:
                 let unfollowers = UserModel.unfollowers(followers: followers, following: following)
-                label.text = unfollowers.count.bigBeauty
+                button.value = unfollowers.count.bigBeauty
             case .new_guests:
                 let newGuests = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
                 if let newGuestsCount = newGuests.guests?.count {
-                    label.text = newGuestsCount.bigBeauty
+                    button.value = newGuestsCount.bigBeauty
                 } else {
-                    label.text = (newGuests.guestsIds?.count ?? 0).bigBeauty
+                    button.value = (newGuests.guestsIds?.count ?? 0).bigBeauty
                 }
             case .recommendation:
-                label.text = (suggestedUsers?.count ?? 0).bigBeauty
+                button.value = (suggestedUsers?.count ?? 0).bigBeauty
             case .top_likers:
                 let topLikers = UserModel.topLikers(mainScreenInfo?.username, posts)
-                label.text = topLikers.count.bigBeauty
+                button.value = topLikers.count.bigBeauty
             case .top_commenters:
                 let topСommenters = UserModel.topCommenters(mainScreenInfo?.username, posts)
-                label.text = topСommenters.count.bigBeauty
+                button.value = topСommenters.count.bigBeauty
             }
         }
     }
@@ -302,56 +343,89 @@ extension MainViewController {
     }
     
     func fetchInfo(onFetchProfileInfo: (()->())? = nil) {
-        buttons?.forEach { $0.isEnabled = false }
+        let onError: (Error)->() = { [weak self] error in
+            self?.barActivityIndicatorView?.stopAnimating()
+            self?.showErrorAlert(error)
+            self?.superButtons?.forEach { $0.inProgress = false }
+            self?.setProgress(0)
+            onFetchProfileInfo?()
+        }
+        
+        superButtons?.forEach { $0.inProgress = true }
+        
+        setProgress(10)
+        
         ApiManager.shared.getProfileInfoAndPosts(onComplete: { [weak self] result in
             onFetchProfileInfo?()
             self?.mainScreenInfo = result.profileInfo
             self?.posts = result.postDataArray
             self?.updateUI()
-            self?.buttons?.forEach { button in
-                guard let contentType: ContentType = ContentType(rawValue: button.tag) else { return }
-                if contentType == .top_commenters || contentType == .top_likers {
-                    button.isEnabled = true
-                }
-            }
+            
+            self?.setProgress(20)
             
             self?.barActivityIndicatorView?.startAnimating()
-            ApiManager.shared.getUserInfo(onComplete: { [weak self] info in
-                self?.followRequests = info.followRequests
-                self?.followers = info.followers
-                self?.following = info.following
-                self?.suggestedUsers = info.suggestedUsers
-                self?.userDirectSearch = info.userDirectSearch
-                self?.monthHistoryUsers = info.monthHistoryUsers
-                
-                if GuestsManager.shared.containIds() {
+            ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
+                self?.followers = followers
+                ApiManager.shared.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
+                    self?.monthHistoryUsers = monthHistoryUsers
                     self?.updateUI()
-                    self?.barActivityIndicatorView?.stopAnimating()
-                    self?.buttons?.forEach { $0.isEnabled = true }
-                } else {
-                    let topLikers = UserModel.topLikers(self?.mainScreenInfo?.username, self?.posts)
-                    ApiManager.shared.getTopLikersFriends(myId: self?.mainScreenInfo?.id, topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
-                        self?.topLikersFollowers = topLikersFollowers
-                        
+                    
+                    self?.lostFollowersButton?.inProgress = false
+                    self?.gainedFollowersButton?.inProgress = false
+                    
+                    self?.setProgress(40)
+                    
+                    ApiManager.shared.getFollowings(onComplete: { [weak self] following in
+                        self?.following = following
                         self?.updateUI()
-                        self?.barActivityIndicatorView?.stopAnimating()
-                        self?.buttons?.forEach { $0.isEnabled = true }
-                    }) { [weak self] error in
-                        self?.showErrorAlert(error)
-                        self?.barActivityIndicatorView?.stopAnimating()
-                        self?.buttons?.forEach { $0.isEnabled = true }
-                    }
-                }
-            }) { [weak self] error in
-                self?.showErrorAlert(error)
-                self?.barActivityIndicatorView?.stopAnimating()
-                self?.buttons?.forEach { $0.isEnabled = true }
-            }
-        }) { [weak self] error in
-            self?.showErrorAlert(error)
-            self?.buttons?.forEach { $0.isEnabled = true }
-            onFetchProfileInfo?()
-        }
+                        
+                        self?.youDontFollowButton?.inProgress = false
+                        self?.unfollowersButton?.inProgress = false
+                        
+                        self?.setProgress(60)
+                        
+                        ApiManager.shared.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
+                            self?.suggestedUsers = suggestedUsers
+                            self?.updateUI()
+                            
+                            self?.setProgress(80)
+                            
+                            self?.recomendationButton?.inProgress = false
+                            
+                            ApiManager.shared.getFollowRequests(onComplete: { [weak self] followRequests in
+                                self?.followRequests = followRequests
+                                ApiManager.shared.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
+                                    self?.userDirectSearch = userDirectSearch
+                                    self?.updateUI()
+                                    
+                                    self?.setProgress(90)
+                                    
+                                    if GuestsManager.shared.containIds() {
+                                        self?.updateUI()
+                                        self?.barActivityIndicatorView?.stopAnimating()
+                                        
+                                        self?.setProgress(100)
+                                        self?.superButtons?.forEach { $0.inProgress = false }
+                                        
+                                    } else {
+                                        let topLikers = UserModel.topLikers(self?.mainScreenInfo?.username, self?.posts)
+                                        ApiManager.shared.getTopLikersFriends(myId: self?.mainScreenInfo?.id, topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
+                                            self?.topLikersFollowers = topLikersFollowers
+                                            
+                                            self?.updateUI()
+                                            self?.barActivityIndicatorView?.stopAnimating()
+                                            
+                                            self?.setProgress(100)
+                                            self?.superButtons?.forEach { $0.inProgress = false }
+                                        }, onError: onError)
+                                    }
+                                }, onError: onError)
+                            }, onError: onError)
+                        }, onError: onError)
+                    }, onError: onError)
+                }, onError: onError)
+            }, onError: onError)
+        }, onError: onError)
     }
     
 }

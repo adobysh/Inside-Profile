@@ -60,3 +60,38 @@ extension UIView {
     }
     
 }
+
+// MARK: TapGestureRecognizer
+extension UIView {
+    
+    fileprivate struct AssociatedObjectKeys {
+        static var tapGestureRecognizer = "MediaViewerAssociatedObjectKey_mediaViewer"
+    }
+    
+    fileprivate typealias Action = (() -> Void)?
+    
+    fileprivate var tapGestureRecognizerAction: Action? {
+        set {
+            if let newValue = newValue {
+                objc_setAssociatedObject(self, &AssociatedObjectKeys.tapGestureRecognizer, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            }
+        }
+        get {
+            return objc_getAssociatedObject(self, &AssociatedObjectKeys.tapGestureRecognizer) as? Action
+        }
+    }
+    
+    public func addTapGestureRecognizer(action: (() -> Void)?) {
+        tapGestureRecognizerAction = action
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
+        addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc fileprivate func handleTapGesture(sender: UITapGestureRecognizer) {
+        if let action = tapGestureRecognizerAction {
+            action?()
+        } else {
+            print("no action")
+        }
+    }
+}
