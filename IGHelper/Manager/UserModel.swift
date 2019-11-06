@@ -11,12 +11,12 @@ import Foundation
 class UserModel {
     
     #warning("первый рабочий вариант гостей. нужна доработка")
-    public static func newGuests(_ username: String?, _ userDirectSearch: [ApiUser]?, _ topLikersFriends: [ApiUser]?, _ suggestedUsers: [GraphUser]?, _ myFollowing: [ApiUser]?, _ myFollowers: [ApiUser]?) -> (guests: [User]?, guestsIds: [String]?) {
+    public static func newGuests(_ userId: String, _ username: String?, _ userDirectSearch: [ApiUser]?, _ topLikersFriends: [ApiUser]?, _ suggestedUsers: [GraphUser]?, _ myFollowing: [ApiUser]?, _ myFollowers: [ApiUser]?) -> (guests: [User]?, guestsIds: [String]?) {
         guard (myFollowing?.count ?? 0) != 0
             && (myFollowers?.count ?? 0) != 0
             && (userDirectSearch?.count ?? 0) != 0 else { return (nil, nil) }
         
-        let guestsIds = GuestsManager.shared.getIds()
+        let guestsIds = GuestsManager.shared.getIds(userId)
         if !guestsIds.isEmpty {
             return (nil, guestsIds)
         }
@@ -104,7 +104,7 @@ class UserModel {
         
         theGuests = theGuests.shuffle(seed: seed)
         
-        GuestsManager.shared.save(theGuests.compactMap { $0.id })
+        GuestsManager.shared.save(userId, theGuests.compactMap { $0.id })
         return (theGuests, nil)
     }
 

@@ -50,7 +50,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         view.scale()
         
-        setProgress(0)
+        updateUI(progress: 0)
         superButtons?.forEach { button in
             button.addTapGestureRecognizer { [weak self] in
                 self?.detailButtonAction(button)
@@ -68,7 +68,6 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        updateUI()
         if !AuthorizationManager.shared.isLoggedIn {
             let vc = UIViewController.getStarted
             vc.onAuthorizationSuccess = { [weak self] in
@@ -142,22 +141,34 @@ class MainViewController: UIViewController {
         vc.topLikersFollowers = topLikersFollowers
         vc.monthHistoryUsers = monthHistoryUsers
         vc.onFollow = { [weak self] onUpdate in
-            self?.fetchFollowRequests_and_following(onComplete: { [weak self] in
-                vc.following = self?.following
-                vc.followRequests = self?.followRequests
-                onUpdate?()
-            })
+            let onError: (Error)->() = { error in onUpdate?(error) }
+            
+            ApiManager.shared.getFollowings(onComplete: { [weak self] following in
+                ApiManager.shared.getFollowRequests(onComplete: { [weak self] followRequests in
+                    self?.following = following
+                    self?.followRequests = followRequests
+                    vc.following = following
+                    vc.followRequests = followRequests
+                    self?.updateUI()
+                    onUpdate?(nil)
+                }, onError: onError)
+            }, onError: onError)
         }
         vc.onUpdate = { [weak self] onUpdate in
+            let onError: (Error)->() = { _ in onUpdate?() }
+            
+            let onComplete: ()->() = { [weak self] in
+                self?.updateUI()
+                onUpdate?()
+            }
+            
             switch contentType {
             case .lost_followers, .gained_followers:
                 ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
                     self?.followers = followers
                     vc.followers = followers
-                    onUpdate?()
-                }) { _ in
-                    onUpdate?()
-                }
+                    onComplete()
+                }, onError: onError)
             case .you_dont_follow, .unfollowers:
                 ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
                     ApiManager.shared.getFollowings(onComplete: { [weak self] following in
@@ -165,37 +176,27 @@ class MainViewController: UIViewController {
                         self?.following = following
                         vc.followers = followers
                         vc.following = following
-                        onUpdate?()
-                    }) { _ in
-                        onUpdate?()
-                    }
-                }) { _ in
-                    onUpdate?()
-                }
+                        onComplete()
+                    }, onError: onError)
+                }, onError: onError)
             case .new_guests:
                 ApiManager.shared.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
                     self?.userDirectSearch = userDirectSearch
                     vc.userDirectSearch = userDirectSearch
-                    onUpdate?()
-                }) { _ in
-                    onUpdate?()
-                }
+                    onComplete()
+                }, onError: onError)
             case .recommendation:
                 ApiManager.shared.getGoodSuggestedUser(onComplete: { [weak self] goodSuggestedUser in
                     self?.suggestedUsers = goodSuggestedUser
                     vc.suggestedUsers = goodSuggestedUser
-                    onUpdate?()
-                }) { _ in
-                    onUpdate?()
-                }
+                    onComplete()
+                }, onError: onError)
             case .top_likers, .top_commenters:
                 ApiManager.shared.getPosts(onComplete: { [weak self] posts in
                     self?.posts = posts
                     vc.posts = posts
-                    onUpdate?()
-                }) { _ in
-                    onUpdate?()
-                }
+                    onComplete()
+                }, onError: onError)
             }
         }
         navigationController?.pushViewController(vc, animated: true)
@@ -234,7 +235,10 @@ extension MainViewController {
 // MARK: - Update UI
 extension MainViewController {
     
-    func updateUI() {
+    func updateUI(progress: CGFloat? = nil) {
+        if let progress = progress {
+            setProgress(progress)
+        }
         updateMainInfo()
         updateLikeCount()
         updateCommentCount()
@@ -274,11 +278,13 @@ extension MainViewController {
             guard let contentType: ContentType = ContentType(rawValue: button.tag) else { return }
             switch contentType {
             case .lost_followers:
-                let previousFollowersIds = PastFollowersManager.shared.getIds()
+                guard let userId = mainScreenInfo?.id else { return }
+                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
                 let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
                 button.value = lostFollowersIds.count.bigBeauty
             case .gained_followers:
-                let previousFollowersIds = PastFollowersManager.shared.getIds()
+                guard let userId = mainScreenInfo?.id else { return }
+                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
                 let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
                 button.value = gainedFollowers.count.bigBeauty
             case .you_dont_follow:
@@ -288,7 +294,8 @@ extension MainViewController {
                 let unfollowers = UserModel.unfollowers(followers: followers, following: following)
                 button.value = unfollowers.count.bigBeauty
             case .new_guests:
-                let newGuests = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
+                guard let userId = mainScreenInfo?.id else { return }
+                let newGuests = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
                 if let newGuestsCount = newGuests.guests?.count {
                     button.value = newGuestsCount.bigBeauty
                 } else {
@@ -311,26 +318,9 @@ extension MainViewController {
 // MARK: - Info Fetching
 extension MainViewController {
     
-    func fetchFollowRequests_and_following(onComplete: (()->())? = nil) {
-        ApiManager.shared.getFollowRequests(onComplete: { [weak self] followRequests in
-            ApiManager.shared.getFollowings(onComplete: { [weak self] following in
-                self?.following = following
-                self?.followRequests = followRequests
-                self?.updateUI()
-                onComplete?()
-            }) { [weak self] error in
-                onComplete?()
-                self?.showErrorAlert(error)
-            }
-        }) { [weak self] error in
-            onComplete?()
-            self?.showErrorAlert(error)
-        }
-    }
-    
     func fetchInfo(onFetchProfileInfo: (()->())? = nil) {
         let onError: (Error)->() = { [weak self] error in
-            self?.showErrorAlert(error)
+            self?.showErrorAlert()
             self?.superButtons?.forEach { $0.inProgress = false }
             self?.setProgress(0)
             onFetchProfileInfo?()
@@ -344,34 +334,27 @@ extension MainViewController {
             onFetchProfileInfo?()
             self?.mainScreenInfo = result.profileInfo
             self?.posts = result.postDataArray
-            self?.updateUI()
+            self?.updateUI(progress: 20)
             
-            self?.setProgress(20)
             ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
                 self?.followers = followers
                 ApiManager.shared.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
                     self?.monthHistoryUsers = monthHistoryUsers
-                    self?.updateUI()
+                    self?.updateUI(progress: 40)
                     
                     self?.lostFollowersButton?.inProgress = false
                     self?.gainedFollowersButton?.inProgress = false
                     
-                    self?.setProgress(40)
-                    
                     ApiManager.shared.getFollowings(onComplete: { [weak self] following in
                         self?.following = following
-                        self?.updateUI()
+                        self?.updateUI(progress: 60)
                         
                         self?.youDontFollowButton?.inProgress = false
                         self?.unfollowersButton?.inProgress = false
                         
-                        self?.setProgress(60)
-                        
                         ApiManager.shared.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
                             self?.suggestedUsers = suggestedUsers
-                            self?.updateUI()
-                            
-                            self?.setProgress(80)
+                            self?.updateUI(progress: 80)
                             
                             self?.recomendationButton?.inProgress = false
                             
@@ -379,24 +362,18 @@ extension MainViewController {
                                 self?.followRequests = followRequests
                                 ApiManager.shared.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
                                     self?.userDirectSearch = userDirectSearch
-                                    self?.updateUI()
+                                    self?.updateUI(progress: 90)
                                     
-                                    self?.setProgress(90)
-                                    
-                                    if GuestsManager.shared.containIds() {
-                                        self?.updateUI()
-                                        
-                                        self?.setProgress(100)
+                                    guard let userId = self?.mainScreenInfo?.id else { onError(ApiError.nilValue); return }
+                                    if GuestsManager.shared.containIds(userId) {
+                                        self?.updateUI(progress: 100)
                                         self?.superButtons?.forEach { $0.inProgress = false }
-                                        
                                     } else {
                                         let topLikers = UserModel.topLikers(self?.mainScreenInfo?.username, self?.posts)
                                         ApiManager.shared.getTopLikersFriends(myId: self?.mainScreenInfo?.id, topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
                                             self?.topLikersFollowers = topLikersFollowers
                                             
-                                            self?.updateUI()
-                                            
-                                            self?.setProgress(100)
+                                            self?.updateUI(progress: 100)
                                             self?.superButtons?.forEach { $0.inProgress = false }
                                         }, onError: onError)
                                     }

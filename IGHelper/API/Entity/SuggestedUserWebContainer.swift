@@ -46,8 +46,8 @@ struct BaseUser: User {
         case id, full_name, username, profile_pic_url, is_verified, followers
     }
     
-    static func disabled(_ id: String?) -> User {
-        return BaseUser(id: id, full_name: nil, username: "Account disabled", profile_pic_url: nil, is_verified: nil, followers: nil, descriptionText: nil, followStatus: nil, yourPostsLikes: nil, connectionsCount: nil)
+    static func disabled(_ id: String?) -> BaseUser {
+        return BaseUser(id: id, full_name: nil, username: "Account disabled", profile_pic_url: nil, is_verified: nil, followers: nil, descriptionText: nil, followStatus: .disabled, yourPostsLikes: nil, connectionsCount: nil)
     }
 }
 

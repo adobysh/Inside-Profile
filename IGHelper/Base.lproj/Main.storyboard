@@ -449,6 +449,9 @@ Tracker</string>
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="112"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="vyz-h8-7Bi">
+                                                    <rect key="frame" x="35" y="46" width="20" height="20"/>
+                                                </activityIndicatorView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WtN-jZ-iXX">
                                                     <rect key="frame" x="15" y="11" width="60" height="90"/>
                                                     <constraints>
@@ -508,7 +511,9 @@ Tracker</string>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="leading" secondItem="avT-i0-r1N" secondAttribute="leadingMargin" id="ajT-1V-wqy"/>
                                                 <constraint firstItem="AbW-tD-ajW" firstAttribute="width" secondItem="AbW-tD-ajW" secondAttribute="height" multiplier="81:27" id="ipq-0G-2RC"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="WtN-jZ-iXX" secondAttribute="bottom" id="mXz-W0-0mz"/>
+                                                <constraint firstItem="vyz-h8-7Bi" firstAttribute="centerY" secondItem="WtN-jZ-iXX" secondAttribute="centerY" id="mcS-Kh-DGX"/>
                                                 <constraint firstItem="tHn-8g-bDD" firstAttribute="trailing" secondItem="hdx-6a-khh" secondAttribute="trailing" id="oYd-4p-Me0"/>
+                                                <constraint firstItem="vyz-h8-7Bi" firstAttribute="centerX" secondItem="WtN-jZ-iXX" secondAttribute="centerX" id="uIW-gQ-0on"/>
                                                 <constraint firstItem="WtN-jZ-iXX" firstAttribute="top" secondItem="avT-i0-r1N" secondAttribute="topMargin" id="uJs-Wn-GIk"/>
                                             </constraints>
                                         </tableViewCellContentView>

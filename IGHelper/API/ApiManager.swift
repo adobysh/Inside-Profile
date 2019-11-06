@@ -25,12 +25,12 @@ class ApiManager {
     
     private init() {}
     
-    public func getUserInfo(onComplete: @escaping ((followRequests: FollowRequests, followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser], userDirectSearch: [ApiUser], monthHistoryUsers: [HistoryUser])) -> (), onError: @escaping (Error) -> ()) {
+    public func getUserInfo(userId: String, onComplete: @escaping ((followRequests: FollowRequests, followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser], userDirectSearch: [ApiUser], monthHistoryUsers: [HistoryUser])) -> (), onError: @escaping (Error) -> ()) {
         
         getFollowRequests(onComplete: { [weak self] followRequests in
             self?.getFollowers(onComplete: { [weak self] followers in
                 let ids = followers.compactMap { $0.id }
-                PastFollowersManager.shared.save(ids)
+                PastFollowersManager.shared.save(userId, ids)
                 self?.getFollowings(onComplete: { [weak self] following in
                     self?.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
                         self?.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
@@ -327,6 +327,58 @@ class ApiManager {
         }
     }
     
+    public func getUserInfo_graph(id: String, onComplete: @escaping (BaseUser) -> (), onError: @escaping (Error) -> ()) {
+        // Если сделать запрос с пустым списком айдишек то вернёт инфу о себе.
+        
+        let url = "https://www.instagram.com/graphql/query/"
+        
+        guard let headers = getHeaders() else { return }
+        
+        let parameters: [String: String] = [
+            "query_hash": "aec5501414615eca36a9acf075655b1e",
+            "variables": "{\"user_id\":\"\(id)\",\"include_chaining\":false,\"include_reel\":true,\"include_suggested_users\":false,\"include_logged_out_extras\":false,\"include_highlight_reels\":false}"
+        ]
+        
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).responseJSON { response in
+            guard let json = response.value as? [String: Any] else {
+                onError(ApiError.nilValue)
+                return
+            }
+            let data = json["data"] as? [String: Any]
+            let user = data?["user"] as? [String: Any]
+            let reel = user?["reel"] as? [String: Any]
+
+            // owner и user одинаковые.
+            // Можно попробовать взять инфу у одного, если не получится у другого.
+            let userDictionary: [String: Any]
+            if let owner = reel?["owner"] as? [String: Any],
+                let _ = owner["id"],
+                let _ = owner["profile_pic_url"],
+                let _ = owner["username"] {
+                userDictionary = owner
+            } else if let owner = reel?["user"] as? [String: Any],
+                let _ = owner["id"],
+                let _ = owner["profile_pic_url"],
+                let _ = owner["username"] {
+                userDictionary = owner
+            } else {
+                userDictionary = [:]
+                onComplete(BaseUser.disabled(id))
+                return
+            }
+            
+            let baseUser = BaseUser(
+                id: userDictionary["id"] as? String,
+                full_name: nil,
+                username: userDictionary["username"] as? String,
+                profile_pic_url: userDictionary["profile_pic_url"] as? String,
+                is_verified: nil,
+                followers: nil)
+            
+            onComplete(baseUser)
+        }
+    }
+    
     public func getUserInfoArray_graph(userInfoArray: [BaseUser] = [], ids: [String], onComplete: @escaping ([BaseUser]) -> (), onError: @escaping (Error) -> ()) {
         // Если сделать запрос с пустым списком айдишек то вернёт инфу о себе.
         if ids.isEmpty {
@@ -344,8 +396,11 @@ class ApiManager {
         ]
         
         Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).responseJSON { [weak self] response in
-            let json = response.value as? [String: Any]
-            let data = json?["data"] as? [String: Any]
+            guard let json = response.value as? [String: Any] else {
+                onError(ApiError.nilValue)
+                return
+            }
+            let data = json["data"] as? [String: Any]
             let user = data?["user"] as? [String: Any]
             let reel = user?["reel"] as? [String: Any]
 

@@ -20,23 +20,25 @@ import Foundation
 
 class GuestsManager {
     
-    private let KEY = "saved_guests"
-    
     public static let shared = GuestsManager()
     private init() {}
     
+    private func KEY(_ userId: String) -> String {
+        return "saved_guests" + userId
+    }
+    
     /// Save guests for this week
-    public func save(_ guestsIds: [String]) {
-        if !getIdsForThisDay().isEmpty { return }
+    public func save(_ userId: String, _ guestsIds: [String]) {
+        if !getIdsForThisDay(userId).isEmpty { return }
         
-        var dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] ?? [:]
+        var dictionary = UserDefaults.standard.value(forKey: KEY(userId)) as? [String: [String]] ?? [:]
         dictionary[thisDayString()] = guestsIds
-        saveDictionary(dictionary)
+        saveDictionary(userId, dictionary)
     }
     
     /// Get followers for last 3 days
-    public func getIds() -> [String] {
-        guard var dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] else {
+    public func getIds(_ userId: String) -> [String] {
+        guard var dictionary = UserDefaults.standard.value(forKey: KEY(userId)) as? [String: [String]] else {
             return []
         }
         
@@ -52,13 +54,13 @@ class GuestsManager {
                     dates.removeFirst()
                 }
             }
-            saveDictionary(dictionary)
+            saveDictionary(userId, dictionary)
         }
         return dictionary[dateToString(dates.first ?? Date())] ?? []
     }
     
-    private func getIdsForThisDay() -> [String] {
-        guard let dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] else { return [] }
+    private func getIdsForThisDay(_ userId: String) -> [String] {
+        guard let dictionary = UserDefaults.standard.value(forKey: KEY(userId)) as? [String: [String]] else { return [] }
         return dictionary[thisDayString()] ?? []
     }
     
@@ -78,8 +80,8 @@ class GuestsManager {
     }
     
     /// Has saved guests ids
-    public func containIds() -> Bool {
-        guard let dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] else { return false }
+    public func containIds(_ userId: String) -> Bool {
+        guard let dictionary = UserDefaults.standard.value(forKey: KEY(userId)) as? [String: [String]] else { return false }
         return !(dictionary[thisDayString()] ?? []).isEmpty
     }
     
@@ -101,9 +103,9 @@ class GuestsManager {
         return dateToString(Date())
     }
     
-    private func saveDictionary(_ dictionary: [String: [String]]) {
+    private func saveDictionary(_ userId: String, _ dictionary: [String: [String]]) {
         print("!!! save guests \(dictionary)")
-        UserDefaults.standard.set(dictionary, forKey: KEY)
+        UserDefaults.standard.set(dictionary, forKey: KEY(userId))
         UserDefaults.standard.synchronize()
     }
     

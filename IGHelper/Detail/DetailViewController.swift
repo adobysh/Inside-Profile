@@ -46,7 +46,7 @@ class DetailViewController: UIViewController {
     public var topLikersFollowers: [ApiUser]?
     public var monthHistoryUsers: [HistoryUser]?
     
-    public var onFollow: (( _ onUpdate: (()->Void)? )->())?
+    public var onFollow: (( _ onUpdate: ((Error?)->Void)? )->())?
     public var onUpdate: (( _ onUpdate: (()->Void)? )->())?
     
     override func viewDidLoad() {
@@ -67,7 +67,8 @@ class DetailViewController: UIViewController {
         switch contentType {
         case .new_guests:
             navigationItem.title = "New Guests"
-            let guestsResult = UserModel.newGuests(mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
+            guard let userId = mainScreenInfo?.id else { return }
+            let guestsResult = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
             users = guestsResult.guests ?? []
             usersId = guestsResult.guestsIds ?? []
         case .recommendation:
@@ -87,11 +88,13 @@ class DetailViewController: UIViewController {
             users = UserModel.unfollowers(followers: followers, following: following)
         case .gained_followers:
             navigationItem.title = "Gained Followers"
-            let previousFollowersIds = PastFollowersManager.shared.getIds()
+            guard let userId = mainScreenInfo?.id else { return }
+            let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
             users = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
         case .lost_followers:
             navigationItem.title = "Lost Followers"
-            let previousFollowersIds = PastFollowersManager.shared.getIds()
+            guard let userId = mainScreenInfo?.id else { return }
+            let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
             let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
             usersId = lostFollowersIds
         }
@@ -130,7 +133,11 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             var user = userWithoutFollowStatus
             user = UserModel.addFollowStatus(user, following, followRequests)
             cell.configure(user: user, onFollow: { [weak self] onFollow in
-                self?.onFollow?() {
+                self?.onFollow?() { [weak self] error in
+                    if let _ = error {
+                        self?.showErrorAlert()
+                    }
+                    
                     user = UserModel.addFollowStatus(user, self?.following, self?.followRequests)
                     guard let followStatus = user.followStatus else { return }
                     onFollow?(followStatus)
@@ -143,13 +150,15 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             configureCell(cell, user)
         } else if let userId = usersId[safe: indexPath.row] {
             cell.configure(user: nil, onFollow: { _ in }) // to reset cell
-            ApiManager.shared.getUserInfoArray_graph(ids: [userId], onComplete: { [weak self] users in
-                if let user = users.first {
-                    self?.usersCache[userId] = user
-                    configureCell(cell, user)
-                }
+            ApiManager.shared.getUserInfo_graph(id: userId, onComplete: { [weak self] user in
+                self?.usersCache[userId] = user
+                configureCell(cell, user)
             }, onError: { _ in
-                configureCell(cell, BaseUser.disabled(userId))
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                    tableView.beginUpdates()
+//                    tableView.reloadRows(at: [indexPath], with: .none)
+//                    tableView.endUpdates()
+//                }
             })
         }
         return cell

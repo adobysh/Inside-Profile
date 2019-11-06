@@ -20,24 +20,26 @@ import Foundation
 
 class PastFollowersManager {
     
-    private let KEY = "past_followers"
-    
     public static let shared = PastFollowersManager()
     private init() {}
     
+    private func KEY(_ userId: String) -> String {
+        return "past_followers" + userId
+    }
+    
     /// Save followers for this day or add additions for this day if they come later.
-    public func save(_ followersIds: [String]) {
-        if !getIdsForThisDay().isEmpty { return }
+    public func save(_ userId: String, _ followersIds: [String]) {
+        if !getIdsForThisDay(userId).isEmpty { return }
         
-        var dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] ?? [:]
+        var dictionary = UserDefaults.standard.value(forKey: KEY(userId)) as? [String: [String]] ?? [:]
         dictionary[thisDayString()] = followersIds
-        saveDictionary(dictionary)
+        saveDictionary(userId, dictionary)
     }
     
     /// Get followers id older then month or if not found get just the oldest followers id.
     /// If there if 2 of more dates older then month ago keed only the newest and delete another.
-    public func getIds() -> [String] {
-        guard var dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] else {
+    public func getIds(_ userId: String) -> [String] {
+        guard var dictionary = UserDefaults.standard.value(forKey: KEY(userId)) as? [String: [String]] else {
             return []
         }
         
@@ -53,7 +55,7 @@ class PastFollowersManager {
                     dates.removeFirst()
                 }
             }
-            saveDictionary(dictionary)
+            saveDictionary(userId, dictionary)
         }
         return dictionary[dateToString(dates.first ?? Date())] ?? []
     }
@@ -73,8 +75,8 @@ class PastFollowersManager {
         }
     }
     
-    private func getIdsForThisDay() -> [String] {
-        guard let dictionary = UserDefaults.standard.value(forKey: KEY) as? [String: [String]] else { return [] }
+    private func getIdsForThisDay(_ userId: String) -> [String] {
+        guard let dictionary = UserDefaults.standard.value(forKey: KEY(userId)) as? [String: [String]] else { return [] }
         return dictionary[thisDayString()] ?? []
     }
     
@@ -96,9 +98,9 @@ class PastFollowersManager {
         return dateToString(Date())
     }
     
-    private func saveDictionary(_ dictionary: [String: [String]]) {
+    private func saveDictionary(_ userId: String, _ dictionary: [String: [String]]) {
         print("!!! save followers \(dictionary)")
-        UserDefaults.standard.set(dictionary, forKey: KEY)
+        UserDefaults.standard.set(dictionary, forKey: KEY(userId))
         UserDefaults.standard.synchronize()
     }
     
