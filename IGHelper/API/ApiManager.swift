@@ -25,25 +25,6 @@ class ApiManager {
     
     private init() {}
     
-    public func getUserInfo(userId: String, onComplete: @escaping ((followRequests: FollowRequests, followers: [ApiUser], following: [ApiUser], suggestedUsers: [GraphUser], userDirectSearch: [ApiUser], monthHistoryUsers: [HistoryUser])) -> (), onError: @escaping (Error) -> ()) {
-        
-        getFollowRequests(onComplete: { [weak self] followRequests in
-            self?.getFollowers(onComplete: { [weak self] followers in
-                let ids = followers.compactMap { $0.id }
-                PastFollowersManager.shared.save(userId, ids)
-                self?.getFollowings(onComplete: { [weak self] following in
-                    self?.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
-                        self?.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
-                            self?.getMonthHistoryUsers(onComplete: { monthHistoryUsers in
-                                onComplete((followRequests, followers, following, suggestedUsers, userDirectSearch, monthHistoryUsers))
-                            }, onError: onError)
-                        }, onError: onError)
-                    }, onError: onError)
-                }, onError: onError)
-            }, onError: onError)
-        }, onError: onError)
-    }
-    
     public func getProfileInfoAndPosts(onComplete: @escaping ((profileInfo: ProfileInfoData, postDataArray: [PostData])) -> (), onError: @escaping (Error) -> ()) {
         
         getProfileInfo(onComplete: { [weak self] profileInfo in
@@ -130,7 +111,15 @@ class ApiManager {
         }, onError: onError)
     }
     
-    public func getFollowers(users: [ApiUser] = [], state: String? = nil, userId: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+    public func getAllFollowers(userId: String, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+        getFollowers(onComplete: { allFollowers in
+            let ids = allFollowers.compactMap { $0.id }
+            PastFollowersManager.shared.save(userId, ids)
+            onComplete(allFollowers)
+        }, onError: onError)
+    }
+    
+    private func getFollowers(users: [ApiUser] = [], state: String? = nil, userId: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
         struct FollowersContainer: Codable {
             let feed: [ApiUser]?
             let state: String? // "{\"moreAvailable\":false,\"rankToken\":\"40a13a91-bbeb-5334-b287-265872c32210\",\"nextMaxId\":null}",

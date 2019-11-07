@@ -164,7 +164,10 @@ class UserModel {
         let list1 = followers?.filter { !previousFollowersIds.contains($0.id ?? "") } ?? []
         
         let monthHistoryUsersIds = monthHistoryUsers?.compactMap { $0.id } ?? []
-        let list2 = followers?.filter { monthHistoryUsersIds.contains($0.id ?? "") } ?? []
+        let list2 = followers?.filter { user in
+            let userId = user.id ?? ""
+            return monthHistoryUsersIds.contains(userId)
+        } ?? []
         
         var gainedFollowers: [User] = list1
         gainedFollowers.append(contentsOf: list2)

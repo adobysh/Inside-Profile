@@ -92,6 +92,17 @@ class MainViewController: UIViewController {
     @IBAction func settingsButtonAction(_ sender: Any) {
         let vc = UIViewController.settings
         vc.onLogOut = { [weak self] in
+            self?.mainScreenInfo = nil
+            self?.followRequests = nil
+            self?.posts = nil
+            self?.followers = nil
+            self?.following = nil
+            self?.suggestedUsers = nil
+            self?.userDirectSearch = nil
+            self?.topLikersFollowers = nil
+            self?.monthHistoryUsers = nil
+            self?.updateUI()
+            
             let vc = UIViewController.getStarted
             vc.onAuthorizationSuccess = { [weak self] in
                 self?.fetchInfo()
@@ -164,13 +175,15 @@ class MainViewController: UIViewController {
             
             switch contentType {
             case .lost_followers, .gained_followers:
-                ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
+                guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
+                ApiManager.shared.getAllFollowers(userId: userId, onComplete: { [weak self] followers in
                     self?.followers = followers
                     vc.followers = followers
                     onComplete()
                 }, onError: onError)
             case .you_dont_follow, .unfollowers:
-                ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
+                guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
+                ApiManager.shared.getAllFollowers(userId: userId, onComplete: { [weak self] followers in
                     ApiManager.shared.getFollowings(onComplete: { [weak self] following in
                         self?.followers = followers
                         self?.following = following
@@ -336,7 +349,8 @@ extension MainViewController {
             self?.posts = result.postDataArray
             self?.updateUI(progress: 20)
             
-            ApiManager.shared.getFollowers(onComplete: { [weak self] followers in
+            guard let userId = result.profileInfo.id else { onError(ApiError.nilValue); return }
+            ApiManager.shared.getAllFollowers(userId: userId, onComplete: { [weak self] followers in
                 self?.followers = followers
                 ApiManager.shared.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
                     self?.monthHistoryUsers = monthHistoryUsers

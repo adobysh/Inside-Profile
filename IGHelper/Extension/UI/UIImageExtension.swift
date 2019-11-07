@@ -12,11 +12,12 @@ extension UIImage {
     
     public static func load(_ urlString: String?, onComplete: @escaping (_ image: UIImage?, _ url: String?)->()) {
         DispatchQueue.global().async {
-            guard let imageUrl = URL(string: urlString ?? ""), let imageData = try? Data(contentsOf: imageUrl) else { return }
-            let image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                onComplete(image, urlString)
+            guard let imageUrl = URL(string: urlString ?? ""), let imageData = try? Data(contentsOf: imageUrl) else {
+                DispatchQueue.main.async { onComplete(nil, urlString) }
+                return
             }
+            let image = UIImage(data: imageData)
+            DispatchQueue.main.async { onComplete(image, urlString) }
         }
     }
     
