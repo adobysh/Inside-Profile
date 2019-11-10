@@ -14,4 +14,9 @@ target 'IGHelper' do
 #  pod 'SwiftSoup'
   pod 'MBCircularProgressBar'
   
+  pod 'FBSDKCoreKit', '5.0.1'
+  pod 'AppsFlyerFramework', '~> 4.8.6'
+  pod 'Amplitude-iOS', '~> 4.0.4'
+  pod 'SwiftKeychainWrapper', '~> 3.0.1'
+  pod 'DeviceKit', '2.3.0'
 end

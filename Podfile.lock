@@ -1,33 +1,58 @@
 PODS:
   - Alamofire (4.8.2)
+  - Amplitude-iOS (4.0.4)
+  - AppsFlyerFramework (4.8.12)
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
+  - DeviceKit (2.3.0)
   - Fabric (1.10.2)
+  - FBSDKCoreKit (5.0.1):
+    - FBSDKCoreKit/Basics (= 5.0.1)
+    - FBSDKCoreKit/Core (= 5.0.1)
+  - FBSDKCoreKit/Basics (5.0.1)
+  - FBSDKCoreKit/Core (5.0.1):
+    - FBSDKCoreKit/Basics
   - MBCircularProgressBar (0.3.5)
+  - SwiftKeychainWrapper (3.0.1)
   - SwiftyStoreKit (0.15.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - Amplitude-iOS (~> 4.0.4)
+  - AppsFlyerFramework (~> 4.8.6)
   - Crashlytics
+  - DeviceKit (= 2.3.0)
   - Fabric
+  - FBSDKCoreKit (= 5.0.1)
   - MBCircularProgressBar
+  - SwiftKeychainWrapper (~> 3.0.1)
   - SwiftyStoreKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - Amplitude-iOS
+    - AppsFlyerFramework
     - Crashlytics
+    - DeviceKit
     - Fabric
+    - FBSDKCoreKit
     - MBCircularProgressBar
+    - SwiftKeychainWrapper
     - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Amplitude-iOS: 2ad4d7270c99186236c1272a3a9425463b1ae1a7
+  AppsFlyerFramework: 726f063384d8dc763d7b423e48cbc8cbe10989ab
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  FBSDKCoreKit: 4a19534474ade7c71bd016d800aa5e7722bcdda1
   MBCircularProgressBar: 0b795b722a5eb5b0923822f90474e2576a1a7855
+  SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: 1e17899afa58afb738a97937ad197a1374ef3f89
+PODFILE CHECKSUM: 5108a104c2b90c14bcdb5efd814b732065e77cd8
 
 COCOAPODS: 1.7.1

@@ -10,12 +10,22 @@ import Foundation
 
 class UserModel {
     
-    #warning("первый рабочий вариант гостей. нужна доработка")
+    // Текущий алгоритм формирования списка гостей
+    //
+    // Исходные данные получаемые от инсты:
+    // - userId
+    // - username
+    // - userDirectSearch (список)
+    // - topLikersFriends (список)
+    // - suggestedUsers (список)
+    // - myFollowing (список)
+    // - myFollowers (список)
     public static func newGuests(_ userId: String, _ username: String?, _ userDirectSearch: [ApiUser]?, _ topLikersFriends: [ApiUser]?, _ suggestedUsers: [GraphUser]?, _ myFollowing: [ApiUser]?, _ myFollowers: [ApiUser]?) -> (guests: [User]?, guestsIds: [String]?) {
-        guard (myFollowing?.count ?? 0) != 0
-            && (myFollowers?.count ?? 0) != 0
-            && (userDirectSearch?.count ?? 0) != 0 else { return (nil, nil) }
+        guard myFollowing?.isEmpty == false
+            && myFollowers?.isEmpty == false
+            && userDirectSearch?.isEmpty == false else { return (nil, nil) }
         
+        // Сразу же проверяем есть ли сохраненные гости и если есть используем их
         let guestsIds = GuestsManager.shared.getIds(userId)
         if !guestsIds.isEmpty {
             return (nil, guestsIds)

@@ -11,14 +11,20 @@ import Fabric
 import Crashlytics
 import SwiftyStoreKit
 
+import FBSDKCoreKit
+//import AppsFlyerLib
+import Amplitude_iOS
+import AdSupport
+import SwiftKeychainWrapper
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        Fabric.with([Crashlytics.self])
+        initializeSDKs(launchOptions: launchOptions)
+        AppAnalytics.logAppOpen()
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
             for purchase in purchases {
                 switch purchase.transaction.transactionState {
@@ -34,6 +40,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         return true
+    }
+    
+    private func initializeSDKs(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+//        AppsFlyerTracker.shared().appsFlyerDevKey = "Tq3reaxJHqHHqqc3rYJvXC"
+//        AppsFlyerTracker.shared().appleAppID = "1400040339"
+//        AppsFlyerTracker.shared().delegate = self
+        Fabric.with([Crashlytics.self])
+        AppEvents.activateApp()
+//        YMMYandexMetrica.activate(with: YMMYandexMetricaConfiguration(apiKey: YandexMetricaApiKey)!)
+        Amplitude.instance().initializeApiKey("d3ae5191f1e235e68ed79d6714556aae")
+//        OneSignal.initWithLaunchOptions(
+//            launchOptions,
+//            appId: OneSignalAppID,
+//            handleNotificationAction: nil,
+//            settings: [kOSSettingsKeyAutoPrompt: false]
+//        )
+//        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification
+//        OneSignal.promptForPushNotifications { accepted in
+//            if accepted, let playerId = OneSignal.getPermissionSubscriptionState()?.subscriptionStatus.userId {
+//                SERVER_MANAGER.updatePlayerId(playerId: playerId) { _ in }
+//            }
+//        }
+//        FirebaseApp.configure()
+        ApplicationDelegate.initializeSDK(launchOptions)
+        
+//        #if DEBUG
+//        guard UserDefaults.standard.bool(forKey: "analytics") else { return }
+//        AppsFlyerTracker.shared().isDebug = true
+//        #endif
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -51,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        AppEvents.activateApp()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

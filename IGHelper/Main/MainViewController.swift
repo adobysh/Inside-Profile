@@ -48,6 +48,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if AuthorizationManager.shared.isLoggedIn {
+            AppAnalytics.logDashboardOpen()
+        }
+        
         view.scale()
         
         updateUI(progress: 0)
@@ -71,6 +75,7 @@ class MainViewController: UIViewController {
         if !AuthorizationManager.shared.isLoggedIn {
             let vc = UIViewController.getStarted
             vc.onAuthorizationSuccess = { [weak self] in
+                AppAnalytics.logDashboardOpen()
                 self?.fetchInfo()
             }
             present(vc, animated: false, completion: nil)
