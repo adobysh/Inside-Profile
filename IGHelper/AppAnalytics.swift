@@ -89,7 +89,7 @@ class AppAnalytics {
     }
     
     enum Property: String {
-        case vip_open_source = "source"
+        case source = "source"
     }
     
     enum Key: String {
@@ -101,6 +101,10 @@ class AppAnalytics {
     class func log(_ event: Event, properties: [String: Any]? = nil) {
         Amplitude.instance().logEvent(event.rawValue, withEventProperties: properties ?? [:])
 //        Analytics.logEvent(event.rawValue, parameters: properties)
+    }
+    
+    class func log(_ event: Event, property: Property, value: Any) {
+        log(event, properties: [property.rawValue: value])
     }
     
     class func logAppOpen(properties: [String: Any]? = nil) {

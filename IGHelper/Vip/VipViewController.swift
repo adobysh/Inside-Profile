@@ -43,7 +43,7 @@ class VipViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        AppAnalytics.log(.vip_open, properties: [AppAnalytics.Property.vip_open_source.rawValue : source.rawValue])
+        AppAnalytics.log(.vip_open, property: .source, value: source.rawValue)
         
         view.scale()
         if #available(iOS 13.0, *) {
@@ -68,6 +68,7 @@ class VipViewController: UIViewController {
     
     @IBAction func restoreAction(_ sender: UIButton) {
         sender.isEnabled = false
+        AppAnalytics.log(.restore_button_click, property: .source, value: RestoreSource.vip.rawValue)
         SubscriptionManager.restore(onSuccess: { [weak self] verifySubscriptionResultArray in
             verifySubscriptionResultArray.forEach { verifySubscriptionResult in
                 switch verifySubscriptionResult {
