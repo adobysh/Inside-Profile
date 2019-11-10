@@ -121,6 +121,25 @@ class MainViewController: UIViewController {
         guard !sender.inProgress else { return }
         guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
         
+        switch contentType {
+        case .gained_followers:
+            AppAnalytics.log(.gained_followers_click)
+        case .lost_followers:
+            AppAnalytics.log(.lost_followers_click)
+        case .you_dont_follow:
+            AppAnalytics.log(.you_dont_follow_click)
+        case .unfollowers:
+            AppAnalytics.log(.unfollowers_click)
+        case .new_guests:
+            AppAnalytics.log(.new_guests_click)
+        case .recommendation:
+            AppAnalytics.log(.recomendation_click)
+        case .top_commenters:
+            AppAnalytics.log(.top_commenters_click)
+        case .top_likers:
+            AppAnalytics.log(.top_lickers_click)
+        }
+        
         if !SubscriptionKeychain.isSubscribed()
             && (contentType == .new_guests
             || contentType == .recommendation

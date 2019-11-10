@@ -27,12 +27,43 @@ class AppAnalytics {
         
         case open
         case dashboard_open
-//        case start_pop_up_show
-//        case help_incomong_call
-//        case help_outgoing_call
-//        case service_number_changed
-//
-//        case offer_popup_open
+        case vip_open
+        case vip_button_click
+        
+        case lost_followers_click
+        case gained_followers_click
+        case unfollowers_click
+        case you_dont_follow_click
+        case new_guests_click
+        case recomendation_click
+        case top_lickers_click
+        case top_commenters_click
+        
+        // дополнительные ивенты
+        case settings_click
+        
+        case setting_get_premium_click
+        case setting_restore_click
+        case setting_terms_click
+        case setting_privacy_click
+        case setting_logout_click
+        
+        case main_reload
+        case user_list_reload
+        
+        case user_click
+        
+        case user_follow
+        case user_unfollow
+        
+        case lost_followers_loading_click
+        case gained_followers_loading_click
+        case unfollowers_loading_click
+        case you_dont_follow_loading_click
+        case new_guests_loading_click
+        case recomendation_loading_click
+        case top_lickers_loading_click
+        case top_commenters_loading_click
         
 //        case onboarding_start
 //        case onboarding_complete
@@ -43,9 +74,6 @@ class AppAnalytics {
 //        case onboarding_slides_4_open
         
 //        case pre_vip_open
-//        case vip_open
-//        case offer_open
-//        case vip_btn_click
 //        case send_code
 //        case enter_valid_code
 //        case error_code
@@ -91,7 +119,6 @@ class AppAnalytics {
             UserDefaults.standard.set(true, forKey: Key.appOpen.rawValue)
             UserDefaults.standard.synchronize()
             log(.first_open, properties: properties)
-//             Analytics.logEvent("first_open_client", parameters: nil)
         }
         log(.open, properties: properties)
     }
