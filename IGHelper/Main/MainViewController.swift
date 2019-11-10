@@ -147,6 +147,7 @@ class MainViewController: UIViewController {
             || contentType == .top_likers)
         {
             let vc = UIViewController.vip
+            vc.source = .dashboard
             vc.onClose = {
                 vc.dismiss(animated: true)
             }

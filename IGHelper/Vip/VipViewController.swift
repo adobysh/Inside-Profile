@@ -8,6 +8,12 @@
 
 import UIKit
 import SwiftyStoreKit
+
+enum Source: String {
+    case dashboard
+    case settings
+    case unknown
+}
     
 class VipViewController: UIViewController {
     
@@ -17,6 +23,8 @@ class VipViewController: UIViewController {
     @IBOutlet var closeButtonTopConstraint: NSLayoutConstraint?
     
     private let currentSubscription: SubscriptionType = .month
+    
+    public var source: Source = .unknown
     
     public var onPaymentSuccess: (()->())?
     public var onRestoreSuccess: (()->())?
@@ -28,6 +36,8 @@ class VipViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AppAnalytics.log(.vip_open, properties: [AppAnalytics.Property.vip_open_source.rawValue : source.rawValue])
+        
         view.scale()
         if #available(iOS 13.0, *) {
             let constantForIOS13 = (closeButtonTopConstraint?.constant ?? 0) / 2.0

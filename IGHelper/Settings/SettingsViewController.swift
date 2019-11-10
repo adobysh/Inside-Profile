@@ -31,6 +31,7 @@ class SettingsViewController: UIViewController {
     
     @IBAction func getPremiumButtonAction(_ sender: Any) {
         let vc = UIViewController.vip
+        vc.source = .settings
         vc.onClose = {
             vc.dismiss(animated: true)
         }

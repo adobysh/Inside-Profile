@@ -86,21 +86,7 @@ class AppAnalytics {
     }
     
     enum Property: String {
-        case install_date
-        case install_week
-        case install_month
-        case service_number
-        case is_subscriber
-        case voice_records_attempt
-        case voice_records_saved
-        case in_call_records_attempt
-        case in_call_records_saved
-        case out_call_records_attempt
-        case out_call_records_saved
-        case time_spent
-        case pop_up_name
-        case match_type
-        case matches_count
+        case vip_open_source = "source"
     }
     
     enum Key: String {
