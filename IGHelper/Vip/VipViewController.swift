@@ -10,10 +10,15 @@ import UIKit
 import StoreKit
 import SwiftyStoreKit
 
-enum Source: String {
+enum VipSource: String {
     case dashboard
     case settings
     case unknown
+}
+
+enum RestoreSource: String {
+    case vip
+    case settings
 }
     
 class VipViewController: UIViewController {
@@ -26,7 +31,7 @@ class VipViewController: UIViewController {
     private let currentSubscription: SubscriptionType = .month
     private var product: SKProduct?
     
-    public var source: Source = .unknown
+    public var source: VipSource = .unknown
     
     public var onPaymentSuccess: (()->())?
     public var onRestoreSuccess: (()->())?
@@ -97,6 +102,7 @@ class VipViewController: UIViewController {
     
     @IBAction func subscribeAction(_ sender: UIButton) {
         sender.isEnabled = false
+        AppAnalytics.log(.vip_button_click)
         SubscriptionManager.purchase(currentSubscription, onSuccess: { [weak self] verifySubscriptionResult in
             switch verifySubscriptionResult {
             case .purchased(_, let receiptItemArray):

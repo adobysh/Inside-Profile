@@ -29,6 +29,7 @@ class AppAnalytics {
         case dashboard_open
         case vip_open
         case vip_button_click
+        case restore_button_click
         
         case lost_followers_click
         case gained_followers_click
