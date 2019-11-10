@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoreKit
 import SwiftyStoreKit
 
 enum Source: String {
@@ -23,6 +24,7 @@ class VipViewController: UIViewController {
     @IBOutlet var closeButtonTopConstraint: NSLayoutConstraint?
     
     private let currentSubscription: SubscriptionType = .month
+    private var product: SKProduct?
     
     public var source: Source = .unknown
     
@@ -45,6 +47,14 @@ class VipViewController: UIViewController {
         }
         
         subscribeButton?.setTitle("PLEASE WAIT...", for: .disabled)
+        
+        SubscriptionManager.product(onComplete: { [weak self] product in
+            self?.product = product
+            #warning("обновить цену после получения информации о продукте")
+        }) { [weak self] error in
+            self?.showErrorAlert()
+            #warning("обработать ситуация когда информация о продукте не була получена")
+        }
     }
     
     @IBAction func closeAction(_ sender: Any) {
@@ -54,7 +64,7 @@ class VipViewController: UIViewController {
     @IBAction func restoreAction(_ sender: UIButton) {
         sender.isEnabled = false
         SubscriptionManager.restore(onSuccess: { [weak self] verifySubscriptionResultArray in
-            verifySubscriptionResultArray.forEach { [weak self] verifySubscriptionResult in
+            verifySubscriptionResultArray.forEach { verifySubscriptionResult in
                 switch verifySubscriptionResult {
                 case .purchased(_, let receiptItemArray):
                     receiptItemArray.forEach {
@@ -95,6 +105,21 @@ class VipViewController: UIViewController {
                         if let subscriptionExpirationDate = $0.subscriptionExpirationDate {
                             SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
                             self?.onPaymentSuccess?()
+                            guard let product = self?.product, let source = self?.source else { return }
+                            AppAnalytics.logPurchase(
+                                price: product.price,
+                                currency: product.priceLocale.currencyCode,
+                                identifier: product.productIdentifier
+                            )
+                            let properties: [String: String] = [
+                                "source": source.rawValue,
+//                                "type": self?.isOffer == true ? "offer" : "vip",
+                                "identifier": product.productIdentifier
+                            ]
+//                            if let pushId = self?.pushId {
+//                                properties["push_id"] = pushId
+//                            }
+                            AppAnalytics.log(.purchase_analytics, properties: properties)
                         }
                     }
                 }

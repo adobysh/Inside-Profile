@@ -39,6 +39,8 @@ class AppAnalytics {
         case top_lickers_click
         case top_commenters_click
         
+        case purchase_analytics
+        
         // дополнительные ивенты
         case settings_click
         
