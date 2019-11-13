@@ -54,7 +54,7 @@
 
 /* Begin PBXFileReference section */
 		0C080C3E234E401400FCF53D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		0C1D2E9522D3C17F0015135F /* IGHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IGHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C1D2E9522D3C17F0015135F /* Instadoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instadoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C1D2E9822D3C17F0015135F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C1D2E9A22D3C17F0015135F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0C1D2E9D22D3C17F0015135F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 		0C1D2E9622D3C17F0015135F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0C1D2E9522D3C17F0015135F /* IGHelper.app */,
+				0C1D2E9522D3C17F0015135F /* Instadoo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -300,7 +300,7 @@
 			);
 			name = IGHelper;
 			productName = IGHelper;
-			productReference = 0C1D2E9522D3C17F0015135F /* IGHelper.app */;
+			productReference = 0C1D2E9522D3C17F0015135F /* Instadoo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -626,7 +626,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.nativereader;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Instadoo;
 				PROVISIONING_PROFILE_SPECIFIER = FFF3;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -648,7 +648,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.nativereader;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Instadoo;
 				PROVISIONING_PROFILE_SPECIFIER = FFF3;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;

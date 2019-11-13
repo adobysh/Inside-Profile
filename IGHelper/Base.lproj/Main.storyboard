@@ -12,7 +12,7 @@
         <!--Get Started View Controller-->
         <scene sceneID="QlJ-Rf-6WG">
             <objects>
-                <viewController storyboardIdentifier="GetStartedViewController" id="IU4-mr-cFb" customClass="GetStartedViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GetStartedViewController" id="IU4-mr-cFb" customClass="GetStartedViewController" customModule="Instadoo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="udf-A8-az5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,7 +110,7 @@ Tracker</string>
         <!--Title-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" id="BYZ-38-t0r" customClass="MainViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="BYZ-38-t0r" customClass="MainViewController" customModule="Instadoo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -119,7 +119,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="bEJ-FH-6hi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bEJ-FH-6hi" secondAttribute="height" multiplier="25:8" id="SG0-l3-JCN"/>
                                 </constraints>
@@ -266,7 +266,7 @@ Tracker</string>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="FDg-gE-CPE">
                                                 <rect key="frame" x="0.0" y="0.0" width="153.5" height="307"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="st2-Dr-ftu" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="st2-Dr-ftu" customClass="ActivityIndicatorButton" customModule="Instadoo" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="153.5" height="66.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
@@ -274,7 +274,7 @@ Tracker</string>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="lost followers"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Hj-Ih-mW7" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+                                                    <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Hj-Ih-mW7" customClass="ActivityIndicatorButton" customModule="Instadoo" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="80.5" width="153.5" height="66"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
@@ -282,7 +282,7 @@ Tracker</string>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="you don't follow"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCe-NW-WyH" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+                                                    <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCe-NW-WyH" customClass="ActivityIndicatorButton" customModule="Instadoo" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="160.5" width="153.5" height="66.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
@@ -290,7 +290,7 @@ Tracker</string>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="new guests"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DDT-9Z-Ydl" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+                                                    <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DDT-9Z-Ydl" customClass="ActivityIndicatorButton" customModule="Instadoo" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="241" width="153.5" height="66"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
@@ -303,7 +303,7 @@ Tracker</string>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="13.84" translatesAutoresizingMaskIntoConstraints="NO" id="0Od-Jf-IBP">
                                                 <rect key="frame" x="167.5" y="0.0" width="153.5" height="307"/>
                                                 <subviews>
-                                                    <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQa-4r-2mm" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+                                                    <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQa-4r-2mm" customClass="ActivityIndicatorButton" customModule="Instadoo" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="153.5" height="66.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
@@ -311,7 +311,7 @@ Tracker</string>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="gained followers"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5OI-2V-agn" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+                                                    <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5OI-2V-agn" customClass="ActivityIndicatorButton" customModule="Instadoo" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="80.5" width="153.5" height="66"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
@@ -319,7 +319,7 @@ Tracker</string>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="unfollowers"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1H-an-dsy" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+                                                    <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1H-an-dsy" customClass="ActivityIndicatorButton" customModule="Instadoo" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="160.5" width="153.5" height="66.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
@@ -327,7 +327,7 @@ Tracker</string>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="recommendation"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="7" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYe-oc-AOu" customClass="ActivityIndicatorButton" customModule="IGHelper" customModuleProvider="target">
+                                                    <view tag="7" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYe-oc-AOu" customClass="ActivityIndicatorButton" customModule="Instadoo" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="241" width="153.5" height="66"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
@@ -423,7 +423,7 @@ Tracker</string>
         <!--Recomendation-->
         <scene sceneID="JXT-EV-36u">
             <objects>
-                <viewController storyboardIdentifier="DetailViewController" id="6Nn-Yq-xDm" customClass="DetailViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="6Nn-Yq-xDm" customClass="DetailViewController" customModule="Instadoo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SvL-wb-b5M">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -432,7 +432,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="zVU-dA-rdF">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zVU-dA-rdF" secondAttribute="height" multiplier="25:8" id="NyX-z2-bNX"/>
                                 </constraints>
@@ -442,7 +442,7 @@ Tracker</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="112" id="KFQ-Jd-GQQ" customClass="UserCell" customModule="IGHelper" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="112" id="KFQ-Jd-GQQ" customClass="UserCell" customModule="Instadoo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KFQ-Jd-GQQ" id="avT-i0-r1N">
@@ -586,7 +586,7 @@ Update tomorrow</string>
         <!--Settings-->
         <scene sceneID="QYK-1p-cYx">
             <objects>
-                <viewController storyboardIdentifier="SettingsViewController" id="POf-Zp-Wac" userLabel="Settings" customClass="SettingsViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="POf-Zp-Wac" userLabel="Settings" customClass="SettingsViewController" customModule="Instadoo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lyu-OP-vZ5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -595,7 +595,7 @@ Update tomorrow</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="p5P-5t-q96">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="p5P-5t-q96" secondAttribute="height" multiplier="25:8" id="kpS-tE-AeM"/>
                                 </constraints>
@@ -751,7 +751,7 @@ Update tomorrow</string>
         <!--Recomendation-->
         <scene sceneID="avo-EE-Dtk">
             <objects>
-                <viewController storyboardIdentifier="AuthorizationViewController" id="Scr-oN-zKo" customClass="AuthorizationViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthorizationViewController" id="Scr-oN-zKo" customClass="AuthorizationViewController" customModule="Instadoo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6qH-UP-hMc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -760,7 +760,7 @@ Update tomorrow</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="DTz-E9-z4Y">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="DTz-E9-z4Y" secondAttribute="height" multiplier="25:8" id="WJ3-h1-t2Y"/>
                                 </constraints>
@@ -821,7 +821,7 @@ Update tomorrow</string>
         <!--Vip View Controller-->
         <scene sceneID="grL-pm-ikF">
             <objects>
-                <viewController storyboardIdentifier="VipViewController" id="zKi-3r-KKn" customClass="VipViewController" customModule="IGHelper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VipViewController" id="zKi-3r-KKn" customClass="VipViewController" customModule="Instadoo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cxT-6h-vK9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -878,7 +878,7 @@ Update tomorrow</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0C-p0-7Nb">
                                         <rect key="frame" x="0.0" y="118" width="375" height="259"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icKing" translatesAutoresizingMaskIntoConstraints="NO" id="b0T-gl-cQe">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icCrowd" translatesAutoresizingMaskIntoConstraints="NO" id="b0T-gl-cQe">
                                                 <rect key="frame" x="0.0" y="26" width="375" height="207"/>
                                             </imageView>
                                         </subviews>
@@ -1010,7 +1010,7 @@ then $29.99/month</string>
         <image name="bgNavBar" width="374" height="120"/>
         <image name="icBack" width="21" height="21"/>
         <image name="icClose" width="30" height="30"/>
-        <image name="icKing" width="517" height="640"/>
+        <image name="icCrowd" width="250" height="250"/>
         <image name="icSettings2" width="36" height="36"/>
         <namedColor name="followButtonColor">
             <color red="0.20499999821186066" green="0.59700000286102295" blue="0.94099998474121094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

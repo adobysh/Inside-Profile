@@ -118,27 +118,39 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func detailButtonAction(_ sender: ActivityIndicatorButton) {
-        guard !sender.inProgress else { return }
         guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
         
+        let eventState: EventState = sender.inProgress ? .in_progress : .normal
+        
+        let eventSource: EventSource
         switch contentType {
         case .gained_followers:
-            AppAnalytics.log(.gained_followers_click)
+            eventSource = .gained_followers
+            AppAnalytics.log(.event_click, type: .gained_followers, state: eventState)
         case .lost_followers:
-            AppAnalytics.log(.lost_followers_click)
+            eventSource = .lost_followers
+            AppAnalytics.log(.event_click, type: .lost_followers, state: eventState)
         case .you_dont_follow:
-            AppAnalytics.log(.you_dont_follow_click)
+            eventSource = .you_dont_follow
+            AppAnalytics.log(.event_click, type: .you_dont_follow, state: eventState)
         case .unfollowers:
-            AppAnalytics.log(.unfollowers_click)
+            eventSource = .unfollowers
+            AppAnalytics.log(.event_click, type: .unfollowers, state: eventState)
         case .new_guests:
-            AppAnalytics.log(.new_guests_click)
+            eventSource = .new_guests
+            AppAnalytics.log(.event_click, type: .new_guests, state: eventState)
         case .recommendation:
-            AppAnalytics.log(.recomendation_click)
+            eventSource = .recommendation
+            AppAnalytics.log(.event_click, type: .recommendation, state: eventState)
         case .top_commenters:
-            AppAnalytics.log(.top_commenters_click)
+            eventSource = .top_commenters
+            AppAnalytics.log(.event_click, type: .top_commenters, state: eventState)
         case .top_likers:
-            AppAnalytics.log(.top_lickers_click)
+            eventSource = .top_likers
+            AppAnalytics.log(.event_click, type: .top_likers, state: eventState)
         }
+        
+        guard !sender.inProgress else { return }
         
         if !SubscriptionKeychain.isSubscribed()
             && (contentType == .new_guests
@@ -147,7 +159,7 @@ class MainViewController: UIViewController {
             || contentType == .top_likers)
         {
             let vc = UIViewController.vip
-            vc.source = .dashboard
+            vc.source = eventSource
             vc.onClose = {
                 vc.dismiss(animated: true)
             }

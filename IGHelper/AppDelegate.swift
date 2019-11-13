@@ -43,32 +43,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func initializeSDKs(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-//        AppsFlyerTracker.shared().appsFlyerDevKey = "Tq3reaxJHqHHqqc3rYJvXC"
-//        AppsFlyerTracker.shared().appleAppID = "1400040339"
+//        AppsFlyerTracker.shared().appsFlyerDevKey = "put key here"
+//        AppsFlyerTracker.shared().appleAppID = "put id here"
 //        AppsFlyerTracker.shared().delegate = self
         Fabric.with([Crashlytics.self])
         AppEvents.activateApp()
-//        YMMYandexMetrica.activate(with: YMMYandexMetricaConfiguration(apiKey: YandexMetricaApiKey)!)
-        Amplitude.instance().initializeApiKey("d3ae5191f1e235e68ed79d6714556aae")
-//        OneSignal.initWithLaunchOptions(
-//            launchOptions,
-//            appId: OneSignalAppID,
-//            handleNotificationAction: nil,
-//            settings: [kOSSettingsKeyAutoPrompt: false]
-//        )
-//        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification
-//        OneSignal.promptForPushNotifications { accepted in
-//            if accepted, let playerId = OneSignal.getPermissionSubscriptionState()?.subscriptionStatus.userId {
-//                SERVER_MANAGER.updatePlayerId(playerId: playerId) { _ in }
-//            }
-//        }
-//        FirebaseApp.configure()
+        Amplitude.instance().initializeApiKey("91d98733bedcadcda5e92ba5091cc370")
         ApplicationDelegate.initializeSDK(launchOptions)
-        
-//        #if DEBUG
-//        guard UserDefaults.standard.bool(forKey: "analytics") else { return }
-//        AppsFlyerTracker.shared().isDebug = true
-//        #endif
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        AppEvents.activateApp()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -83,10 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        AppEvents.activateApp()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

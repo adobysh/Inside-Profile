@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0C1D2E9422D3C17F0015135F"
-               BuildableName = "IGHelper.app"
+               BuildableName = "Instadoo.app"
                BlueprintName = "IGHelper"
                ReferencedContainer = "container:IGHelper.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0C1D2E9422D3C17F0015135F"
-            BuildableName = "IGHelper.app"
+            BuildableName = "Instadoo.app"
             BlueprintName = "IGHelper"
             ReferencedContainer = "container:IGHelper.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0C1D2E9422D3C17F0015135F"
-            BuildableName = "IGHelper.app"
+            BuildableName = "Instadoo.app"
             BlueprintName = "IGHelper"
             ReferencedContainer = "container:IGHelper.xcodeproj">
          </BuildableReference>

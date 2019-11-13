@@ -9,17 +9,6 @@
 import UIKit
 import StoreKit
 import SwiftyStoreKit
-
-enum VipSource: String {
-    case dashboard
-    case settings
-    case unknown
-}
-
-enum RestoreSource: String {
-    case vip
-    case settings
-}
     
 class VipViewController: UIViewController {
     
@@ -31,7 +20,7 @@ class VipViewController: UIViewController {
     private let currentSubscription: SubscriptionType = .month
     private var product: SKProduct?
     
-    public var source: VipSource = .unknown
+    public var source: EventSource = .unknown
     
     public var onPaymentSuccess: (()->())?
     public var onRestoreSuccess: (()->())?
@@ -43,7 +32,7 @@ class VipViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        AppAnalytics.log(.vip_open, property: .source, value: source.rawValue)
+        AppAnalytics.log(.event_open, screen: .vip, source: source)
         
         view.scale()
         if #available(iOS 13.0, *) {
@@ -68,7 +57,7 @@ class VipViewController: UIViewController {
     
     @IBAction func restoreAction(_ sender: UIButton) {
         sender.isEnabled = false
-        AppAnalytics.log(.restore_button_click, property: .source, value: RestoreSource.vip.rawValue)
+        AppAnalytics.log(.event_click, type: .restore, source: source)
         SubscriptionManager.restore(onSuccess: { [weak self] verifySubscriptionResultArray in
             verifySubscriptionResultArray.forEach { verifySubscriptionResult in
                 switch verifySubscriptionResult {
@@ -103,7 +92,7 @@ class VipViewController: UIViewController {
     
     @IBAction func subscribeAction(_ sender: UIButton) {
         sender.isEnabled = false
-        AppAnalytics.log(.vip_button_click)
+        AppAnalytics.log(.event_click, type: .vip)
         SubscriptionManager.purchase(currentSubscription, onSuccess: { [weak self] verifySubscriptionResult in
             switch verifySubscriptionResult {
             case .purchased(_, let receiptItemArray):

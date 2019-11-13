@@ -15,82 +15,82 @@ import AdSupport
 import SwiftKeychainWrapper
 import UIKit
 
+enum Event: String {
+    
+    case start_app
+    
+    case event_open
+    case event_click
+    
+    case purchase_analytics
+    
+    // дополнительные ивенты
+    case settings_click
+    
+    case setting_get_premium_click
+    case setting_restore_click
+    case setting_terms_click
+    case setting_privacy_click
+    case setting_logout_click
+    
+    case main_reload
+    case user_list_reload
+    
+    case user_click
+    
+    case user_follow
+    case user_unfollow
+}
+
+enum EventType: String {
+    // dashboard
+    case lost_followers
+    case gained_followers
+    case unfollowers
+    case you_dont_follow
+    case new_guests
+    case recommendation
+    case top_likers
+    case top_commenters
+    
+    // vip
+    case vip
+    case restore
+}
+
+enum EventScreen: String {
+    case dashboard
+    case vip
+}
+
+enum EventSource: String {
+    // dashboard
+    case lost_followers
+    case gained_followers
+    case unfollowers
+    case you_dont_follow
+    case new_guests
+    case recommendation
+    case top_likers
+    case top_commenters
+    
+    case settings
+    
+    case unknown
+}
+
+enum EventState: String {
+    case normal
+    case in_progress
+}
+
+enum Property: String {
+    #warning("set followers and following counts here")
+    case followers
+    case following
+}
+
 class AppAnalytics {
-    
-    enum Event: String {
-        case first_open
-        case first_dashboard_open
-        case first_vip_open
-        case first_vip_button_click
-//        case first_offer_open
-//        case first_offer_btn_click
-        
-        case open
-        case dashboard_open
-        case vip_open
-        case vip_button_click
-        case restore_button_click
-        
-        case lost_followers_click
-        case gained_followers_click
-        case unfollowers_click
-        case you_dont_follow_click
-        case new_guests_click
-        case recomendation_click
-        case top_lickers_click
-        case top_commenters_click
-        
-        case purchase_analytics
-        
-        // дополнительные ивенты
-        case settings_click
-        
-        case setting_get_premium_click
-        case setting_restore_click
-        case setting_terms_click
-        case setting_privacy_click
-        case setting_logout_click
-        
-        case main_reload
-        case user_list_reload
-        
-        case user_click
-        
-        case user_follow
-        case user_unfollow
-        
-        case lost_followers_loading_click
-        case gained_followers_loading_click
-        case unfollowers_loading_click
-        case you_dont_follow_loading_click
-        case new_guests_loading_click
-        case recomendation_loading_click
-        case top_lickers_loading_click
-        case top_commenters_loading_click
-        
-//        case onboarding_start
-//        case onboarding_complete
-        
-//        case onboarding_slides_1_open
-//        case onboarding_slides_2_open
-//        case onboarding_slides_3_open
-//        case onboarding_slides_4_open
-        
-//        case pre_vip_open
-//        case send_code
-//        case enter_valid_code
-//        case error_code
-//        case offer_btn_click
-//        case requested_review
-//        case purchased_with_issue
-//        case purchase_analytics
-//        case click_banner
-//        case fetched_fb_deeplink
-    }
-    
-    enum Property: String {
-        case source = "source"
-    }
     
     enum Key: String {
         case appOpen
@@ -103,26 +103,42 @@ class AppAnalytics {
 //        Analytics.logEvent(event.rawValue, parameters: properties)
     }
     
-    class func log(_ event: Event, property: Property, value: Any) {
-        log(event, properties: [property.rawValue: value])
+    class func log(_ event: Event, type: EventType? = nil, screen: EventScreen? = nil, source: EventSource? = nil, state: EventState? = nil) {
+        var properties: [String: Any] = [:]
+        if let type = type {
+            properties["type"] = type.rawValue
+        }
+        if let source = source {
+            properties["source"] = source.rawValue
+        }
+        if let state = state {
+            properties["state"] = state.rawValue
+        }
+        if let screen = screen {
+            properties["screen"] = screen.rawValue
+        }
+        log(event, properties: properties)
     }
     
     class func logAppOpen(properties: [String: Any]? = nil) {
+        var properties = properties
         if UserDefaults.standard.bool(forKey: Key.appOpen.rawValue) == false {
             UserDefaults.standard.set(true, forKey: Key.appOpen.rawValue)
             UserDefaults.standard.synchronize()
-            log(.first_open, properties: properties)
+            properties?["is_first"] = "yes"
         }
-        log(.open, properties: properties)
+        log(.start_app, properties: properties)
     }
     
     class func logDashboardOpen(properties: [String: Any]? = nil) {
+        var properties = properties
+        properties?["screen"] = EventScreen.dashboard.rawValue
         if UserDefaults.standard.bool(forKey: Key.dashboardOpen.rawValue) == false {
             UserDefaults.standard.set(true, forKey: Key.dashboardOpen.rawValue)
             UserDefaults.standard.synchronize()
-            log(.first_dashboard_open, properties: properties)
+            properties?["is_first"] = "yes"
         }
-        log(.dashboard_open, properties: properties)
+        log(.event_open, properties: properties)
     }
     
     class func setUserID(_ userId: String) {
