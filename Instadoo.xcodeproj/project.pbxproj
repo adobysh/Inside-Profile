@@ -117,7 +117,7 @@
 		0C1D2E8C22D3C17F0015135F = {
 			isa = PBXGroup;
 			children = (
-				0C1D2E9722D3C17F0015135F /* IGHelper */,
+				0C1D2E9722D3C17F0015135F /* Instadoo */,
 				0C1D2E9622D3C17F0015135F /* Products */,
 				8928E9977B5B15536083CB5B /* Pods */,
 				986AB714E7F75199121F7187 /* Frameworks */,
@@ -132,7 +132,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0C1D2E9722D3C17F0015135F /* IGHelper */ = {
+		0C1D2E9722D3C17F0015135F /* Instadoo */ = {
 			isa = PBXGroup;
 			children = (
 				0C1D2E9822D3C17F0015135F /* AppDelegate.swift */,
@@ -151,7 +151,7 @@
 				0C766137235DD37D00DDE439 /* Vip */,
 				0C1D2EAA22D3DF590015135F /* Extension */,
 			);
-			path = IGHelper;
+			path = Instadoo;
 			sourceTree = "<group>";
 		};
 		0C1D2EAA22D3DF590015135F /* Extension */ = {
@@ -282,9 +282,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0C1D2E9422D3C17F0015135F /* IGHelper */ = {
+		0C1D2E9422D3C17F0015135F /* Instadoo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0C1D2EA722D3C1800015135F /* Build configuration list for PBXNativeTarget "IGHelper" */;
+			buildConfigurationList = 0C1D2EA722D3C1800015135F /* Build configuration list for PBXNativeTarget "Instadoo" */;
 			buildPhases = (
 				D8C36C52DE766F2D92FEFF04 /* [CP] Check Pods Manifest.lock */,
 				0C1D2E9122D3C17F0015135F /* Sources */,
@@ -298,7 +298,7 @@
 			);
 			dependencies = (
 			);
-			name = IGHelper;
+			name = Instadoo;
 			productName = IGHelper;
 			productReference = 0C1D2E9522D3C17F0015135F /* Instadoo.app */;
 			productType = "com.apple.product-type.application";
@@ -318,7 +318,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0C1D2E9022D3C17F0015135F /* Build configuration list for PBXProject "IGHelper" */;
+			buildConfigurationList = 0C1D2E9022D3C17F0015135F /* Build configuration list for PBXProject "Instadoo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -331,7 +331,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0C1D2E9422D3C17F0015135F /* IGHelper */,
+				0C1D2E9422D3C17F0015135F /* Instadoo */,
 			);
 		};
 /* End PBXProject section */
@@ -616,18 +616,18 @@
 			baseConfigurationReference = 5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
-				INFOPLIST_FILE = IGHelper/Info.plist;
+				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.nativereader;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.instadoo;
 				PRODUCT_NAME = Instadoo;
-				PROVISIONING_PROFILE_SPECIFIER = FFF3;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -638,18 +638,18 @@
 			baseConfigurationReference = 26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
-				INFOPLIST_FILE = IGHelper/Info.plist;
+				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.nativereader;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.instadoo;
 				PRODUCT_NAME = Instadoo;
-				PROVISIONING_PROFILE_SPECIFIER = FFF3;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -658,7 +658,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0C1D2E9022D3C17F0015135F /* Build configuration list for PBXProject "IGHelper" */ = {
+		0C1D2E9022D3C17F0015135F /* Build configuration list for PBXProject "Instadoo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0C1D2EA522D3C1800015135F /* Debug */,
@@ -667,7 +667,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0C1D2EA722D3C1800015135F /* Build configuration list for PBXNativeTarget "IGHelper" */ = {
+		0C1D2EA722D3C1800015135F /* Build configuration list for PBXNativeTarget "Instadoo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0C1D2EA822D3C1800015135F /* Debug */,

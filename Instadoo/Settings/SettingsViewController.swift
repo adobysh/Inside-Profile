@@ -84,11 +84,11 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func privatyButtonAction(_ sender: Any) {
-        openUrl(url: "https://google.com/")
+        openUrl(url: "https://andromeda-group.jimdosite.com/privacy-policy/")
     }
     
     @IBAction func termsButtonAction(_ sender: Any) {
-        openUrl(url: "https://google.com/")
+        openUrl(url: "https://andromeda-group.jimdosite.com/terms-of-use/")
     }
     
     @IBAction func logOutButtonAction(_ sender: Any) {

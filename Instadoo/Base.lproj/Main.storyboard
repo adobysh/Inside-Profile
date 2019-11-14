@@ -119,7 +119,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="bEJ-FH-6hi">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bEJ-FH-6hi" secondAttribute="height" multiplier="25:8" id="SG0-l3-JCN"/>
                                 </constraints>
@@ -432,7 +432,7 @@ Tracker</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="zVU-dA-rdF">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zVU-dA-rdF" secondAttribute="height" multiplier="25:8" id="NyX-z2-bNX"/>
                                 </constraints>
@@ -595,7 +595,7 @@ Update tomorrow</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="p5P-5t-q96">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="p5P-5t-q96" secondAttribute="height" multiplier="25:8" id="kpS-tE-AeM"/>
                                 </constraints>
@@ -760,7 +760,7 @@ Update tomorrow</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgNavBar" translatesAutoresizingMaskIntoConstraints="NO" id="DTz-E9-z4Y">
-                                <rect key="frame" x="0.0" y="0.0" width="375.00000000000006" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="DTz-E9-z4Y" secondAttribute="height" multiplier="25:8" id="WJ3-h1-t2Y"/>
                                 </constraints>

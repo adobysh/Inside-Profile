@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        AppsFlyerTracker.shared().delegate = self
         Fabric.with([Crashlytics.self])
         AppEvents.activateApp()
-        Amplitude.instance().initializeApiKey("91d98733bedcadcda5e92ba5091cc370")
+        Amplitude.instance().initializeApiKey("")//91d98733bedcadcda5e92ba5091cc370")
         ApplicationDelegate.initializeSDK(launchOptions)
     }
     
