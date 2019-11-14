@@ -11,7 +11,8 @@ import StoreKit
 import SwiftyStoreKit
 
 enum SubscriptionType: String, CaseIterable {
-    case month = "com.andreidobysh.nativereader.month"
+//    case month = "com.andreidobysh.nativereader.month"
+    case week = "com.andreidobysh.instadoo.1week"
 }
 
 struct SubscriptionError: Error {
@@ -41,7 +42,7 @@ class SubscriptionManager {
         SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
             switch result {
             case .success(let receipt):
-                let productId = SubscriptionType.month.rawValue
+                let productId = SubscriptionType.week.rawValue
                 let purchaseResult = SwiftyStoreKit.verifySubscription(
                     ofType: .autoRenewable,
                     productId: productId,
@@ -63,7 +64,7 @@ class SubscriptionManager {
     }
     
     static func product(onComplete: @escaping (SKProduct)->(), onError: @escaping (Error)->()) {
-        SwiftyStoreKit.retrieveProductsInfo([SubscriptionType.month.rawValue]) { result in
+        SwiftyStoreKit.retrieveProductsInfo([SubscriptionType.week.rawValue]) { result in
             if let product = result.retrievedProducts.first {
                 onComplete(product)
             } else if result.invalidProductIDs.first != nil {

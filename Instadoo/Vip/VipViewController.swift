@@ -17,7 +17,7 @@ class VipViewController: UIViewController {
     @IBOutlet var subscribeButton: UIButton?
     @IBOutlet var closeButtonTopConstraint: NSLayoutConstraint?
     
-    private let currentSubscription: SubscriptionType = .month
+    private let currentSubscription: SubscriptionType = .week
     private var product: SKProduct?
     
     public var source: EventSource = .unknown
