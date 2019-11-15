@@ -98,6 +98,8 @@ class AppAnalytics {
         case vipOpen
     }
     
+    static let amplitudeApiKey = "91d98733bedcadcda5e92ba5091cc370"
+    
     class func log(_ event: Event, properties: [String: Any]? = nil) {
         Amplitude.instance().logEvent(event.rawValue, withEventProperties: properties ?? [:])
 //        Analytics.logEvent(event.rawValue, parameters: properties)

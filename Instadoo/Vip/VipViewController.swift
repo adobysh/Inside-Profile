@@ -15,6 +15,8 @@ class VipViewController: UIViewController {
     @IBOutlet var restoreButton: UIButton?
     @IBOutlet var closeButton: UIButton?
     @IBOutlet var subscribeButton: UIButton?
+    @IBOutlet var textView: UITextView?
+    
     @IBOutlet var closeButtonTopConstraint: NSLayoutConstraint?
     
     private let currentSubscription: SubscriptionType = .week
@@ -50,6 +52,8 @@ class VipViewController: UIViewController {
             #warning("обработать ситуация когда информация о продукте не була получена")
         }
     }
+    
+//    "Information about the auto-renewable nature of the subscription: Subscription periods are 1 week, price - <price>. Every week your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period. After the trial period, weekly subscription will start for <price>. Trials will be 3 days, after which the subscription will auto-renew. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. You can cancel your subscription via this url: https://support.apple.com/en-us/HT202039. Privacy Policy. Terms of Use."
     
     @IBAction func closeAction(_ sender: Any) {
         onClose?()
@@ -136,6 +140,36 @@ class VipViewController: UIViewController {
         }
     }
     
+    private func setupDescriptionTextView(price: String) {
+        
+        let font: UIFont = UIFont.systemFont(ofSize: 11.0.scalable, weight: .semibold)
+        let linkFont: UIFont = UIFont.systemFont(ofSize: 11.0.scalable, weight: .bold)
+//        let color: UIColor = UIColor.white.withAlphaComponent(0.6)
+        let linkColor: UIColor = UIColor.white
+        
+        let template = "Information about the auto-renewable nature of the subscription: Subscription periods are 1 week, price - <price>. Every week your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period. After the trial period, weekly subscription will start for <price>. Trials will be 3 days, after which the subscription will auto-renew. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. You can cancel your subscription via this url: https://support.apple.com/en-us/HT202039. Privacy Policy. Terms of Use."
+        
+        let text = template.replacingOccurrences(of: "<price>", with: price)
+        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else { return }
+        let matches = detector.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
+
+        let attributedString = NSMutableAttributedString()
+        attributedString.append(NSAttributedString(string: text,
+                                                   attributes: [.font: font]))
+        
+        let content = attributedString
+        for match in matches {
+            guard let range = Range(match.range, in: text) else { continue }
+            let url = String(text[range])
+            content.setAsLink(textToFind: url, linkURL: url, font: font)
+        }
+        content.setAsLink(textToFind: "Privacy Policy", linkURL: "https://andromeda-group.jimdosite.com/privacy-policy/", font: font)
+        content.setAsLink(textToFind: "Terms of Use", linkURL: "https://andromeda-group.jimdosite.com/terms-of-use/", font: font)
+        textView?.attributedText = content
+        textView?.linkTextAttributes = [.font: linkFont, .foregroundColor: linkColor]
+        textView?.textAlignment = .justified
+    }
+    
 }
 
 // MARK: - Old Shit
@@ -167,5 +201,17 @@ extension VipViewController {
 //            setupButton(inProgress: false)
 //        }
 //    }
+    
+}
+
+extension NSMutableAttributedString {
+
+    public func setAsLink(textToFind: String, linkURL: String, font: UIFont) {
+        let foundRange = self.mutableString.range(of: textToFind)
+        if foundRange.location != NSNotFound {
+            self.addAttribute(.link, value: linkURL, range: foundRange)
+            self.addAttribute(.font, value: font, range: foundRange)
+        }
+    }
     
 }
