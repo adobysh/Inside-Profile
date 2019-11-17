@@ -30,8 +30,8 @@ class SubscriptionManager {
         #endif
     }
     
-    static let sharedSecret = "2eab742f8fba4ffca9bb0649e86ffe83"
-    static let storeKitTimeout = 6000
+    static let sharedSecret = "cbb2dc7876a54fc9ae42656544a1bf8f"
+//    static let storeKitTimeout = 6000
     
     static func isProductionVersion() -> Bool {
         return verifyReceiptURLType == .production
@@ -94,14 +94,14 @@ class SubscriptionManager {
         })
     }
     
-    static func restore(onSuccess: @escaping ([VerifySubscriptionResult])->(), onError: @escaping (Error)->()) {
+    static func restore(onSuccess: @escaping ([VerifySubscriptionResult])->(), onError: @escaping (Error)->(), onNothing: @escaping ()->()) {
         SwiftyStoreKit.restorePurchases(atomically: true, completion: { results in
             if results.restoredPurchases.count > 0 {
                 SubscriptionManager.verify(SubscriptionType.allCases, onSuccess: onSuccess, onError: onError)
             } else if results.restoreFailedPurchases.count > 0 {
                 onError(SubscriptionError(message: "Restore Failed"))
             } else {
-                onError(SubscriptionError(message: "Nothing to restore"))
+                onNothing()
             }
         })
     }

@@ -76,11 +76,14 @@ class SettingsViewController: UIViewController {
             }
             self?.showAlert(title: "Success", message: "All your purchases have been restored")
             sender.isEnabled = true
-        }) { error in
-            // do nothing
+        }, onError: { [weak self] error in
             print("!!! ERROR: restore error \(error)")
+            self?.showErrorAlert()
             sender.isEnabled = true
-        }
+        }, onNothing: { [weak self] in
+            self?.showAlert(title: "Nothing to restore")
+            sender.isEnabled = true
+        })
     }
     
     @IBAction func privatyButtonAction(_ sender: Any) {

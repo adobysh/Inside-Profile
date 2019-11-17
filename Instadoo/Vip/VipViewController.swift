@@ -120,11 +120,14 @@ class VipViewController: UIViewController {
             }
             sender.isEnabled = true
             self?.showAlert(title: "Success", message: "All your purchases have been restored")
-        }) { error in
-            // do nothing
+        }, onError: { [weak self] error in
             print("!!! ERROR: restore error \(error)")
+            self?.showErrorAlert()
             sender.isEnabled = true
-        }
+        }, onNothing: { [weak self] in
+            self?.showAlert(title: "Nothing to restore")
+            sender.isEnabled = true
+        })
     }
     
     @IBAction func subscribeAction(_ sender: UIButton) {
