@@ -49,7 +49,7 @@
 		0CF10A12235F255600746334 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A11235F255600746334 /* UIImageExtension.swift */; };
 		0CF1F12D22E775BC00C85B75 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12C22E775BC00C85B75 /* ApiManager.swift */; };
 		0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */; };
-		2508CF7AB963B0B93253DCBD /* Pods_IGHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5A458EA9A43CE3BEA52AD6 /* Pods_IGHelper.framework */; };
+		56F7C89E2779A4FBC8610EE4 /* Pods_Instadoo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECF43669B2BCEDA414E377E3 /* Pods_Instadoo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,7 +99,9 @@
 		0CF1F12E22E77F0100C85B75 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IGHelper.release.xcconfig"; path = "Target Support Files/Pods-IGHelper/Pods-IGHelper.release.xcconfig"; sourceTree = "<group>"; };
 		5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IGHelper.debug.xcconfig"; path = "Target Support Files/Pods-IGHelper/Pods-IGHelper.debug.xcconfig"; sourceTree = "<group>"; };
-		AE5A458EA9A43CE3BEA52AD6 /* Pods_IGHelper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IGHelper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		823E06DEE004C21C34ADEFDD /* Pods-Instadoo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instadoo.release.xcconfig"; path = "Target Support Files/Pods-Instadoo/Pods-Instadoo.release.xcconfig"; sourceTree = "<group>"; };
+		BA1DE80391E7969FA53BA8CC /* Pods-Instadoo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instadoo.debug.xcconfig"; path = "Target Support Files/Pods-Instadoo/Pods-Instadoo.debug.xcconfig"; sourceTree = "<group>"; };
+		ECF43669B2BCEDA414E377E3 /* Pods_Instadoo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instadoo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2508CF7AB963B0B93253DCBD /* Pods_IGHelper.framework in Frameworks */,
+				56F7C89E2779A4FBC8610EE4 /* Pods_Instadoo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +269,8 @@
 			children = (
 				5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */,
 				26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */,
+				BA1DE80391E7969FA53BA8CC /* Pods-Instadoo.debug.xcconfig */,
+				823E06DEE004C21C34ADEFDD /* Pods-Instadoo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -274,7 +278,7 @@
 		986AB714E7F75199121F7187 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AE5A458EA9A43CE3BEA52AD6 /* Pods_IGHelper.framework */,
+				ECF43669B2BCEDA414E377E3 /* Pods_Instadoo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -393,15 +397,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IGHelper/Pods-IGHelper-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Instadoo/Pods-Instadoo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IGHelper/Pods-IGHelper-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Instadoo/Pods-Instadoo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IGHelper/Pods-IGHelper-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Instadoo/Pods-Instadoo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D8C36C52DE766F2D92FEFF04 /* [CP] Check Pods Manifest.lock */ = {
@@ -419,7 +423,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-IGHelper-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Instadoo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -613,7 +617,7 @@
 		};
 		0C1D2EA822D3C1800015135F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */;
+			baseConfigurationReference = BA1DE80391E7969FA53BA8CC /* Pods-Instadoo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -635,7 +639,7 @@
 		};
 		0C1D2EA922D3C1800015135F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */;
+			baseConfigurationReference = 823E06DEE004C21C34ADEFDD /* Pods-Instadoo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

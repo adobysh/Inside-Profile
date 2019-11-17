@@ -288,15 +288,59 @@ extension MainViewController {
         if let progress = progress {
             setProgress(progress)
         }
-        updateMainInfo()
-        updateLikeCount()
-        updateCommentCount()
+        
+        let follower_count: Int? = mainScreenInfo?.follower_count
+        let following_count: Int? = mainScreenInfo?.following_count
+        let likes: Int? = UserModel.likeCount(posts: posts)
+        let comments: Int? = UserModel.commentCount(posts: posts)
+        var lostFollowers: Int? = nil
+        var gainedFollowers_count: Int? = nil
+        var newGuests_count: Int? = nil
+        if let userId = mainScreenInfo?.id {
+            let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+            let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
+            lostFollowers = lostFollowersIds.count
+            
+            let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
+            gainedFollowers_count = gainedFollowers.count
+            
+            let newGuests = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
+            newGuests_count = newGuests.guests?.count ?? newGuests.guestsIds?.count
+        }
+        let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
+        let youDontFollow_count: Int? = youDontFollow.count
+        let unfollowers = UserModel.unfollowers(followers: followers, following: following)
+        let unfollowers_count: Int? = unfollowers.count
+        let recomendation: Int? = suggestedUsers?.count
+        let topLikers = UserModel.topLikers(mainScreenInfo?.username, posts)
+        let topLikers_count: Int? = topLikers.count
+        let topСommenters = UserModel.topCommenters(mainScreenInfo?.username, posts)
+        let topCommenters_count: Int? = topСommenters.count
+        
+        updateMainInfo(follower_count: follower_count, following_count: following_count)
+        updateLikeCount(likesCount: likes)
+        updateCommentCount(commentsCount: comments)
         updateButtons()
+        
+        if let follower_count = follower_count,
+                let following_count = following_count,
+                let likes = likes,
+                let comments = comments,
+                let lostFollowers = lostFollowers,
+                let gainedFollowers_count = gainedFollowers_count,
+                let youDontFollow_count = youDontFollow_count,
+                let unfollowers_count = unfollowers_count,
+                let newGuests_count = newGuests_count,
+                let recomendation = recomendation,
+                let topLikers_count = topLikers_count,
+                let topCommenters_count = topCommenters_count {
+            AppAnalytics.setValues(followers: follower_count, following: following_count, likes: likes, comments: comments, lostFollowers: lostFollowers, gainedFollowers: gainedFollowers_count, youDontFollow: youDontFollow_count, unfollowers: unfollowers_count, profileViewers: newGuests_count, recomendation: recomendation, topLikers: topLikers_count, topCommenters: topCommenters_count)
+        }
     }
     
-    func updateMainInfo() {
-        followersCountLabel?.text = "\(mainScreenInfo?.follower_count?.bigBeauty ?? "0")"
-        followingCountLabel?.text = "\(mainScreenInfo?.following_count?.bigBeauty ?? "0")"
+    func updateMainInfo(follower_count: Int?, following_count: Int?) {
+        followersCountLabel?.text = "\(follower_count?.bigBeauty ?? "0")"
+        followingCountLabel?.text = "\(following_count?.bigBeauty ?? "0")"
         navigationItem.title = mainScreenInfo?.full_name
         if let username = mainScreenInfo?.username {
             loginLabel?.text = "@" + username
@@ -310,16 +354,12 @@ extension MainViewController {
         }
     }
     
-    func updateLikeCount() {
-        guard let posts = posts else { return }
-        let likesCount = posts.compactMap { $0.like_count }.reduce(0, +)
-        likesCountLabel?.text = likesCount.bigBeauty
+    func updateLikeCount(likesCount: Int?) {
+        likesCountLabel?.text = likesCount?.bigBeauty ?? "0"
     }
     
-    func updateCommentCount() {
-        guard let posts = posts else { return }
-        let commentsCount = posts.compactMap { $0.comment_count }.reduce(0, +)
-        commentsCountLabel?.text = commentsCount.bigBeauty
+    func updateCommentCount(commentsCount: Int?) {
+        commentsCountLabel?.text = commentsCount?.bigBeauty ?? "0"
     }
     
     func updateButtons() {

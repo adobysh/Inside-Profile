@@ -197,6 +197,16 @@ class UserModel {
         return Array(Set(lostFollowersIds))
     }
     
+    public static func commentCount(posts: [PostData]?) -> Int? {
+        let commentsCount = posts?.compactMap { $0.comment_count }.reduce(0, +)
+        return commentsCount
+    }
+    
+    public static func likeCount(posts: [PostData]?) -> Int? {
+        let likesCount = posts?.compactMap { $0.like_count }.reduce(0, +)
+        return likesCount
+    }
+    
 }
 
 // MARK: - For Single User

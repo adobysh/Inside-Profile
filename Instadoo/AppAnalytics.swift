@@ -85,9 +85,20 @@ enum EventState: String {
 }
 
 enum Property: String {
-    #warning("set followers and following counts here")
+    // dashboard
     case followers
     case following
+    case likes
+    case comments
+    
+    case lost_followers
+    case gained_followers
+    case unfollowers
+    case you_dont_follow
+    case new_guests
+    case recommendation
+    case top_likers
+    case top_commenters
 }
 
 class AppAnalytics {
@@ -155,7 +166,7 @@ class AppAnalytics {
         Amplitude.instance()?.identify(AMPIdentify().setOnce(property.rawValue, value: value))
     }
     
-    class func set(property: Property, value: NSObject) {
+    private class func set(property: Property, value: NSObject) {
         Amplitude.instance()?.identify(AMPIdentify().set(property.rawValue, value: value))
     }
     
@@ -281,6 +292,38 @@ class AppAnalytics {
         }
     }
     
+}
+
+// MARK: Private methods
+extension AppAnalytics {
+    
+    public class func setValues(
+        followers: Int,
+        following: Int,
+        likes: Int,
+        comments: Int,
+        lostFollowers: Int,
+        gainedFollowers: Int,
+        youDontFollow: Int,
+        unfollowers: Int,
+        profileViewers: Int,
+        recomendation: Int,
+        topLikers: Int,
+        topCommenters: Int
+    ) {
+        set(property: .followers, value: followers as NSObject)
+        set(property: .following, value: following as NSObject)
+        set(property: .likes, value: likes as NSObject)
+        set(property: .comments, value: comments as NSObject)
+        set(property: .lost_followers, value: lostFollowers as NSObject)
+        set(property: .gained_followers, value: gainedFollowers as NSObject)
+        set(property: .you_dont_follow, value: youDontFollow as NSObject)
+        set(property: .unfollowers, value: unfollowers as NSObject)
+        set(property: .new_guests, value: profileViewers as NSObject)
+        set(property: .recommendation, value: recomendation as NSObject)
+        set(property: .top_likers, value: topLikers as NSObject)
+        set(property: .top_commenters, value: topCommenters as NSObject)
+    }
 }
 
 extension UIDevice {
