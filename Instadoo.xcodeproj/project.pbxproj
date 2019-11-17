@@ -385,7 +385,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 4391af0773720e2edbc5e400c5a1f60a37557ef5 24b60ebc8b297a550f05f3db7643fea3a67f3c54731dd0a9014acaa471aab15b\n";
+			shellScript = "./Fabric.framework/run 4391af0773720e2edbc5e400c5a1f60a37557ef5 24b60ebc8b297a550f05f3db7643fea3a67f3c54731dd0a9014acaa471aab15b\n";
 		};
 		9A0068F419951784862AC2AC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -616,9 +616,9 @@
 			baseConfigurationReference = 5E7DFC0F791474C267EA9E7B /* Pods-IGHelper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 42;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -627,7 +627,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.instadoo;
 				PRODUCT_NAME = Instadoo;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Instadoo Development";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -638,9 +638,9 @@
 			baseConfigurationReference = 26351107DCD94BB89E96B045 /* Pods-IGHelper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 42;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -649,7 +649,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.instadoo;
 				PRODUCT_NAME = Instadoo;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "Instadoo Development";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

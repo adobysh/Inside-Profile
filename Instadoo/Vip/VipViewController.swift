@@ -16,6 +16,10 @@ class VipViewController: UIViewController {
     @IBOutlet var closeButton: UIButton?
     @IBOutlet var subscribeButton: UIButton?
     @IBOutlet var textView: UITextView?
+    @IBOutlet var scrollView: UIScrollView?
+    @IBOutlet var onButtonLabel: UILabel?
+    private var blurEffectView: UIVisualEffectView?
+    private var spinner: UIActivityIndicatorView?
     
     @IBOutlet var closeButtonTopConstraint: NSLayoutConstraint?
     
@@ -34,9 +38,9 @@ class VipViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        AppAnalytics.log(.event_open, screen: .vip, source: source)
-        
         view.scale()
+        AppAnalytics.log(.event_open, screen: .vip, source: source)
+        setupLoadingBlur()
         if #available(iOS 13.0, *) {
             let constantForIOS13 = (closeButtonTopConstraint?.constant ?? 0) / 2.0
             closeButtonTopConstraint?.constant = constantForIOS13
@@ -46,14 +50,43 @@ class VipViewController: UIViewController {
         
         SubscriptionManager.product(onComplete: { [weak self] product in
             self?.product = product
-            #warning("обновить цену после получения информации о продукте")
+            guard let price = product.localizedPrice else { return }
+
+            self?.onButtonLabel?.text = "Start your 3-days trial\nthen \(price)/week"
+
+            self?.setupDescriptionTextView(price: price)
+            self?.dismissLoadingBlur()
         }) { [weak self] error in
-            self?.showErrorAlert()
-            #warning("обработать ситуация когда информация о продукте не була получена")
+            self?.showErrorAlert {
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
-//    "Information about the auto-renewable nature of the subscription: Subscription periods are 1 week, price - <price>. Every week your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period. After the trial period, weekly subscription will start for <price>. Trials will be 3 days, after which the subscription will auto-renew. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. You can cancel your subscription via this url: https://support.apple.com/en-us/HT202039. Privacy Policy. Terms of Use."
+    private func setupLoadingBlur() {
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        spinner = UIActivityIndicatorView(style: .gray)
+        
+        guard let blurEffectView = blurEffectView, let spinner = spinner else { return }
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        
+        view.addSubview(spinner)
+        spinner.center = view.center
+        spinner.startAnimating()
+        guard let closeButton = closeButton else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.scrollView?.bringSubviewToFront(closeButton)
+        }
+    }
+    
+    private func dismissLoadingBlur() {
+        blurEffectView?.removeFromSuperview()
+        spinner?.stopAnimating()
+        spinner?.removeFromSuperview()
+    }
     
     @IBAction func closeAction(_ sender: Any) {
         onClose?()
@@ -144,7 +177,7 @@ class VipViewController: UIViewController {
         
         let font: UIFont = UIFont.systemFont(ofSize: 11.0.scalable, weight: .semibold)
         let linkFont: UIFont = UIFont.systemFont(ofSize: 11.0.scalable, weight: .bold)
-//        let color: UIColor = UIColor.white.withAlphaComponent(0.6)
+        let color: UIColor = UIColor.white.withAlphaComponent(0.7)
         let linkColor: UIColor = UIColor.white
         
         let template = "Information about the auto-renewable nature of the subscription: Subscription periods are 1 week, price - <price>. Every week your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period. After the trial period, weekly subscription will start for <price>. Trials will be 3 days, after which the subscription will auto-renew. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. You can cancel your subscription via this url: https://support.apple.com/en-us/HT202039. Privacy Policy. Terms of Use."
@@ -155,7 +188,7 @@ class VipViewController: UIViewController {
 
         let attributedString = NSMutableAttributedString()
         attributedString.append(NSAttributedString(string: text,
-                                                   attributes: [.font: font]))
+                                                   attributes: [.font: font, NSAttributedString.Key.foregroundColor: color]))
         
         let content = attributedString
         for match in matches {

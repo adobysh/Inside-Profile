@@ -11,15 +11,12 @@ import UIKit
 // Error handing
 extension UIViewController {
     
-    func showErrorAlert() {
-        let alert = UIAlertController(title: "Error", message: "Check your Internet connection and try again", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func showErrorAlert(_ error: Error) {
-        let alert = UIAlertController(title: "Error", message: "\(error)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+    func showErrorAlert(_ error: Error? = nil, _ action: (()->())? = nil) {
+        let message = error != nil ? "\(error)" : "Check your Internet connection and try again"
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            action?()
+        }))
         present(alert, animated: true, completion: nil)
     }
     

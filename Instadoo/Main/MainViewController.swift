@@ -48,11 +48,23 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.scale()
+        
         if AuthorizationManager.shared.isLoggedIn {
             AppAnalytics.logDashboardOpen()
+            fetchInfo()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                if !AuthorizationManager.shared.isLoggedIn {
+                    let vc = UIViewController.getStarted
+                    vc.onAuthorizationSuccess = { [weak self] in
+                        AppAnalytics.logDashboardOpen()
+                        self?.fetchInfo()
+                    }
+                    self?.present(vc, animated: false)
+                }
+            }
         }
-        
-        view.scale()
         
         updateUI(progress: 0)
         superButtons?.forEach { button in
@@ -62,24 +74,11 @@ class MainViewController: UIViewController {
         }
         
         setupRefreshControl()
-        fetchInfo()
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = .clear
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if !AuthorizationManager.shared.isLoggedIn {
-            let vc = UIViewController.getStarted
-            vc.onAuthorizationSuccess = { [weak self] in
-                AppAnalytics.logDashboardOpen()
-                self?.fetchInfo()
-            }
-            present(vc, animated: false, completion: nil)
-        }
     }
     
     @objc func handleRefreshControl() {
