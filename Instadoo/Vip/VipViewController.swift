@@ -39,7 +39,7 @@ class VipViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.scale()
-        AppAnalytics.log(.event_open, screen: .vip, source: source)
+        AppAnalytics.logOpen(screen: .vip, source: source)
         setupLoadingBlur()
         if #available(iOS 13.0, *) {
             let constantForIOS13 = (closeButtonTopConstraint?.constant ?? 0) / 2.0
@@ -94,7 +94,7 @@ class VipViewController: UIViewController {
     
     @IBAction func restoreAction(_ sender: UIButton) {
         sender.isEnabled = false
-        AppAnalytics.log(.event_click, type: .restore, source: source)
+        AppAnalytics.logClick(button: .restore, source: source)
         SubscriptionManager.restore(onSuccess: { [weak self] verifySubscriptionResultArray in
             verifySubscriptionResultArray.forEach { verifySubscriptionResult in
                 switch verifySubscriptionResult {
@@ -132,7 +132,7 @@ class VipViewController: UIViewController {
     
     @IBAction func subscribeAction(_ sender: UIButton) {
         sender.isEnabled = false
-        AppAnalytics.log(.event_click, type: .vip)
+        AppAnalytics.logClick(button: .vip)
         SubscriptionManager.purchase(currentSubscription, onSuccess: { [weak self] verifySubscriptionResult in
             switch verifySubscriptionResult {
             case .purchased(_, let receiptItemArray):

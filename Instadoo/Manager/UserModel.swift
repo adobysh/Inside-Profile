@@ -213,7 +213,7 @@ class UserModel {
 extension UserModel {
     
     public static func addFollowStatus(_ user: User, _ following: [ApiUser]?, _ followRequests: FollowRequests?) -> User {
-        if let _ = user.followStatus { // пользователь уже имеет статус подписки
+        if let followStatus = user.followStatus, followStatus == .disabled { // пользователь уже имеет статус подписки
             return user
         }
         

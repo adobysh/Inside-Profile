@@ -119,35 +119,35 @@ class MainViewController: UIViewController {
     @IBAction func detailButtonAction(_ sender: ActivityIndicatorButton) {
         guard let contentType: ContentType = ContentType(rawValue: sender.tag) else { return }
         
-        let eventState: EventState = sender.inProgress ? .in_progress : .normal
-        
         let eventSource: EventSource
+        let eventButton: EventButton
         switch contentType {
         case .gained_followers:
             eventSource = .gained_followers
-            AppAnalytics.log(.event_click, type: .gained_followers, state: eventState)
+            eventButton = .gained_followers
         case .lost_followers:
             eventSource = .lost_followers
-            AppAnalytics.log(.event_click, type: .lost_followers, state: eventState)
+            eventButton = .lost_followers
         case .you_dont_follow:
             eventSource = .you_dont_follow
-            AppAnalytics.log(.event_click, type: .you_dont_follow, state: eventState)
+            eventButton = .you_dont_follow
         case .unfollowers:
             eventSource = .unfollowers
-            AppAnalytics.log(.event_click, type: .unfollowers, state: eventState)
+            eventButton = .unfollowers
         case .new_guests:
             eventSource = .new_guests
-            AppAnalytics.log(.event_click, type: .new_guests, state: eventState)
+            eventButton = .new_guests
         case .recommendation:
             eventSource = .recommendation
-            AppAnalytics.log(.event_click, type: .recommendation, state: eventState)
+            eventButton = .recommendation
         case .top_commenters:
             eventSource = .top_commenters
-            AppAnalytics.log(.event_click, type: .top_commenters, state: eventState)
+            eventButton = .top_commenters
         case .top_likers:
             eventSource = .top_likers
-            AppAnalytics.log(.event_click, type: .top_likers, state: eventState)
+            eventButton = .top_likers
         }
+        AppAnalytics.logClick(button: eventButton, isDisabled: sender.inProgress)
         
         guard !sender.inProgress else { return }
         

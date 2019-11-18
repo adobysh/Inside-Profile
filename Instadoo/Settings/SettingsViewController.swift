@@ -53,7 +53,7 @@ class SettingsViewController: UIViewController {
     
     @IBAction func restoreButtonAction(_ sender: UIButton) {
         sender.isEnabled = false
-        AppAnalytics.log(.event_click, type: .restore, source: .settings)
+        AppAnalytics.logClick(button: .restore, source: .settings)
         SubscriptionManager.restore(onSuccess: { [weak self] verifySubscriptionResultArray in
             verifySubscriptionResultArray.forEach { verifySubscriptionResult in
                 switch verifySubscriptionResult {

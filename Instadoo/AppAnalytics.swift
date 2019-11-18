@@ -42,7 +42,7 @@ enum Event: String {
     case user_unfollow
 }
 
-enum EventType: String {
+enum EventButton: String {
     // dashboard
     case lost_followers
     case gained_followers
@@ -79,11 +79,6 @@ enum EventSource: String {
     case unknown
 }
 
-enum EventState: String {
-    case normal
-    case in_progress
-}
-
 enum Property: String {
     // dashboard
     case followers
@@ -111,21 +106,18 @@ class AppAnalytics {
     
     static let amplitudeApiKey = "91d98733bedcadcda5e92ba5091cc370"
     
-    class func log(_ event: Event, properties: [String: Any]? = nil) {
+    public class func log(_ event: Event, properties: [String: Any]? = nil) {
         Amplitude.instance().logEvent(event.rawValue, withEventProperties: properties ?? [:])
 //        Analytics.logEvent(event.rawValue, parameters: properties)
     }
     
-    class func log(_ event: Event, type: EventType? = nil, screen: EventScreen? = nil, source: EventSource? = nil, state: EventState? = nil) {
-        var properties: [String: Any] = [:]
-        if let type = type {
-            properties["type"] = type.rawValue
+    private class func log(_ event: Event, button: EventButton? = nil, screen: EventScreen? = nil, source: EventSource? = nil, properties: [String: Any]? = nil) {
+        var properties = properties ?? [:]
+        if let button = button {
+            properties["button"] = button.rawValue
         }
         if let source = source {
             properties["source"] = source.rawValue
-        }
-        if let state = state {
-            properties["state"] = state.rawValue
         }
         if let screen = screen {
             properties["screen"] = screen.rawValue
@@ -133,23 +125,32 @@ class AppAnalytics {
         log(event, properties: properties)
     }
     
-    class func logAppOpen(properties: [String: Any]? = nil) {
-        var properties = properties
+    public class func logClick(button: EventButton, source: EventSource? = nil, isDisabled: Bool = false) {
+        let properties: [String: Any]? = isDisabled ? [ "is_disabled": "yes" ] : nil
+        log(.event_click, button: button, source: source, properties: properties)
+    }
+    
+    public class func logOpen(screen: EventScreen, source: EventSource? = nil) {
+        log(.event_open, screen: screen, source: source)
+    }
+    
+    public class func logAppOpen() {
+        var properties: [String: Any] = [:]
         if UserDefaults.standard.bool(forKey: Key.appOpen.rawValue) == false {
             UserDefaults.standard.set(true, forKey: Key.appOpen.rawValue)
             UserDefaults.standard.synchronize()
-            properties?["is_first"] = "yes"
+            properties["is_first"] = "yes"
         }
         log(.start_app, properties: properties)
     }
     
-    class func logDashboardOpen(properties: [String: Any]? = nil) {
-        var properties = properties
-        properties?["screen"] = EventScreen.dashboard.rawValue
+    public class func logDashboardOpen() {
+        var properties: [String: Any] = [:]
+        properties["screen"] = EventScreen.dashboard.rawValue
         if UserDefaults.standard.bool(forKey: Key.dashboardOpen.rawValue) == false {
             UserDefaults.standard.set(true, forKey: Key.dashboardOpen.rawValue)
             UserDefaults.standard.synchronize()
-            properties?["is_first"] = "yes"
+            properties["is_first"] = "yes"
         }
         log(.event_open, properties: properties)
     }

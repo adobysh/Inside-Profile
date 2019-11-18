@@ -136,6 +136,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                 self?.onFollow?() { [weak self] error in
                     if let _ = error {
                         self?.showErrorAlert()
+                        return
                     }
                     
                     user = UserModel.addFollowStatus(user, self?.following, self?.followRequests)
