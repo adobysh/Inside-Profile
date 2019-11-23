@@ -21,7 +21,6 @@
 		0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2EB522D470E90015135F /* ScalableConstraint.swift */; };
 		0C274CB0234A7F4700BC8C11 /* ProfileInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C274CAF234A7F4700BC8C11 /* ProfileInfoData.swift */; };
 		0C32D3FA22E59AB30092B6AD /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */; };
-		0C3DEEE223642228008D8F36 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE123642228008D8F36 /* Settings.bundle */; };
 		0C3DEEE523643176008D8F36 /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE423643176008D8F36 /* IntExtensions.swift */; };
 		0C3DEEE723664583008D8F36 /* GuestsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DEEE623664583008D8F36 /* GuestsManager.swift */; };
 		0C4219842370B96900A675E9 /* ActivityIndicatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4219832370B96900A675E9 /* ActivityIndicatorButton.swift */; };
@@ -345,7 +344,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C3DEEE223642228008D8F36 /* Settings.bundle in Resources */,
 				0C1D2EA322D3C1800015135F /* LaunchScreen.storyboard in Resources */,
 				0C1D2EA022D3C1800015135F /* Assets.xcassets in Resources */,
 				0C4219862370B97F00A675E9 /* ActivityIndicatorButton.xib in Resources */,
@@ -622,7 +620,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -644,7 +642,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

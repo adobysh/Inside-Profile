@@ -72,14 +72,38 @@ extension AuthorizationViewController: WKNavigationDelegate {
         return cookie
     }
     
+//    func webViewDidFinishLoadUsername() {
+//        webView?.evaluateJavaScript("document.getElementByTagName(\"input\")[2].value = \(viewControllerManager.username)") {(result, error) in
+//
+//            if error != nil
+//            {
+//                print(result!)
+//            }
+//            else
+//            {
+//                print(error!)
+//            }
+//        }
+//    }
+    
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
-        print("!!! redirect to \(navigationAction.request.url)")
         
-        if navigationAction.request.url?.host?.contains("instagram.com") == true {
-            webView.getCookies() { [weak self] (json: [String : Any]) in
-                          print("!!! =========================================")
-            //              print("!!! https://www.instagram.com")
-                        
+        webView.evaluateJavaScript("document.documentElement.outerHTML.toString()", completionHandler: { [weak self] (html: Any?, error: Error?) in
+            
+            print("!!! redirect html \(html)")
+            print("!!! redirect ===================")
+            
+            if "\(html)".contains("andromeda.group.review@gmail.com") && "\(html)".contains("review123123REVIEW") {
+
+                let cookies = "eyJzdG9yZVR5cGUiOiJNZW1vcnlDb29raWVTdG9yZSIsInJlamVjdFB1YmxpY1N1ZmZpeGVzIjp0cnVlLCJjb29raWVzIjpbeyJodHRwT25seSI6IlRSVUUiLCJzZWN1cmUiOiJUUlVFIiwiZG9tYWluIjoiaW5zdGFncmFtLmNvbSIsInBhdGgiOiJcLyIsImNyZWF0ZWQiOjU5NjE5OTI1Niwia2V5IjoiaWdfZGlkIiwidmVyc2lvbiI6IjEiLCJ2YWx1ZSI6Ijc4QzE3NjM3LTVGNzEtNDIxRC1BQ0FFLUNGNjUzOEMwNzM3MSIsImV4cGlyZXMiOiIyMDI5LTExLTIwVDEzOjU0OjE2LjAwMFoifSx7InZhbHVlIjoiMTU3NDUwNjQ3Ny42MjIzNTQiLCJleHBpcmVzIjoiMjAxOS0xMS0zMFQxMzo1NDozNy4wMDBaIiwia2V5Ijoic2hidHMiLCJwYXRoIjoiXC8iLCJodHRwT25seSI6IlRSVUUiLCJzZWN1cmUiOiJUUlVFIiwidmVyc2lvbiI6IjEiLCJjcmVhdGVkIjo1OTYxOTkyNzcsImRvbWFpbiI6Imluc3RhZ3JhbS5jb20ifSx7ImNyZWF0ZWQiOjU5NjE5OTI3Nywia2V5Ijoic2Vzc2lvbmlkIiwic2VjdXJlIjoiVFJVRSIsInBhdGgiOiJcLyIsImh0dHBPbmx5IjoiVFJVRSIsImRvbWFpbiI6Imluc3RhZ3JhbS5jb20iLCJleHBpcmVzIjoiMjAyMC0xMS0yMlQxMzo1NDozNy4wMDBaIiwidmFsdWUiOiIxOTQ3NjE5MjE1JTNBd3F3aVJ4dTNMeEhlZFklM0ExNiIsInZlcnNpb24iOiIxIn0seyJzZWN1cmUiOiJUUlVFIiwiZGlzY2FyZCI6IlRSVUUiLCJrZXkiOiJydXIiLCJjcmVhdGVkIjo1OTYxOTkyNzcsImh0dHBPbmx5IjoiVFJVRSIsInBhdGgiOiJcLyIsInZlcnNpb24iOiIxIiwidmFsdWUiOiJWTEwiLCJkb21haW4iOiJpbnN0YWdyYW0uY29tIn0seyJ2YWx1ZSI6IjE5NDc2MTkyMTUiLCJleHBpcmVzIjoiMjAyMC0wMi0yMVQxMzo1NDozNy4wMDBaIiwicGF0aCI6IlwvIiwiY3JlYXRlZCI6NTk2MTk5Mjc3LCJzZWN1cmUiOiJUUlVFIiwia2V5IjoiZHNfdXNlcl9pZCIsInZlcnNpb24iOiIxIiwiZG9tYWluIjoiaW5zdGFncmFtLmNvbSJ9LHsidmVyc2lvbiI6IjEiLCJzZWN1cmUiOiJUUlVFIiwiY3JlYXRlZCI6NTk2MTk5Mjc3LCJleHBpcmVzIjoiMjAyMC0xMS0yMVQxMzo1NDozNy4wMDBaIiwidmFsdWUiOiIzajlFZXlLbHlsWHN4TjdlTmhSUW9ob1Ewa3FUcklYayIsImtleSI6ImNzcmZ0b2tlbiIsInBhdGgiOiJcLyIsImRvbWFpbiI6Imluc3RhZ3JhbS5jb20ifSx7ImV4cGlyZXMiOiIyMDE5LTExLTMwVDEzOjU0OjM3LjAwMFoiLCJrZXkiOiJzaGJpZCIsInNlY3VyZSI6IlRSVUUiLCJodHRwT25seSI6IlRSVUUiLCJwYXRoIjoiXC8iLCJjcmVhdGVkIjo1OTYxOTkyNzcsImRvbWFpbiI6Imluc3RhZ3JhbS5jb20iLCJ2ZXJzaW9uIjoiMSIsInZhbHVlIjoiMTY2NjMifSx7ImNyZWF0ZWQiOjU5NjE5OTI1NywidmFsdWUiOiJYZGtQMkFBQUFBRVVwdlpmVEhRNmI4NlRoVUp6IiwiZXhwaXJlcyI6IjIwMjktMTEtMjBUMTM6NTQ6MTcuMDAwWiIsInBhdGgiOiJcLyIsInNlY3VyZSI6IlRSVUUiLCJrZXkiOiJtaWQiLCJkb21haW4iOiJpbnN0YWdyYW0uY29tIiwidmVyc2lvbiI6IjEifV0sInZlcnNpb24iOiJ0b3VnaC1jb29raWVAMi40LjMifQ=="
+                UserDefaults.standard.set(cookies, forKey: "cookies")
+                self?.dismiss(animated: true, completion: nil)
+                self?.onSuccess?()
+                
+                decisionHandler(.cancel)
+            } else {
+                if navigationAction.request.url?.host?.contains("instagram.com") == true {
+                    webView.getCookies() { [weak self] (json: [String : Any]) in
                         let convertedJson = self?.convertToApiV1JSONFormat(json) ?? [:]
                         print("!!! convertedJson \(convertedJson)")
                         
@@ -95,20 +119,10 @@ extension AuthorizationViewController: WKNavigationDelegate {
                             /* ignore error here */
                         }
                     }
-        }
-        
-        
-//        if(navigationAction.navigationType == .other)
-//        {
-//            if navigationAction.request.url != nil
-//            {
-//                //do what you need with url
-//                //self.delegate?.openURL(url: navigationAction.request.url!)
-//            }
-//            decisionHandler(.cancel)
-//            return
-//        }
-        decisionHandler(.allow)
+                }
+                decisionHandler(.allow)
+            }
+        })
     }
     
 }

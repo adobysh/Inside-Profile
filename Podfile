@@ -14,6 +14,7 @@ target 'Instadoo' do
 #  pod 'SwiftSoup'
   pod 'MBCircularProgressBar', '~> 0.3.5'
   
+  #pod 'FacebookCore' перейти на этот под
   pod 'FBSDKCoreKit', '~> 5.11.0'
   pod 'AppsFlyerFramework', '~> 4.8.6'
   pod 'Amplitude-iOS', '~> 4.0.4'

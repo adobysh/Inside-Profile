@@ -47,6 +47,8 @@
 	<string>2495001630576641</string>
 	<key>FacebookDisplayName</key>
 	<string>IGHelper</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram</string>
