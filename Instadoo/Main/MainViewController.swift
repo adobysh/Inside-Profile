@@ -31,6 +31,8 @@ class MainViewController: UIViewController {
     
     @IBOutlet var scrollView: UIScrollView?
     @IBOutlet var circularProgressView: MBCircularProgressBarView?
+    private var blurEffectView: UIVisualEffectView?
+    private var spinner: UIActivityIndicatorView?
     
     private var mainScreenInfo: ProfileInfoData?
     private var followRequests: FollowRequests?
@@ -50,20 +52,9 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         view.scale()
         
-        if AuthorizationManager.shared.isLoggedIn {
-            AppAnalytics.logDashboardOpen()
-            fetchInfo()
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-                if !AuthorizationManager.shared.isLoggedIn {
-                    let vc = UIViewController.getStarted
-                    vc.onAuthorizationSuccess = { [weak self] in
-                        AppAnalytics.logDashboardOpen()
-                        self?.fetchInfo()
-                    }
-                    self?.present(vc, animated: false)
-                }
-            }
+        setupLoadingBlur()
+        fetchDataOrAuthorization() { [weak self] in
+            self?.dismissLoadingBlur()
         }
         
         updateUI(progress: 0)
@@ -81,6 +72,52 @@ class MainViewController: UIViewController {
         navigationController?.view.backgroundColor = .clear
     }
     
+    private func fetchDataOrAuthorization(onSuccess: (()->())? = nil) {
+        AuthorizationManager.shared.isAuthorized(onResult: { [weak self] (error, isAuthorized) in
+            if let _ = error {
+                self?.showErrorAlert() { [weak self] in
+                    self?.fetchDataOrAuthorization(onSuccess: onSuccess)
+                }
+            } else {
+                if isAuthorized == true {
+                    AppAnalytics.logDashboardOpen()
+                    self?.fetchInfo()
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                        let vc = UIViewController.getStarted
+                        vc.onAuthorizationSuccess = { [weak self] in
+                            AppAnalytics.logDashboardOpen()
+                            self?.fetchInfo()
+                        }
+                        self?.present(vc, animated: false)
+                    }
+                }
+                onSuccess?()
+            }
+        })
+    }
+    
+    private func setupLoadingBlur() {
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        spinner = UIActivityIndicatorView(style: .gray)
+        
+        guard let blurEffectView = blurEffectView, let spinner = spinner else { return }
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        
+        view.addSubview(spinner)
+        spinner.center = view.center
+        spinner.startAnimating()
+    }
+    
+    private func dismissLoadingBlur() {
+        blurEffectView?.removeFromSuperview()
+        spinner?.stopAnimating()
+        spinner?.removeFromSuperview()
+    }
+    
     @objc func handleRefreshControl() {
         // защита от двойного запуска обновления
         guard (superButtons?.filter { $0.inProgress } ?? []).isEmpty == true else {
@@ -88,7 +125,7 @@ class MainViewController: UIViewController {
             return
         }
         
-        fetchInfo() { [weak self] in
+        fetchDataOrAuthorization() { [weak self] in
             self?.scrollView?.refreshControl?.endRefreshing()
         }
     }
@@ -407,12 +444,13 @@ extension MainViewController {
 // MARK: - Info Fetching
 extension MainViewController {
     
-    func fetchInfo(onFetchProfileInfo: (()->())? = nil) {
+    func fetchInfo() {
         let onError: (Error)->() = { [weak self] error in
-            self?.showErrorAlert()
+            self?.showErrorAlert() { [weak self] in
+                self?.fetchDataOrAuthorization()
+            }
             self?.superButtons?.forEach { $0.inProgress = false }
             self?.setProgress(0)
-            onFetchProfileInfo?()
         }
         
         superButtons?.forEach { $0.inProgress = true }
@@ -420,7 +458,6 @@ extension MainViewController {
         setProgress(10)
         
         ApiManager.shared.getProfileInfoAndPosts(onComplete: { [weak self] result in
-            onFetchProfileInfo?()
             self?.mainScreenInfo = result.profileInfo
             self?.posts = result.postDataArray
             self?.updateUI(progress: 20)

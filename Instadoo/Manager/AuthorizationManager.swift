@@ -17,12 +17,29 @@ class AuthorizationManager: NSObject {
     
     private let baseUrl = "https://i-info.n44.me/login/"
     
-    public var isLoggedIn: Bool {
+    public var hasCookies: Bool {
         return UserDefaults.standard.string(forKey: "cookies") != nil
     }
     public var cookies: String? {
         print("!!! cookiesBase64 \(UserDefaults.standard.string(forKey: "cookies") ?? "")")
         return UserDefaults.standard.string(forKey: "cookies")
+    }
+    
+    public func isAuthorized(cookieBase64: String? = nil, onResult: @escaping (_ error: Error?, _ isAuthorized: Bool?) -> ()) {
+        guard let cookies = cookieBase64 ?? self.cookies else {
+            onResult(nil, false) // there is no any cookies
+            return
+        }
+        ApiManager.shared.getUserInfo_graph(cookieBase64: cookies, id: "", onComplete: { (baseUser) in
+            print("!!! baseUser \(baseUser)")
+            if let baseUserId = baseUser.id, !baseUserId.isEmpty {
+                onResult(nil, true)
+            } else {
+                onResult(nil, false)
+            }
+        }) { (error) in
+            onResult(error, nil)
+        }
     }
     
     public func logOut() {

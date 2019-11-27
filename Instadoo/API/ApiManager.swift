@@ -316,12 +316,12 @@ class ApiManager {
         }
     }
     
-    public func getUserInfo_graph(id: String, onComplete: @escaping (BaseUser) -> (), onError: @escaping (Error) -> ()) {
+    public func getUserInfo_graph(cookieBase64: String? = nil, id: String, onComplete: @escaping (BaseUser) -> (), onError: @escaping (Error) -> ()) {
         // Если сделать запрос с пустым списком айдишек то вернёт инфу о себе.
         
         let url = "https://www.instagram.com/graphql/query/"
         
-        guard let headers = getHeaders() else { return }
+        guard let headers = getHeaders(cookieBase64: cookieBase64) else { return }
         
         let parameters: [String: String] = [
             "query_hash": "aec5501414615eca36a9acf075655b1e",
@@ -520,8 +520,8 @@ class ApiManager {
         return parameters
     }
     
-    private func getHeaders(XCsrftocken: Bool = false) -> HTTPHeaders? {
-        guard let cookiesBase64 = AuthorizationManager.shared.cookies else { return nil }
+    private func getHeaders(XCsrftocken: Bool = false, cookieBase64: String? = nil) -> HTTPHeaders? {
+        guard let cookiesBase64 = cookieBase64 ?? AuthorizationManager.shared.cookies else { return nil }
         guard let cookiesJsonData = Data(base64Encoded: cookiesBase64) else { return nil }
         guard let cookiesDictionary = (try? JSONSerialization.jsonObject(with: cookiesJsonData, options: [])) as? [String: Any] else { return nil }
         guard let cookeisArray = cookiesDictionary["cookies"] as? [[String: Any]] else { return nil }
