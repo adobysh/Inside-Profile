@@ -8,7 +8,6 @@
 
 import UIKit
 
-// Error handing
 extension UIViewController {
     
     func showErrorAlert(_ error: Error? = nil, _ action: (()->())? = nil) {
@@ -32,6 +31,12 @@ extension UIViewController {
             }
             alertController.addAction(secondAction)
         }
+        present(alertController, animated: true)
+    }
+    
+    func showAlert(title: String? = nil, message: String? = nil, actions: [UIAlertAction]? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        actions?.forEach { alertController.addAction($0) }
         present(alertController, animated: true)
     }
     
