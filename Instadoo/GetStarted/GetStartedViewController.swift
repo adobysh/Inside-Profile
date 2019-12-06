@@ -12,6 +12,7 @@ class GetStartedViewController: UIViewController {
     
     @IBOutlet var loginTextField: UITextField?
     @IBOutlet var passwordTextField: UITextField?
+    @IBOutlet var navigationBar: UINavigationBar?
     
     public var onAuthorizationSuccess: (()->())?
     
@@ -22,6 +23,17 @@ class GetStartedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.scale()
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    @IBAction func settingsAction(_ sender: Any) {
+        let vc = UIViewController.settings
+        vc.isHiddenLogin = true
+        vc.isHiddenPremium = true
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func buttonAction(_ sender: Any) {

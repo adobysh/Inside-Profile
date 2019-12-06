@@ -89,7 +89,9 @@ class MainViewController: UIViewController {
                             AppAnalytics.logDashboardOpen()
                             self?.fetchInfo()
                         }
-                        self?.present(vc, animated: false)
+                        let nv = UINavigationController(rootViewController: vc)
+                        nv.modalPresentationStyle = .fullScreen
+                        self?.present(nv, animated: false)
                     }
                 }
                 onSuccess?()
@@ -148,7 +150,9 @@ class MainViewController: UIViewController {
             vc.onAuthorizationSuccess = { [weak self] in
                 self?.fetchInfo()
             }
-            self?.present(vc, animated: true, completion: nil)
+            let nv = UINavigationController(rootViewController: vc)
+            nv.modalPresentationStyle = .fullScreen
+            self?.present(nv, animated: true, completion: nil)
         }
         navigationController?.pushViewController(vc, animated: true)
     }

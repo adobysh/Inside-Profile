@@ -13,8 +13,15 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet var getPremiumButton: UIButton?
     @IBOutlet var restoreButton: UIButton?
+    @IBOutlet var logoutButton: UIButton?
     
     public var onLogOut: (()->())?
+    public var isHiddenPremium: Bool?
+    public var isHiddenLogin: Bool?
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +30,21 @@ class SettingsViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
         if SubscriptionKeychain.isSubscribed() {
             getPremiumButton?.removeFromSuperview()
             restoreButton?.removeFromSuperview()
+        }
+        
+        if isHiddenPremium == true {
+            getPremiumButton?.removeFromSuperview()
+            restoreButton?.removeFromSuperview()
+        }
+        
+        if isHiddenLogin == true {
+            logoutButton?.removeFromSuperview()
         }
     }
     

@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instadoo" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaN-FL-EM0">
-                                <rect key="frame" x="49.5" y="255" width="276" height="66"/>
+                                <rect key="frame" x="49.5" y="266" width="276" height="66"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="55"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -47,10 +47,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lcu-2r-6vO">
-                                <rect key="frame" x="0.0" y="321" width="375" height="166.5"/>
+                                <rect key="frame" x="0.0" y="332" width="375" height="155.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track you Instagram followers, find out your unfollowers, people who is not following you back and many others" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2X-9w-7nk">
-                                        <rect key="frame" x="49.5" y="45" width="276" height="76.5"/>
+                                        <rect key="frame" x="49.5" y="39.5" width="276" height="76.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -83,6 +83,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hLI-2s-uhE"/>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Cn1-3c-y9X">
+                        <barButtonItem key="leftBarButtonItem" image="icSettings2" id="qH2-Az-ghL">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="settingsAction:" destination="IU4-mr-cFb" id="BWb-ey-s19"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QJz-gQ-KYa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -703,6 +713,8 @@ Update tomorrow</string>
                         <constraints>
                             <constraint firstItem="Yxa-8t-yHG" firstAttribute="width" secondItem="osE-4O-Pc5" secondAttribute="width" id="1El-YQ-Tyd"/>
                             <constraint firstItem="osE-4O-Pc5" firstAttribute="width" secondItem="5Wv-yU-nUw" secondAttribute="width" id="3k1-a0-I9A"/>
+                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="width" secondItem="lyu-OP-vZ5" secondAttribute="width" multiplier="280:380" id="67I-jv-y42"/>
+                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="centerX" secondItem="lyu-OP-vZ5" secondAttribute="centerX" id="7Jz-6y-Y2H"/>
                             <constraint firstAttribute="bottom" secondItem="JJ0-A2-Vja" secondAttribute="bottom" id="7sC-Zd-jf3"/>
                             <constraint firstItem="osE-4O-Pc5" firstAttribute="leading" secondItem="5Wv-yU-nUw" secondAttribute="leading" id="A5b-fv-27t"/>
                             <constraint firstItem="p5P-5t-q96" firstAttribute="leading" secondItem="lyu-OP-vZ5" secondAttribute="leading" id="AVz-ko-Fjj"/>
@@ -717,8 +729,6 @@ Update tomorrow</string>
                             <constraint firstItem="3Uk-5P-3NF" firstAttribute="top" secondItem="L7Q-pY-W03" secondAttribute="top" priority="250" constant="60" id="a4J-jz-abL"/>
                             <constraint firstItem="5Wv-yU-nUw" firstAttribute="width" secondItem="L7Q-pY-W03" secondAttribute="width" multiplier="280:380" id="aMM-79-akh"/>
                             <constraint firstItem="JJ0-A2-Vja" firstAttribute="trailing" secondItem="lyu-OP-vZ5" secondAttribute="trailing" id="doO-WC-LYV"/>
-                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="leading" secondItem="5Wv-yU-nUw" secondAttribute="leading" id="fBI-B9-AKc"/>
-                            <constraint firstItem="3Uk-5P-3NF" firstAttribute="width" secondItem="5Wv-yU-nUw" secondAttribute="width" id="igl-gd-Yap"/>
                             <constraint firstItem="Yxa-8t-yHG" firstAttribute="top" secondItem="osE-4O-Pc5" secondAttribute="bottom" constant="26" id="k7w-T5-nal"/>
                             <constraint firstItem="JJ0-A2-Vja" firstAttribute="leading" secondItem="lyu-OP-vZ5" secondAttribute="leading" id="seU-Yj-7tY"/>
                             <constraint firstItem="osE-4O-Pc5" firstAttribute="top" secondItem="L7Q-pY-W03" secondAttribute="top" constant="60" id="upV-5f-MIL"/>
@@ -739,6 +749,7 @@ Update tomorrow</string>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
                         <outlet property="getPremiumButton" destination="osE-4O-Pc5" id="37W-Pl-9WT"/>
+                        <outlet property="logoutButton" destination="5Wv-yU-nUw" id="Hww-lo-LqS"/>
                         <outlet property="restoreButton" destination="Yxa-8t-yHG" id="cz0-qu-x51"/>
                     </connections>
                 </viewController>
