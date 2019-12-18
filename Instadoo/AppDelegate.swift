@@ -17,6 +17,9 @@ import Amplitude_iOS
 import AdSupport
 import SwiftKeychainWrapper
 
+let MAX_FOLLOWERS = 50
+let MAX_FOLLOWINGS = 50
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

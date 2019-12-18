@@ -76,10 +76,6 @@ class VipViewController: UIViewController {
         view.addSubview(spinner)
         spinner.center = view.center
         spinner.startAnimating()
-        guard let closeButton = closeButton else { return }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.scrollView?.bringSubviewToFront(closeButton)
-        }
     }
     
     private func dismissLoadingBlur() {
@@ -183,7 +179,7 @@ class VipViewController: UIViewController {
         let color: UIColor = UIColor.white.withAlphaComponent(0.7)
         let linkColor: UIColor = UIColor.white
         
-        let template = "Information about the auto-renewable nature of the subscription: Subscription periods are 1 week, price - <price>. Every week your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period. After the trial period, weekly subscription will start for <price>. Trials will be 3 days, after which the subscription will auto-renew. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. You can cancel your subscription via this url: https://support.apple.com/en-us/HT202039. Privacy Policy: https://andromeda-group.jimdosite.com/privacy-policy/. Terms of Use: https://andromeda-group.jimdosite.com/terms-of-use/."
+        let template = "Information about the auto-renewable nature of the subscription: Subscription periods are 1 week, price - <price>. Every week your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period. After the trial period, weekly subscription will start for <price>. Trials will be 3 days, after which the subscription will auto-renew. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. You can cancel your subscription via this url: https://support.apple.com/en-us/HT202039. \nPrivacy Policy: https://andromeda-group.jimdosite.com/privacy-policy/. \nTerms of Use: https://andromeda-group.jimdosite.com/terms-of-use/."
         
         let text = template.replacingOccurrences(of: "<price>", with: price)
         guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else { return }
