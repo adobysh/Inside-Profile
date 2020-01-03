@@ -546,16 +546,3 @@ class ApiManager {
     }
     
 }
-
-//extension Element {
-//    
-//    func callRecursively(level: Int = 0, _ body: (_ subview: Element, _ level: Int) -> Void) {
-//        body(self, level)
-//        for i in 0..<self.children().count {
-//            let children = self.children().get(i)
-//            children.callRecursively(level: level + 1, body)
-//        }
-//        
-//    }
-//
-//}

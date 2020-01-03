@@ -44,6 +44,8 @@ class MainViewController: UIViewController {
     private var topLikersFollowers: [ApiUser]?
     private var monthHistoryUsers: [HistoryUser]?
     
+    private var limitedDataDownloadMode: Bool? // "режиме ограниченного показа"
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -463,6 +465,12 @@ extension MainViewController {
         
         ApiManager.shared.getProfileInfoAndPosts(onComplete: { [weak self] result in
             self?.mainScreenInfo = result.profileInfo
+            
+            let followerCount = result.profileInfo.follower_count ?? 0
+            let followingCount = result.profileInfo.following_count ?? 0
+            self?.limitedDataDownloadMode = followerCount + followingCount > LIMITED_ANALYTICS_CONDITION
+            print("!!! limitedDataDownloadMode \(self?.limitedDataDownloadMode)")
+            
             self?.posts = result.postDataArray
             self?.updateUI(progress: 20)
             

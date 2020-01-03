@@ -17,8 +17,7 @@ import Amplitude_iOS
 import AdSupport
 import SwiftKeychainWrapper
 
-let MAX_FOLLOWERS = 50
-let MAX_FOLLOWINGS = 50
+let LIMITED_ANALYTICS_CONDITION = 100 // TODO change to 3000 for publishing
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
