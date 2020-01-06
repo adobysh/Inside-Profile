@@ -220,6 +220,7 @@ class MainViewController: UIViewController {
     
     private func openDetailScreen(_ contentType: ContentType) {
         let vc = UIViewController.detail
+        vc.limitedDataDownloadMode = limitedDataDownloadMode
         vc.contentType = contentType
         vc.mainScreenInfo = mainScreenInfo
         vc.followRequests = followRequests
@@ -336,16 +337,21 @@ extension MainViewController {
         let following_count: Int? = mainScreenInfo?.following_count
         let likes: Int? = UserModel.likeCount(posts: posts)
         let comments: Int? = UserModel.commentCount(posts: posts)
-        var lostFollowers: Int? = nil
-        var gainedFollowers_count: Int? = nil
-        var newGuests_count: Int? = nil
+        var lostFollowers: Int?
+        var gainedFollowers_count: Int?
+        var newGuests_count: Int?
         if let userId = mainScreenInfo?.id {
-            let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-            let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
-            lostFollowers = lostFollowersIds.count
+            if limitedDataDownloadMode == true {
+                lostFollowers = LimitedUserModel.lostFollowersApproxCount(follower_count)
+                gainedFollowers_count = LimitedUserModel.gainedFollowersApproxCount(follower_count)
+            } else {
+                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+                let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
+                lostFollowers = lostFollowersIds.count
             
-            let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
-            gainedFollowers_count = gainedFollowers.count
+                let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
+                gainedFollowers_count = gainedFollowers.count
+            }
             
             let newGuests = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
             newGuests_count = newGuests.guests?.count ?? newGuests.guestsIds?.count
@@ -411,14 +417,24 @@ extension MainViewController {
             switch contentType {
             case .lost_followers:
                 guard let userId = mainScreenInfo?.id else { return }
-                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
-                button.value = lostFollowersIds.count.bigBeauty
+                if limitedDataDownloadMode == true {
+                    let lostFollowersCount = LimitedUserModel.lostFollowersApproxCount(mainScreenInfo?.follower_count) ?? 0
+                    button.value = "≈ \(lostFollowersCount)"    
+                } else {
+                    let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+                    let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
+                    button.value = lostFollowersIds.count.bigBeauty
+                }
             case .gained_followers:
                 guard let userId = mainScreenInfo?.id else { return }
-                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
-                button.value = gainedFollowers.count.bigBeauty
+                if limitedDataDownloadMode == true {
+                    let gainedFollowersCount = LimitedUserModel.gainedFollowersApproxCount(mainScreenInfo?.follower_count) ?? 0
+                    button.value = "≈ \(gainedFollowersCount)"
+                } else {
+                    let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+                    let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
+                    button.value = gainedFollowers.count.bigBeauty
+                }
             case .you_dont_follow:
                 let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
                 button.value = youDontFollow.count.bigBeauty

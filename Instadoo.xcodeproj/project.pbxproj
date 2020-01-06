@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C06756B23C0FE0900D57E73 /* LimitedUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C06756A23C0FE0900D57E73 /* LimitedUserModel.swift */; };
 		0C080C3F234E401400FCF53D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C080C3E234E401400FCF53D /* DetailViewController.swift */; };
 		0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9822D3C17F0015135F /* AppDelegate.swift */; };
 		0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9A22D3C17F0015135F /* MainViewController.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C06756A23C0FE0900D57E73 /* LimitedUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedUserModel.swift; sourceTree = "<group>"; };
 		0C080C3E234E401400FCF53D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0C1D2E9522D3C17F0015135F /* Instadoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instadoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C1D2E9822D3C17F0015135F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				0CF10A0F235F12B600746334 /* UserModel.swift */,
+				0C06756A23C0FE0900D57E73 /* LimitedUserModel.swift */,
 				0CC0B7822359EBEF00E1DBA5 /* PastFollowersManager.swift */,
 				0C3DEEE623664583008D8F36 /* GuestsManager.swift */,
 				0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */,
@@ -472,6 +475,7 @@
 				0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */,
 				0C5761B22368C12B008138E0 /* UIImageViewExtension.swift in Sources */,
 				0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */,
+				0C06756B23C0FE0900D57E73 /* LimitedUserModel.swift in Sources */,
 				0C6ECD4A2374190600D69D91 /* AppAnalytics.swift in Sources */,
 				0CEC089C239906FE00CFD7A6 /* UINavigationControllerExtension.swift in Sources */,
 				0C3DEEE723664583008D8F36 /* GuestsManager.swift in Sources */,

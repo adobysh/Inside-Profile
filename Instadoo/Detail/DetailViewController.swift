@@ -46,6 +46,8 @@ class DetailViewController: UIViewController {
     public var topLikersFollowers: [ApiUser]?
     public var monthHistoryUsers: [HistoryUser]?
     
+    public var limitedDataDownloadMode: Bool? // "режиме ограниченного показа"
+    
     public var onFollow: (( _ onUpdate: ((Error?)->Void)? )->())?
     public var onUpdate: (( _ onUpdate: (()->Void)? )->())?
     
@@ -89,14 +91,18 @@ class DetailViewController: UIViewController {
         case .gained_followers:
             navigationItem.title = "Gained Followers"
             guard let userId = mainScreenInfo?.id else { return }
-            let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-            users = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
+            if limitedDataDownloadMode == false {
+                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+                users = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
+            }
         case .lost_followers:
             navigationItem.title = "Lost Followers"
             guard let userId = mainScreenInfo?.id else { return }
-            let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-            let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
-            usersId = lostFollowersIds
+            if limitedDataDownloadMode == false {
+                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+                let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
+                usersId = lostFollowersIds
+            }
         }
         tableView?.reloadData()
         onComplete?()
@@ -124,6 +130,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             return users.count
         } else {
             emptyTableLabel?.alpha = usersId.isEmpty ? 1 : 0
+            emptyTableLabel?.text = limitedDataDownloadMode == true ? "Can't analyze\nToo many followers and followings" : "Need more data\nUpdate tomorrow"
             return usersId.count
         }
     }
