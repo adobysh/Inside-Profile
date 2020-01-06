@@ -25,4 +25,9 @@ class LimitedUserModel {
         return Int(Double(followingCount) * 0.206)
     }
     
+    static func unfollowersApproxCount(_ followerCount: Int?) -> Int? {
+        guard let followerCount = followerCount else { return nil }
+        return Int(Double(followerCount) * 0.118)
+    }
+    
 }

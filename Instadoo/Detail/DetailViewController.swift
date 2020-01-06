@@ -89,7 +89,9 @@ class DetailViewController: UIViewController {
             }
         case .unfollowers: // following
             navigationItem.title = "Unfollowers"
-            users = UserModel.unfollowers(followers: followers, following: following)
+            if limitedDataDownloadMode == false {
+                users = UserModel.unfollowers(followers: followers, following: following)
+            }
         case .gained_followers:
             navigationItem.title = "Gained Followers"
             guard let userId = mainScreenInfo?.id else { return }
