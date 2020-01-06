@@ -84,7 +84,9 @@ class DetailViewController: UIViewController {
             users = UserModel.topCommenters(mainScreenInfo?.username, posts)
         case .you_dont_follow: // followers
             navigationItem.title = "You Dont Follow"
-            users = UserModel.youDontFollow(followers: followers, following: following)
+            if limitedDataDownloadMode == false {
+                users = UserModel.youDontFollow(followers: followers, following: following)
+            }
         case .unfollowers: // following
             navigationItem.title = "Unfollowers"
             users = UserModel.unfollowers(followers: followers, following: following)

@@ -436,8 +436,13 @@ extension MainViewController {
                     button.value = gainedFollowers.count.bigBeauty
                 }
             case .you_dont_follow:
-                let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
-                button.value = youDontFollow.count.bigBeauty
+                if limitedDataDownloadMode == true {
+                    let youDontFollow = LimitedUserModel.youDontFollowApproxCount(mainScreenInfo?.following_count) ?? 0
+                    button.value = "≈ \(youDontFollow)"
+                } else {
+                    let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
+                    button.value = youDontFollow.count.bigBeauty
+                }
             case .unfollowers:
                 let unfollowers = UserModel.unfollowers(followers: followers, following: following)
                 button.value = unfollowers.count.bigBeauty
