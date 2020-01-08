@@ -437,7 +437,7 @@ extension MainViewController {
                 }
             case .you_dont_follow:
                 if limitedDataDownloadMode == true {
-                    let youDontFollow = LimitedUserModel.youDontFollowApproxCount(mainScreenInfo?.following_count) ?? 0
+                    let youDontFollow = LimitedUserModel.youDontFollowApproxCount(followerCount: mainScreenInfo?.follower_count, followingCount: mainScreenInfo?.following_count) ?? 0
                     button.value = "≈ \(youDontFollow)"
                 } else {
                     let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
@@ -445,7 +445,7 @@ extension MainViewController {
                 }
             case .unfollowers:
                 if limitedDataDownloadMode == true {
-                    let unfollowers = LimitedUserModel.unfollowersApproxCount(mainScreenInfo?.follower_count) ?? 0
+                    let unfollowers = LimitedUserModel.unfollowersApproxCount(followingCount: mainScreenInfo?.following_count) ?? 0
                     button.value = "≈ \(unfollowers)"
                 } else {
                     let unfollowers = UserModel.unfollowers(followers: followers, following: following)
