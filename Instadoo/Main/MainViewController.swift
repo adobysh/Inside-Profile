@@ -234,7 +234,7 @@ class MainViewController: UIViewController {
         vc.onFollow = { [weak self] onUpdate in
             let onError: (Error)->() = { error in onUpdate?(error) }
             
-            ApiManager.shared.getFollowings(onComplete: { [weak self] following in
+            ApiManager.shared.getFollowings(limited: self?.limitedDataDownloadMode == true, onComplete: { [weak self] following in
                 ApiManager.shared.getFollowRequests(onComplete: { [weak self] followRequests in
                     self?.following = following
                     self?.followRequests = followRequests
@@ -256,15 +256,15 @@ class MainViewController: UIViewController {
             switch contentType {
             case .lost_followers, .gained_followers:
                 guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                ApiManager.shared.getAllFollowers(userId: userId, onComplete: { [weak self] followers in
+                ApiManager.shared.getAllFollowers(limited: self?.limitedDataDownloadMode == true, userId: userId, onComplete: { [weak self] followers in
                     self?.followers = followers
                     vc.followers = followers
                     onComplete()
                 }, onError: onError)
             case .you_dont_follow, .unfollowers:
                 guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                ApiManager.shared.getAllFollowers(userId: userId, onComplete: { [weak self] followers in
-                    ApiManager.shared.getFollowings(onComplete: { [weak self] following in
+                ApiManager.shared.getAllFollowers(limited: self?.limitedDataDownloadMode == true, userId: userId, onComplete: { [weak self] followers in
+                    ApiManager.shared.getFollowings(limited: self?.limitedDataDownloadMode == true, onComplete: { [weak self] following in
                         self?.followers = followers
                         self?.following = following
                         vc.followers = followers
@@ -494,14 +494,14 @@ extension MainViewController {
             
             let followerCount = result.profileInfo.follower_count ?? 0
             let followingCount = result.profileInfo.following_count ?? 0
-            self?.limitedDataDownloadMode = followerCount + followingCount > LIMITED_ANALYTICS_CONDITION
+            self?.limitedDataDownloadMode = followerCount + followingCount > LIMITED_ANALYTICS_F_AND_F_SUM
             print("!!! limitedDataDownloadMode \(self?.limitedDataDownloadMode)")
             
             self?.posts = result.postDataArray
             self?.updateUI(progress: 20)
             
             guard let userId = result.profileInfo.id else { onError(ApiError.nilValue); return }
-            ApiManager.shared.getAllFollowers(userId: userId, onComplete: { [weak self] followers in
+            ApiManager.shared.getAllFollowers(limited: self?.limitedDataDownloadMode == true, userId: userId, onComplete: { [weak self] followers in
                 self?.followers = followers
                 ApiManager.shared.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
                     self?.monthHistoryUsers = monthHistoryUsers
@@ -510,7 +510,7 @@ extension MainViewController {
                     self?.lostFollowersButton?.inProgress = false
                     self?.gainedFollowersButton?.inProgress = false
                     
-                    ApiManager.shared.getFollowings(onComplete: { [weak self] following in
+                    ApiManager.shared.getFollowings(limited: self?.limitedDataDownloadMode == true, onComplete: { [weak self] following in
                         self?.following = following
                         self?.updateUI(progress: 60)
                         

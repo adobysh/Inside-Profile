@@ -98,10 +98,10 @@ class ApiManager {
         
         print("!!! topLikers ids \(topLikers.map { $0.id })")
         
-        getFollowings(userId: topLikers.first?.id, onComplete: { [weak self] followings in
+        getFollowings(limited: true, userId: topLikers.first?.id, onComplete: { [weak self] followings in
             print("!!! topLiker followings count \(followings.count)")
             
-            self?.getFollowers(userId: topLikers.first?.id, onComplete: { followers in
+            self?.getAllFollowers(limited: true, userId: topLikers.first?.id ?? "", onComplete: { followers in
                 print("!!! topLiker followers count \(followers.count)")
                 let topLikerFriends = UserModel.friends(followings, followers)
                 print("!!! topLiker friends count \(topLikerFriends.count)")
@@ -111,15 +111,15 @@ class ApiManager {
         }, onError: onError)
     }
     
-    public func getAllFollowers(userId: String, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
-        getFollowers(onComplete: { allFollowers in
+    public func getAllFollowers(limited: Bool, userId: String, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+        getFollowers(limited: limited, onComplete: { allFollowers in
             let ids = allFollowers.compactMap { $0.id }
             PastFollowersManager.shared.save(userId, ids)
             onComplete(allFollowers)
         }, onError: onError)
     }
     
-    private func getFollowers(users: [ApiUser] = [], state: String? = nil, userId: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+    private func getFollowers(limited: Bool, users: [ApiUser] = [], state: String? = nil, userId: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
         struct FollowersContainer: Codable {
             let feed: [ApiUser]?
             let state: String? // "{\"moreAvailable\":false,\"rankToken\":\"40a13a91-bbeb-5334-b287-265872c32210\",\"nextMaxId\":null}",
@@ -143,8 +143,11 @@ class ApiManager {
                     return
                 }
                 followers.append(contentsOf: users)
-                if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
-                    self?.getFollowers(users: followers, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
+                
+                if limited && followers.count > LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD {
+                    onComplete(followers)
+                } else if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
+                    self?.getFollowers(limited: true, users: followers, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
                 } else {
                     onComplete(followers)
                 }
@@ -154,7 +157,7 @@ class ApiManager {
         }
     }
     
-    public func getFollowings(users: [ApiUser] = [], state: String? = nil, userId: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+    public func getFollowings(limited: Bool, users: [ApiUser] = [], state: String? = nil, userId: String? = nil, onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
         struct FollowingContainer: Codable {
             let feed: [ApiUser]?
             let state: String? // "{\"moreAvailable\":false,\"rankToken\":\"40a13a91-bbeb-5334-b287-265872c32210\",\"nextMaxId\":null}",
@@ -178,8 +181,11 @@ class ApiManager {
                     return
                 }
                 following.append(contentsOf: users)
-                if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
-                    self?.getFollowings(users: following, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
+                
+                if limited && following.count > LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD {
+                    onComplete(following)
+                } else if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
+                    self?.getFollowings(limited: limited, users: following, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
                 } else {
                     onComplete(following)
                 }

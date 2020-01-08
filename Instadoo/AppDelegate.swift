@@ -17,7 +17,8 @@ import Amplitude_iOS
 import AdSupport
 import SwiftKeychainWrapper
 
-let LIMITED_ANALYTICS_CONDITION = 100 // TODO change to 3000 for publishing
+let LIMITED_ANALYTICS_F_AND_F_SUM = 10000 // при какой сумме подписок и подписчиков включается ограниченный режим
+let LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD = 200 // сумма подписчиков 
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
