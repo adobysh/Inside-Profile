@@ -142,7 +142,9 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         func configureCell(_ cell: UserCell, _ userWithoutFollowStatus: User) {
             var user = userWithoutFollowStatus
-            user = UserModel.addFollowStatus(user, following, followRequests)
+            if limitedDataDownloadMode == false {
+                user = UserModel.addFollowStatus(user, following, followRequests)
+            }
             cell.configure(user: user, onFollow: { [weak self] onFollow in
                 self?.onFollow?() { [weak self] error in
                     if let _ = error {
