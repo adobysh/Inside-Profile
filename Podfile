@@ -11,7 +11,7 @@ target 'Instadoo' do
   pod 'Fabric', '~> 1.10.2'
   pod 'Crashlytics', '~> 3.14.0'
   pod 'SwiftyStoreKit', '~> 0.15.0'
-#  pod 'SwiftSoup'
+  pod 'SwiftSoup'
   pod 'MBCircularProgressBar', '~> 0.3.5'
   
   #pod 'FacebookCore' перейти на этот под

@@ -34,9 +34,9 @@ class MainViewController: UIViewController {
     private var blurEffectView: UIVisualEffectView?
     private var spinner: UIActivityIndicatorView?
     
-    private var mainScreenInfo: ProfileInfoData?
+    private var mainScreenInfo: GraphProfile?
     private var followRequests: FollowRequests?
-    private var posts: [PostData]?
+    private var posts: [GraphPost]?
     private var followers: [ApiUser]?
     private var following: [ApiUser]?
     private var suggestedUsers: [GraphUser]?
@@ -235,7 +235,7 @@ class MainViewController: UIViewController {
             let onError: (Error)->() = { error in onUpdate?(error) }
             
             ApiManager.shared.getFollowings(limited: self?.limitedDataDownloadMode == true, onComplete: { [weak self] following in
-                ApiManager.shared.getFollowRequests(onComplete: { [weak self] followRequests in
+                GraphAPIRoutes.getFollowRequests(onComplete: { [weak self] followRequests in
                     self?.following = following
                     self?.followRequests = followRequests
                     vc.following = following
@@ -273,7 +273,7 @@ class MainViewController: UIViewController {
                     }, onError: onError)
                 }, onError: onError)
             case .new_guests:
-                ApiManager.shared.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
+                GraphAPIRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
                     self?.userDirectSearch = userDirectSearch
                     vc.userDirectSearch = userDirectSearch
                     onComplete()
@@ -285,7 +285,7 @@ class MainViewController: UIViewController {
                     onComplete()
                 }, onError: onError)
             case .top_likers, .top_commenters:
-                ApiManager.shared.getPosts(onComplete: { [weak self] posts in
+                GraphAPIRoutes.getPosts(id: self?.mainScreenInfo?.id ?? "", onComplete: { [weak self] posts in
                     self?.posts = posts
                     vc.posts = posts
                     onComplete()
@@ -397,7 +397,7 @@ extension MainViewController {
             loginLabel?.text = nil
         }
         
-        let bestQualityAvatarUrl = mainScreenInfo?.hd_profile_pic_url_info?.url ?? mainScreenInfo?.profile_pic_url
+        let bestQualityAvatarUrl = mainScreenInfo?.profile_pic_url_hd ?? mainScreenInfo?.profile_pic_url
         UIImage.load(bestQualityAvatarUrl) { [weak self] image, url in
             self?.avatarImageView?.imageWithFade = image
         }
@@ -523,9 +523,9 @@ extension MainViewController {
                             
                             self?.recomendationButton?.inProgress = false
                             
-                            ApiManager.shared.getFollowRequests(onComplete: { [weak self] followRequests in
+                            GraphAPIRoutes.getFollowRequests(onComplete: { [weak self] followRequests in
                                 self?.followRequests = followRequests
-                                ApiManager.shared.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
+                                GraphAPIRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
                                     self?.userDirectSearch = userDirectSearch
                                     self?.updateUI(progress: 90)
                                     

@@ -14,6 +14,7 @@ PODS:
     - FBSDKCoreKit/Basics
   - MBCircularProgressBar (0.3.5)
   - SwiftKeychainWrapper (3.0.1)
+  - SwiftSoup (2.3.0)
   - SwiftyStoreKit (0.15.0)
 
 DEPENDENCIES:
@@ -26,6 +27,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (~> 5.11.0)
   - MBCircularProgressBar (~> 0.3.5)
   - SwiftKeychainWrapper (~> 3.0.1)
+  - SwiftSoup
   - SwiftyStoreKit (~> 0.15.0)
 
 SPEC REPOS:
@@ -39,6 +41,7 @@ SPEC REPOS:
     - FBSDKCoreKit
     - MBCircularProgressBar
     - SwiftKeychainWrapper
+    - SwiftSoup
     - SwiftyStoreKit
 
 SPEC CHECKSUMS:
@@ -51,8 +54,9 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 9fbfb5b0022d34861bfa6b79f56f8e2ddcd8170b
   MBCircularProgressBar: 0b795b722a5eb5b0923822f90474e2576a1a7855
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+  SwiftSoup: d78683f7ea0ae5733225a9e1d3bee5b256449df4
   SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: f5d31b3f4d32840af191866402fcd22b6b8777f6
+PODFILE CHECKSUM: 521fafd3f0e9515c917e4130e0c0a34c3284230e
 
 COCOAPODS: 1.8.4

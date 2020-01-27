@@ -69,7 +69,7 @@ class UserCell: UITableViewCell {
         guard let user = user, let followStatus = user.followStatus else { return }
         switch followStatus {
         case .yes:
-            ApiManager.shared.unfollow(id: user.id ?? "", onComplete: { [weak self] in
+            GraphAPIRoutes.unfollow(id: user.id ?? "", onComplete: { [weak self] in
                 self?.onFollow?() { [weak self] followStatus in
                     self?.user?.followStatus = followStatus
                     self?.updateFollowButton()
@@ -79,7 +79,7 @@ class UserCell: UITableViewCell {
                 sender.isEnabled = true
             }
         case .no:
-            ApiManager.shared.follow(id: user.id ?? "", username: user.username ?? "", onComplete: { [weak self] in
+            GraphAPIRoutes.follow(id: user.id ?? "", username: user.username ?? "", onComplete: { [weak self] in
                 self?.onFollow?() { [weak self] followStatus in
                     self?.user?.followStatus = followStatus
                     self?.updateFollowButton()
@@ -89,7 +89,7 @@ class UserCell: UITableViewCell {
                 sender.isEnabled = true
             }
         case .requested:
-            ApiManager.shared.unfollow(id: user.id ?? "", onComplete: { [weak self] in
+            GraphAPIRoutes.unfollow(id: user.id ?? "", onComplete: { [weak self] in
                 self?.onFollow?() { [weak self] followStatus in
                     self?.user?.followStatus = followStatus
                     self?.updateFollowButton()

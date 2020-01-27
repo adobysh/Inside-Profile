@@ -30,7 +30,7 @@ class AuthorizationManager: NSObject {
             onResult(nil, false) // there is no any cookies
             return
         }
-        ApiManager.shared.getUserInfo_graph(cookieBase64: cookies, id: "", onComplete: { (baseUser) in
+        GraphAPIRoutes.getUserInfo_graph(cookieBase64: cookies, id: "", onComplete: { (baseUser) in
             print("!!! baseUser \(baseUser)")
             if let baseUserId = baseUser.id, !baseUserId.isEmpty {
                 onResult(nil, true)

@@ -35,10 +35,10 @@ class DetailViewController: UIViewController {
     private var usersId: [String] = []
     private var users: [User] = []
     private var usersCache: [String: User] = [:]
-    public var mainScreenInfo: ProfileInfoData?
+    public var mainScreenInfo: GraphProfile?
     public var contentType: ContentType?
     public var followRequests: FollowRequests?
-    public var posts: [PostData]?
+    public var posts: [GraphPost]?
     public var followers: [ApiUser]?
     public var following: [ApiUser]?
     public var suggestedUsers: [GraphUser]?
@@ -164,7 +164,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             configureCell(cell, user)
         } else if let userId = usersId[safe: indexPath.row] {
             cell.configure(user: nil, onFollow: { _ in }) // to reset cell
-            ApiManager.shared.getUserInfo_graph(id: userId, onComplete: { [weak self] user in
+            GraphAPIRoutes.getUserInfo_graph(id: userId, onComplete: { [weak self] user in
                 self?.usersCache[userId] = user
                 configureCell(cell, user)
             }, onError: { _ in
