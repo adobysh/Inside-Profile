@@ -1,5 +1,7 @@
 PODS:
   - Alamofire (4.8.2)
+  - Alamofire-Synchronous (4.0.0):
+    - Alamofire (~> 4.0)
   - Amplitude-iOS (4.0.4)
   - AppsFlyerFramework (4.8.12)
   - Crashlytics (3.14.0):
@@ -19,6 +21,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.8.2)
+  - Alamofire-Synchronous (~> 4.0)
   - Amplitude-iOS (~> 4.0.4)
   - AppsFlyerFramework (~> 4.8.6)
   - Crashlytics (~> 3.14.0)
@@ -33,6 +36,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Alamofire-Synchronous
     - Amplitude-iOS
     - AppsFlyerFramework
     - Crashlytics
@@ -46,6 +50,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Alamofire-Synchronous: eedf1e6e961c3795a63c74990b3f7d9fbfac7e50
   Amplitude-iOS: 2ad4d7270c99186236c1272a3a9425463b1ae1a7
   AppsFlyerFramework: 726f063384d8dc763d7b423e48cbc8cbe10989ab
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
@@ -57,6 +62,6 @@ SPEC CHECKSUMS:
   SwiftSoup: d78683f7ea0ae5733225a9e1d3bee5b256449df4
   SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: 521fafd3f0e9515c917e4130e0c0a34c3284230e
+PODFILE CHECKSUM: 3d58b5bafd86d68e9259d54f77ebe98215d32662
 
 COCOAPODS: 1.8.4

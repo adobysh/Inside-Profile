@@ -495,7 +495,6 @@ extension MainViewController {
             let followerCount = result.profileInfo.follower_count ?? 0
             let followingCount = result.profileInfo.following_count ?? 0
             self?.limitedDataDownloadMode = followerCount + followingCount > LIMITED_ANALYTICS_F_AND_F_SUM
-            print("!!! limitedDataDownloadMode \(self?.limitedDataDownloadMode)")
             
             self?.posts = result.postDataArray
             self?.updateUI(progress: 20)

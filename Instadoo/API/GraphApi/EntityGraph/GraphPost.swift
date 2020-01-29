@@ -58,6 +58,8 @@ struct GraphPost: Codable {
     var commenters: [CommentOwner]? {
         return edge_media_to_comment?.edges?.compactMap { $0?.node?.owner }
     }
+    
+    var likers: [GraphLiker]?
 }
 
 struct Edge_media_to_comment: Codable {

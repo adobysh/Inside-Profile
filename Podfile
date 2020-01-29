@@ -8,6 +8,7 @@ target 'Instadoo' do
 
   # Pods for IGHelper
   pod 'Alamofire', '~> 4.8.2'
+  pod 'Alamofire-Synchronous', '~> 4.0'
   pod 'Fabric', '~> 1.10.2'
   pod 'Crashlytics', '~> 3.14.0'
   pod 'SwiftyStoreKit', '~> 0.15.0'

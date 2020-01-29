@@ -8,13 +8,43 @@
 
 import Foundation
 import Alamofire
+import Alamofire_Synchronous
 import SwiftSoup
 
+enum GraphApiError: Error {
+    case headersIsNil
+    case responseDataIsNil
+    case decodeFailed
+}
+
 class GraphAPIRoutes {
+    
+    public static func getPostLikers(shortcode: String) -> (likers: [GraphLiker]?, error: Error?) {
+        let url = "https://www.instagram.com/graphql/query/"
+
+        let parameters: [String: String] = [
+            "query_hash": "d5d763b1e2acf209d62d22d184488e57",
+            "variables": "{\"shortcode\":\"\(shortcode)\",\"include_reel\":true,\"first\":50}"
+        ]
+        
+        guard let headers = getHeaders() else { return (likers: nil, error: GraphApiError.headersIsNil) }
+        
+        let response = Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response()
+            
+        guard let data = response.data else { return (likers: nil, error: GraphApiError.responseDataIsNil) }
+        do {
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(GraphLikersContainer.self, from: data)
+            guard let likers = result.likers else { return (likers: nil, error: GraphApiError.decodeFailed) }
+            return (likers: likers, error: nil)
+        } catch {
+            return (likers: nil, error: error)
+        }
+    }
         
     public static func getPosts(id: String, onComplete: @escaping ([GraphPost]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
-//        id 4070668236
+
         let parameters: [String: String] = [
             "query_hash": "f045d723b6f7f8cc299d62b57abd500a",
             "variables": "{\"id\":\"\(id)\",\"first\":50,\"after\":\"QVFETlNoTVhXd1NrUXF3TzQzczZBSGhmc0pESmVtZWhPbklzM2paNDJlZVJ6NWlpR2hXUi1ISUNkMlI1YV9aTzQ5VDNvRF9GQjI3aWhnUlFlNEx5QTBzZw==\"}"
@@ -24,108 +54,34 @@ class GraphAPIRoutes {
         
         Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { response in
             
-            guard let data = response.data else { return }
+            guard let data = response.data else { onError(ApiError.unknown); return }
             do {
                 let decoder = JSONDecoder()
                 let result = try decoder.decode(GraphPostsContainer.self, from: data)
-                print("!!! GraphPostsContainer \(result)")
                 guard let posts = result.posts else {
                     onError(ApiError.unknown)
                     return
                 }
-                onComplete(posts)
                 
-//                if limited && followers.count > LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD {
-//                    onComplete(followers)
-//                } else if container.state?.asDictionary?["moreAvailable"] as? Bool == true {
-//                    self?.getFollowers(limited: true, users: followers, state: container.state, userId: userId, onComplete: onComplete, onError: onError)
-//                } else {
-//                    onComplete(followers)
-//                }
+                var postsWithLikers: [GraphPost] = []
+                
+                DispatchQueue.global().async {
+                    for post in posts {
+                        let likersResult = getPostLikers(shortcode: post.shortcode ?? "")
+                        if let likers = likersResult.likers {
+                            var postWithLikers = post
+                            postWithLikers.likers = likers
+                            
+                            postsWithLikers.append(postWithLikers)
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        onComplete(postsWithLikers)
+                    }
+                }
             } catch {
                 onError(error)
             }
-            
-//            guard let htmlPage = response.value else {
-//                onError(ApiError.nilValue)
-//                return
-//            }
-//
-//            guard let document: Document = try? SwiftSoup.parse(htmlPage) else {
-//                onError(ApiError.parsing(message: "Document"))
-//                return
-//            }
-//
-//            guard let scripts: Elements? = (try? document.body()?.getElementsByTag("script")) else {
-//                onError(ApiError.parsing(message: "Elements"))
-//                return
-//            }
-//
-//            guard let scriptTextArray: [String] = (scripts?.array().map { (try? $0.html()) ?? "" }) else {
-//                onError(ApiError.parsing(message: "scriptTextArray"))
-//                return
-//            }
-//
-//            let marker = "window._sharedData = "
-//            guard let firstNeededScriptText: String = (scriptTextArray.first { $0.starts(with: marker) }) else {
-//                onError(ApiError.parsing(message: "firstNeededScriptText"))
-//                return
-//            }
-//
-//            var scriptTextWithoutPrefix: String = firstNeededScriptText.replacingOccurrences(of: marker, with: "")
-//
-//            scriptTextWithoutPrefix.removeLast()
-//
-//            guard let dictionary = scriptTextWithoutPrefix.asDictionary else {
-//                onError(ApiError.parsing(message: "dictionary"))
-//                return
-//            }
-//
-//            guard let entryData = dictionary["entry_data"] as? [String: Any] else {
-//                onError(ApiError.parsing(message: "entryData"))
-//                return
-//            }
-//
-//            guard let profilePage = entryData["ProfilePage"] as? [[String: Any]] else {
-//                onError(ApiError.parsing(message: "profilePage"))
-//                return
-//            }
-//
-//            guard let graphql = profilePage.first?["graphql"] as? [String: Any] else {
-//                onError(ApiError.parsing(message: "graphql"))
-//                return
-//            }
-//
-//            guard let user = graphql["user"] as? [String: Any] else {
-//                onError(ApiError.parsing(message: "user"))
-//                return
-//            }
-//
-//            guard let edge_followed_by = user["edge_followed_by"] as? [String: Any] else {
-//                onError(ApiError.parsing(message: "edge_followed_by"))
-//                return
-//            }
-//
-//            guard let edge_follow = user["edge_follow"] as? [String: Any] else {
-//                onError(ApiError.parsing(message: "edge_follow"))
-//                return
-//            }
-//
-//            guard let userId = user["id"] as? String else {
-//                onError(ApiError.parsing(message: "userId"))
-//                return
-//            }
-//
-//            let profileInfo = GraphProfileInfoData(
-//                profile_pic_url:    user["profile_pic_url"] as? String,
-//                follower_count:     edge_followed_by["count"] as? Int,
-//                following_count:    edge_follow["count"] as? Int,
-//                username:           user["username"] as? String,
-//                full_name:          user["full_name"] as? String,
-//                profile_pic_url_hd: user["profile_pic_url_hd"] as? String,
-//                id:                 userId)
-//
-//            onComplete(profileInfo)
         }
     }
     
@@ -225,7 +181,7 @@ class GraphAPIRoutes {
         headers["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
         
         Alamofire.request(url, method: .get, headers: headers).responseJSON { response in
-//                guard let result = response.value else { onError(ApiError.unknown); return }
+            
             let json = response.value as? [String: Any]
             let ranked_recipients = json?["ranked_recipients"] as? [[String: Any]?]
             let threadArray = ranked_recipients?.compactMap { $0?["thread"] as? [String: Any] }

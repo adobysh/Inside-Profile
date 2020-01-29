@@ -143,22 +143,20 @@ class UserModel {
     
     #warning("незначительная проблема")
     // незначительная проблема: проверить являются ли topLikers из терминалогии api инстаграма действительно людьми которые тебя чаще лайкают
-    public static func topLikers(_ username: String?, _ posts: [GraphPost]?) -> [ApiUser] {
-        return []
-        #warning("resolve logic here")
-//        let usersWithDublicates = posts?.compactMap { $0.facepile_top_likers }.flatMap { $0 } ?? []
-//        let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
-//        var users: [(user: ApiUser, count: Int)] = []
-//        userIds.forEach { userId in
-//            let count = usersWithDublicates.filter { $0.id == userId }.count
-//            if var uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
-//                uniqueUser.yourPostsLikes = count
-//                users.append((uniqueUser, count))
-//            }
-//        }
-//        users = users.sorted(by: { $0.count > $1.count  })
-//        users = users.filter { $0.user.username != username } // remove own account
-//        return Array(users.map { $0.user }.prefix(10)) // first 10 elements
+    public static func topLikers(_ username: String?, _ posts: [GraphPost]?) -> [User] {
+        let usersWithDublicates = posts?.compactMap { $0.likers }.flatMap { $0 } ?? []
+        let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
+        var users: [(user: User, count: Int)] = []
+        userIds.forEach { userId in
+            let count = usersWithDublicates.filter { $0.id == userId }.count
+            if var uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
+                uniqueUser.yourPostsLikes = count
+                users.append((uniqueUser, count))
+            }
+        }
+        users = users.sorted(by: { $0.count > $1.count  })
+        users = users.filter { $0.user.username != username } // remove own account
+        return Array(users.map { $0.user }.prefix(10)) // first 10 elements
     }
     
     public static func youDontFollow(followers: [ApiUser]?, following: [ApiUser]?) -> [ApiUser] {

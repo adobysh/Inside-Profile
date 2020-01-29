@@ -90,7 +90,7 @@ class ApiManager {
 //        }
 //    }
     
-    public func getTopLikersFriends(myId: String?, topLikers topLikersWithMe: [ApiUser], onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+    public func getTopLikersFriends(myId: String?, topLikers topLikersWithMe: [User], onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
         
         // удалить себя
         let topLikers = topLikersWithMe.filter { $0.id != myId }
