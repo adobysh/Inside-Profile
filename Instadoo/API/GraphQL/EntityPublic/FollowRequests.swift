@@ -9,11 +9,9 @@
 import Foundation
 
 struct FollowRequests {
-    
     let value: String
     
     public func contain(username: String) -> Bool {
         return value.contains("\"text\":\"\(username)\"")
     }
-
 }

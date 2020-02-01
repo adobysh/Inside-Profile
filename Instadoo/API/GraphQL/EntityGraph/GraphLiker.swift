@@ -12,7 +12,15 @@ struct GraphLikersContainer: Codable {
     let data: GraphLikersContainer_Data?
     let status: String? // "ok"
     
-    var likers: [GraphLiker]? {
+    var has_next_page: Bool? {
+        return data?.shortcode_media?.edge_liked_by?.page_info?.has_next_page
+    }
+    
+    var end_cursor: String? {
+        return data?.shortcode_media?.edge_liked_by?.page_info?.end_cursor
+    }
+    
+    var likers: [GraphUser]? {
         return data?.shortcode_media?.edge_liked_by?.edges?.compactMap { $0?.node }
     }
 }
@@ -39,25 +47,25 @@ struct GraphLikersContainer_Data_ShortcodeMedia_EdgeLikedBy_PageInfo: Codable {
 }
 
 struct GraphLikersContainer_Data_ShortcodeMedia_EdgeLikedBy_Edge: Codable {
-    let node: GraphLiker?
+    let node: GraphUser?
 }
 
-struct GraphLiker: User, Codable {
-    var profile_pic_url: String?
-    var is_verified: Bool?
-    var followers: Int?
-    var descriptionText: String?
-    var followStatus: FollowStatus?
-    var yourPostsLikes: Int?
-    var connectionsCount: Int?
-    
-    let id: String? // "18049047967",
-    let username: String? // "elenah2904",
-    let full_name: String? // "elena",
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case username
-        case full_name
-    }
-}
+//struct GraphLiker: User, Codable {
+//    var profile_pic_url: String?
+//    var is_verified: Bool?
+//    var followers: Int?
+//    var descriptionText: String?
+//    var followStatus: FollowStatus?
+//    var yourPostsLikes: Int?
+//    var connectionsCount: Int?
+//
+//    let id: String? // "18049047967",
+//    let username: String? // "elenah2904",
+//    let full_name: String? // "elena",
+//
+//    enum CodingKeys: String, CodingKey {
+//        case id
+//        case username
+//        case full_name
+//    }
+//}

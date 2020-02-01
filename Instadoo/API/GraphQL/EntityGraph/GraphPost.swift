@@ -12,6 +12,14 @@ struct GraphPostsContainer: Codable {
     let data: GraphPostsContainerLevel1?
     let status: String? // "ok"
     
+    var has_next_page: Bool? {
+        return data?.user?.edge_owner_to_timeline_media?.page_info?.has_next_page
+    }
+    
+    var end_cursor: String? {
+        return data?.user?.edge_owner_to_timeline_media?.page_info?.end_cursor
+    }
+    
     var posts: [GraphPost]? {
         return data?.user?.edge_owner_to_timeline_media?.edges?.compactMap { $0?.node }
     }
@@ -41,8 +49,6 @@ struct Edge: Codable {
 }
 
 struct GraphPost: Codable {
-//    let facepile_top_likers: [ApiUser]?
-    
     let shortcode: String? // "B3RbPq8pqQx" something like post id
     let edge_media_to_comment: Edge_media_to_comment?
     let edge_media_preview_like: Edge_media_preview_like?
@@ -59,7 +65,7 @@ struct GraphPost: Codable {
         return edge_media_to_comment?.edges?.compactMap { $0?.node?.owner }
     }
     
-    var likers: [GraphLiker]?
+    var likers: [GraphUser]?
 }
 
 struct Edge_media_to_comment: Codable {

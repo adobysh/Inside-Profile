@@ -68,13 +68,9 @@ class GuestsManager {
         let dateToCompare = date ?? Date()
         let enoughOldDate = Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
         
-        print("!!! dateToCompare \(dateToCompare)")
-        print("!!! enoughOldDate \(enoughOldDate)")
         if dateToCompare < enoughOldDate {
-            print("!!! dateToCompare < enoughOldDate")
             return true
         } else {
-            print("!!! dateToCompare >= enoughOldDate")
             return false
         }
     }
@@ -104,7 +100,6 @@ class GuestsManager {
     }
     
     private func saveDictionary(_ userId: String, _ dictionary: [String: [String]]) {
-        print("!!! save guests \(dictionary)")
         UserDefaults.standard.set(dictionary, forKey: KEY(userId))
         UserDefaults.standard.synchronize()
     }

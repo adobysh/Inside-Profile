@@ -16,4 +16,9 @@ extension UILabel {
         font = font.withSize(fontSize.scalable)
     }
     
+    func scaleFont(_ k: CGFloat) {
+        let fontSize = font.pointSize
+        font = font.withSize(fontSize * k)
+    }
+    
 }

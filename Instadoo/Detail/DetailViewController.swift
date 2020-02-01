@@ -39,11 +39,11 @@ class DetailViewController: UIViewController {
     public var contentType: ContentType?
     public var followRequests: FollowRequests?
     public var posts: [GraphPost]?
-    public var followers: [ApiUser]?
-    public var following: [ApiUser]?
+    public var followers: [GraphUser]?
+    public var following: [GraphUser]?
     public var suggestedUsers: [GraphUser]?
-    public var userDirectSearch: [ApiUser]?
-    public var topLikersFollowers: [ApiUser]?
+    public var userDirectSearch: [BaseUser]?
+    public var topLikersFollowers: [GraphUser]?
     public var monthHistoryUsers: [HistoryUser]?
     
     public var limitedDataDownloadMode: Bool? // "режиме ограниченного показа"
@@ -164,7 +164,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             configureCell(cell, user)
         } else if let userId = usersId[safe: indexPath.row] {
             cell.configure(user: nil, onFollow: { _ in }) // to reset cell
-            GraphAPIRoutes.getUserInfo_graph(id: userId, onComplete: { [weak self] user in
+            GraphRoutes.getUserInfo_graph(id: userId, onComplete: { [weak self] user in
                 self?.usersCache[userId] = user
                 configureCell(cell, user)
             }, onError: { _ in

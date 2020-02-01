@@ -11,73 +11,191 @@ import Alamofire
 import Alamofire_Synchronous
 import SwiftSoup
 
-enum GraphApiError: Error {
+enum GraphError: Error {
     case headersIsNil
     case responseDataIsNil
     case decodeFailed
+    case unknown
+    case bad_password
+    case invalid_user
+    case nilValue
+    case parsing(message: String)
 }
 
-class GraphAPIRoutes {
+class GraphRoutes {
     
-    public static func getPostLikers(shortcode: String) -> (likers: [GraphLiker]?, error: Error?) {
+    public static func getUserFollowings(previous: (end_cursor: String, users: [GraphUser])? = nil, limited: Bool, id: String, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
+        
+        let after = previous == nil ? "" : ",\"after\":\"\(previous?.end_cursor ?? "")\""
 
         let parameters: [String: String] = [
-            "query_hash": "d5d763b1e2acf209d62d22d184488e57",
-            "variables": "{\"shortcode\":\"\(shortcode)\",\"include_reel\":true,\"first\":50}"
+            "query_hash": "d04b0a864b4b54837c0d870b0e77e076",
+            "variables": "{\"id\":\"\(id)\",\"include_reel\":false,\"fetch_mutual\":false,\"first\":50\(after)}"
         ]
         
-        guard let headers = getHeaders() else { return (likers: nil, error: GraphApiError.headersIsNil) }
+        guard let headers = getHeaders() else { onError(GraphError.headersIsNil); return }
+        
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { response in
+            
+            guard let data = response.data else { onError(GraphError.responseDataIsNil); return }
+            do {
+                let decoder = JSONDecoder()
+                let result = try decoder.decode(GraphFollowingsContainer.self, from: data)
+                guard var followings = result.followings else {
+                    onError(GraphError.unknown)
+                    return
+                }
+            
+                if let previous = previous {
+                    followings.append(contentsOf: previous.users)
+                }
+                
+
+                if limited && followings.count > LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD {
+                    onComplete(followings)
+                } else if result.has_next_page == true, let end_cursor = result.end_cursor {
+                    getUserFollowings(previous: (end_cursor: end_cursor, users: followings), limited: limited, id: id, onComplete: onComplete, onError: onError)
+                } else {
+                    onComplete(followings)
+                }
+            } catch {
+                onError(error)
+            }
+        }
+    }
+    
+    public static func getUserFollowers(previous: (end_cursor: String, users: [GraphUser])? = nil, limited: Bool, id: String, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://www.instagram.com/graphql/query/"
+
+        let after = previous == nil ? "" : ",\"after\":\"\(previous?.end_cursor ?? "")\""
+        
+        let parameters: [String: String] = [
+            "query_hash": "c76146de99bb02f6415203be841dd25a",
+            "variables": "{\"id\":\"\(id)\",\"include_reel\":false,\"fetch_mutual\":false,\"first\":50\(after)}"
+        ]
+        
+        guard let headers = getHeaders() else { onError(GraphError.unknown); return }
+        
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { response in
+            
+            guard let data = response.data else { onError(GraphError.unknown); return }
+            do {
+                let decoder = JSONDecoder()
+                let result = try decoder.decode(GraphFollowersContainer.self, from: data)
+                guard var followers = result.followers else {
+                    onError(GraphError.unknown)
+                    return
+                }
+                
+                if let previous = previous {
+                    followers.append(contentsOf: previous.users)
+                }
+
+                if limited && followers.count > LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD {
+                    onComplete(followers)
+                } else if result.has_next_page == true, let end_cursor = result.end_cursor {
+                    getUserFollowers(previous: (end_cursor: end_cursor, users: followers), limited: limited, id: id, onComplete: onComplete, onError: onError)
+                } else {
+                    onComplete(followers)
+                }
+            } catch {
+                onError(error)
+            }
+        }
+    }
+    
+    public static func getPostLikers(previous: (end_cursor: String, users: [GraphUser])? = nil, shortcode: String) -> (likers: [GraphUser]?, error: Error?) {
+        let url = "https://www.instagram.com/graphql/query/"
+
+        let after = previous == nil ? "" : ",\"after\":\"\(previous?.end_cursor ?? "")\""
+        
+        let parameters: [String: String] = [
+            "query_hash": "d5d763b1e2acf209d62d22d184488e57",
+            "variables": "{\"shortcode\":\"\(shortcode)\",\"include_reel\":true,\"first\":50\(after)}"
+        ]
+        
+        guard let headers = getHeaders() else { return (likers: nil, error: GraphError.headersIsNil) }
         
         let response = Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response()
             
-        guard let data = response.data else { return (likers: nil, error: GraphApiError.responseDataIsNil) }
+        guard let data = response.data else { return (likers: nil, error: GraphError.responseDataIsNil) }
         do {
             let decoder = JSONDecoder()
             let result = try decoder.decode(GraphLikersContainer.self, from: data)
-            guard let likers = result.likers else { return (likers: nil, error: GraphApiError.decodeFailed) }
-            return (likers: likers, error: nil)
+            guard var likers = result.likers else { return (likers: nil, error: GraphError.decodeFailed) }
+            
+            if let previous = previous {
+                likers.append(contentsOf: previous.users)
+            }
+
+            if likers.count > LIMITED_ANALYTICS_LIKERS_PER_POST_COUNT {
+                return (likers: likers, error: nil)
+            } else if result.has_next_page == true, let end_cursor = result.end_cursor {
+                return getPostLikers(previous: (end_cursor: end_cursor, users: likers), shortcode: shortcode)
+            } else {
+                return (likers: likers, error: nil)
+            }
         } catch {
             return (likers: nil, error: error)
         }
     }
-        
+    
     public static func getPosts(id: String, onComplete: @escaping ([GraphPost]) -> (), onError: @escaping (Error) -> ()) {
+        
+        getPostsWithoutLikers(id: id, onComplete: { postsWithoutLikers in
+            var postsWithLikers: [GraphPost] = []
+            
+            DispatchQueue.global().async {
+                for post in postsWithoutLikers {
+                    let likersResult = getPostLikers(shortcode: post.shortcode ?? "")
+                    if let likers = likersResult.likers {
+                        var postWithLikers = post
+                        postWithLikers.likers = likers
+                        
+                        postsWithLikers.append(postWithLikers)
+                    }
+                }
+                DispatchQueue.main.async {
+                    onComplete(postsWithLikers)
+                }
+            }
+        }, onError: onError)
+    }
+        
+    public static func getPostsWithoutLikers(previous: (end_cursor: String, posts: [GraphPost])? = nil, id: String, onComplete: @escaping ([GraphPost]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
 
+        let after = previous == nil ? "" : ",\"after\":\"\(previous?.end_cursor ?? "")\""
+        
         let parameters: [String: String] = [
             "query_hash": "f045d723b6f7f8cc299d62b57abd500a",
-            "variables": "{\"id\":\"\(id)\",\"first\":50,\"after\":\"QVFETlNoTVhXd1NrUXF3TzQzczZBSGhmc0pESmVtZWhPbklzM2paNDJlZVJ6NWlpR2hXUi1ISUNkMlI1YV9aTzQ5VDNvRF9GQjI3aWhnUlFlNEx5QTBzZw==\"}"
+            "variables": "{\"id\":\"\(id)\",\"first\":50\(after)}"
         ]
         
-        guard let headers = getHeaders() else { onError(ApiError.unknown); return }
+        guard let headers = getHeaders() else { onError(GraphError.unknown); return }
         
         Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).response { response in
             
-            guard let data = response.data else { onError(ApiError.unknown); return }
+            guard let data = response.data else { onError(GraphError.unknown); return }
             do {
                 let decoder = JSONDecoder()
                 let result = try decoder.decode(GraphPostsContainer.self, from: data)
-                guard let posts = result.posts else {
-                    onError(ApiError.unknown)
+                guard var posts = result.posts else {
+                    onError(GraphError.unknown)
                     return
                 }
                 
-                var postsWithLikers: [GraphPost] = []
-                
-                DispatchQueue.global().async {
-                    for post in posts {
-                        let likersResult = getPostLikers(shortcode: post.shortcode ?? "")
-                        if let likers = likersResult.likers {
-                            var postWithLikers = post
-                            postWithLikers.likers = likers
-                            
-                            postsWithLikers.append(postWithLikers)
-                        }
-                    }
-                    DispatchQueue.main.async {
-                        onComplete(postsWithLikers)
-                    }
+                if let previous = previous {
+                    posts.append(contentsOf: previous.posts)
+                }
+
+                if posts.count > LIMITED_ANALYTICS_POSTS_COUNT {
+                    onComplete(posts)
+                } else if result.has_next_page == true, let end_cursor = result.end_cursor {
+                    getPostsWithoutLikers(previous: (end_cursor: end_cursor, posts: posts), id: id, onComplete: onComplete, onError: onError)
+                } else {
+                    onComplete(posts)
                 }
             } catch {
                 onError(error)
@@ -88,32 +206,32 @@ class GraphAPIRoutes {
     public static func getProfileInfo(cookieBase64: String? = nil, userName: String, onComplete: @escaping (GraphProfile) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/" + userName + "/"
         
-        guard let headers = getHeaders() else { onError(ApiError.unknown); return }
+        guard let headers = getHeaders() else { onError(GraphError.unknown); return }
         
         Alamofire.request(url, method: .get, headers: headers).responseString { response in
             guard let htmlPage = response.value else {
-                onError(ApiError.nilValue)
+                onError(GraphError.nilValue)
                 return
             }
             
             guard let document: Document = try? SwiftSoup.parse(htmlPage) else {
-                onError(ApiError.parsing(message: "Document"))
+                onError(GraphError.parsing(message: "Document"))
                 return
             }
             
             guard let scripts: Elements? = (try? document.body()?.getElementsByTag("script")) else {
-                onError(ApiError.parsing(message: "Elements"))
+                onError(GraphError.parsing(message: "Elements"))
                 return
             }
             
             guard let scriptTextArray: [String] = (scripts?.array().map { (try? $0.html()) ?? "" }) else {
-                onError(ApiError.parsing(message: "scriptTextArray"))
+                onError(GraphError.parsing(message: "scriptTextArray"))
                 return
             }
             
             let marker = "window._sharedData = "
             guard let firstNeededScriptText: String = (scriptTextArray.first { $0.starts(with: marker) }) else {
-                onError(ApiError.parsing(message: "firstNeededScriptText"))
+                onError(GraphError.parsing(message: "firstNeededScriptText"))
                 return
             }
             
@@ -122,42 +240,42 @@ class GraphAPIRoutes {
             scriptTextWithoutPrefix.removeLast()
             
             guard let dictionary = scriptTextWithoutPrefix.asDictionary else {
-                onError(ApiError.parsing(message: "dictionary"))
+                onError(GraphError.parsing(message: "dictionary"))
                 return
             }
             
             guard let entryData = dictionary["entry_data"] as? [String: Any] else {
-                onError(ApiError.parsing(message: "entryData"))
+                onError(GraphError.parsing(message: "entryData"))
                 return
             }
             
             guard let profilePage = entryData["ProfilePage"] as? [[String: Any]] else {
-                onError(ApiError.parsing(message: "profilePage"))
+                onError(GraphError.parsing(message: "profilePage"))
                 return
             }
             
             guard let graphql = profilePage.first?["graphql"] as? [String: Any] else {
-                onError(ApiError.parsing(message: "graphql"))
+                onError(GraphError.parsing(message: "graphql"))
                 return
             }
             
             guard let user = graphql["user"] as? [String: Any] else {
-                onError(ApiError.parsing(message: "user"))
+                onError(GraphError.parsing(message: "user"))
                 return
             }
             
             guard let edge_followed_by = user["edge_followed_by"] as? [String: Any] else {
-                onError(ApiError.parsing(message: "edge_followed_by"))
+                onError(GraphError.parsing(message: "edge_followed_by"))
                 return
             }
             
             guard let edge_follow = user["edge_follow"] as? [String: Any] else {
-                onError(ApiError.parsing(message: "edge_follow"))
+                onError(GraphError.parsing(message: "edge_follow"))
                 return
             }
             
             guard let userId = user["id"] as? String else {
-                onError(ApiError.parsing(message: "userId"))
+                onError(GraphError.parsing(message: "userId"))
                 return
             }
             
@@ -174,10 +292,10 @@ class GraphAPIRoutes {
         }
     }
 
-    public static func getUserDirectSearch(onComplete: @escaping ([ApiUser]) -> (), onError: @escaping (Error) -> ()) {
+    public static func getUserDirectSearch(onComplete: @escaping ([BaseUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/direct_v2/web/ranked_recipients/?mode=raven&query=&show_threads=false"
 
-        guard var headers = getHeaders() else { onError(ApiError.unknown); return }
+        guard var headers = getHeaders() else { onError(GraphError.unknown); return }
         headers["User-Agent"] = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
         
         Alamofire.request(url, method: .get, headers: headers).responseJSON { response in
@@ -186,9 +304,9 @@ class GraphAPIRoutes {
             let ranked_recipients = json?["ranked_recipients"] as? [[String: Any]?]
             let threadArray = ranked_recipients?.compactMap { $0?["thread"] as? [String: Any] }
             let users = threadArray?.compactMap { $0["users"] as? [[String: Any]?] }.flatMap { $0 }.compactMap { $0 }
-            let apiUsers = users?.map { user in
-                return ApiUser(
-                    pk: user["pk"] as? Int,
+            let baseUsers = users?.map { user in
+                return BaseUser(
+                    id: user["pk"] as? String,
                     full_name: user["full_name"] as? String,
                     username:  user["username"] as? String,
                     profile_pic_url: user["profile_pic_url"] as? String,
@@ -196,32 +314,32 @@ class GraphAPIRoutes {
                     followers: nil,
                     followStatus: nil)
             } ?? []
-            onComplete(apiUsers)
+            onComplete(baseUsers)
         }
     }
     
     public static func follow(id: String, username: String, onComplete: @escaping () -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/web/friendships/" + id + "/follow/"
-        guard let headers = getHeaders(XCsrftocken: true) else { onError(ApiError.unknown); return }
+        guard let headers = getHeaders(XCsrftocken: true) else { onError(GraphError.unknown); return }
         
         Alamofire.request(url, method: .post, headers: headers).response { response in
             if response.response?.statusCode == 200 {
                 onComplete()
             } else {
-                onError(ApiError.unknown)
+                onError(GraphError.unknown)
             }
         }
     }
     
     public static func unfollow(id: String, onComplete: @escaping () -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/web/friendships/" + id + "/unfollow/"
-        guard let headers = getHeaders(XCsrftocken: true) else { onError(ApiError.unknown); return }
+        guard let headers = getHeaders(XCsrftocken: true) else { onError(GraphError.unknown); return }
         
         Alamofire.request(url, method: .post, headers: headers).response { response in
             if response.response?.statusCode == 200 {
                 onComplete()
             } else {
-                onError(ApiError.unknown)
+                onError(GraphError.unknown)
             }
         }
     }
@@ -246,9 +364,8 @@ class GraphAPIRoutes {
             do {
                 let decoder = JSONDecoder()
                 let container = try decoder.decode(SuggestedUsersWebContainer.self, from: data)
-                print("!!! ProfileInfoData \(container)")
                 guard let status = container.status, status == "ok" else {
-                    onError(ApiError.unknown)
+                    onError(GraphError.unknown)
                     return
                 }
                 var users: [GraphUser] = container.data?.user?.edge_suggested_users?.edges?.compactMap { edge in
@@ -276,10 +393,10 @@ class GraphAPIRoutes {
     public static func getFollowRequests(onComplete: @escaping (FollowRequests) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/accounts/access_tool/current_follow_requests"
 
-        guard let headers = getHeaders() else { onError(ApiError.unknown); return }
+        guard let headers = getHeaders() else { onError(GraphError.unknown); return }
         
         Alamofire.request(url, method: .get, headers: headers).responseString { response in
-            guard let result = response.value else { onError(ApiError.unknown); return }
+            guard let result = response.value else { onError(GraphError.unknown); return }
             onComplete(FollowRequests(value: result))
 //            do {
 //                let html: Document = try SwiftSoup.parse(result)
@@ -315,7 +432,7 @@ class GraphAPIRoutes {
         
         Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding(destination: .queryString), headers: headers).responseJSON { response in
             guard let json = response.value as? [String: Any] else {
-                onError(ApiError.nilValue)
+                onError(GraphError.nilValue)
                 return
             }
             let data = json["data"] as? [String: Any]
@@ -360,7 +477,7 @@ class GraphAPIRoutes {
         guard let headers = getHeaders() else { return }
         
         Alamofire.request(url, method: .get, encoding: URLEncoding(destination: .queryString), headers: headers).responseJSON { response in
-            guard let json = response.value as? [String: Any] else { onError(ApiError.nilValue); return }
+            guard let json = response.value as? [String: Any] else { onError(GraphError.nilValue); return }
             let graphql = json["graphql"] as? [String: Any]
             let user = graphql?["user"] as? [String: Any]
             let activity_feed = user?["activity_feed"] as? [String: Any]
@@ -395,7 +512,7 @@ class GraphAPIRoutes {
 }
 
 // MARK: - Utils
-extension GraphAPIRoutes {
+extension GraphRoutes {
     
     public static func getHeaders(XCsrftocken: Bool = false, cookieBase64: String? = nil) -> HTTPHeaders? {
         guard let cookiesBase64 = cookieBase64 ?? AuthorizationManager.shared.cookies else { return nil }
@@ -409,16 +526,12 @@ extension GraphAPIRoutes {
             cookieString = cookieString + (($0["value"] as? String) ?? "") + "; "
         }
         
-        print("!!! cookeisArray \(cookeisArray)")
-        print("!!! cookieString \(cookieString)")
-        
         var headers: HTTPHeaders = [
             "Cookie": cookieString
         ]
         if XCsrftocken {
             headers["x-csrftoken"] = ((cookeisArray.first(where: { ($0["key"] as? String) == "csrftoken" }))?["value"] as? String) ?? ""
         }
-        print("!!! headers \(headers)")
         return headers
     }
     

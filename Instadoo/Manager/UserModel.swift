@@ -20,7 +20,7 @@ class UserModel {
     // - suggestedUsers (список)
     // - myFollowing (список)
     // - myFollowers (список)
-    public static func newGuests(_ userId: String, _ username: String?, _ userDirectSearch: [ApiUser]?, _ topLikersFriends: [ApiUser]?, _ suggestedUsers: [GraphUser]?, _ myFollowing: [ApiUser]?, _ myFollowers: [ApiUser]?) -> (guests: [User]?, guestsIds: [String]?) {
+    public static func newGuests(_ userId: String, _ username: String?, _ userDirectSearch: [BaseUser]?, _ topLikersFriends: [GraphUser]?, _ suggestedUsers: [GraphUser]?, _ myFollowing: [GraphUser]?, _ myFollowers: [GraphUser]?) -> (guests: [User]?, guestsIds: [String]?) {
         guard myFollowing?.isEmpty == false
             && myFollowers?.isEmpty == false
             && userDirectSearch?.isEmpty == false else { return (nil, nil) }
@@ -31,9 +31,7 @@ class UserModel {
             return (nil, guestsIds)
         }
         
-        print("!!! topLiker friends finish total count \(topLikersFriends?.count ?? 0)")
-        
-        var topLikersFriendsI_dont_follow: [ApiUser] = []
+        var topLikersFriendsI_dont_follow: [GraphUser] = []
         (topLikersFriends ?? []).forEach { user in
             if myFollowing?.first(where: { $0.id == user.id }) == nil {
                 topLikersFriendsI_dont_follow.append(user)
@@ -143,10 +141,10 @@ class UserModel {
     
     #warning("незначительная проблема")
     // незначительная проблема: проверить являются ли topLikers из терминалогии api инстаграма действительно людьми которые тебя чаще лайкают
-    public static func topLikers(_ username: String?, _ posts: [GraphPost]?) -> [User] {
+    public static func topLikers(_ username: String?, _ posts: [GraphPost]?) -> [GraphUser] {
         let usersWithDublicates = posts?.compactMap { $0.likers }.flatMap { $0 } ?? []
         let userIds = Array(Set(usersWithDublicates.compactMap { $0.id }))
-        var users: [(user: User, count: Int)] = []
+        var users: [(user: GraphUser, count: Int)] = []
         userIds.forEach { userId in
             let count = usersWithDublicates.filter { $0.id == userId }.count
             if var uniqueUser = usersWithDublicates.first(where: { $0.id == userId }) {
@@ -159,18 +157,18 @@ class UserModel {
         return Array(users.map { $0.user }.prefix(10)) // first 10 elements
     }
     
-    public static func youDontFollow(followers: [ApiUser]?, following: [ApiUser]?) -> [ApiUser] {
+    public static func youDontFollow(followers: [GraphUser]?, following: [GraphUser]?) -> [GraphUser] {
         return followers?.filter({ !(following ?? []).contains($0) }) ?? []
     }
     
-    public static func unfollowers(followers: [ApiUser]?, following: [ApiUser]?) -> [ApiUser] {
+    public static func unfollowers(followers: [GraphUser]?, following: [GraphUser]?) -> [GraphUser] {
         return following?.filter({ !(followers ?? []).contains($0) }) ?? []
     }
     
     // История инстаграма самых прям последних подписчиков не отдаёт.
     // Примерно от недели до 50 последних недель.
     // По этому есть смысл пользоваться моим старым алгоритмом.
-    public static func gainedFollowers(_ previousFollowersIds: [String], _ followers: [ApiUser]?, _ monthHistoryUsers: [HistoryUser]?) -> [User] {
+    public static func gainedFollowers(_ previousFollowersIds: [String], _ followers: [User]?, _ monthHistoryUsers: [HistoryUser]?) -> [User] {
         let list1 = followers?.filter { !previousFollowersIds.contains($0.id ?? "") } ?? []
         
         let monthHistoryUsersIds = monthHistoryUsers?.compactMap { $0.id } ?? []
@@ -184,7 +182,7 @@ class UserModel {
         return gainedFollowers.uniqueUsers()
     }
     
-    public static func lostFollowersIds(_ previousFollowersIds: [String], _ followers: [ApiUser]?, _ monthHistoryUsers: [HistoryUser]?) -> [String] {
+    public static func lostFollowersIds(_ previousFollowersIds: [String], _ followers: [User]?, _ monthHistoryUsers: [HistoryUser]?) -> [String] {
         guard let followers = followers else { return [] }
         let currentFollowersIds = followers.compactMap { $0.id }
         let list1 = previousFollowersIds.filter { !currentFollowersIds.contains($0) }
@@ -212,7 +210,7 @@ class UserModel {
 // MARK: - For Single User
 extension UserModel {
     
-    public static func addFollowStatus(_ user: User, _ following: [ApiUser]?, _ followRequests: FollowRequests?) -> User {
+    public static func addFollowStatus(_ user: User, _ following: [GraphUser]?, _ followRequests: FollowRequests?) -> User {
         if let followStatus = user.followStatus, followStatus == .disabled { // пользователь уже имеет статус подписки
             return user
         }
@@ -238,15 +236,15 @@ extension UserModel {
 // MARK: - For Array Of Users
 extension UserModel {
     
-    public static func friends(_ following: [ApiUser]?, _ followers: [ApiUser]?) -> [ApiUser] {
+    public static func friends(_ following: [GraphUser]?, _ followers: [GraphUser]?) -> [GraphUser] {
         guard let following = following, let followers = followers else { return [] }
         
-        var friendsWithDublicates: [ApiUser] = []
+        var friendsWithDublicates: [GraphUser] = []
         friendsWithDublicates.append(contentsOf: following)
         friendsWithDublicates.append(contentsOf: followers)
         
         let userIds = Array(Set(friendsWithDublicates.map { $0.id }))
-        var friends: [ApiUser] = []
+        var friends: [GraphUser] = []
         userIds.forEach { userId in
             let count = friendsWithDublicates.filter { $0.id == userId }.count
             if count == 2, let uniqueUser = friendsWithDublicates.first(where: { $0.id == userId }) {

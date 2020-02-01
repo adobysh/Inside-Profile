@@ -112,34 +112,16 @@ extension AuthorizationViewController: WKNavigationDelegate {
         return cookie
     }
     
-//    func webViewDidFinishLoadUsername() {
-//        webView?.evaluateJavaScript("document.getElementByTagName(\"input\")[2].value = \(viewControllerManager.username)") {(result, error) in
-//
-//            if error != nil
-//            {
-//                print(result!)
-//            }
-//            else
-//            {
-//                print(error!)
-//            }
-//        }
-//    }
-    
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
         
         webView.evaluateJavaScript("document.documentElement.outerHTML.toString()", completionHandler: { [weak self] (html: Any?, error: Error?) in
             
-            print("!!! redirect html \(html)")
-            print("!!! redirect ===================")
             if navigationAction.request.url?.host?.contains("instagram.com") == true {
                 webView.getCookies() { [weak self] (json: [String : Any]) in
                     let convertedJson = self?.convertToApiV1JSONFormat(json) ?? [:]
-                    print("!!! convertedJson \(convertedJson)")
                     
                     let data = try? JSONSerialization.data(withJSONObject: convertedJson)
                     let base64 = data?.base64EncodedString()
-                    print("!!! base64 \(base64)")
                     
                     AuthorizationManager.shared.isAuthorized(cookieBase64: base64 ?? "") { [weak self] (error, isAuthorized) in
                         if let _ = error {

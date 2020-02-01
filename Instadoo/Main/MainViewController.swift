@@ -37,11 +37,11 @@ class MainViewController: UIViewController {
     private var mainScreenInfo: GraphProfile?
     private var followRequests: FollowRequests?
     private var posts: [GraphPost]?
-    private var followers: [ApiUser]?
-    private var following: [ApiUser]?
+    private var followers: [GraphUser]?
+    private var following: [GraphUser]?
     private var suggestedUsers: [GraphUser]?
-    private var userDirectSearch: [ApiUser]?
-    private var topLikersFollowers: [ApiUser]?
+    private var userDirectSearch: [BaseUser]?
+    private var topLikersFollowers: [GraphUser]?
     private var monthHistoryUsers: [HistoryUser]?
     
     private var limitedDataDownloadMode: Bool? // "режиме ограниченного показа"
@@ -234,8 +234,8 @@ class MainViewController: UIViewController {
         vc.onFollow = { [weak self] onUpdate in
             let onError: (Error)->() = { error in onUpdate?(error) }
             
-            ApiManager.shared.getFollowings(limited: self?.limitedDataDownloadMode == true, onComplete: { [weak self] following in
-                GraphAPIRoutes.getFollowRequests(onComplete: { [weak self] followRequests in
+            GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: self?.mainScreenInfo?.id ?? "", onComplete: { [weak self] following in
+                GraphRoutes.getFollowRequests(onComplete: { [weak self] followRequests in
                     self?.following = following
                     self?.followRequests = followRequests
                     vc.following = following
@@ -256,15 +256,15 @@ class MainViewController: UIViewController {
             switch contentType {
             case .lost_followers, .gained_followers:
                 guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                ApiManager.shared.getAllFollowers(limited: self?.limitedDataDownloadMode == true, userId: userId, onComplete: { [weak self] followers in
+                GraphRoutes.getUserFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
                     self?.followers = followers
                     vc.followers = followers
                     onComplete()
                 }, onError: onError)
             case .you_dont_follow, .unfollowers:
                 guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                ApiManager.shared.getAllFollowers(limited: self?.limitedDataDownloadMode == true, userId: userId, onComplete: { [weak self] followers in
-                    ApiManager.shared.getFollowings(limited: self?.limitedDataDownloadMode == true, onComplete: { [weak self] following in
+                GraphRoutes.getUserFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
+                    GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] following in
                         self?.followers = followers
                         self?.following = following
                         vc.followers = followers
@@ -273,19 +273,19 @@ class MainViewController: UIViewController {
                     }, onError: onError)
                 }, onError: onError)
             case .new_guests:
-                GraphAPIRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
+                GraphRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
                     self?.userDirectSearch = userDirectSearch
                     vc.userDirectSearch = userDirectSearch
                     onComplete()
                 }, onError: onError)
             case .recommendation:
-                ApiManager.shared.getGoodSuggestedUser(onComplete: { [weak self] goodSuggestedUser in
+                GraphManager.getGoodSuggestedUser(onComplete: { [weak self] goodSuggestedUser in
                     self?.suggestedUsers = goodSuggestedUser
                     vc.suggestedUsers = goodSuggestedUser
                     onComplete()
                 }, onError: onError)
             case .top_likers, .top_commenters:
-                GraphAPIRoutes.getPosts(id: self?.mainScreenInfo?.id ?? "", onComplete: { [weak self] posts in
+                GraphRoutes.getPosts(id: self?.mainScreenInfo?.id ?? "", onComplete: { [weak self] posts in
                     self?.posts = posts
                     vc.posts = posts
                     onComplete()
@@ -489,7 +489,7 @@ extension MainViewController {
         
         setProgress(10)
         
-        ApiManager.shared.getProfileInfoAndPosts(onComplete: { [weak self] result in
+        GraphManager.getProfileInfoAndPosts(onComplete: { [weak self] result in
             self?.mainScreenInfo = result.profileInfo
             
             let followerCount = result.profileInfo.follower_count ?? 0
@@ -499,42 +499,42 @@ extension MainViewController {
             self?.posts = result.postDataArray
             self?.updateUI(progress: 20)
             
-            guard let userId = result.profileInfo.id else { onError(ApiError.nilValue); return }
-            ApiManager.shared.getAllFollowers(limited: self?.limitedDataDownloadMode == true, userId: userId, onComplete: { [weak self] followers in
+            guard let userId = result.profileInfo.id else { onError(GraphError.nilValue); return }
+            GraphRoutes.getUserFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
                 self?.followers = followers
-                ApiManager.shared.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
+                GraphManager.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
                     self?.monthHistoryUsers = monthHistoryUsers
                     self?.updateUI(progress: 40)
                     
                     self?.lostFollowersButton?.inProgress = false
                     self?.gainedFollowersButton?.inProgress = false
                     
-                    ApiManager.shared.getFollowings(limited: self?.limitedDataDownloadMode == true, onComplete: { [weak self] following in
+                    GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: self?.mainScreenInfo?.id ?? "", onComplete: { [weak self] following in
                         self?.following = following
                         self?.updateUI(progress: 60)
                         
                         self?.youDontFollowButton?.inProgress = false
                         self?.unfollowersButton?.inProgress = false
                         
-                        ApiManager.shared.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
+                        GraphManager.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
                             self?.suggestedUsers = suggestedUsers
                             self?.updateUI(progress: 80)
                             
                             self?.recomendationButton?.inProgress = false
                             
-                            GraphAPIRoutes.getFollowRequests(onComplete: { [weak self] followRequests in
+                            GraphRoutes.getFollowRequests(onComplete: { [weak self] followRequests in
                                 self?.followRequests = followRequests
-                                GraphAPIRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
+                                GraphRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
                                     self?.userDirectSearch = userDirectSearch
                                     self?.updateUI(progress: 90)
                                     
-                                    guard let userId = self?.mainScreenInfo?.id else { onError(ApiError.nilValue); return }
+                                    guard let userId = self?.mainScreenInfo?.id else { onError(GraphError.nilValue); return }
                                     if GuestsManager.shared.containIds(userId) {
                                         self?.updateUI(progress: 100)
                                         self?.superButtons?.forEach { $0.inProgress = false }
                                     } else {
                                         let topLikers = UserModel.topLikers(self?.mainScreenInfo?.username, self?.posts)
-                                        ApiManager.shared.getTopLikersFriends(myId: self?.mainScreenInfo?.id, topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
+                                        GraphManager.getTopLikersFriends(myId: self?.mainScreenInfo?.id, topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
                                             self?.topLikersFollowers = topLikersFollowers
                                             
                                             self?.updateUI(progress: 100)

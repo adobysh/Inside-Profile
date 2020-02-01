@@ -64,13 +64,9 @@ class PastFollowersManager {
         let dateToCompare = date ?? Date()
         let enoughOldDate = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
         
-        print("!!! dateToCompare \(dateToCompare)")
-        print("!!! enoughOldDate \(enoughOldDate)")
         if dateToCompare < enoughOldDate {
-            print("!!! dateToCompare < enoughOldDate")
             return true
         } else {
-            print("!!! dateToCompare >= enoughOldDate")
             return false
         }
     }
@@ -99,7 +95,6 @@ class PastFollowersManager {
     }
     
     private func saveDictionary(_ userId: String, _ dictionary: [String: [String]]) {
-        print("!!! save followers \(dictionary)")
         UserDefaults.standard.set(dictionary, forKey: KEY(userId))
         UserDefaults.standard.synchronize()
     }
