@@ -256,14 +256,14 @@ class MainViewController: UIViewController {
             switch contentType {
             case .lost_followers, .gained_followers:
                 guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                GraphRoutes.getUserFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
+                GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
                     self?.followers = followers
                     vc.followers = followers
                     onComplete()
                 }, onError: onError)
             case .you_dont_follow, .unfollowers:
                 guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                GraphRoutes.getUserFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
+                GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
                     GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] following in
                         self?.followers = followers
                         self?.following = following
@@ -404,11 +404,15 @@ extension MainViewController {
     }
     
     func updateLikeCount(likesCount: Int?) {
-        likesCountLabel?.text = likesCount?.bigBeauty ?? "0"
+        let postsCount = (posts?.count ?? 0)
+        let likesCountBigBeauty = likesCount?.bigBeauty ?? "0"
+        likesCountLabel?.text = postsCount >= LIMITED_ANALYTICS_TOTAL_POSTS_COUNT ? "> \(likesCountBigBeauty)" : likesCountBigBeauty
     }
     
     func updateCommentCount(commentsCount: Int?) {
-        commentsCountLabel?.text = commentsCount?.bigBeauty ?? "0"
+        let postsCount = (posts?.count ?? 0)
+        let commentsCountBigBeauty = commentsCount?.bigBeauty ?? "0"
+        commentsCountLabel?.text = postsCount >= LIMITED_ANALYTICS_TOTAL_POSTS_COUNT ? "> \(commentsCountBigBeauty)" : commentsCountBigBeauty
     }
     
     func updateButtons() {
@@ -500,7 +504,7 @@ extension MainViewController {
             self?.updateUI(progress: 20)
             
             guard let userId = result.profileInfo.id else { onError(GraphError.nilValue); return }
-            GraphRoutes.getUserFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
+            GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
                 self?.followers = followers
                 GraphManager.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
                     self?.monthHistoryUsers = monthHistoryUsers

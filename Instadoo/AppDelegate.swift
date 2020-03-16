@@ -19,8 +19,9 @@ import SwiftKeychainWrapper
 
 let LIMITED_ANALYTICS_F_AND_F_SUM = 10000 // при какой сумме подписок и подписчиков включается ограниченный режим
 let LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD = 200 // сумма подписок и подписчиков загружаемая в ограниченном режиме
-let LIMITED_ANALYTICS_LIKERS_PER_POST_COUNT = 1000
-let LIMITED_ANALYTICS_POSTS_COUNT = 1000
+let LIMITED_ANALYTICS_LIKERS_PER_POST_COUNT = 495
+let LIMITED_ANALYTICS_POSTS_WITH_LIKERS_COUNT = 25
+let LIMITED_ANALYTICS_TOTAL_POSTS_COUNT = 95
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

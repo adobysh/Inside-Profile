@@ -65,7 +65,15 @@ class GraphRoutes {
         }
     }
     
-    public static func getUserFollowers(previous: (end_cursor: String, users: [GraphUser])? = nil, limited: Bool, id: String, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+    public static func getAllFollowers(limited: Bool, id: String, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+        getUserFollowers(limited: limited, id: id, onComplete: { allFollowers in
+            let ids = allFollowers.compactMap { $0.id }
+            PastFollowersManager.shared.save(id, ids)
+            onComplete(allFollowers)
+        }, onError: onError)
+    }
+    
+    private static func getUserFollowers(previous: (end_cursor: String, users: [GraphUser])? = nil, limited: Bool, id: String, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
 
         let after = previous == nil ? "" : ",\"after\":\"\(previous?.end_cursor ?? "")\""
@@ -141,25 +149,70 @@ class GraphRoutes {
         }
     }
     
+    public static func getPostLikers(previous: (end_cursor: String, users: [GraphUser])? = nil, shortcode: String, onComplete: @escaping ((likers: [GraphUser]?, error: Error?)) -> ()) {
+        DispatchQueue.global().async {
+            let result = getPostLikers(previous: previous, shortcode: shortcode)
+            onComplete(result)
+        }
+    }
+    
     public static func getPosts(id: String, onComplete: @escaping ([GraphPost]) -> (), onError: @escaping (Error) -> ()) {
         
         getPostsWithoutLikers(id: id, onComplete: { postsWithoutLikers in
-            var postsWithLikers: [GraphPost] = []
+            var posts = postsWithoutLikers
+            
+            var completedTasks = 0
             
             DispatchQueue.global().async {
-                for post in postsWithoutLikers {
-                    let likersResult = getPostLikers(shortcode: post.shortcode ?? "")
-                    if let likers = likersResult.likers {
-                        var postWithLikers = post
-                        postWithLikers.likers = likers
+                let posts_withLikers_count = min(LIMITED_ANALYTICS_POSTS_WITH_LIKERS_COUNT, posts.count)
+                
+                if posts_withLikers_count == 0 {
+                    DispatchQueue.main.async {
+                        onComplete(posts)
+                    }
+                } else {
+                    for i in 0..<posts_withLikers_count {
+                        let post = posts[safe: i]
                         
-                        postsWithLikers.append(postWithLikers)
+                        usleep(120_000) /// 3 seconds for all requests. will sleep for 0.12 seconds
+                        print("!!! new request \(Date())")
+                        
+                        getPostLikers(shortcode: post?.shortcode ?? "", onComplete: { likers, error in
+                            print("!!! result \(Date())")
+                            if let error = error {
+                                print("!!! ERROR: while async load likers \(error)")
+                            }
+
+                            DispatchQueue.main.async {
+                                if var post_withLikers = post {
+                                    post_withLikers.likers = likers
+                                    posts[i] = post_withLikers
+                                }
+                                completedTasks += 1
+
+                                if completedTasks >= posts_withLikers_count {
+                                    onComplete(posts)
+                                }
+                            }
+                        })
                     }
                 }
-                DispatchQueue.main.async {
-                    onComplete(postsWithLikers)
-                }
             }
+            
+//            DispatchQueue.global().async {
+//                for post in postsWithoutLikers {
+//                    let likersResult = getPostLikers(shortcode: post.shortcode ?? "")
+//                    if let likers = likersResult.likers {
+//                        var postWithLikers = post
+//                        postWithLikers.likers = likers
+//
+//                        postsWithLikers.append(postWithLikers)
+//                    }
+//                }
+//                DispatchQueue.main.async {
+//                    onComplete(postsWithLikers)
+//                }
+//            }
         }, onError: onError)
     }
         
@@ -190,7 +243,7 @@ class GraphRoutes {
                     posts.append(contentsOf: previous.posts)
                 }
 
-                if posts.count > LIMITED_ANALYTICS_POSTS_COUNT {
+                if posts.count > LIMITED_ANALYTICS_TOTAL_POSTS_COUNT {
                     onComplete(posts)
                 } else if result.has_next_page == true, let end_cursor = result.end_cursor {
                     getPostsWithoutLikers(previous: (end_cursor: end_cursor, posts: posts), id: id, onComplete: onComplete, onError: onError)

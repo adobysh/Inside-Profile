@@ -136,7 +136,8 @@ class UserModel {
         }
         users = users.sorted(by: { $0.count > $1.count  })
         users = users.filter { $0.user.username != username } // remove own account
-        return Array(users.map { $0.user }.prefix(10)) // first 10 elements
+        return Array(users.map { $0.user }.prefix(50)) // first 10 elements
+//        return users.map { $0.user }.split().first ?? []
     }
     
     #warning("незначительная проблема")
@@ -154,7 +155,8 @@ class UserModel {
         }
         users = users.sorted(by: { $0.count > $1.count  })
         users = users.filter { $0.user.username != username } // remove own account
-        return Array(users.map { $0.user }.prefix(10)) // first 10 elements
+        return Array(users.map { $0.user }.prefix(50)) // first 10 elements
+//        return users.map { $0.user }.split().first ?? []
     }
     
     public static func youDontFollow(followers: [GraphUser]?, following: [GraphUser]?) -> [GraphUser] {

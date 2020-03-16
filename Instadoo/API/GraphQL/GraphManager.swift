@@ -33,7 +33,7 @@ class GraphManager {
         
         GraphRoutes.getUserFollowings(limited: true, id: topLikers.first?.id ?? "", onComplete: { followings in
             
-            GraphRoutes.getUserFollowers(limited: true, id: topLikers.first?.id ?? "", onComplete: { followers in
+            GraphRoutes.getAllFollowers(limited: true, id: topLikers.first?.id ?? "", onComplete: { followers in
                 let topLikerFriends = UserModel.friends(followings, followers)
                 
                 onComplete(topLikerFriends)
