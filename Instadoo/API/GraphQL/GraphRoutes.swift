@@ -24,7 +24,75 @@ enum GraphError: Error {
 
 class GraphRoutes {
     
-    public static func getUserFollowings(previous: (end_cursor: String, users: [GraphUser])? = nil, limited: Bool, id: String, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+    public static func getBlockedUsersUsernames(userName: String, onComplete: @escaping ([String]) -> (), onError: @escaping (Error) -> ()) {
+        let url = "https://www.instagram.com/accounts/access_tool/accounts_you_blocked"
+        
+        guard let headers = getHeaders() else { onError(GraphError.unknown); return }
+        
+        Alamofire.request(url, method: .get, headers: headers).responseString { response in
+            
+            guard let htmlPage = response.value else {
+                onError(GraphError.nilValue)
+                return
+            }
+            
+            guard let document: Document = try? SwiftSoup.parse(htmlPage) else {
+                onError(GraphError.parsing(message: "Document"))
+                return
+            }
+            
+            guard let scripts: Elements? = (try? document.body()?.getElementsByTag("script")) else {
+                onError(GraphError.parsing(message: "Elements"))
+                return
+            }
+            
+            guard let scriptTextArray: [String] = (scripts?.array().map { (try? $0.html()) ?? "" }) else {
+                onError(GraphError.parsing(message: "scriptTextArray"))
+                return
+            }
+            
+            let marker = "window._sharedData = "
+            guard let firstNeededScriptText: String = (scriptTextArray.first { $0.starts(with: marker) }) else {
+                onError(GraphError.parsing(message: "firstNeededScriptText"))
+                return
+            }
+
+            var scriptTextWithoutPrefix: String = firstNeededScriptText.replacingOccurrences(of: marker, with: "")
+
+            scriptTextWithoutPrefix.removeLast()
+
+            guard let dictionary = scriptTextWithoutPrefix.asDictionary else {
+                onError(GraphError.parsing(message: "dictionary"))
+                return
+            }
+
+            guard let entryData = dictionary["entry_data"] as? [String: Any] else {
+                onError(GraphError.parsing(message: "entryData"))
+                return
+            }
+
+            guard let settingsPages = entryData["SettingsPages"] as? [[String: Any]] else {
+                onError(GraphError.parsing(message: "SettingsPages"))
+                return
+            }
+
+            guard let settingsPages_data = settingsPages.first?["data"] as? [String: Any] else {
+                onError(GraphError.parsing(message: "settingsPages_data"))
+                return
+            }
+            
+            guard let settingsPages_data_data = settingsPages_data["data"] as? [[String: Any]] else {
+                onError(GraphError.parsing(message: "settingsPages_data_data"))
+                return
+            }
+            
+            let blockedUsernames = settingsPages_data_data.compactMap { $0["text"] as? String }
+            
+            onComplete(blockedUsernames)
+        }
+    }
+    
+    public static func getUserFollowings(previous: (end_cursor: String, users: [GraphUser])? = nil, limited: Bool, id: String, onSubpartLoaded: @escaping (Int)->Void, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
         
         let after = previous == nil ? "" : ",\"after\":\"\(previous?.end_cursor ?? "")\""
@@ -48,14 +116,14 @@ class GraphRoutes {
                 }
             
                 if let previous = previous {
+                    onSubpartLoaded(previous.users.count)
                     followings.append(contentsOf: previous.users)
                 }
-                
 
                 if limited && followings.count > LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD {
                     onComplete(followings)
                 } else if result.has_next_page == true, let end_cursor = result.end_cursor {
-                    getUserFollowings(previous: (end_cursor: end_cursor, users: followings), limited: limited, id: id, onComplete: onComplete, onError: onError)
+                    getUserFollowings(previous: (end_cursor: end_cursor, users: followings), limited: limited, id: id, onSubpartLoaded: onSubpartLoaded, onComplete: onComplete, onError: onError)
                 } else {
                     onComplete(followings)
                 }
@@ -65,15 +133,15 @@ class GraphRoutes {
         }
     }
     
-    public static func getAllFollowers(limited: Bool, id: String, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
-        getUserFollowers(limited: limited, id: id, onComplete: { allFollowers in
+    public static func getAllFollowers(limited: Bool, id: String, onSubpartLoaded: @escaping (Int) -> Void, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+        getUserFollowers(limited: limited, id: id, onSubpartLoaded: onSubpartLoaded, onComplete: { allFollowers in
             let ids = allFollowers.compactMap { $0.id }
             PastFollowersManager.shared.save(id, ids)
             onComplete(allFollowers)
         }, onError: onError)
     }
     
-    private static func getUserFollowers(previous: (end_cursor: String, users: [GraphUser])? = nil, limited: Bool, id: String, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
+    private static func getUserFollowers(previous: (end_cursor: String, users: [GraphUser])? = nil, limited: Bool, id: String, onSubpartLoaded: @escaping (Int) -> Void, onComplete: @escaping ([GraphUser]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
 
         let after = previous == nil ? "" : ",\"after\":\"\(previous?.end_cursor ?? "")\""
@@ -97,13 +165,14 @@ class GraphRoutes {
                 }
                 
                 if let previous = previous {
+                    onSubpartLoaded(previous.users.count)
                     followers.append(contentsOf: previous.users)
                 }
-
+                
                 if limited && followers.count > LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD {
                     onComplete(followers)
                 } else if result.has_next_page == true, let end_cursor = result.end_cursor {
-                    getUserFollowers(previous: (end_cursor: end_cursor, users: followers), limited: limited, id: id, onComplete: onComplete, onError: onError)
+                    getUserFollowers(previous: (end_cursor: end_cursor, users: followers), limited: limited, id: id, onSubpartLoaded: onSubpartLoaded, onComplete: onComplete, onError: onError)
                 } else {
                     onComplete(followers)
                 }
@@ -156,9 +225,9 @@ class GraphRoutes {
         }
     }
     
-    public static func getPosts(id: String, onComplete: @escaping ([GraphPost]) -> (), onError: @escaping (Error) -> ()) {
+    public static func getPosts(id: String, onSubpartLoaded: @escaping (Int,Int) -> Void, onComplete: @escaping ([GraphPost]) -> (), onError: @escaping (Error) -> ()) {
         
-        getPostsWithoutLikers(id: id, onComplete: { postsWithoutLikers in
+        getPostsWithoutLikers(id: id, onSubpartLoaded: onSubpartLoaded, onComplete: { postsWithoutLikers in
             var posts = postsWithoutLikers
             
             var completedTasks = 0
@@ -175,10 +244,8 @@ class GraphRoutes {
                         let post = posts[safe: i]
                         
                         usleep(120_000) /// 3 seconds for all requests. will sleep for 0.12 seconds
-                        print("!!! new request \(Date())")
                         
                         getPostLikers(shortcode: post?.shortcode ?? "", onComplete: { likers, error in
-                            print("!!! result \(Date())")
                             if let error = error {
                                 print("!!! ERROR: while async load likers \(error)")
                             }
@@ -216,7 +283,7 @@ class GraphRoutes {
         }, onError: onError)
     }
         
-    public static func getPostsWithoutLikers(previous: (end_cursor: String, posts: [GraphPost])? = nil, id: String, onComplete: @escaping ([GraphPost]) -> (), onError: @escaping (Error) -> ()) {
+    public static func getPostsWithoutLikers(previous: (end_cursor: String, posts: [GraphPost])? = nil, id: String, onSubpartLoaded: @escaping (Int, Int) -> Void, onComplete: @escaping ([GraphPost]) -> (), onError: @escaping (Error) -> ()) {
         let url = "https://www.instagram.com/graphql/query/"
 
         let after = previous == nil ? "" : ",\"after\":\"\(previous?.end_cursor ?? "")\""
@@ -240,13 +307,15 @@ class GraphRoutes {
                 }
                 
                 if let previous = previous {
+                    // обновлять прогресс сейчас так как при учитывании последней подгруженной части может оказаться что загруженных частей больше чем максимальное значение возможных и будет переполнение прогресса шага
+                    onSubpartLoaded(previous.posts.count, LIMITED_ANALYTICS_TOTAL_POSTS_COUNT)
                     posts.append(contentsOf: previous.posts)
                 }
-
+                
                 if posts.count > LIMITED_ANALYTICS_TOTAL_POSTS_COUNT {
                     onComplete(posts)
                 } else if result.has_next_page == true, let end_cursor = result.end_cursor {
-                    getPostsWithoutLikers(previous: (end_cursor: end_cursor, posts: posts), id: id, onComplete: onComplete, onError: onError)
+                    getPostsWithoutLikers(previous: (end_cursor: end_cursor, posts: posts), id: id, onSubpartLoaded: onSubpartLoaded, onComplete: onComplete, onError: onError)
                 } else {
                     onComplete(posts)
                 }

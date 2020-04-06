@@ -16,4 +16,12 @@ struct GraphProfile {
     let full_name: String?
     let profile_pic_url_hd: String?
     let id: String?
+    
+    var limitedDataDownloadMode: Bool {
+        let followerCount = follower_count ?? 0
+        let followingCount = following_count ?? 0
+        let limitedDataDownloadMode = followerCount + followingCount > LIMITED_ANALYTICS_F_AND_F_SUM
+        return limitedDataDownloadMode
+    }
+    
 }

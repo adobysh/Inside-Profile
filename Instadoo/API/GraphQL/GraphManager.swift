@@ -10,13 +10,11 @@ import Foundation
 
 class GraphManager {
  
-    public static func getProfileInfoAndPosts(onComplete: @escaping ((profileInfo: GraphProfile, postDataArray: [GraphPost])) -> (), onError: @escaping (Error) -> ()) {
+    public static func getProfileInfo(onComplete: @escaping (GraphProfile) -> (), onError: @escaping (Error) -> ()) {
         
         GraphRoutes.getUserInfo_graph(onComplete: { baseUser in
             GraphRoutes.getProfileInfo(userName: baseUser.username ?? "", onComplete: { profileInfo in
-                GraphRoutes.getPosts(id: baseUser.id ?? "", onComplete: { postDataArray in
-                    onComplete((profileInfo, postDataArray))
-                }, onError: onError)
+                onComplete(profileInfo)
             }, onError: onError)
         }, onError: onError)
     }
@@ -31,9 +29,9 @@ class GraphManager {
             return
         }
         
-        GraphRoutes.getUserFollowings(limited: true, id: topLikers.first?.id ?? "", onComplete: { followings in
+        GraphRoutes.getUserFollowings(limited: true, id: topLikers.first?.id ?? "", onSubpartLoaded: { _ in }, onComplete: { followings in
             
-            GraphRoutes.getAllFollowers(limited: true, id: topLikers.first?.id ?? "", onComplete: { followers in
+            GraphRoutes.getAllFollowers(limited: true, id: topLikers.first?.id ?? "", onSubpartLoaded: { _ in }, onComplete: { followers in
                 let topLikerFriends = UserModel.friends(followings, followers)
                 
                 onComplete(topLikerFriends)

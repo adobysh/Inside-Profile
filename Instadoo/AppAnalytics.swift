@@ -52,6 +52,7 @@ enum EventButton: String {
     case recommendation
     case top_likers
     case top_commenters
+    case blocked_by_you
     
     // vip
     case vip
@@ -73,6 +74,7 @@ enum EventSource: String {
     case recommendation
     case top_likers
     case top_commenters
+    case blocked_by_you
     
     case settings
     

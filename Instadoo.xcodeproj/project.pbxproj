@@ -52,6 +52,7 @@
 		0CCA085723609439008C3AD2 /* SubscriptionKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA085523609439008C3AD2 /* SubscriptionKeychain.swift */; };
 		0CCA085823609439008C3AD2 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA085623609439008C3AD2 /* SubscriptionManager.swift */; };
 		0CCA085A2360D4C0008C3AD2 /* FollowRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA08592360D4C0008C3AD2 /* FollowRequests.swift */; };
+		0CE57505242548E8005ADFDB /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE57504242548E7005ADFDB /* ApiHelper.swift */; };
 		0CEC089C239906FE00CFD7A6 /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEC089B239906FE00CFD7A6 /* UINavigationControllerExtension.swift */; };
 		0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */; };
 		0CF10A10235F12B600746334 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF10A0F235F12B600746334 /* UserModel.swift */; };
@@ -109,6 +110,7 @@
 		0CCA085523609439008C3AD2 /* SubscriptionKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionKeychain.swift; sourceTree = "<group>"; };
 		0CCA085623609439008C3AD2 /* SubscriptionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		0CCA08592360D4C0008C3AD2 /* FollowRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowRequests.swift; sourceTree = "<group>"; };
+		0CE57504242548E7005ADFDB /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		0CEC089B239906FE00CFD7A6 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		0CF10A0C235F0FD500746334 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		0CF10A0F235F12B600746334 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				0C1298E923DF8990001CEFA3 /* GraphQL */,
+				0CE57504242548E7005ADFDB /* ApiHelper.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -521,6 +524,7 @@
 				0CF10A12235F255600746334 /* UIImageExtension.swift in Sources */,
 				0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */,
 				0CCA085823609439008C3AD2 /* SubscriptionManager.swift in Sources */,
+				0CE57505242548E8005ADFDB /* ApiHelper.swift in Sources */,
 				0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */,
 				0C5761B22368C12B008138E0 /* UIImageViewExtension.swift in Sources */,
 				0C1D2EB622D470E90015135F /* ScalableConstraint.swift in Sources */,
@@ -680,7 +684,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 68;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -703,7 +707,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 63;
+				CURRENT_PROJECT_VERSION = 68;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

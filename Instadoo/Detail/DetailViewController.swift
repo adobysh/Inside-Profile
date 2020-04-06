@@ -13,7 +13,8 @@ enum ContentType: Int {
     case gained_followers
     case you_dont_follow
     case unfollowers
-    case new_guests
+//    case new_guests
+    case blocked_by_you
     case recommendation
     case top_likers
     case top_commenters
@@ -33,6 +34,7 @@ class DetailViewController: UIViewController {
     }()
     
     private var usersId: [String] = []
+    private var usersUsernames: [String] = []
     private var users: [User] = []
     private var usersCache: [String: User] = [:]
     public var mainScreenInfo: GraphProfile?
@@ -45,6 +47,7 @@ class DetailViewController: UIViewController {
     public var userDirectSearch: [BaseUser]?
     public var topLikersFollowers: [GraphUser]?
     public var monthHistoryUsers: [HistoryUser]?
+    public var blockedByYouUsernames: [String]?
     
     public var limitedDataDownloadMode: Bool? // "режиме ограниченного показа"
     
@@ -67,12 +70,15 @@ class DetailViewController: UIViewController {
     func updateUsers(showProgress: Bool = false, onComplete: (()->())? = nil) {
         guard let contentType = contentType else { return }
         switch contentType {
-        case .new_guests:
-            navigationItem.title = "New Guests"
-            guard let userId = mainScreenInfo?.id else { return }
-            let guestsResult = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
-            users = guestsResult.guests ?? []
-            usersId = guestsResult.guestsIds ?? []
+//        case .new_guests:
+//            navigationItem.title = "New Guests"
+//            guard let userId = mainScreenInfo?.id else { return }
+//            let guestsResult = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
+//            users = guestsResult.guests ?? []
+//            usersId = guestsResult.guestsIds ?? []
+        case .blocked_by_you:
+            navigationItem.title = "Accounts You Blocked"
+            usersUsernames = blockedByYouUsernames ?? []
         case .recommendation:
             navigationItem.title = "Recommendation"
             users = suggestedUsers ?? []
@@ -132,6 +138,8 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !users.isEmpty {
             return users.count
+        } else if !usersUsernames.isEmpty {
+            return usersUsernames.count
         } else {
             emptyTableLabel?.alpha = usersId.isEmpty ? 1 : 0
             emptyTableLabel?.text = limitedDataDownloadMode == true ? "Can't analyze\nToo many followers and followings" : "Need more data\nUpdate tomorrow"
@@ -166,6 +174,19 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configure(user: nil, onFollow: { _ in }) // to reset cell
             GraphRoutes.getUserInfo_graph(id: userId, onComplete: { [weak self] user in
                 self?.usersCache[userId] = user
+                configureCell(cell, user)
+            }, onError: { _ in
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                    tableView.beginUpdates()
+//                    tableView.reloadRows(at: [indexPath], with: .none)
+//                    tableView.endUpdates()
+//                }
+            })
+        } else if let userUsername = usersUsernames[safe: indexPath.row] {
+            cell.configure(user: nil, onFollow: { _ in }) // to reset cell
+            GraphRoutes.getProfileInfo(userName: userUsername, onComplete: { [weak self] graphProfile in
+                let user = BaseUser(id: graphProfile.id, full_name: graphProfile.full_name, username: graphProfile.username, profile_pic_url: graphProfile.profile_pic_url, is_verified: nil, followers: nil, descriptionText: nil, followStatus: nil, yourPostsLikes: nil, connectionsCount: nil)
+                self?.usersCache[userUsername] = user
                 configureCell(cell, user)
             }, onError: { _ in
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {

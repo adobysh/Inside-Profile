@@ -12,7 +12,9 @@ import MBCircularProgressBar
 
 class MainViewController: UIViewController {
     
+    @IBOutlet var textProgressLabel: UILabel?
     @IBOutlet var avatarImageView: UIImageView?
+    @IBOutlet var avatarBlur: UIVisualEffectView?
     @IBOutlet var followersCountLabel: UILabel?
     @IBOutlet var followingCountLabel: UILabel?
     @IBOutlet var likesCountLabel: UILabel?
@@ -24,7 +26,7 @@ class MainViewController: UIViewController {
     @IBOutlet var gainedFollowersButton: ActivityIndicatorButton?
     @IBOutlet var youDontFollowButton: ActivityIndicatorButton?
     @IBOutlet var unfollowersButton: ActivityIndicatorButton?
-    @IBOutlet var newGuestsButton: ActivityIndicatorButton?
+    @IBOutlet var blockedUsersButton: ActivityIndicatorButton?
     @IBOutlet var recomendationButton: ActivityIndicatorButton?
     @IBOutlet var topLikersButton: ActivityIndicatorButton?
     @IBOutlet var topCommentersButton: ActivityIndicatorButton?
@@ -43,8 +45,11 @@ class MainViewController: UIViewController {
     private var userDirectSearch: [BaseUser]?
     private var topLikersFollowers: [GraphUser]?
     private var monthHistoryUsers: [HistoryUser]?
+    private var blockedByYouUsernames: [String]?
     
-    private var limitedDataDownloadMode: Bool? // "режиме ограниченного показа"
+    private var limitedDataDownloadMode: Bool? { // "режиме ограниченного показа"
+        return mainScreenInfo?.limitedDataDownloadMode
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -146,6 +151,7 @@ class MainViewController: UIViewController {
             self?.userDirectSearch = nil
             self?.topLikersFollowers = nil
             self?.monthHistoryUsers = nil
+            self?.blockedByYouUsernames = nil
             self?.updateUI()
             
             let vc = UIViewController.getStarted
@@ -177,9 +183,12 @@ class MainViewController: UIViewController {
         case .unfollowers:
             eventSource = .unfollowers
             eventButton = .unfollowers
-        case .new_guests:
-            eventSource = .new_guests
-            eventButton = .new_guests
+//        case .new_guests:
+//            eventSource = .new_guests
+//            eventButton = .new_guests
+        case .blocked_by_you:
+            eventSource = .blocked_by_you
+            eventButton = .blocked_by_you
         case .recommendation:
             eventSource = .recommendation
             eventButton = .recommendation
@@ -195,10 +204,8 @@ class MainViewController: UIViewController {
         guard !sender.inProgress else { return }
         
         if !SubscriptionKeychain.isSubscribed()
-            && (contentType == .new_guests
-            || contentType == .recommendation
-            || contentType == .top_commenters
-            || contentType == .top_likers)
+            && (contentType == .blocked_by_you
+            || contentType == .recommendation)
         {
             let vc = UIViewController.vip
             vc.source = eventSource
@@ -231,10 +238,11 @@ class MainViewController: UIViewController {
         vc.userDirectSearch = userDirectSearch
         vc.topLikersFollowers = topLikersFollowers
         vc.monthHistoryUsers = monthHistoryUsers
+        vc.blockedByYouUsernames = blockedByYouUsernames
         vc.onFollow = { [weak self] onUpdate in
             let onError: (Error)->() = { error in onUpdate?(error) }
             
-            GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: self?.mainScreenInfo?.id ?? "", onComplete: { [weak self] following in
+            GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: self?.mainScreenInfo?.id ?? "", onSubpartLoaded: { _ in }, onComplete: { [weak self] following in
                 GraphRoutes.getFollowRequests(onComplete: { [weak self] followRequests in
                     self?.following = following
                     self?.followRequests = followRequests
@@ -256,15 +264,15 @@ class MainViewController: UIViewController {
             switch contentType {
             case .lost_followers, .gained_followers:
                 guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
+                GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, onComplete: { [weak self] followers in
                     self?.followers = followers
                     vc.followers = followers
                     onComplete()
                 }, onError: onError)
             case .you_dont_follow, .unfollowers:
                 guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
-                    GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] following in
+                GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, onComplete: { [weak self] followers in
+                    GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, onComplete: { [weak self] following in
                         self?.followers = followers
                         self?.following = following
                         vc.followers = followers
@@ -272,10 +280,16 @@ class MainViewController: UIViewController {
                         onComplete()
                     }, onError: onError)
                 }, onError: onError)
-            case .new_guests:
-                GraphRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
-                    self?.userDirectSearch = userDirectSearch
-                    vc.userDirectSearch = userDirectSearch
+//            case .new_guests:
+//                GraphRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
+//                    self?.userDirectSearch = userDirectSearch
+//                    vc.userDirectSearch = userDirectSearch
+//                    onComplete()
+//                }, onError: onError)
+            case .blocked_by_you:
+                GraphRoutes.getBlockedUsersUsernames(userName: self?.mainScreenInfo?.username ?? "", onComplete: { [weak self] blockedUsersUsernames in
+                    self?.blockedByYouUsernames = blockedUsersUsernames
+                    vc.blockedByYouUsernames = blockedUsersUsernames
                     onComplete()
                 }, onError: onError)
             case .recommendation:
@@ -285,7 +299,7 @@ class MainViewController: UIViewController {
                     onComplete()
                 }, onError: onError)
             case .top_likers, .top_commenters:
-                GraphRoutes.getPosts(id: self?.mainScreenInfo?.id ?? "", onComplete: { [weak self] posts in
+                GraphRoutes.getPosts(id: self?.mainScreenInfo?.id ?? "", onSubpartLoaded: { _, _ in }, onComplete: { [weak self] posts in
                     self?.posts = posts
                     vc.posts = posts
                     onComplete()
@@ -298,15 +312,20 @@ class MainViewController: UIViewController {
     func setProgress(_ value: CGFloat) {
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.circularProgressView?.value = value
+            self?.textProgressLabel?.text = "\(String(format: "%.1f", value))%\nloading..."
         })
         
         if value == 100 || value == 0 {
             UIView.animate(withDuration: 0.3, delay: 1.0, animations: { [weak self] in
                 self?.circularProgressView?.alpha = 0
+                self?.textProgressLabel?.alpha = 0
+                self?.avatarBlur?.alpha = 0
             })
         } else {
             UIView.animate(withDuration: 0.3, animations: { [weak self] in
                 self?.circularProgressView?.alpha = 1
+                self?.textProgressLabel?.alpha = 1
+                self?.avatarBlur?.alpha = 1
             })
         }
     }
@@ -455,13 +474,19 @@ extension MainViewController {
                     let unfollowers = UserModel.unfollowers(followers: followers, following: following)
                     button.value = unfollowers.count.bigBeauty
                 }
-            case .new_guests:
-                guard let userId = mainScreenInfo?.id else { return }
-                let newGuests = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
-                if let newGuestsCount = newGuests.guests?.count {
-                    button.value = newGuestsCount.bigBeauty
+//            case .new_guests:
+//                guard let userId = mainScreenInfo?.id else { return }
+//                let newGuests = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
+//                if let newGuestsCount = newGuests.guests?.count {
+//                    button.value = newGuestsCount.bigBeauty
+//                } else {
+//                    button.value = (newGuests.guestsIds?.count ?? 0).bigBeauty
+//                }
+            case .blocked_by_you:
+                if let blockedUsersCount = blockedByYouUsernames?.count {
+                    button.value = blockedUsersCount.bigBeauty
                 } else {
-                    button.value = (newGuests.guestsIds?.count ?? 0).bigBeauty
+                    button.value = (blockedByYouUsernames?.count ?? 0).bigBeauty
                 }
             case .recommendation:
                 button.value = (suggestedUsers?.count ?? 0).bigBeauty
@@ -481,77 +506,100 @@ extension MainViewController {
 extension MainViewController {
     
     func fetchInfo() {
-        let onError: (Error)->() = { [weak self] error in
+        superButtons?.forEach { $0.inProgress = true }
+        setProgress(1)
+        
+        ApiHelper.fetchInfo(onProgressUpdate: { [weak self] progress in
+            self?.updateUI(progress: CGFloat(progress * 100))
+        }, onMainScreenInfoLoaded: { [weak self] mainScreenInfo in
+            self?.mainScreenInfo = mainScreenInfo
+        }, onFollowRequestsLoaded: { [weak self] followRequests in
+            self?.followRequests = followRequests
+        }, onPostsLoaded: { [weak self] posts in
+            self?.posts = posts
+            self?.topLikersButton?.inProgress = false
+            self?.topCommentersButton?.inProgress = false
+        }, onFollowersLoaded: { [weak self] followers in
+            self?.followers = followers
+        }, onFollowingLoaded: { [weak self] following in
+            self?.following = following
+            self?.youDontFollowButton?.inProgress = false
+            self?.unfollowersButton?.inProgress = false
+        }, onSuggestedUsersLoaded: { [weak self] suggestedUsers in
+            self?.suggestedUsers = suggestedUsers
+            self?.recomendationButton?.inProgress = false
+        }, onUserDirectSearchLoaded: { [weak self] userDirectSearch in
+            self?.userDirectSearch = userDirectSearch
+        }, onTopLikersFollowersLoaded: { [weak self] topLikersFollowers in
+            self?.topLikersFollowers = topLikersFollowers
+        }, onMonthHistoryUsersLoaded: { [weak self] monthHistoryUsers in
+            self?.monthHistoryUsers = monthHistoryUsers
+            self?.lostFollowersButton?.inProgress = false
+            self?.gainedFollowersButton?.inProgress = false
+        }, onBlockedUsersLoaded: { [weak self] blockedUsers in
+            self?.blockedByYouUsernames = blockedUsers
+            self?.blockedUsersButton?.inProgress = false
+        }, onComplete: { [weak self] timeReport in
+            self?.superButtons?.forEach { $0.inProgress = false }
+            self?.showTimeReport(timeReport: timeReport)
+        }) { [weak self] error in
             self?.showErrorAlert() { [weak self] in
                 self?.fetchDataOrAuthorization()
             }
             self?.superButtons?.forEach { $0.inProgress = false }
             self?.setProgress(0)
         }
-        
-        superButtons?.forEach { $0.inProgress = true }
-        
-        setProgress(10)
-        
-        GraphManager.getProfileInfoAndPosts(onComplete: { [weak self] result in
-            self?.mainScreenInfo = result.profileInfo
-            
-            let followerCount = result.profileInfo.follower_count ?? 0
-            let followingCount = result.profileInfo.following_count ?? 0
-            self?.limitedDataDownloadMode = followerCount + followingCount > LIMITED_ANALYTICS_F_AND_F_SUM
-            
-            self?.posts = result.postDataArray
-            self?.updateUI(progress: 20)
-            
-            guard let userId = result.profileInfo.id else { onError(GraphError.nilValue); return }
-            GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onComplete: { [weak self] followers in
-                self?.followers = followers
-                GraphManager.getMonthHistoryUsers(onComplete: { [weak self] monthHistoryUsers in
-                    self?.monthHistoryUsers = monthHistoryUsers
-                    self?.updateUI(progress: 40)
-                    
-                    self?.lostFollowersButton?.inProgress = false
-                    self?.gainedFollowersButton?.inProgress = false
-                    
-                    GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: self?.mainScreenInfo?.id ?? "", onComplete: { [weak self] following in
-                        self?.following = following
-                        self?.updateUI(progress: 60)
-                        
-                        self?.youDontFollowButton?.inProgress = false
-                        self?.unfollowersButton?.inProgress = false
-                        
-                        GraphManager.getGoodSuggestedUser(onComplete: { [weak self] suggestedUsers in
-                            self?.suggestedUsers = suggestedUsers
-                            self?.updateUI(progress: 80)
-                            
-                            self?.recomendationButton?.inProgress = false
-                            
-                            GraphRoutes.getFollowRequests(onComplete: { [weak self] followRequests in
-                                self?.followRequests = followRequests
-                                GraphRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
-                                    self?.userDirectSearch = userDirectSearch
-                                    self?.updateUI(progress: 90)
-                                    
-                                    guard let userId = self?.mainScreenInfo?.id else { onError(GraphError.nilValue); return }
-                                    if GuestsManager.shared.containIds(userId) {
-                                        self?.updateUI(progress: 100)
-                                        self?.superButtons?.forEach { $0.inProgress = false }
-                                    } else {
-                                        let topLikers = UserModel.topLikers(self?.mainScreenInfo?.username, self?.posts)
-                                        GraphManager.getTopLikersFriends(myId: self?.mainScreenInfo?.id, topLikers: topLikers, onComplete: { [weak self] topLikersFollowers in
-                                            self?.topLikersFollowers = topLikersFollowers
-                                            
-                                            self?.updateUI(progress: 100)
-                                            self?.superButtons?.forEach { $0.inProgress = false }
-                                        }, onError: onError)
-                                    }
-                                }, onError: onError)
-                            }, onError: onError)
-                        }, onError: onError)
-                    }, onError: onError)
-                }, onError: onError)
-            }, onError: onError)
-        }, onError: onError)
+    }
+    
+}
+
+// MARK: - Time Report
+extension MainViewController {
+    
+    func showTimeReport(timeReport: [(DataPart, Date)]) {
+        var reportText = ""
+        if let startTime = timeReport.first(where: { $0.0 == DataPart.start } )?.1 {
+            timeReport.forEach { step in
+                switch step.0 {
+                case .start:
+                    break
+                case .profileInfo:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Профиль\n"
+                case .posts:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Посты с лайками\n"
+                case .followers:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Фолловеры\n"
+                case .monthHistoryUsers:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - История\n"
+                case .following:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Подписки\n"
+                case .suggestedUsers:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Рекомендуемые\n"
+                case .followRequests:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Запросы на подписку\n"
+                case .userDirectSearch:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - User Direct Search\n"
+                case .topLikersFriends:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Друзья топлайкера\n"
+                case .blockedUsers:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Заблокированные\n"
+                case .done:
+                    let seconds = String(format: "%.2f", CGFloat(step.1.timeIntervalSince(startTime)))
+                    reportText = reportText + "\(seconds) - Общее время\n"
+                }
+            }
+        }
+        showAlert(title: "Отчёт загрузки (сек.)", message: reportText)
     }
     
 }
