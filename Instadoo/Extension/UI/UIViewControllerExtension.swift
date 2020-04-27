@@ -11,7 +11,13 @@ import UIKit
 extension UIViewController {
     
     func showErrorAlert(_ error: Error? = nil, _ action: (()->())? = nil) {
-        let message = error != nil ? "\(error)" : "Check your Internet connection and try again"
+        #if DEBUG
+        let message = error?.localizedDescription
+        #else
+        let message = "Check your Internet connection and try again"
+        #endif
+        
+//        let message = error != nil ? "\(error)" : "Check your Internet connection and try again"
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
             action?()

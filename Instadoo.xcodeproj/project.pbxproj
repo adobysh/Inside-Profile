@@ -11,7 +11,6 @@
 		0C080C3F234E401400FCF53D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C080C3E234E401400FCF53D /* DetailViewController.swift */; };
 		0C1298E523D8FB9A001CEFA3 /* GraphRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1298E423D8FB9A001CEFA3 /* GraphRoutes.swift */; };
 		0C1298E823DA4060001CEFA3 /* GraphProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1298E723DA4060001CEFA3 /* GraphProfile.swift */; };
-		0C1298EC23DF89F2001CEFA3 /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1298EB23DF89F2001CEFA3 /* GraphManager.swift */; };
 		0C1298EE23DF9127001CEFA3 /* GraphPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1298ED23DF9127001CEFA3 /* GraphPost.swift */; };
 		0C1D2E9922D3C17F0015135F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9822D3C17F0015135F /* AppDelegate.swift */; };
 		0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D2E9A22D3C17F0015135F /* MainViewController.swift */; };
@@ -34,6 +33,7 @@
 		0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */; };
 		0C5A9CF022E8E93700A6ED2E /* UIViewController+AppViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */; };
 		0C5A9CF222E8E9FD00A6ED2E /* GetStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */; };
+		0C5D84DB2448F82400531302 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D84DA2448F82400531302 /* MainViewModel.swift */; };
 		0C642D1323E0269D00E4833C /* GraphLiker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C642D1223E0269D00E4833C /* GraphLiker.swift */; };
 		0C642D1523E22C1800E4833C /* GraphFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C642D1423E22C1800E4833C /* GraphFollower.swift */; };
 		0C642D1723E2367A00E4833C /* GraphFollowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C642D1623E2367A00E4833C /* GraphFollowing.swift */; };
@@ -66,7 +66,6 @@
 		0C080C3E234E401400FCF53D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0C1298E423D8FB9A001CEFA3 /* GraphRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphRoutes.swift; sourceTree = "<group>"; };
 		0C1298E723DA4060001CEFA3 /* GraphProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphProfile.swift; sourceTree = "<group>"; };
-		0C1298EB23DF89F2001CEFA3 /* GraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		0C1298ED23DF9127001CEFA3 /* GraphPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphPost.swift; sourceTree = "<group>"; };
 		0C1D2E9522D3C17F0015135F /* Instadoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instadoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C1D2E9822D3C17F0015135F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +91,7 @@
 		0C5A9CED22E8E8F100A6ED2E /* UIStorybardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStorybardExtension.swift; sourceTree = "<group>"; };
 		0C5A9CEF22E8E93700A6ED2E /* UIViewController+AppViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AppViewControllers.swift"; sourceTree = "<group>"; };
 		0C5A9CF122E8E9FD00A6ED2E /* GetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedViewController.swift; sourceTree = "<group>"; };
+		0C5D84DA2448F82400531302 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		0C642D1223E0269D00E4833C /* GraphLiker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphLiker.swift; sourceTree = "<group>"; };
 		0C642D1423E22C1800E4833C /* GraphFollower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphFollower.swift; sourceTree = "<group>"; };
 		0C642D1623E2367A00E4833C /* GraphFollowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphFollowing.swift; sourceTree = "<group>"; };
@@ -154,7 +154,6 @@
 				0C963ED822F028D300DC03BD /* EntityPublic */,
 				0C1298E623DA4039001CEFA3 /* EntityGraph */,
 				0C1298E423D8FB9A001CEFA3 /* GraphRoutes.swift */,
-				0C1298EB23DF89F2001CEFA3 /* GraphManager.swift */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -231,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				0C1D2E9A22D3C17F0015135F /* MainViewController.swift */,
+				0C5D84DA2448F82400531302 /* MainViewModel.swift */,
 				0C4219832370B96900A675E9 /* ActivityIndicatorButton.swift */,
 				0C4219852370B97F00A675E9 /* ActivityIndicatorButton.xib */,
 			);
@@ -501,7 +501,6 @@
 				0C3DEEE523643176008D8F36 /* IntExtensions.swift in Sources */,
 				0CCA085A2360D4C0008C3AD2 /* FollowRequests.swift in Sources */,
 				0C1D2EB322D46F1A0015135F /* UILabel+ScalableFont.swift in Sources */,
-				0C1298EC23DF89F2001CEFA3 /* GraphManager.swift in Sources */,
 				0CAEE549234E50F00040284C /* UserCell.swift in Sources */,
 				0C642D1523E22C1800E4833C /* GraphFollower.swift in Sources */,
 				0C1D2EB122D46F1A0015135F /* UIButton+ScalableFont.swift in Sources */,
@@ -536,6 +535,7 @@
 				0C3DEEE723664583008D8F36 /* GuestsManager.swift in Sources */,
 				0C1298E823DA4060001CEFA3 /* GraphProfile.swift in Sources */,
 				0CC0B77B2354ABFA00E1DBA5 /* StringExtension.swift in Sources */,
+				0C5D84DB2448F82400531302 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,7 +684,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 68;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -707,7 +707,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 68;
+				CURRENT_PROJECT_VERSION = 71;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

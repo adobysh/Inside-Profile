@@ -123,10 +123,10 @@ extension AuthorizationViewController: WKNavigationDelegate {
                     let data = try? JSONSerialization.data(withJSONObject: convertedJson)
                     let base64 = data?.base64EncodedString()
                     
-                    AuthorizationManager.shared.isAuthorized(cookieBase64: base64 ?? "") { [weak self] (error, isAuthorized) in
-                        if let _ = error {
+                    AuthorizationManager.shared.isAuthorized(cookieBase64: base64 ?? "") { [weak self] result in
+                        if let _ = result.error {
                             /* ignore error here */
-                        } else if isAuthorized == true {
+                        } else if let isAuthorized = result.value, isAuthorized {
                             guard let cookies = base64 else { return }
                             UserDefaults.standard.set(cookies, forKey: "cookies")
                             self?.dismiss(animated: true, completion: nil)

@@ -8,18 +8,6 @@
 
 import UIKit
 
-enum ContentType: Int {
-    case lost_followers
-    case gained_followers
-    case you_dont_follow
-    case unfollowers
-//    case new_guests
-    case blocked_by_you
-    case recommendation
-    case top_likers
-    case top_commenters
-}
-
 class DetailViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView?
@@ -38,7 +26,7 @@ class DetailViewController: UIViewController {
     private var users: [User] = []
     private var usersCache: [String: User] = [:]
     public var mainScreenInfo: GraphProfile?
-    public var contentType: ContentType?
+    public var contentType: DushboardItemType?
     public var followRequests: FollowRequests?
     public var posts: [GraphPost]?
     public var followers: [GraphUser]?
@@ -172,28 +160,18 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             configureCell(cell, user)
         } else if let userId = usersId[safe: indexPath.row] {
             cell.configure(user: nil, onFollow: { _ in }) // to reset cell
-            GraphRoutes.getUserInfo_graph(id: userId, onComplete: { [weak self] user in
+            GraphRoutes.getUserInfo_graph(id: userId, completion: { [weak self] result in
+                guard let user = result.value else { return }
                 self?.usersCache[userId] = user
                 configureCell(cell, user)
-            }, onError: { _ in
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//                    tableView.beginUpdates()
-//                    tableView.reloadRows(at: [indexPath], with: .none)
-//                    tableView.endUpdates()
-//                }
             })
         } else if let userUsername = usersUsernames[safe: indexPath.row] {
             cell.configure(user: nil, onFollow: { _ in }) // to reset cell
-            GraphRoutes.getProfileInfo(userName: userUsername, onComplete: { [weak self] graphProfile in
+            GraphRoutes.getProfile(userName: userUsername, completion: { [weak self] result in
+                guard let graphProfile = result.value else { return }
                 let user = BaseUser(id: graphProfile.id, full_name: graphProfile.full_name, username: graphProfile.username, profile_pic_url: graphProfile.profile_pic_url, is_verified: nil, followers: nil, descriptionText: nil, followStatus: nil, yourPostsLikes: nil, connectionsCount: nil)
                 self?.usersCache[userUsername] = user
                 configureCell(cell, user)
-            }, onError: { _ in
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//                    tableView.beginUpdates()
-//                    tableView.reloadRows(at: [indexPath], with: .none)
-//                    tableView.endUpdates()
-//                }
             })
         }
         return cell

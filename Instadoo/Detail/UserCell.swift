@@ -69,35 +69,35 @@ class UserCell: UITableViewCell {
         guard let user = user, let followStatus = user.followStatus else { return }
         switch followStatus {
         case .yes:
-            GraphRoutes.unfollow(id: user.id ?? "", onComplete: { [weak self] in
-                self?.onFollow?() { [weak self] followStatus in
-                    self?.user?.followStatus = followStatus
-                    self?.updateFollowButton()
-                    sender.isEnabled = true
-                }
-            }) { (error) in
+            GraphRoutes.unfollow(id: user.id ?? "", completion: { [weak self] result in
                 sender.isEnabled = true
-            }
+                if let _ = result.value {
+                    self?.onFollow?() { [weak self] followStatus in
+                        self?.user?.followStatus = followStatus
+                        self?.updateFollowButton()
+                    }
+                }
+            })
         case .no:
-            GraphRoutes.follow(id: user.id ?? "", username: user.username ?? "", onComplete: { [weak self] in
-                self?.onFollow?() { [weak self] followStatus in
-                    self?.user?.followStatus = followStatus
-                    self?.updateFollowButton()
-                    sender.isEnabled = true
-                }
-            }) { (error) in
+            GraphRoutes.follow(id: user.id ?? "", username: user.username ?? "", completion: { [weak self] result in
                 sender.isEnabled = true
-            }
+                if let _ = result.value {
+                    self?.onFollow?() { [weak self] followStatus in
+                        self?.user?.followStatus = followStatus
+                        self?.updateFollowButton()
+                    }
+                }
+            })
         case .requested:
-            GraphRoutes.unfollow(id: user.id ?? "", onComplete: { [weak self] in
-                self?.onFollow?() { [weak self] followStatus in
-                    self?.user?.followStatus = followStatus
-                    self?.updateFollowButton()
-                    sender.isEnabled = true
-                }
-            }) { (error) in
+            GraphRoutes.unfollow(id: user.id ?? "", completion: { [weak self] result in
                 sender.isEnabled = true
-            }
+                if let _ = result.value {
+                    self?.onFollow?() { [weak self] followStatus in
+                        self?.user?.followStatus = followStatus
+                        self?.updateFollowButton()
+                    }
+                }
+            })
         case .disabled:
             sender.isEnabled = true
         }

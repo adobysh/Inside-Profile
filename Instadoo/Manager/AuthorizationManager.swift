@@ -24,20 +24,24 @@ class AuthorizationManager: NSObject {
         return UserDefaults.standard.string(forKey: "cookies")
     }
     
-    public func isAuthorized(cookieBase64: String? = nil, onResult: @escaping (_ error: Error?, _ isAuthorized: Bool?) -> ()) {
+    public func isAuthorized(cookieBase64: String? = nil, completion: @escaping (Completion<Bool>) -> Void) {
         guard let cookies = cookieBase64 ?? self.cookies else {
-            onResult(nil, false) // there is no any cookies
+            completion(.success(false)) /* there is no any cookies */
             return
         }
-        GraphRoutes.getUserInfo_graph(cookieBase64: cookies, id: "", onComplete: { (baseUser) in
-            if let baseUserId = baseUser.id, !baseUserId.isEmpty {
-                onResult(nil, true)
-            } else {
-                onResult(nil, false)
+        GraphRoutes.getUserInfo_graph(cookieBase64: cookies, completion: { baseUser in
+            switch baseUser {
+            case .success(let baseUser):
+                if let baseUserId = baseUser.id, !baseUserId.isEmpty {
+                    completion(.success(true))
+                } else {
+                    completion(.success(false))
+                }
+                break
+            case .error(let errorModel):
+                completion(.error(errorModel))
             }
-        }) { (error) in
-            onResult(error, nil)
-        }
+        })
     }
     
     public func logOut() {

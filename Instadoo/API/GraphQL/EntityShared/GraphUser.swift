@@ -7,6 +7,19 @@
 //
 
 struct GraphUser: User, Codable, Comparable {
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case username
+        case full_name
+        case profile_pic_url
+        case is_private
+        case is_verified
+        case followed_by_viewer
+        case requested_by_viewer
+        case edge_followed_by
+        case is_viewer
+    }
+    
     let edge_followed_by: EdgeFollowedBy?
     let followed_by_viewer: Bool?
     let full_name: String?
@@ -29,17 +42,15 @@ struct GraphUser: User, Codable, Comparable {
     var yourPostsLikes: Int?
     var connectionsCount: Int?
     
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case username
-        case full_name
-        case profile_pic_url
-        case is_private
-        case is_verified
-        case followed_by_viewer
-        case requested_by_viewer
-        case edge_followed_by
-        case is_viewer
+    var isGoodSuggested: Bool {
+        guard let description = descriptionText else { return true }
+        if description.lowercased() == "suggested for you" {
+            return true
+        } else if description.lowercased().contains("followed by") && description.lowercased().contains("more") {
+            return true
+        } else {
+            return false
+        }
     }
     
     static func ==(lhs: GraphUser, rhs: GraphUser) -> Bool {
