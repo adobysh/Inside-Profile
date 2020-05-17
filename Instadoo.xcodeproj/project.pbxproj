@@ -42,6 +42,7 @@
 		0C766139235DD3A800DDE439 /* VipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C766138235DD3A800DDE439 /* VipViewController.swift */; };
 		0C7E87B623E5D0F500DFBAB9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E87B523E5D0F500DFBAB9 /* User.swift */; };
 		0C7E87B823E5D10000DFBAB9 /* BaseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E87B723E5D10000DFBAB9 /* BaseUser.swift */; };
+		0C905F6E2458AC7B0030BD3A /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C905F6D2458AC7B0030BD3A /* DetailViewModel.swift */; };
 		0CAEE549234E50F00040284C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEE548234E50F00040284C /* UserCell.swift */; };
 		0CC0B77B2354ABFA00E1DBA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */; };
 		0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */; };
@@ -100,6 +101,7 @@
 		0C766138235DD3A800DDE439 /* VipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VipViewController.swift; sourceTree = "<group>"; };
 		0C7E87B523E5D0F500DFBAB9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0C7E87B723E5D10000DFBAB9 /* BaseUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUser.swift; sourceTree = "<group>"; };
+		0C905F6D2458AC7B0030BD3A /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		0CAEE548234E50F00040284C /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				0C080C3E234E401400FCF53D /* DetailViewController.swift */,
+				0C905F6D2458AC7B0030BD3A /* DetailViewModel.swift */,
 				0CAEE548234E50F00040284C /* UserCell.swift */,
 			);
 			path = Detail;
@@ -520,6 +523,7 @@
 				0C1D2E9B22D3C17F0015135F /* MainViewController.swift in Sources */,
 				0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */,
 				0C1298EE23DF9127001CEFA3 /* GraphPost.swift in Sources */,
+				0C905F6E2458AC7B0030BD3A /* DetailViewModel.swift in Sources */,
 				0CF10A12235F255600746334 /* UIImageExtension.swift in Sources */,
 				0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */,
 				0CCA085823609439008C3AD2 /* SubscriptionManager.swift in Sources */,
