@@ -36,22 +36,9 @@ class MainViewController: UIViewController {
     private var blurEffectView: UIVisualEffectView?
     private var spinner: UIActivityIndicatorView?
     
-    private var mainScreenInfo: GraphProfile?
-    private var followRequests: FollowRequests?
-    private var posts: [GraphPost]?
-    private var followers: [GraphUser]?
-    private var following: [GraphUser]?
-    private var suggestedUsers: [GraphUser]?
-//    private var userDirectSearch: [BaseUser]?
-//    private var topLikersFollowers: [GraphUser]?
-    private var monthHistoryUsers: [HistoryUser]?
-    private var blockedByYouUsernames: [String]?
-    
-    private var limitedDataDownloadMode: Bool? { // "режиме ограниченного показа"
-        return mainScreenInfo?.limitedDataDownloadMode
-    }
-    
-    private let viewModel = MainViewModel()
+    private lazy var viewModel: MainViewModel = {
+        return MainViewModel(delegate: self)
+    }()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -66,7 +53,7 @@ class MainViewController: UIViewController {
             self?.dismissLoadingBlur()
         }
         
-        updateUI(progress: 0)
+        setProgress(0)
         superButtons?.forEach { button in
             button.addTapGestureRecognizer { [weak self] in
                 self?.detailButtonAction(button)
@@ -144,15 +131,7 @@ class MainViewController: UIViewController {
     @IBAction func settingsButtonAction(_ sender: Any) {
         let vc = UIViewController.settings
         vc.onLogOut = { [weak self] in
-            self?.mainScreenInfo = nil
-            self?.followRequests = nil
-            self?.posts = nil
-            self?.followers = nil
-            self?.following = nil
-            self?.suggestedUsers = nil
-            self?.monthHistoryUsers = nil
-            self?.blockedByYouUsernames = nil
-            self?.updateUI()
+            self?.viewModel.logOut()
             
             let vc = UIViewController.getStarted
             vc.onAuthorizationSuccess = { [weak self] in
@@ -244,20 +223,20 @@ class MainViewController: UIViewController {
     
     private func openDetailScreen(_ contentType: DushboardItemType) {
         let vc = UIViewController.detail
-        vc.limitedDataDownloadMode = limitedDataDownloadMode
+        vc.limitedDataDownloadMode = viewModel.state.limitedDataDownloadMode
         vc.contentType = contentType
-        vc.mainScreenInfo = mainScreenInfo
-        vc.followRequests = followRequests
-        vc.posts = posts
-        vc.following = following
-        vc.followers = followers
-        vc.suggestedUsers = suggestedUsers
-        vc.monthHistoryUsers = monthHistoryUsers
-        vc.blockedByYouUsernames = blockedByYouUsernames
+        vc.mainScreenInfo = viewModel.state.mainScreenInfo
+        vc.followRequests = viewModel.state.followRequests
+        vc.posts = viewModel.state.posts
+        vc.following = viewModel.state.following
+        vc.followers = viewModel.state.followers
+        vc.suggestedUsers = viewModel.state.suggestedUsers
+        vc.monthHistoryUsers = viewModel.state.monthHistoryUsers
+        vc.blockedByYouUsernames = viewModel.state.blockedByYouUsernames
         vc.onFollow = { [weak self] onUpdate in
             let onError: (Error)->() = { error in onUpdate?(error) }
             
-            GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: self?.mainScreenInfo?.id ?? "", onSubpartLoaded: { _ in }, completion: { [weak self] result in
+            GraphRoutes.getUserFollowings(limited: self?.viewModel.state.limitedDataDownloadMode == true, id: self?.viewModel.state.mainScreenInfo?.id ?? "", onSubpartLoaded: { _ in }, completion: { [weak self] result in
                 guard let following = result.value else {
                     onError(result.error ?? ErrorModel(file: #file, function: #function, line: #line))
                     return
@@ -270,11 +249,10 @@ class MainViewController: UIViewController {
                     }
                     
                     guard let followRequests = result.value else { return }
-                    self?.following = following
-                    self?.followRequests = followRequests
+                    self?.viewModel.state.following = following
+                    self?.viewModel.state.followRequests = followRequests
                     vc.following = following
                     vc.followRequests = followRequests
-                    self?.updateUI()
                     onUpdate?(nil)
                 })
             })
@@ -282,63 +260,56 @@ class MainViewController: UIViewController {
         vc.onUpdate = { [weak self] onUpdate in
             let onError: (Error)->() = { _ in onUpdate?() }
             
-            let onComplete: ()->() = { [weak self] in
-                self?.updateUI()
+            let onComplete: ()->() = {
                 onUpdate?()
             }
             
             switch contentType {
             case .lost_followers, .gained_followers:
-                guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
+                guard let userId = self?.viewModel.state.mainScreenInfo?.id else { onComplete(); return }
+                GraphRoutes.getAllFollowers(limited: self?.viewModel.state.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
                     if let error = result.error {
                         onError(error)
                         return
                     }
                     
                     let followers = result.value
-                    self?.followers = followers
+                    self?.viewModel.state.followers = followers
                     vc.followers = followers
                     onComplete()
                 })
             case .you_dont_follow, .unfollowers:
-                guard let userId = self?.mainScreenInfo?.id else { onComplete(); return }
-                GraphRoutes.getAllFollowers(limited: self?.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
+                guard let userId = self?.viewModel.state.mainScreenInfo?.id else { onComplete(); return }
+                GraphRoutes.getAllFollowers(limited: self?.viewModel.state.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
                     if let error = result.error {
                         onError(error)
                         return
                     }
                     
                     let followers = result.value
-                    GraphRoutes.getUserFollowings(limited: self?.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
+                    GraphRoutes.getUserFollowings(limited: self?.viewModel.state.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
                         if let error = result.error {
                             onError(error)
                             return
                         }
                         
                         let following = result.value
-                        self?.followers = followers
-                        self?.following = following
+                        self?.viewModel.state.followers = followers
+                        self?.viewModel.state.following = following
                         vc.followers = followers
                         vc.following = following
                         onComplete()
                     })
                 })
-//            case .new_guests:
-//                GraphRoutes.getUserDirectSearch(onComplete: { [weak self] userDirectSearch in
-//                    self?.userDirectSearch = userDirectSearch
-//                    vc.userDirectSearch = userDirectSearch
-//                    onComplete()
-//                }, onError: onError)
             case .blocked_by_you:
-                GraphRoutes.getBlockedUsersUsernames(userName: self?.mainScreenInfo?.username ?? "", completion: { [weak self] result in
+                GraphRoutes.getBlockedUsersUsernames(userName: self?.viewModel.state.mainScreenInfo?.username ?? "", completion: { [weak self] result in
                     if let error = result.error {
                         onError(error)
                         return
                     }
                     
                     let blockedUsersUsernames = result.value
-                    self?.blockedByYouUsernames = blockedUsersUsernames
+                    self?.viewModel.state.blockedByYouUsernames = blockedUsersUsernames
                     vc.blockedByYouUsernames = blockedUsersUsernames
                     onComplete()
                 })
@@ -350,19 +321,19 @@ class MainViewController: UIViewController {
                     }
                     
                     let goodSuggestedUser = result.value
-                    self?.suggestedUsers = goodSuggestedUser
+                    self?.viewModel.state.suggestedUsers = goodSuggestedUser
                     vc.suggestedUsers = goodSuggestedUser
                     onComplete()
                 })
             case .top_likers, .top_commenters:
-                GraphRoutes.getPosts(id: self?.mainScreenInfo?.id ?? "", onSubpartLoaded: { _, _ in }, completion: { [weak self] result in
+                GraphRoutes.getPosts(id: self?.viewModel.state.mainScreenInfo?.id ?? "", onSubpartLoaded: { _, _ in }, completion: { [weak self] result in
                     if let error = result.error {
                         onError(error)
                         return
                     }
                     
                     let posts = result.value
-                    self?.posts = posts
+                    self?.viewModel.state.posts = posts
                     vc.posts = posts
                     onComplete()
                 })
@@ -409,230 +380,12 @@ extension MainViewController {
 // MARK: - Update UI
 extension MainViewController {
     
-    func updateUI(progress: CGFloat? = nil) {
-        if let progress = progress {
-            setProgress(progress)
-        }
-        
-        let follower_count: Int? = mainScreenInfo?.follower_count
-        let following_count: Int? = mainScreenInfo?.following_count
-        let likes: Int? = UserModel.likeCount(posts: posts)
-        let comments: Int? = UserModel.commentCount(posts: posts)
-        var lostFollowers: Int?
-        var gainedFollowers_count: Int?
-//        var newGuests_count: Int?
-        if let userId = mainScreenInfo?.id {
-            if limitedDataDownloadMode == true {
-                lostFollowers = LimitedUserModel.lostFollowersApproxCount(follower_count)
-                gainedFollowers_count = LimitedUserModel.gainedFollowersApproxCount(follower_count)
-            } else {
-                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
-                lostFollowers = lostFollowersIds.count
-            
-                let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
-                gainedFollowers_count = gainedFollowers.count
-            }
-            
-//            let newGuests = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
-//            newGuests_count = newGuests.guests?.count ?? newGuests.guestsIds?.count
-        }
-        let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
-        let youDontFollow_count: Int? = youDontFollow.count
-        let unfollowers = UserModel.unfollowers(followers: followers, following: following)
-        let unfollowers_count: Int? = unfollowers.count
-        let recomendation: Int? = suggestedUsers?.count
-        let topLikers = UserModel.topLikers(mainScreenInfo?.username, posts)
-        let topLikers_count: Int? = topLikers.count
-        let topСommenters = UserModel.topCommenters(mainScreenInfo?.username, posts)
-        let topCommenters_count: Int? = topСommenters.count
-        
-        updateMainInfo(follower_count: follower_count, following_count: following_count)
-        updateLikeCount(likesCount: likes)
-        updateCommentCount(commentsCount: comments)
-        updateButtons()
-        
-        if let follower_count = follower_count,
-                let following_count = following_count,
-                let likes = likes,
-                let comments = comments,
-                let lostFollowers = lostFollowers,
-                let gainedFollowers_count = gainedFollowers_count,
-                let youDontFollow_count = youDontFollow_count,
-                let unfollowers_count = unfollowers_count,
-//                let newGuests_count = newGuests_count,
-                let recomendation = recomendation,
-                let topLikers_count = topLikers_count,
-                let topCommenters_count = topCommenters_count {
-            AppAnalytics.setValues(followers: follower_count, following: following_count, likes: likes, comments: comments, lostFollowers: lostFollowers, gainedFollowers: gainedFollowers_count, youDontFollow: youDontFollow_count, unfollowers: unfollowers_count, profileViewers: 0 /* newGuests_count */, recomendation: recomendation, topLikers: topLikers_count, topCommenters: topCommenters_count)
-        }
-    }
-    
-    func updateMainInfo(follower_count: Int?, following_count: Int?) {
-        followersCountLabel?.text = "\(follower_count?.bigBeauty ?? "0")"
-        followingCountLabel?.text = "\(following_count?.bigBeauty ?? "0")"
-        navigationItem.title = mainScreenInfo?.full_name
-        if let username = mainScreenInfo?.username {
-            loginLabel?.text = "@" + username
-        } else {
-            loginLabel?.text = nil
-        }
-        
-        let bestQualityAvatarUrl = mainScreenInfo?.profile_pic_url_hd ?? mainScreenInfo?.profile_pic_url
-        UIImage.load(bestQualityAvatarUrl) { [weak self] image, url in
-            self?.avatarImageView?.imageWithFade = image
-        }
-    }
-    
-    func updateLikeCount(likesCount: Int?) {
-        let postsCount = (posts?.count ?? 0)
-        let likesCountBigBeauty = likesCount?.bigBeauty ?? "0"
-        likesCountLabel?.text = postsCount >= LIMITED_ANALYTICS_TOTAL_POSTS_COUNT ? "> \(likesCountBigBeauty)" : likesCountBigBeauty
-    }
-    
-    func updateCommentCount(commentsCount: Int?) {
-        let postsCount = (posts?.count ?? 0)
-        let commentsCountBigBeauty = commentsCount?.bigBeauty ?? "0"
-        commentsCountLabel?.text = postsCount >= LIMITED_ANALYTICS_TOTAL_POSTS_COUNT ? "> \(commentsCountBigBeauty)" : commentsCountBigBeauty
-    }
-    
-    func updateButtons() {
-        superButtons?.forEach { button in
-            let contentType: DushboardItemType
-            switch button.descriptionLabel?.text {
-            case "top likers":
-                contentType = .top_likers
-            case "top commenters":
-                contentType = .top_commenters
-            case "lost followers":
-                contentType = .lost_followers
-            case "gained followers":
-                contentType = .gained_followers
-            case "you don't follow":
-                contentType = .you_dont_follow
-            case "unfollowers":
-                contentType = .unfollowers
-            case "blocked accounts":
-                contentType = .blocked_by_you
-            case "recommendation":
-                contentType = .recommendation
-            default:
-                contentType = .recommendation
-            }
-            
-            switch contentType {
-            case .lost_followers:
-                guard let userId = mainScreenInfo?.id else { return }
-                if limitedDataDownloadMode == true {
-                    let lostFollowersCount = LimitedUserModel.lostFollowersApproxCount(mainScreenInfo?.follower_count) ?? 0
-                    button.value = "≈ \(lostFollowersCount)"    
-                } else {
-                    let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                    let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
-                    button.value = lostFollowersIds.count.bigBeauty
-                }
-            case .gained_followers:
-                guard let userId = mainScreenInfo?.id else { return }
-                if limitedDataDownloadMode == true {
-                    let gainedFollowersCount = LimitedUserModel.gainedFollowersApproxCount(mainScreenInfo?.follower_count) ?? 0
-                    button.value = "≈ \(gainedFollowersCount)"
-                } else {
-                    let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                    let gainedFollowers = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
-                    button.value = gainedFollowers.count.bigBeauty
-                }
-            case .you_dont_follow:
-                if limitedDataDownloadMode == true {
-                    let youDontFollow = LimitedUserModel.youDontFollowApproxCount(followerCount: mainScreenInfo?.follower_count, followingCount: mainScreenInfo?.following_count) ?? 0
-                    button.value = "≈ \(youDontFollow)"
-                } else {
-                    let youDontFollow = UserModel.youDontFollow(followers: followers, following: following)
-                    button.value = youDontFollow.count.bigBeauty
-                }
-            case .unfollowers:
-                if limitedDataDownloadMode == true {
-                    let unfollowers = LimitedUserModel.unfollowersApproxCount(followingCount: mainScreenInfo?.following_count) ?? 0
-                    button.value = "≈ \(unfollowers)"
-                } else {
-                    let unfollowers = UserModel.unfollowers(followers: followers, following: following)
-                    button.value = unfollowers.count.bigBeauty
-                }
-            case .blocked_by_you:
-                if let blockedUsersCount = blockedByYouUsernames?.count {
-                    button.value = blockedUsersCount.bigBeauty
-                } else {
-                    button.value = (blockedByYouUsernames?.count ?? 0).bigBeauty
-                }
-            case .recommendation:
-                button.value = (suggestedUsers?.count ?? 0).bigBeauty
-            case .top_likers:
-                let topLikers = UserModel.topLikers(mainScreenInfo?.username, posts)
-                button.value = topLikers.count.bigBeauty
-            case .top_commenters:
-                let topСommenters = UserModel.topCommenters(mainScreenInfo?.username, posts)
-                button.value = topСommenters.count.bigBeauty
-            }
-        }
-    }
-    
-}
-
-// MARK: - Info Fetching
-extension MainViewController {
-    
     func fetchInfo() {
         superButtons?.forEach { $0.inProgress = true }
         setProgress(1)
         
-        ApiHelper.fetchInfoAsync(onProgressUpdate: { [weak self] progress in
-            self?.updateUI(progress: CGFloat(progress * 100))
-        }, onMainScreenInfoLoaded: { [weak self] mainScreenInfo in
-            self?.mainScreenInfo = mainScreenInfo
-        }, onFollowRequestsLoaded: { [weak self] followRequests in
-            self?.followRequests = followRequests
-        }, onPostsLoaded: { [weak self] posts in
-            self?.posts = posts
-            self?.topLikersButton?.inProgress = false
-            self?.topCommentersButton?.inProgress = false
-        }, onFollowersLoaded: { [weak self] followers in
-            self?.followers = followers
-        }, onFollowingLoaded: { [weak self] following in
-            self?.following = following
-            self?.youDontFollowButton?.inProgress = false
-            self?.unfollowersButton?.inProgress = false
-        }, onSuggestedUsersLoaded: { [weak self] suggestedUsers in
-            self?.suggestedUsers = suggestedUsers
-            self?.recomendationButton?.inProgress = false
-        }, onUserDirectSearchLoaded: { [weak self] userDirectSearch in
-//            self?.userDirectSearch = userDirectSearch
-        }, onTopLikersFollowersLoaded: { [weak self] topLikersFollowers in
-//            self?.topLikersFollowers = topLikersFollowers
-        }, onMonthHistoryUsersLoaded: { [weak self] monthHistoryUsers in
-            self?.monthHistoryUsers = monthHistoryUsers
-            self?.lostFollowersButton?.inProgress = false
-            self?.gainedFollowersButton?.inProgress = false
-        }, onBlockedUsersLoaded: { [weak self] blockedUsers in
-            self?.blockedByYouUsernames = blockedUsers
-            self?.blockedUsersButton?.inProgress = false
-        }, onComplete: { [weak self] timeReport in
-            self?.superButtons?.forEach { $0.inProgress = false }
-            self?.setProgress(100)
-            #if DEBUG
-                self?.showTimeReport(timeReport: timeReport)
-            #endif
-        }) { [weak self] error in
-            self?.showErrorAlert(error) { [weak self] in
-                self?.fetchDataOrAuthorization()
-            }
-            self?.superButtons?.forEach { $0.inProgress = false }
-            self?.setProgress(0)
-        }
+        viewModel.fetchInfo()
     }
-    
-}
-
-// MARK: - Time Report
-extension MainViewController {
     
     func showTimeReport(timeReport: [(DataPart, Date)]) {
         var reportText = ""
@@ -669,6 +422,76 @@ extension MainViewController {
             }
         }
         showAlert(title: "Отчёт загрузки (сек.)", message: reportText)
+    }
+    
+}
+
+extension MainViewController: MainViewModelDelegate {
+    
+    func viewModelDidUpdateLikesCount(_ likesCount: Int) {
+        let postsCount = (viewModel.state.posts?.count ?? 0)
+        let likesCountBigBeauty = likesCount.bigBeauty
+        likesCountLabel?.text = postsCount >= LIMITED_ANALYTICS_TOTAL_POSTS_COUNT ? "> \(likesCountBigBeauty)" : likesCountBigBeauty
+    }
+    
+    func viewModelDidUpdateCommentsCount(_ commentsCount: Int) {
+        let postsCount = (viewModel.state.posts?.count ?? 0)
+        let commentsCountBigBeauty = commentsCount.bigBeauty
+        commentsCountLabel?.text = postsCount >= LIMITED_ANALYTICS_TOTAL_POSTS_COUNT ? "> \(commentsCountBigBeauty)" : commentsCountBigBeauty
+    }
+    
+    func viewModelDidUpdateMainInfo(_ mainInfo: GraphProfile) {
+        followersCountLabel?.text = "\(mainInfo.follower_count?.bigBeauty ?? "0")"
+        followingCountLabel?.text = "\(mainInfo.following_count?.bigBeauty ?? "0")"
+        navigationItem.title = viewModel.state.mainScreenInfo?.full_name
+        if let username = viewModel.state.mainScreenInfo?.username {
+            loginLabel?.text = "@" + username
+        } else {
+            loginLabel?.text = nil
+        }
+        
+        let bestQualityAvatarUrl = viewModel.state.mainScreenInfo?.profile_pic_url_hd ?? viewModel.state.mainScreenInfo?.profile_pic_url
+        UIImage.load(bestQualityAvatarUrl) { [weak self] image, url in
+            self?.avatarImageView?.imageWithFade = image
+        }
+    }
+    
+    func viewModelDidEndFetching(timeReport: [(DataPart, Date)]) {
+        superButtons?.forEach { $0.inProgress = false }
+        setProgress(100)
+        #if DEBUG
+            showTimeReport(timeReport: timeReport)
+        #endif
+    }
+    
+    func viewModelDidError(_ error: Error) {
+        showErrorAlert(error) { [weak self] in
+            self?.fetchDataOrAuthorization()
+        }
+        superButtons?.forEach { $0.inProgress = false }
+        setProgress(0)
+    }
+    
+    func viewModelDidUpdateDushboardItem(_ dushboardItem: DushboardItemType, value: String) {
+        let targetButton: ActivityIndicatorButton?
+        
+        switch dushboardItem {
+        case .blocked_by_you:   targetButton = blockedUsersButton
+        case .gained_followers: targetButton = gainedFollowersButton
+        case .lost_followers:   targetButton = lostFollowersButton
+        case .recommendation:   targetButton = recomendationButton
+        case .top_commenters:   targetButton = topCommentersButton
+        case .top_likers:       targetButton = topLikersButton
+        case .unfollowers:      targetButton = unfollowersButton
+        case .you_dont_follow:  targetButton = youDontFollowButton
+        }
+        
+        targetButton?.inProgress = false
+        targetButton?.value = value
+    }
+    
+    func viewModelDidUpdateProgress(_ progress: CGFloat) {
+        setProgress(progress)
     }
     
 }

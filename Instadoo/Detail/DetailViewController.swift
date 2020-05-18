@@ -56,54 +56,69 @@ class DetailViewController: UIViewController {
     }
     
     func updateUsers(showProgress: Bool = false, onComplete: (()->())? = nil) {
+        func dataCalculated() {
+            tableView?.reloadData()
+            onComplete?()
+        }
+        
         guard let contentType = contentType else { return }
         switch contentType {
-//        case .new_guests:
-//            navigationItem.title = "New Guests"
-//            guard let userId = mainScreenInfo?.id else { return }
-//            let guestsResult = UserModel.newGuests(userId, mainScreenInfo?.username, userDirectSearch, topLikersFollowers, suggestedUsers, following, followers)
-//            users = guestsResult.guests ?? []
-//            usersId = guestsResult.guestsIds ?? []
         case .blocked_by_you:
             navigationItem.title = "Accounts You Blocked"
             usersUsernames = blockedByYouUsernames ?? []
+            dataCalculated()
         case .recommendation:
             navigationItem.title = "Recommendation"
             users = suggestedUsers ?? []
+            dataCalculated()
         case .top_likers:
             navigationItem.title = "Top Likers"
-            users = UserModel.topLikers(mainScreenInfo?.username, posts)
+            UserModel.topLikers(mainScreenInfo?.username, posts) { [weak self] users in
+                self?.users = users
+                dataCalculated()
+            }
         case .top_commenters:
             navigationItem.title = "Top Commenters"
-            users = UserModel.topCommenters(mainScreenInfo?.username, posts)
+            UserModel.topCommenters(mainScreenInfo?.username, posts) { [weak self] users in
+                self?.users = users
+                dataCalculated()
+            }
         case .you_dont_follow: // followers
             navigationItem.title = "You Dont Follow"
             if limitedDataDownloadMode == false {
-                users = UserModel.youDontFollow(followers: followers, following: following)
+                UserModel.youDontFollow(followers: followers, following: following) { [weak self] users in
+                    self?.users = users
+                    dataCalculated()
+                }
             }
         case .unfollowers: // following
             navigationItem.title = "Unfollowers"
             if limitedDataDownloadMode == false {
-                users = UserModel.unfollowers(followers: followers, following: following)
+                UserModel.unfollowers(followers: followers, following: following) { [weak self] users in
+                    self?.users = users
+                    dataCalculated()
+                }
             }
         case .gained_followers:
             navigationItem.title = "Gained Followers"
             guard let userId = mainScreenInfo?.id else { return }
             if limitedDataDownloadMode == false {
                 let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                users = UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers)
+                UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers) { [weak self] users in
+                    self?.users = users
+                    dataCalculated()
+                }
             }
         case .lost_followers:
             navigationItem.title = "Lost Followers"
             guard let userId = mainScreenInfo?.id else { return }
             if limitedDataDownloadMode == false {
                 let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                let lostFollowersIds = UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers)
-                usersId = lostFollowersIds
+                UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers) { [weak self] lostFollowersIds in
+                    self?.usersId = lostFollowersIds
+                }
             }
         }
-        tableView?.reloadData()
-        onComplete?()
     }
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
