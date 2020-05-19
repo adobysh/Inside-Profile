@@ -180,7 +180,7 @@ class DetailViewController: UIViewController {
                     case .unfollowers:
                         emptyTableLabel?.text = "You don't have unfollowers"
                     default:
-                        emptyTableLabel?.text = "You don't users in this category"
+                        emptyTableLabel?.text = "You don't have users in this category"
                     }
                 } else {
                     emptyTableLabel?.text = ""

@@ -63,6 +63,15 @@ class MainViewModel {
     
     public var state: ProfileStateBundle = .empty // todo: make private after refactor
     
+    private var likes: Int = 0
+    private var comments: Int = 0
+    private var lostFollowers_count: Int = 0
+    private var gainedFollowers_count: Int = 0
+    private var youDontFollow_count: Int = 0
+    private var unfollowers_count: Int = 0
+    private var topLikers_count: Int = 0
+    private var topCommenters_count: Int = 0
+    
     init(delegate: MainViewModelDelegate) {
         self.delegate = delegate
     }
@@ -79,18 +88,22 @@ class MainViewModel {
             
             if state.limitedDataDownloadMode == true {
                 let youDontFollow = LimitedUserModel.youDontFollowApproxCount(followerCount: state.mainScreenInfo?.follower_count, followingCount: state.mainScreenInfo?.following_count) ?? 0
+                self.youDontFollow_count = youDontFollow
                 delegate?.viewModelDidUpdateDushboardItem(.you_dont_follow, value: "≈ \(youDontFollow)")
             } else {
                 UserModel.youDontFollow(followers: state.followers, following: state.following) { [weak self] youDontFollow in
+                    self?.youDontFollow_count = youDontFollow.count
                     self?.delegate?.viewModelDidUpdateDushboardItem(.you_dont_follow, value: youDontFollow.count.bigBeauty)
                 }
             }
             
             if state.limitedDataDownloadMode == true {
                 let unfollowers = LimitedUserModel.unfollowersApproxCount(followingCount: state.mainScreenInfo?.following_count) ?? 0
+                self.unfollowers_count = unfollowers
                 delegate?.viewModelDidUpdateDushboardItem(.unfollowers, value: "≈ \(unfollowers)")
             } else {
                 UserModel.unfollowers(followers: state.followers, following: state.following) { [weak self] unfollowers in
+                    self?.unfollowers_count = unfollowers.count
                     self?.delegate?.viewModelDidUpdateDushboardItem(.unfollowers, value: unfollowers.count.bigBeauty)
                 }
             }
@@ -105,21 +118,25 @@ class MainViewModel {
             
             if self.state.limitedDataDownloadMode == true {
                 let lostFollowersCount = LimitedUserModel.lostFollowersApproxCount(self.state.mainScreenInfo?.follower_count) ?? 0
+                self.lostFollowers_count = lostFollowersCount
                 self.delegate?.viewModelDidUpdateDushboardItem(.lost_followers, value: "≈ \(lostFollowersCount.bigBeauty)")
             } else {
                 let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                UserModel.lostFollowersIds(previousFollowersIds, self.state.followers, self.state.monthHistoryUsers) { lostFollowersIds in
-                    self.delegate?.viewModelDidUpdateDushboardItem(.lost_followers, value: lostFollowersIds.count.bigBeauty)
+                UserModel.lostFollowersIds(previousFollowersIds, self.state.followers, self.state.monthHistoryUsers) { [weak self] lostFollowersIds in
+                    self?.lostFollowers_count = lostFollowersIds.count
+                    self?.delegate?.viewModelDidUpdateDushboardItem(.lost_followers, value: lostFollowersIds.count.bigBeauty)
                 }
             }
     
             if self.state.limitedDataDownloadMode == true {
                 let gainedFollowersCount = LimitedUserModel.gainedFollowersApproxCount(self.state.mainScreenInfo?.follower_count) ?? 0
+                self.gainedFollowers_count = gainedFollowersCount
                 self.delegate?.viewModelDidUpdateDushboardItem(.gained_followers, value: "≈ \(gainedFollowersCount.bigBeauty)")
             } else {
                 let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                UserModel.gainedFollowers(previousFollowersIds, self.state.followers, self.state.monthHistoryUsers) { gainedFollowers in
-                    self.delegate?.viewModelDidUpdateDushboardItem(.gained_followers, value: gainedFollowers.count.bigBeauty)
+                UserModel.gainedFollowers(previousFollowersIds, self.state.followers, self.state.monthHistoryUsers) { [weak self] gainedFollowers in
+                    self?.gainedFollowers_count = gainedFollowers.count
+                    self?.delegate?.viewModelDidUpdateDushboardItem(.gained_followers, value: gainedFollowers.count.bigBeauty)
                 }
             }
         }
@@ -140,16 +157,20 @@ class MainViewModel {
         }, onPostsLoaded: { [weak self] posts in
             self?.state.posts = posts
             UserModel.topLikers(self?.state.mainScreenInfo?.username, self?.state.posts) { topLikers in
+                self?.topLikers_count = topLikers.count
                 self?.delegate?.viewModelDidUpdateDushboardItem(.top_likers, value: topLikers.count.bigBeauty)
             }
             UserModel.topCommenters(self?.state.mainScreenInfo?.username, self?.state.posts) { topСommenters in
+                self?.topCommenters_count = topСommenters.count
                 self?.delegate?.viewModelDidUpdateDushboardItem(.top_commenters, value: topСommenters.count.bigBeauty)
             }
             
             UserModel.likeCount(posts: self?.state.posts) { likes in
+                self?.likes = likes ?? 0
                 self?.delegate?.viewModelDidUpdateLikesCount(likes ?? 0)
             }
             UserModel.commentCount(posts: self?.state.posts) { comments in
+                self?.comments = comments ?? 0
                 self?.delegate?.viewModelDidUpdateCommentsCount(comments ?? 0)
             }
             
@@ -189,20 +210,22 @@ class MainViewModel {
     }
     
     private func logAnalytics() {
-        //        if let follower_count = follower_count,
-        //                        let following_count = following_count,
-        //                        let likes = likes,
-        //                        let comments = comments,
-        //                        let lostFollowers = lostFollowers,
-        //                        let gainedFollowers_count = gainedFollowers_count,
-        //                        let youDontFollow_count = youDontFollow_count,
-        //                        let unfollowers_count = unfollowers_count,
-        //        //                let newGuests_count = newGuests_count,
-        //                        let recomendation = recomendation,
-        //                        let topLikers_count = topLikers_count,
-        //                        let topCommenters_count = topCommenters_count {
-        //                    AppAnalytics.setValues(followers: follower_count, following: following_count, likes: likes, comments: comments, lostFollowers: lostFollowers, gainedFollowers: gainedFollowers_count, youDontFollow: youDontFollow_count, unfollowers: unfollowers_count, profileViewers: 0 /* newGuests_count */, recomendation: recomendation, topLikers: topLikers_count, topCommenters: topCommenters_count)
-        //                }
+        if let follower_count = state.followers?.count,
+            let following_count = state.following?.count,
+            let recomendation = state.suggestedUsers?.count {
+            AppAnalytics.setValues(followers: follower_count,
+                                   following: following_count,
+                                   likes: likes,
+                                   comments: comments,
+                                   lostFollowers: lostFollowers_count,
+                                   gainedFollowers: gainedFollowers_count,
+                                   youDontFollow: youDontFollow_count,
+                                   unfollowers: unfollowers_count,
+                                   profileViewers: 0 /* newGuests_count */,
+                                   recomendation: recomendation,
+                                   topLikers: topLikers_count,
+                                   topCommenters: topCommenters_count)
+        }
     }
     
 }
