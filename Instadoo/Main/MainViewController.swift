@@ -55,6 +55,7 @@ class MainViewController: UIViewController {
         
         setProgress(0)
         superButtons?.forEach { button in
+            button.value = ""
             button.contentView?.addTapGestureRecognizer { [weak self] in
                 self?.detailButtonAction(button)
             }
@@ -201,7 +202,9 @@ class MainViewController: UIViewController {
         
         if !SubscriptionKeychain.isSubscribed()
             && (contentType == .blocked_by_you
-            || contentType == .recommendation)
+                || contentType == .recommendation
+                || contentType == .you_dont_follow
+                || contentType == .unfollowers)
         {
             let vc = UIViewController.vip
             vc.source = eventSource
@@ -486,8 +489,8 @@ extension MainViewController: MainViewModelDelegate {
         case .you_dont_follow:  targetButton = youDontFollowButton
         }
         
-        targetButton?.inProgress = false
         targetButton?.value = value
+        targetButton?.inProgress = false
     }
     
     func viewModelDidUpdateProgress(_ progress: CGFloat) {
