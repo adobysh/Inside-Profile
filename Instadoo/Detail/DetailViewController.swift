@@ -21,9 +21,11 @@ class DetailViewController: UIViewController {
         return refreshControl
     }()
     
+    /* main data */
     private var usersId: [String] = []
     private var usersUsernames: [String] = []
     private var users: [User] = []
+    
     private var usersCache: [String: User] = [:]
     public var mainScreenInfo: GraphProfile?
     public var contentType: DushboardItemType?
@@ -57,6 +59,9 @@ class DetailViewController: UIViewController {
     
     func updateUsers(showProgress: Bool = false, onComplete: (()->())? = nil) {
         func dataCalculated() {
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            }
             tableView?.reloadData()
             onComplete?()
         }
@@ -73,12 +78,16 @@ class DetailViewController: UIViewController {
             dataCalculated()
         case .top_likers:
             navigationItem.title = "Top Likers"
+            
+            refreshControl.beginRefreshing()
             UserModel.topLikers(mainScreenInfo?.username, posts) { [weak self] users in
                 self?.users = users
                 dataCalculated()
             }
         case .top_commenters:
             navigationItem.title = "Top Commenters"
+            
+            refreshControl.beginRefreshing()
             UserModel.topCommenters(mainScreenInfo?.username, posts) { [weak self] users in
                 self?.users = users
                 dataCalculated()
@@ -86,6 +95,8 @@ class DetailViewController: UIViewController {
         case .you_dont_follow: // followers
             navigationItem.title = "You Dont Follow"
             if limitedDataDownloadMode == false {
+                
+                refreshControl.beginRefreshing()
                 UserModel.youDontFollow(followers: followers, following: following) { [weak self] users in
                     self?.users = users
                     dataCalculated()
@@ -94,6 +105,8 @@ class DetailViewController: UIViewController {
         case .unfollowers: // following
             navigationItem.title = "Unfollowers"
             if limitedDataDownloadMode == false {
+                
+                refreshControl.beginRefreshing()
                 UserModel.unfollowers(followers: followers, following: following) { [weak self] users in
                     self?.users = users
                     dataCalculated()
@@ -104,6 +117,8 @@ class DetailViewController: UIViewController {
             guard let userId = mainScreenInfo?.id else { return }
             if limitedDataDownloadMode == false {
                 let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+                
+                refreshControl.beginRefreshing()
                 UserModel.gainedFollowers(previousFollowersIds, followers, monthHistoryUsers) { [weak self] users in
                     self?.users = users
                     dataCalculated()
@@ -114,8 +129,11 @@ class DetailViewController: UIViewController {
             guard let userId = mainScreenInfo?.id else { return }
             if limitedDataDownloadMode == false {
                 let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+                
+                refreshControl.beginRefreshing()
                 UserModel.lostFollowersIds(previousFollowersIds, followers, monthHistoryUsers) { [weak self] lostFollowersIds in
                     self?.usersId = lostFollowersIds
+                    dataCalculated()
                 }
             }
         }
@@ -134,18 +152,43 @@ class DetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    func updateEmptyView() {
+        let isEmpty = usersId.isEmpty && usersUsernames.isEmpty && users.isEmpty
+        
+        emptyTableLabel?.alpha = refreshControl.isRefreshing ? 0 : 1
+        
+        if refreshControl.isRefreshing {
+            emptyTableLabel?.text = ""
+        } else {
+            if limitedDataDownloadMode == true {
+                emptyTableLabel?.text = "Can't analyze\nToo many followers and followings"
+            } else {
+                if isEmpty {
+                    switch contentType {
+                    case .gained_followers, .lost_followers:
+                        emptyTableLabel?.text = "Need more data\nTry to update tomorrow"
+                    default:
+                        emptyTableLabel?.text = "Empty"
+                    }
+                } else {
+                    emptyTableLabel?.text = ""
+                }
+            }
+        }
+    }
+    
 }
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        updateEmptyView()
+        
         if !users.isEmpty {
             return users.count
         } else if !usersUsernames.isEmpty {
             return usersUsernames.count
         } else {
-            emptyTableLabel?.alpha = usersId.isEmpty ? 1 : 0
-            emptyTableLabel?.text = limitedDataDownloadMode == true ? "Can't analyze\nToo many followers and followings" : "Need more data\nUpdate tomorrow"
             return usersId.count
         }
     }

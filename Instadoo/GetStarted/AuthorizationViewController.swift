@@ -131,6 +131,8 @@ extension AuthorizationViewController: WKNavigationDelegate {
                             UserDefaults.standard.set(cookies, forKey: "cookies")
                             self?.dismiss(animated: true, completion: nil)
                             self?.onSuccess?()
+                        } else {
+                            /* ignore other cases */
                         }
                     }
                 }

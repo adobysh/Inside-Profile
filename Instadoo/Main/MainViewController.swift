@@ -55,7 +55,7 @@ class MainViewController: UIViewController {
         
         setProgress(0)
         superButtons?.forEach { button in
-            button.addTapGestureRecognizer { [weak self] in
+            button.contentView?.addTapGestureRecognizer { [weak self] in
                 self?.detailButtonAction(button)
             }
         }
