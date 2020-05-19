@@ -55,7 +55,6 @@ class MainViewController: UIViewController {
         
         setProgress(0)
         superButtons?.forEach { button in
-            button.value = ""
             button.contentView?.addTapGestureRecognizer { [weak self] in
                 self?.detailButtonAction(button)
             }
@@ -384,7 +383,11 @@ extension MainViewController {
 extension MainViewController {
     
     func fetchInfo() {
-        superButtons?.forEach { $0.inProgress = true }
+        superButtons?.forEach {
+            $0.value = "0"
+            $0.inProgress = true
+        }
+        
         setProgress(1)
         
         viewModel.fetchInfo()
@@ -460,7 +463,6 @@ extension MainViewController: MainViewModelDelegate {
     }
     
     func viewModelDidEndFetching(timeReport: [(DataPart, Date)]) {
-        superButtons?.forEach { $0.inProgress = false }
         setProgress(100)
         #if DEBUG
             showTimeReport(timeReport: timeReport)
