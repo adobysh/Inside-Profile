@@ -167,8 +167,20 @@ class DetailViewController: UIViewController {
                     switch contentType {
                     case .gained_followers, .lost_followers:
                         emptyTableLabel?.text = "Need more data\nTry to update tomorrow"
+                    case .blocked_by_you:
+                        emptyTableLabel?.text = "You don't have blocked accounts"
+                    case .recommendation:
+                        emptyTableLabel?.text = "You don't have recommended users"
+                    case .top_likers:
+                        emptyTableLabel?.text = "You don't have top likers"
+                    case .top_commenters:
+                        emptyTableLabel?.text = "You don't have top commenters"
+                    case .you_dont_follow:
+                        emptyTableLabel?.text = "You don’t have followers that you don't follow back"
+                    case .unfollowers:
+                        emptyTableLabel?.text = "You don't have unfollowers"
                     default:
-                        emptyTableLabel?.text = "Empty"
+                        emptyTableLabel?.text = "You don't users in this category"
                     }
                 } else {
                     emptyTableLabel?.text = ""

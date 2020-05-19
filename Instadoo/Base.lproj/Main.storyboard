@@ -570,8 +570,8 @@
                                     <outlet property="delegate" destination="6Nn-Yq-xDm" id="gQ6-fq-864"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdn-5o-UFt">
-                                <rect key="frame" x="120.5" y="335" width="134.5" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdn-5o-UFt">
+                                <rect key="frame" x="32" y="335" width="311" height="41"/>
                                 <string key="text">Need more data
 Update tomorrow</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -586,10 +586,11 @@ Update tomorrow</string>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wAI-WK-Oul" firstAttribute="top" secondItem="X5o-yZ-MnD" secondAttribute="top" id="2WN-Lt-J5U"/>
-                            <constraint firstItem="tdn-5o-UFt" firstAttribute="centerX" secondItem="X5o-yZ-MnD" secondAttribute="centerX" id="4lt-F4-pAb"/>
+                            <constraint firstItem="tdn-5o-UFt" firstAttribute="leading" secondItem="X5o-yZ-MnD" secondAttribute="leading" constant="32" id="4y3-Va-zwA"/>
                             <constraint firstItem="wAI-WK-Oul" firstAttribute="leading" secondItem="X5o-yZ-MnD" secondAttribute="leading" id="7WP-pP-Mm4"/>
                             <constraint firstItem="tdn-5o-UFt" firstAttribute="centerY" secondItem="X5o-yZ-MnD" secondAttribute="centerY" id="AfQ-Rk-aKD"/>
                             <constraint firstItem="zVU-dA-rdF" firstAttribute="leading" secondItem="SvL-wb-b5M" secondAttribute="leading" id="D9F-HY-26E"/>
+                            <constraint firstItem="X5o-yZ-MnD" firstAttribute="trailing" secondItem="tdn-5o-UFt" secondAttribute="trailing" constant="32" id="F9d-Z5-xh3"/>
                             <constraint firstItem="TE6-xN-Lb5" firstAttribute="leading" secondItem="SvL-wb-b5M" secondAttribute="leading" id="UW3-dP-cfk"/>
                             <constraint firstItem="agq-Rg-xFe" firstAttribute="centerX" secondItem="X5o-yZ-MnD" secondAttribute="centerX" id="YiP-Q9-xyh"/>
                             <constraint firstItem="TE6-xN-Lb5" firstAttribute="top" secondItem="SvL-wb-b5M" secondAttribute="top" id="agX-F1-KEU"/>
