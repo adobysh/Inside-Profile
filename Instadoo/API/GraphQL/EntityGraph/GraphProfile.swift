@@ -20,7 +20,7 @@ struct GraphProfile {
     var limitedDataDownloadMode: Bool {
         let followerCount = follower_count ?? 0
         let followingCount = following_count ?? 0
-        let limitedDataDownloadMode = followerCount + followingCount > LIMITED_ANALYTICS_F_AND_F_SUM
+        let limitedDataDownloadMode = isLimitedMode(followerCount, followingCount)
         return limitedDataDownloadMode
     }
     

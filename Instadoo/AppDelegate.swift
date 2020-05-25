@@ -17,11 +17,25 @@ import Amplitude_iOS
 import AdSupport
 import SwiftKeychainWrapper
 
-let LIMITED_ANALYTICS_F_AND_F_SUM = 10000 // при какой сумме подписок и подписчиков включается ограниченный режим
+fileprivate let LIMITED_ANALYTICS_F_AND_F_SUM = 10000 // при какой сумме подписок и подписчиков включается ограниченный режим
 let LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD = 200 // сумма подписок и подписчиков загружаемая в ограниченном режиме
 let LIMITED_ANALYTICS_LIKERS_PER_POST_COUNT = 495
 let LIMITED_ANALYTICS_POSTS_WITH_LIKERS_COUNT = 25
 let LIMITED_ANALYTICS_TOTAL_POSTS_COUNT = 95
+
+func isLimitedMode(_ followersCount: Int, _ followingCount: Int) -> Bool {
+    let isLimitedMode = followersCount + followingCount >= LIMITED_ANALYTICS_F_AND_F_SUM
+    
+    #if DEBUG
+    if UserDefaults.standard.bool(forKey: "limited_analytics") {
+        return true
+    } else {
+        return isLimitedMode
+    }
+    #else
+    return isLimitedMode
+    #endif
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
