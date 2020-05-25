@@ -161,7 +161,12 @@ class DetailViewController: UIViewController {
             emptyTableLabel?.text = ""
         } else {
             if limitedDataDownloadMode == true {
-                emptyTableLabel?.text = "Can't analyze\nToo many followers and followings"
+                switch contentType {
+                case .gained_followers, .lost_followers, .you_dont_follow, .unfollowers:
+                    emptyTableLabel?.text = "Can't analyze\nToo many followers and followings"
+                default:
+                    emptyTableLabel?.text = ""
+                }
             } else {
                 if isEmpty {
                     switch contentType {
