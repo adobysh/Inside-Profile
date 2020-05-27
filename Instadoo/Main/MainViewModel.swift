@@ -55,6 +55,7 @@ protocol MainViewModelDelegate: class {
     func viewModelDidUpdateLikesCount(_ likersCount: Int)
     func viewModelDidUpdateCommentsCount(_ commentsCount: Int)
     func viewModelDidError(_ error: Error)
+    func viewModelDidLogOut()
 }
 
 class MainViewModel {
@@ -78,6 +79,68 @@ class MainViewModel {
     
     public func logOut() {
         state = .empty
+        ProfileStateBundleManager().clean()
+        delegate?.viewModelDidLogOut()
+    }
+    
+    func tryToUpdate_youDontFollow_n_unfollowers() {
+        guard state.limitedDataDownloadMode == true || state.followers != nil && state.following != nil else {
+            return
+        }
+        
+        if state.limitedDataDownloadMode == true {
+            let youDontFollow = LimitedUserModel.youDontFollowApproxCount(followerCount: state.mainScreenInfo?.follower_count, followingCount: state.mainScreenInfo?.following_count) ?? 0
+            self.youDontFollow_count = youDontFollow
+            delegate?.viewModelDidUpdateDushboardItem(.you_dont_follow, value: "≈ \(youDontFollow)")
+        } else {
+            UserModel.youDontFollow(followers: state.followers, following: state.following) { [weak self] youDontFollow in
+                self?.youDontFollow_count = youDontFollow.count
+                self?.delegate?.viewModelDidUpdateDushboardItem(.you_dont_follow, value: youDontFollow.count.bigBeauty)
+            }
+        }
+        
+        if state.limitedDataDownloadMode == true {
+            let unfollowers = LimitedUserModel.unfollowersApproxCount(followingCount: state.mainScreenInfo?.following_count) ?? 0
+            self.unfollowers_count = unfollowers
+            delegate?.viewModelDidUpdateDushboardItem(.unfollowers, value: "≈ \(unfollowers)")
+        } else {
+            UserModel.unfollowers(followers: state.followers, following: state.following) { [weak self] unfollowers in
+                self?.unfollowers_count = unfollowers.count
+                self?.delegate?.viewModelDidUpdateDushboardItem(.unfollowers, value: unfollowers.count.bigBeauty)
+            }
+        }
+    }
+    
+    func tryToUpdate_lost_followers_n_gained_followers() {
+        guard state.limitedDataDownloadMode == true || state.followers != nil && state.monthHistoryUsers != nil else {
+            return
+        }
+        
+        guard let userId = self.state.mainScreenInfo?.id else { return }
+        
+        if self.state.limitedDataDownloadMode == true {
+            let lostFollowersCount = LimitedUserModel.lostFollowersApproxCount(self.state.mainScreenInfo?.follower_count) ?? 0
+            self.lostFollowers_count = lostFollowersCount
+            self.delegate?.viewModelDidUpdateDushboardItem(.lost_followers, value: "≈ \(lostFollowersCount.bigBeauty)")
+        } else {
+            let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+            UserModel.lostFollowersIds(previousFollowersIds, self.state.followers, self.state.monthHistoryUsers) { [weak self] lostFollowersIds in
+                self?.lostFollowers_count = lostFollowersIds.count
+                self?.delegate?.viewModelDidUpdateDushboardItem(.lost_followers, value: lostFollowersIds.count.bigBeauty)
+            }
+        }
+
+        if self.state.limitedDataDownloadMode == true {
+            let gainedFollowersCount = LimitedUserModel.gainedFollowersApproxCount(self.state.mainScreenInfo?.follower_count) ?? 0
+            self.gainedFollowers_count = gainedFollowersCount
+            self.delegate?.viewModelDidUpdateDushboardItem(.gained_followers, value: "≈ \(gainedFollowersCount.bigBeauty)")
+        } else {
+            let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
+            UserModel.gainedFollowers(previousFollowersIds, self.state.followers, self.state.monthHistoryUsers) { [weak self] gainedFollowers in
+                self?.gainedFollowers_count = gainedFollowers.count
+                self?.delegate?.viewModelDidUpdateDushboardItem(.gained_followers, value: gainedFollowers.count.bigBeauty)
+            }
+        }
     }
     
     public func fetchInfo(completion: (() -> Void)? = nil) {
@@ -113,8 +176,8 @@ class MainViewModel {
                     self?.delegate?.viewModelDidUpdateCommentsCount(comments ?? 0)
                 }
                 
-                tryToUpdate_youDontFollow_n_unfollowers()
-                tryToUpdate_lost_followers_n_gained_followers()
+                self?.tryToUpdate_youDontFollow_n_unfollowers()
+                self?.tryToUpdate_lost_followers_n_gained_followers()
                 
                 self?.delegate?.viewModelDidUpdateDushboardItem(.recommendation, value: (self?.state.suggestedUsers?.count ?? 0).bigBeauty)
                 
@@ -126,67 +189,6 @@ class MainViewModel {
             }
             
             return
-        }
-        
-        
-        func tryToUpdate_youDontFollow_n_unfollowers() {
-            guard state.limitedDataDownloadMode == true || state.followers != nil && state.following != nil else {
-                return
-            }
-            
-            if state.limitedDataDownloadMode == true {
-                let youDontFollow = LimitedUserModel.youDontFollowApproxCount(followerCount: state.mainScreenInfo?.follower_count, followingCount: state.mainScreenInfo?.following_count) ?? 0
-                self.youDontFollow_count = youDontFollow
-                delegate?.viewModelDidUpdateDushboardItem(.you_dont_follow, value: "≈ \(youDontFollow)")
-            } else {
-                UserModel.youDontFollow(followers: state.followers, following: state.following) { [weak self] youDontFollow in
-                    self?.youDontFollow_count = youDontFollow.count
-                    self?.delegate?.viewModelDidUpdateDushboardItem(.you_dont_follow, value: youDontFollow.count.bigBeauty)
-                }
-            }
-            
-            if state.limitedDataDownloadMode == true {
-                let unfollowers = LimitedUserModel.unfollowersApproxCount(followingCount: state.mainScreenInfo?.following_count) ?? 0
-                self.unfollowers_count = unfollowers
-                delegate?.viewModelDidUpdateDushboardItem(.unfollowers, value: "≈ \(unfollowers)")
-            } else {
-                UserModel.unfollowers(followers: state.followers, following: state.following) { [weak self] unfollowers in
-                    self?.unfollowers_count = unfollowers.count
-                    self?.delegate?.viewModelDidUpdateDushboardItem(.unfollowers, value: unfollowers.count.bigBeauty)
-                }
-            }
-        }
-        
-        func tryToUpdate_lost_followers_n_gained_followers() {
-            guard state.limitedDataDownloadMode == true || state.followers != nil && state.monthHistoryUsers != nil else {
-                return
-            }
-            
-            guard let userId = self.state.mainScreenInfo?.id else { return }
-            
-            if self.state.limitedDataDownloadMode == true {
-                let lostFollowersCount = LimitedUserModel.lostFollowersApproxCount(self.state.mainScreenInfo?.follower_count) ?? 0
-                self.lostFollowers_count = lostFollowersCount
-                self.delegate?.viewModelDidUpdateDushboardItem(.lost_followers, value: "≈ \(lostFollowersCount.bigBeauty)")
-            } else {
-                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                UserModel.lostFollowersIds(previousFollowersIds, self.state.followers, self.state.monthHistoryUsers) { [weak self] lostFollowersIds in
-                    self?.lostFollowers_count = lostFollowersIds.count
-                    self?.delegate?.viewModelDidUpdateDushboardItem(.lost_followers, value: lostFollowersIds.count.bigBeauty)
-                }
-            }
-    
-            if self.state.limitedDataDownloadMode == true {
-                let gainedFollowersCount = LimitedUserModel.gainedFollowersApproxCount(self.state.mainScreenInfo?.follower_count) ?? 0
-                self.gainedFollowers_count = gainedFollowersCount
-                self.delegate?.viewModelDidUpdateDushboardItem(.gained_followers, value: "≈ \(gainedFollowersCount.bigBeauty)")
-            } else {
-                let previousFollowersIds = PastFollowersManager.shared.getIds(userId)
-                UserModel.gainedFollowers(previousFollowersIds, self.state.followers, self.state.monthHistoryUsers) { [weak self] gainedFollowers in
-                    self?.gainedFollowers_count = gainedFollowers.count
-                    self?.delegate?.viewModelDidUpdateDushboardItem(.gained_followers, value: gainedFollowers.count.bigBeauty)
-                }
-            }
         }
         
         state = .empty
@@ -225,12 +227,12 @@ class MainViewModel {
         }, onFollowersLoaded: { [weak self] followers in
             self?.state.followers = followers
             
-            tryToUpdate_youDontFollow_n_unfollowers()
-            tryToUpdate_lost_followers_n_gained_followers()
+            self?.tryToUpdate_youDontFollow_n_unfollowers()
+            self?.tryToUpdate_lost_followers_n_gained_followers()
             
         }, onFollowingLoaded: { [weak self] following in
             self?.state.following = following
-            tryToUpdate_youDontFollow_n_unfollowers()
+            self?.tryToUpdate_youDontFollow_n_unfollowers()
             
         }, onSuggestedUsersLoaded: { [weak self] suggestedUsers in
             self?.state.suggestedUsers = suggestedUsers
@@ -241,7 +243,7 @@ class MainViewModel {
         }, onMonthHistoryUsersLoaded: { [weak self] monthHistoryUsers in
             self?.state.monthHistoryUsers = monthHistoryUsers
             
-            tryToUpdate_lost_followers_n_gained_followers()
+            self?.tryToUpdate_lost_followers_n_gained_followers()
             
         }, onBlockedUsersLoaded: { [weak self] blockedUsers in
             self?.state.blockedByYouUsernames = blockedUsers

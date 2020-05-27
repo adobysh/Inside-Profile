@@ -28,12 +28,21 @@ class ProfileStateBundleManager {
         ProfileStateBundleModel().save(profileStateBundle)
     }
     
+    public func clean() {
+        cleanLastSaveTimeSeconds()
+        ProfileStateBundleModel().clean()
+    }
+    
     private func loadLastSaveTimeSeconds() -> Double {
         UserDefaults.standard.double(forKey: ProfileStateBundleManager.Key)
     }
     
     private func saveLastSaveTimeSeconds(_ seconds: Double) {
         UserDefaults.standard.set(seconds, forKey: ProfileStateBundleManager.Key)
+    }
+    
+    private func cleanLastSaveTimeSeconds() {
+        UserDefaults.standard.set(0, forKey: ProfileStateBundleManager.Key)
     }
     
 }
@@ -65,6 +74,13 @@ fileprivate class ProfileStateBundleModel {
             try? FileManager.default.removeItem(atPath: fileURL.path)
         }
         try? data.write(to: fileURL)
+    }
+    
+    public func clean() {
+        guard let fileURL = ProfileStateBundleModel.FileURL else { return }
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            try? FileManager.default.removeItem(atPath: fileURL.path)
+        }
     }
 
 }

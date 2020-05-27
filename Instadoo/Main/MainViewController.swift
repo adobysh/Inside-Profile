@@ -237,24 +237,48 @@ class MainViewController: UIViewController {
         vc.onFollow = { [weak self] onUpdate in
             let onError: (Error)->() = { error in onUpdate?(error) }
             
-            GraphRoutes.getUserFollowings(limited: self?.viewModel.state.limitedDataDownloadMode == true, id: self?.viewModel.state.mainScreenInfo?.id ?? "", onSubpartLoaded: { _ in }, completion: { [weak self] result in
-                guard let following = result.value else {
-                    onError(result.error ?? ErrorModel(file: #file, function: #function, line: #line))
+            GraphRoutes.getCurrentProfile(completion: { result in
+                if let error = result.error {
+                    onError(error)
                     return
                 }
                 
-                GraphRoutes.getFollowRequests(completion: { [weak self] result in
-                    if let error = result.error {
-                        onError(error)
+                guard let profileInfo = result.value else {
+                    onError(ErrorModel(file: #file, function: #function, line: #line))
+                    return
+                }
+            
+                let limitedDataDownloadMode = profileInfo.limitedDataDownloadMode == true
+                let userId = profileInfo.id ?? ""
+                
+                GraphRoutes.getUserFollowings(limited: limitedDataDownloadMode,
+                                              id: userId,
+                                              onSubpartLoaded: { _ in },
+                                              completion: { [weak self] result in
+                    guard let following = result.value else {
+                        onError(result.error ?? ErrorModel(file: #file, function: #function, line: #line))
                         return
                     }
                     
-                    guard let followRequests = result.value else { return }
-                    self?.viewModel.state.following = following
-                    self?.viewModel.state.followRequests = followRequests
-                    vc.following = following
-                    vc.followRequests = followRequests
-                    onUpdate?(nil)
+                    GraphRoutes.getFollowRequests(completion: { [weak self] result in
+                        if let error = result.error {
+                            onError(error)
+                            return
+                        }
+                        
+                        guard let followRequests = result.value else { return }
+                        self?.viewModel.state.mainScreenInfo = profileInfo
+                        self?.viewModel.state.following = following
+                        self?.viewModel.state.followRequests = followRequests
+                        vc.mainScreenInfo = profileInfo
+                        vc.following = following
+                        vc.followRequests = followRequests
+                        
+                        self?.viewModel.tryToUpdate_youDontFollow_n_unfollowers()
+                        self?.viewModelDidUpdateMainInfo(profileInfo)
+                        
+                        onUpdate?(nil)
+                    })
                 })
             })
         }
@@ -363,6 +387,17 @@ extension MainViewController {
 }
 
 extension MainViewController: MainViewModelDelegate {
+    
+    func viewModelDidLogOut() {
+        likesCountLabel?.text = "0"
+        commentsCountLabel?.text = "0"
+        followersCountLabel?.text = "0"
+        followingCountLabel?.text = "0"
+        navigationItem.title = nil
+        loginLabel?.text = nil
+        avatarImageView?.image = nil
+        superButtons?.forEach { $0.value = "0" }
+    }
     
     func viewModelDidUpdateLikesCount(_ likesCount: Int) {
         let postsCount = (viewModel.state.posts?.count ?? 0)

@@ -225,7 +225,7 @@ class ApiHelper {
                 return
             }
             
-            let profileInfo  = result.value
+            let profileInfo = result.value
             onMainScreenInfoLoaded(profileInfo)
             timePoints.append((.profileInfo, Date()))
             
