@@ -270,6 +270,11 @@ class MainViewController: UIViewController {
                         self?.viewModel.state.mainScreenInfo = profileInfo
                         self?.viewModel.state.following = following
                         self?.viewModel.state.followRequests = followRequests
+                        
+                        if let state = self?.viewModel.state {
+                            ProfileStateBundleManager().save(state)
+                        }
+                        
                         vc.mainScreenInfo = profileInfo
                         vc.following = following
                         vc.followRequests = followRequests
