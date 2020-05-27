@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct GraphProfile {
+struct GraphProfile: Codable {
     let profile_pic_url: String?
     let follower_count: Int?
     let following_count: Int?

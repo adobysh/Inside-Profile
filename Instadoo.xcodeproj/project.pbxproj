@@ -39,6 +39,7 @@
 		0C642D1723E2367A00E4833C /* GraphFollowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C642D1623E2367A00E4833C /* GraphFollowing.swift */; };
 		0C642D1A23E237E500E4833C /* GraphUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C642D1923E237E500E4833C /* GraphUser.swift */; };
 		0C6ECD4A2374190600D69D91 /* AppAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6ECD492374190600D69D91 /* AppAnalytics.swift */; };
+		0C749B6D247D934D00155A72 /* ProfileStateBundleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C749B6C247D934D00155A72 /* ProfileStateBundleManager.swift */; };
 		0C766139235DD3A800DDE439 /* VipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C766138235DD3A800DDE439 /* VipViewController.swift */; };
 		0C7E87B623E5D0F500DFBAB9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E87B523E5D0F500DFBAB9 /* User.swift */; };
 		0C7E87B823E5D10000DFBAB9 /* BaseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E87B723E5D10000DFBAB9 /* BaseUser.swift */; };
@@ -98,6 +99,7 @@
 		0C642D1623E2367A00E4833C /* GraphFollowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphFollowing.swift; sourceTree = "<group>"; };
 		0C642D1923E237E500E4833C /* GraphUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphUser.swift; sourceTree = "<group>"; };
 		0C6ECD492374190600D69D91 /* AppAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppAnalytics.swift; sourceTree = "<group>"; };
+		0C749B6C247D934D00155A72 /* ProfileStateBundleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStateBundleManager.swift; sourceTree = "<group>"; };
 		0C766138235DD3A800DDE439 /* VipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VipViewController.swift; sourceTree = "<group>"; };
 		0C7E87B523E5D0F500DFBAB9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0C7E87B723E5D10000DFBAB9 /* BaseUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUser.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 		0C1D2E9722D3C17F0015135F /* Instadoo */ = {
 			isa = PBXGroup;
 			children = (
+				0C749B69247D83BA00155A72 /* Story */,
 				0C1D2E9822D3C17F0015135F /* AppDelegate.swift */,
 				0C6ECD492374190600D69D91 /* AppAnalytics.swift */,
 				0C1D2E9C22D3C17F0015135F /* Main.storyboard */,
@@ -224,6 +227,7 @@
 				0C32D3F922E59AB30092B6AD /* AuthorizationManager.swift */,
 				0CCA085523609439008C3AD2 /* SubscriptionKeychain.swift */,
 				0CCA085623609439008C3AD2 /* SubscriptionManager.swift */,
+				0C749B6C247D934D00155A72 /* ProfileStateBundleManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -247,6 +251,13 @@
 				0C642D1923E237E500E4833C /* GraphUser.swift */,
 			);
 			path = EntityShared;
+			sourceTree = "<group>";
+		};
+		0C749B69247D83BA00155A72 /* Story */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Story;
 			sourceTree = "<group>";
 		};
 		0C766134235DD21200DDE439 /* GetStarted */ = {
@@ -524,6 +535,7 @@
 				0CF10A0D235F0FD500746334 /* UIButtonExtension.swift in Sources */,
 				0C1298EE23DF9127001CEFA3 /* GraphPost.swift in Sources */,
 				0C905F6E2458AC7B0030BD3A /* DetailViewModel.swift in Sources */,
+				0C749B6D247D934D00155A72 /* ProfileStateBundleManager.swift in Sources */,
 				0CF10A12235F255600746334 /* UIImageExtension.swift in Sources */,
 				0CF1F12F22E77F0100C85B75 /* UIViewControllerExtension.swift in Sources */,
 				0CCA085823609439008C3AD2 /* SubscriptionManager.swift in Sources */,
@@ -688,7 +700,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 75;
+				CURRENT_PROJECT_VERSION = 77;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -711,7 +723,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 75;
+				CURRENT_PROJECT_VERSION = 77;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

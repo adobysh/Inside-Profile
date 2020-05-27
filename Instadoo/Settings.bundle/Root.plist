@@ -10,9 +10,9 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Limited Analytics</string>
+			<string>Limited Mode</string>
 			<key>Key</key>
-			<string>limited_analytics</string>
+			<string>limited_mode</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>

@@ -19,7 +19,7 @@ enum DushboardItemType: String {
     case top_commenters
 }
 
-struct ProfileStateBundle {
+struct ProfileStateBundle: Codable {
     var mainScreenInfo: GraphProfile?
     var followRequests: FollowRequests?
     var posts: [GraphPost]?
@@ -80,7 +80,55 @@ class MainViewModel {
         state = .empty
     }
     
-    public func fetchInfo() {
+    public func fetchInfo(completion: (() -> Void)? = nil) {
+        if let profileStateBundle = ProfileStateBundleManager().load() {
+            state = profileStateBundle
+            
+            DispatchQueue.global().async {
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.viewModelDidUpdateProgress(CGFloat(50))
+                }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                if let mainInfo = profileStateBundle.mainScreenInfo {
+                    self?.delegate?.viewModelDidUpdateMainInfo(mainInfo)
+                }
+                
+                UserModel.topLikers(self?.state.mainScreenInfo?.username, self?.state.posts) { topLikers in
+                    self?.topLikers_count = topLikers.count
+                    self?.delegate?.viewModelDidUpdateDushboardItem(.top_likers, value: topLikers.count.bigBeauty)
+                }
+                UserModel.topCommenters(self?.state.mainScreenInfo?.username, self?.state.posts) { topСommenters in
+                    self?.topCommenters_count = topСommenters.count
+                    self?.delegate?.viewModelDidUpdateDushboardItem(.top_commenters, value: topСommenters.count.bigBeauty)
+                }
+                
+                UserModel.likeCount(posts: self?.state.posts) { likes in
+                    self?.likes = likes ?? 0
+                    self?.delegate?.viewModelDidUpdateLikesCount(likes ?? 0)
+                }
+                UserModel.commentCount(posts: self?.state.posts) { comments in
+                    self?.comments = comments ?? 0
+                    self?.delegate?.viewModelDidUpdateCommentsCount(comments ?? 0)
+                }
+                
+                tryToUpdate_youDontFollow_n_unfollowers()
+                tryToUpdate_lost_followers_n_gained_followers()
+                
+                self?.delegate?.viewModelDidUpdateDushboardItem(.recommendation, value: (self?.state.suggestedUsers?.count ?? 0).bigBeauty)
+                
+                self?.delegate?.viewModelDidUpdateDushboardItem(.blocked_by_you, value: (self?.state.blockedByYouUsernames?.count ?? 0).bigBeauty)
+                
+                self?.delegate?.viewModelDidEndFetching(timeReport: [])
+                
+                completion?()
+            }
+            
+            return
+        }
+        
+        
         func tryToUpdate_youDontFollow_n_unfollowers() {
             guard state.limitedDataDownloadMode == true || state.followers != nil && state.following != nil else {
                 return
@@ -202,8 +250,16 @@ class MainViewModel {
         }, onComplete: { [weak self] timeReport in
             self?.delegate?.viewModelDidEndFetching(timeReport: timeReport)
             
+            if let profileStateBundle = self?.state {
+                ProfileStateBundleManager().save(profileStateBundle)
+            }
+            
+            completion?()
+            
         }) { [weak self] error in
             self?.delegate?.viewModelDidError(error)
+            
+            completion?()
         }
         
         logAnalytics()

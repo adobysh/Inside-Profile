@@ -27,7 +27,7 @@ func isLimitedMode(_ followersCount: Int, _ followingCount: Int) -> Bool {
     let isLimitedMode = followersCount + followingCount >= LIMITED_ANALYTICS_F_AND_F_SUM
     
     #if DEBUG
-    if UserDefaults.standard.bool(forKey: "limited_analytics") {
+    if UserDefaults.standard.bool(forKey: "limited_mode") {
         return true
     } else {
         return isLimitedMode

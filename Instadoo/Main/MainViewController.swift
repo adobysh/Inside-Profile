@@ -225,7 +225,6 @@ class MainViewController: UIViewController {
     
     private func openDetailScreen(_ contentType: DushboardItemType) {
         let vc = UIViewController.detail
-        vc.limitedDataDownloadMode = viewModel.state.limitedDataDownloadMode
         vc.contentType = contentType
         vc.mainScreenInfo = viewModel.state.mainScreenInfo
         vc.followRequests = viewModel.state.followRequests
@@ -260,86 +259,17 @@ class MainViewController: UIViewController {
             })
         }
         vc.onUpdate = { [weak self] onUpdate in
-            let onError: (Error)->() = { _ in onUpdate?() }
-            
-            let onComplete: ()->() = {
+            self?.fetchInfo(completion: { [weak self] in
+                vc.mainScreenInfo = self?.viewModel.state.mainScreenInfo
+                vc.followRequests = self?.viewModel.state.followRequests
+                vc.posts = self?.viewModel.state.posts
+                vc.following = self?.viewModel.state.following
+                vc.followers = self?.viewModel.state.followers
+                vc.suggestedUsers = self?.viewModel.state.suggestedUsers
+                vc.monthHistoryUsers = self?.viewModel.state.monthHistoryUsers
+                vc.blockedByYouUsernames = self?.viewModel.state.blockedByYouUsernames
                 onUpdate?()
-            }
-            
-            switch contentType {
-            case .lost_followers, .gained_followers:
-                guard let userId = self?.viewModel.state.mainScreenInfo?.id else { onComplete(); return }
-                GraphRoutes.getAllFollowers(limited: self?.viewModel.state.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
-                    if let error = result.error {
-                        onError(error)
-                        return
-                    }
-                    
-                    let followers = result.value
-                    self?.viewModel.state.followers = followers
-                    vc.followers = followers
-                    onComplete()
-                })
-            case .you_dont_follow, .unfollowers:
-                guard let userId = self?.viewModel.state.mainScreenInfo?.id else { onComplete(); return }
-                GraphRoutes.getAllFollowers(limited: self?.viewModel.state.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
-                    if let error = result.error {
-                        onError(error)
-                        return
-                    }
-                    
-                    let followers = result.value
-                    GraphRoutes.getUserFollowings(limited: self?.viewModel.state.limitedDataDownloadMode == true, id: userId, onSubpartLoaded: { _ in }, completion: { [weak self] result in
-                        if let error = result.error {
-                            onError(error)
-                            return
-                        }
-                        
-                        let following = result.value
-                        self?.viewModel.state.followers = followers
-                        self?.viewModel.state.following = following
-                        vc.followers = followers
-                        vc.following = following
-                        onComplete()
-                    })
-                })
-            case .blocked_by_you:
-                GraphRoutes.getBlockedUsersUsernames(userName: self?.viewModel.state.mainScreenInfo?.username ?? "", completion: { [weak self] result in
-                    if let error = result.error {
-                        onError(error)
-                        return
-                    }
-                    
-                    let blockedUsersUsernames = result.value
-                    self?.viewModel.state.blockedByYouUsernames = blockedUsersUsernames
-                    vc.blockedByYouUsernames = blockedUsersUsernames
-                    onComplete()
-                })
-            case .recommendation:
-                GraphRoutes.getGoodSuggestedUser(completion: { [weak self] result in
-                    if let error = result.error {
-                        onError(error)
-                        return
-                    }
-                    
-                    let goodSuggestedUser = result.value
-                    self?.viewModel.state.suggestedUsers = goodSuggestedUser
-                    vc.suggestedUsers = goodSuggestedUser
-                    onComplete()
-                })
-            case .top_likers, .top_commenters:
-                GraphRoutes.getPosts(id: self?.viewModel.state.mainScreenInfo?.id ?? "", onSubpartLoaded: { _, _ in }, completion: { [weak self] result in
-                    if let error = result.error {
-                        onError(error)
-                        return
-                    }
-                    
-                    let posts = result.value
-                    self?.viewModel.state.posts = posts
-                    vc.posts = posts
-                    onComplete()
-                })
-            }
+            })
         }
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -382,7 +312,7 @@ extension MainViewController {
 // MARK: - Update UI
 extension MainViewController {
     
-    func fetchInfo() {
+    func fetchInfo(completion: (() -> Void)? = nil) {
         superButtons?.forEach {
             $0.value = "0"
             $0.inProgress = true
@@ -390,7 +320,7 @@ extension MainViewController {
         
         setProgress(1)
         
-        viewModel.fetchInfo()
+        viewModel.fetchInfo(completion: completion)
     }
     
     func showTimeReport(timeReport: [(DataPart, Date)]) {

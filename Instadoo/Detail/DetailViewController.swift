@@ -39,7 +39,9 @@ class DetailViewController: UIViewController {
     public var monthHistoryUsers: [HistoryUser]?
     public var blockedByYouUsernames: [String]?
     
-    public var limitedDataDownloadMode: Bool? // "режиме ограниченного показа"
+    public var limitedDataDownloadMode: Bool? {
+        return mainScreenInfo?.limitedDataDownloadMode
+    }
     
     public var onFollow: (( _ onUpdate: ((Error?)->Void)? )->())?
     public var onUpdate: (( _ onUpdate: (()->Void)? )->())?

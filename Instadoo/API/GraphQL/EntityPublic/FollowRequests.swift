@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct FollowRequests {
+struct FollowRequests: Codable {
     let value: String
     
     public func contain(username: String) -> Bool {
