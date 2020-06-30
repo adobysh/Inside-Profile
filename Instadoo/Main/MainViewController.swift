@@ -146,7 +146,7 @@ class MainViewController: UIViewController {
     
     @IBAction func detailButtonAction(_ sender: ActivityIndicatorButton) {
         let contentType: DushboardItemType
-        switch sender.descriptionLabel?.text {
+        switch sender.descriptionLabel?.text?.lowercased() {
         case "top likers":
             contentType = .top_likers
         case "top commenters":

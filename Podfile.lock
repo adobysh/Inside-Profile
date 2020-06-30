@@ -14,6 +14,7 @@ PODS:
   - FBSDKCoreKit/Basics (5.11.0)
   - FBSDKCoreKit/Core (5.11.0):
     - FBSDKCoreKit/Basics
+  - lottie-ios (3.1.8)
   - MBCircularProgressBar (0.3.5)
   - SwiftKeychainWrapper (3.0.1)
   - SwiftSoup (2.3.0)
@@ -28,6 +29,7 @@ DEPENDENCIES:
   - DeviceKit (= 2.3.0)
   - Fabric (~> 1.10.2)
   - FBSDKCoreKit (~> 5.11.0)
+  - lottie-ios
   - MBCircularProgressBar (~> 0.3.5)
   - SwiftKeychainWrapper (~> 3.0.1)
   - SwiftSoup
@@ -43,6 +45,7 @@ SPEC REPOS:
     - DeviceKit
     - Fabric
     - FBSDKCoreKit
+    - lottie-ios
     - MBCircularProgressBar
     - SwiftKeychainWrapper
     - SwiftSoup
@@ -57,11 +60,12 @@ SPEC CHECKSUMS:
   DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FBSDKCoreKit: 9fbfb5b0022d34861bfa6b79f56f8e2ddcd8170b
+  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   MBCircularProgressBar: 0b795b722a5eb5b0923822f90474e2576a1a7855
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   SwiftSoup: d78683f7ea0ae5733225a9e1d3bee5b256449df4
   SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: 3d58b5bafd86d68e9259d54f77ebe98215d32662
+PODFILE CHECKSUM: accf4bde794424ef3876282e6760d6db7ee43d45
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

@@ -9,6 +9,7 @@
 import UIKit
 import StoreKit
 import SwiftyStoreKit
+import Lottie
     
 class VipViewController: UIViewController {
     
@@ -18,6 +19,7 @@ class VipViewController: UIViewController {
     @IBOutlet var textView: UITextView?
     @IBOutlet var scrollView: UIScrollView?
     @IBOutlet var onButtonLabel: UILabel?
+    @IBOutlet var lottieCrownView: AnimationView?
     private var blurEffectView: UIVisualEffectView?
     private var spinner: UIActivityIndicatorView?
     
@@ -39,8 +41,12 @@ class VipViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.scale()
+//        let starAnimation = Animation.named("CrownText")
+//        lottieCrownView?.animation = starAnimation
+        lottieCrownView?.play()
+        
         AppAnalytics.logOpen(screen: .vip, source: source)
-        setupLoadingBlur()
+//        setupLoadingBlur()
         if #available(iOS 13.0, *) {
             let constantForIOS13 = (closeButtonTopConstraint?.constant ?? 0) / 2.0
             closeButtonTopConstraint?.constant = constantForIOS13

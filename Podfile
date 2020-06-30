@@ -14,6 +14,7 @@ target 'Instadoo' do
   pod 'SwiftyStoreKit', '~> 0.15.0'
   pod 'SwiftSoup'
   pod 'MBCircularProgressBar', '~> 0.3.5'
+  pod 'lottie-ios'
   
   #pod 'FacebookCore' перейти на этот под
   pod 'FBSDKCoreKit', '~> 5.11.0'

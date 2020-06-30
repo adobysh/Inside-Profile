@@ -25,11 +25,19 @@ class ActivityIndicatorButton: UIView {
         }
     }
     
+    @IBInspectable
+    var image: UIImage? {
+        didSet {
+            imageView?.image = image
+        }
+    }
+    
     @IBOutlet var contentView: UIView?
     @IBOutlet var button: UIButton?
     @IBOutlet var valueLabel: UILabel?
     @IBOutlet var descriptionLabel: UILabel?
     @IBOutlet var activityIndicatorView: UIActivityIndicatorView?
+    @IBOutlet var imageView: UIImageView?
     
     var inProgress: Bool {
         set {
