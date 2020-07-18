@@ -51,3 +51,14 @@ extension UIViewController {
     }
     
 }
+
+// MARK: - Storyboarded
+extension UIViewController {
+    static func instantiate() -> Self {
+        let bundle = Bundle(for: Self.self)
+        let storyboard = UIStoryboard(name: String(describing: Self.self), bundle: bundle)
+        let vc = storyboard.instantiateViewController(withIdentifier: String(describing: Self.self)) as! Self
+        (vc as? UIViewController)?.modalPresentationStyle = .fullScreen
+        return vc
+    }
+}

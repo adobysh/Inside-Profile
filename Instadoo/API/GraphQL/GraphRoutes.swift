@@ -58,15 +58,52 @@ enum Completion<T> {
 
 class GraphRoutes {
     
-    public static func getBlockedUsersUsernames(userName: String, completion: @escaping (Completion<[String]>) -> Void) {
+    public static func getBlockedUsersUsernames(userName: String, previous: (cursor: String, blockedUsernames: [String])? = nil, completion: @escaping (Completion<[String]>) -> Void) {
+        
         let url = "https://www.instagram.com/accounts/access_tool/accounts_you_blocked"
+        
+        var parameters: [String: String] = [:]
+        
+        if let cursor = previous?.cursor {
+            parameters = [
+                "__a": "1",
+                "cursor": (cursor.decodeUrl() ?? "")
+            ]
+        }
         
         guard let headers = getHeaders() else {
             completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
             return
         }
         
-        Alamofire.request(url, method: .get, headers: headers).responseString { response in
+        Alamofire.request(url, method: .get, parameters: parameters, headers: headers).responseString { response in
+            
+            if let _ = previous {
+                guard let settingsPages_data = response.value?.asDictionary?["data"] as? [String: Any] else {
+                    completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
+                    return
+                }
+                
+                guard let settingsPages_data_data = settingsPages_data["data"] as? [[String: Any]] else {
+                    completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
+                    return
+                }
+                
+                var blockedUsernames = settingsPages_data_data.compactMap { $0["text"] as? String }
+                
+                if let previous = previous {
+                    blockedUsernames.append(contentsOf: previous.blockedUsernames)
+                }
+
+                if blockedUsernames.count > LIMITED_ANALYTICS_TOTAL_BLOCKED {
+                    completion(.success(blockedUsernames))
+                } else if let cursor = settingsPages_data["cursor"] as? String {
+                    getBlockedUsersUsernames(userName: userName, previous: (cursor: cursor, blockedUsernames: blockedUsernames), completion: completion)
+                } else {
+                     completion(.success(blockedUsernames))
+                }
+                return
+            }
             
             guard let htmlPage = response.value else {
                 completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
@@ -123,9 +160,19 @@ class GraphRoutes {
                 return
             }
             
-            let blockedUsernames = settingsPages_data_data.compactMap { $0["text"] as? String }
+            var blockedUsernames = settingsPages_data_data.compactMap { $0["text"] as? String }
             
-            completion(.success(blockedUsernames))
+            if let previous = previous {
+                blockedUsernames.append(contentsOf: previous.blockedUsernames)
+            }
+
+            if blockedUsernames.count > LIMITED_ANALYTICS_TOTAL_BLOCKED {
+                completion(.success(blockedUsernames))
+            } else if let cursor = settingsPages_data["cursor"] as? String {
+                getBlockedUsersUsernames(userName: userName, previous: (cursor: cursor, blockedUsernames: blockedUsernames), completion: completion)
+            } else {
+                 completion(.success(blockedUsernames))
+            }
         }
     }
     

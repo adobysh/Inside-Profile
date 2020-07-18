@@ -20,6 +20,7 @@ class VipViewController: UIViewController {
     @IBOutlet var scrollView: UIScrollView?
     @IBOutlet var onButtonLabel: UILabel?
     @IBOutlet var lottieCrownView: AnimationView?
+    @IBOutlet var lottieButton: AnimationView?
     private var blurEffectView: UIVisualEffectView?
     private var spinner: UIActivityIndicatorView?
     
@@ -41,12 +42,9 @@ class VipViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.scale()
-//        let starAnimation = Animation.named("CrownText")
-//        lottieCrownView?.animation = starAnimation
-        lottieCrownView?.play()
         
         AppAnalytics.logOpen(screen: .vip, source: source)
-//        setupLoadingBlur()
+        setupLoadingBlur()
         if #available(iOS 13.0, *) {
             let constantForIOS13 = (closeButtonTopConstraint?.constant ?? 0) / 2.0
             closeButtonTopConstraint?.constant = constantForIOS13
@@ -58,10 +56,12 @@ class VipViewController: UIViewController {
             self?.product = product
             guard let price = product.localizedPrice else { return }
 
-            self?.onButtonLabel?.text = "Start your 3-days trial\nthen \(price)/week"
+            self?.onButtonLabel?.text = "Start your 3-days trial, then \(price)/week"
 
             self?.setupDescriptionTextView(price: price)
             self?.dismissLoadingBlur()
+            self?.lottieCrownView?.play()
+//            self?.lottieButton?.play()
         }) { [weak self] error in
             self?.showErrorAlert {
                 self?.dismiss(animated: true, completion: nil)
@@ -180,10 +180,10 @@ class VipViewController: UIViewController {
     
     private func setupDescriptionTextView(price: String) {
         
-        let font: UIFont = UIFont.systemFont(ofSize: 11.0.scalable, weight: .semibold)
-        let linkFont: UIFont = UIFont.systemFont(ofSize: 11.0.scalable, weight: .bold)
-        let color: UIColor = UIColor.white.withAlphaComponent(0.7)
-        let linkColor: UIColor = UIColor.white
+        let font = UIFont.systemFont(ofSize: 11.0.scalable, weight: .semibold)
+        let linkFont = UIFont.systemFont(ofSize: 11.0.scalable, weight: .bold)
+        let linkColor = UIColor(hex: "#8244E2FF") ?? .black
+        let color = linkColor.withAlphaComponent(0.7)
         
         let template = "Information about the auto-renewable nature of the subscription: Subscription periods are 1 week, price - <price>. Every week your subscription renews. Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period. After the trial period, weekly subscription will start for <price>. Trials will be 3 days, after which the subscription will auto-renew. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. You can cancel your subscription via this url: https://support.apple.com/en-us/HT202039. \nPrivacy Policy: https://andromeda-group.jimdosite.com/privacy-policy/. \nTerms of Use: https://andromeda-group.jimdosite.com/terms-of-use/."
         

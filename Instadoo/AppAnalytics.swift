@@ -181,37 +181,63 @@ class AppAnalytics {
         let priceValue = price ?? 0
         let currencyValue = currency ?? "undefined"
         let identifierValue = identifier ?? "unknown"
-        Answers.logPurchase(withPrice: priceValue, currency: currencyValue, success: true, itemName: nil, itemType: "purchse", itemId: identifierValue, customAttributes: nil)
-//        AppsFlyerTracker.shared().trackEvent(AFEventPurchase, withValues: [
-//            AFEventParamContentId:"0",
-//            AFEventParamContentType : "Subscription",
-//            AFEventParamRevenue: priceValue,
-//            AFEventParamCurrency: currencyValue
-//            ])
-        Amplitude.instance().logRevenue(identifierValue, quantity: 1, price: priceValue)
-//        YMMYandexMetrica.reportEvent("Purchase", parameters: ["price": priceValue, "currency": currencyValue, "identifier": identifierValue]) { _ in }
-//        YMMYandexMetrica.reportRevenue(YMMRevenueInfo(price: priceValue.doubleValue, currency: currencyValue)) { _ in }
-//        Analytics.logEvent("purchase_client", parameters: [AnalyticsParameterPrice: priceValue, AnalyticsParameterCurrency: currencyValue, AnalyticsParameterItemID: identifierValue])
-//        if AUTH_MANAGER.settings.fbAnalytics.contains(.manual) {
-            AppEvents.logPurchase(priceValue.doubleValue, currency: currencyValue)
-//        }
-//        if AUTH_MANAGER.settings.fbAnalytics.contains(.registerReceipt) {
-//            let group = DispatchGroup()
-//            group.enter()
-//            SERVER_MANAGER.sendFBData { _ in group.leave() }
-//            group.enter()
-//            SERVER_MANAGER.sendAppsflyerData { _ in group.leave() }
-//            group.notify(queue: .main) {
-//                SERVER_MANAGER.registerReceipt(price: price, currency: currency) { _, _ in }
-//            }
-//        }
-//        if AUTH_MANAGER.settings.fbAnalytics.contains(.addToCart) {
-            AppAnalytics.logAddedToCartEvent(contentId: identifierValue, contentType: "product", currency: currencyValue, price: priceValue.doubleValue)
-//        }
-//        if AUTH_MANAGER.settings.fbAnalytics.contains(.addToWishlist) {
-//            AppAnalytics.logAddedToWishlistEvent(contentId: identifierValue, contentType: "product", currency: currencyValue, price: priceValue.doubleValue)
-//        }
+        
+        Answers.logPurchase(withPrice: priceValue,
+                            currency: currencyValue,
+                            success: true,
+                            itemName: nil,
+                            itemType: "purchse",
+                            itemId: identifierValue,
+                            customAttributes: nil)
+        
+        Amplitude.instance().logRevenue(identifierValue,
+                                        quantity: 1,
+                                        price: priceValue)
+        
+        AppEvents.logPurchase(priceValue.doubleValue,
+                              currency: currencyValue)
+        
+        AppAnalytics.logAddedToCartEvent(contentId: identifierValue,
+                                         contentType: "product",
+                                         currency: currencyValue,
+                                         price: priceValue.doubleValue)
     }
+    
+//    class func logPurchase(price: NSDecimalNumber?, currency: String?, identifier: String?) {
+//        let priceValue = price ?? 0
+//        let currencyValue = currency ?? "undefined"
+//        let identifierValue = identifier ?? "unknown"
+//        Answers.logPurchase(withPrice: priceValue, currency: currencyValue, success: true, itemName: nil, itemType: "purchse", itemId: identifierValue, customAttributes: nil)
+////        AppsFlyerTracker.shared().trackEvent(AFEventPurchase, withValues: [
+////            AFEventParamContentId:"0",
+////            AFEventParamContentType : "Subscription",
+////            AFEventParamRevenue: priceValue,
+////            AFEventParamCurrency: currencyValue
+////            ])
+//        Amplitude.instance().logRevenue(identifierValue, quantity: 1, price: priceValue)
+////        YMMYandexMetrica.reportEvent("Purchase", parameters: ["price": priceValue, "currency": currencyValue, "identifier": identifierValue]) { _ in }
+////        YMMYandexMetrica.reportRevenue(YMMRevenueInfo(price: priceValue.doubleValue, currency: currencyValue)) { _ in }
+////        Analytics.logEvent("purchase_client", parameters: [AnalyticsParameterPrice: priceValue, AnalyticsParameterCurrency: currencyValue, AnalyticsParameterItemID: identifierValue])
+////        if AUTH_MANAGER.settings.fbAnalytics.contains(.manual) {
+//            AppEvents.logPurchase(priceValue.doubleValue, currency: currencyValue)
+////        }
+////        if AUTH_MANAGER.settings.fbAnalytics.contains(.registerReceipt) {
+////            let group = DispatchGroup()
+////            group.enter()
+////            SERVER_MANAGER.sendFBData { _ in group.leave() }
+////            group.enter()
+////            SERVER_MANAGER.sendAppsflyerData { _ in group.leave() }
+////            group.notify(queue: .main) {
+////                SERVER_MANAGER.registerReceipt(price: price, currency: currency) { _, _ in }
+////            }
+////        }
+////        if AUTH_MANAGER.settings.fbAnalytics.contains(.addToCart) {
+//            AppAnalytics.logAddedToCartEvent(contentId: identifierValue, contentType: "product", currency: currencyValue, price: priceValue.doubleValue)
+////        }
+////        if AUTH_MANAGER.settings.fbAnalytics.contains(.addToWishlist) {
+////            AppAnalytics.logAddedToWishlistEvent(contentId: identifierValue, contentType: "product", currency: currencyValue, price: priceValue.doubleValue)
+////        }
+//    }
     
     class func getFBParameters() -> [String: Any?] {
         let event = "PURCHASE"

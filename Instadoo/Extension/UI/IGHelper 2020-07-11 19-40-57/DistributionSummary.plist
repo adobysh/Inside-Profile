@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IGHelper.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+				<key>dateExpires</key>
+				<string>5/18/21</string>
+				<key>type</key>
+				<string>Apple Distribution</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>Alamofire.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>Alamofire_Synchronous.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>Amplitude_iOS.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>DeviceKit.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>FBSDKCoreKit.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>Lottie.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>MBCircularProgressBar.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>SwiftKeychainWrapper.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>SwiftSoup.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>E65994BE7B19AABFB8AD9CD0BF070307536B56C6</string>
+						<key>dateExpires</key>
+						<string>5/18/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>SwiftyStoreKit.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>Q28H8UC8RG</string>
+						<key>name</key>
+						<string>Andrei Dobysh</string>
+					</dict>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>Q28H8UC8RG.com.andreidobysh.instadoo</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>Q28H8UC8RG</string>
+				<key>get-task-allow</key>
+				<false/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>Q28H8UC8RG.com.andreidobysh.instadoo</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>Instadoo.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>5fc0dc74-87f0-46e7-9628-c57cc6c7169b</string>
+				<key>name</key>
+				<string>iOS Team Ad Hoc Provisioning Profile: com.andreidobysh.instadoo</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>Q28H8UC8RG</string>
+				<key>name</key>
+				<string>Andrei Dobysh</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

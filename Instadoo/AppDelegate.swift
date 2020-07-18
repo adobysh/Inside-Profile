@@ -22,6 +22,7 @@ let LIMITED_ANALYTICS_F_OR_F_COUNT_REQUARED_LOAD = 200 // сумма подпи�
 let LIMITED_ANALYTICS_LIKERS_PER_POST_COUNT = 495
 let LIMITED_ANALYTICS_POSTS_WITH_LIKERS_COUNT = 25
 let LIMITED_ANALYTICS_TOTAL_POSTS_COUNT = 95
+let LIMITED_ANALYTICS_TOTAL_BLOCKED = 195
 
 func isLimitedMode(_ followersCount: Int, _ followingCount: Int) -> Bool {
     let isLimitedMode = followersCount + followingCount >= LIMITED_ANALYTICS_F_AND_F_SUM

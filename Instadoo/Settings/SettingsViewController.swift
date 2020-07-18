@@ -49,7 +49,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func getPremiumButtonAction(_ sender: Any) {
-        let vc = UIViewController.vip
+        let vc = VipViewController.instantiate()
         vc.source = .settings
         vc.onClose = {
             vc.dismiss(animated: true)

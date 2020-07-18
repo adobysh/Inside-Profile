@@ -205,7 +205,7 @@ class MainViewController: UIViewController {
                 || contentType == .you_dont_follow
                 || contentType == .unfollowers)
         {
-            let vc = UIViewController.vip
+            let vc = VipViewController.instantiate()
             vc.source = eventSource
             vc.onClose = {
                 vc.dismiss(animated: true)

@@ -32,10 +32,6 @@ extension UIViewController {
         return UIStoryboard.main.instantiateViewControllerCustom(withIdentifier: SettingsViewController.identifier) as! SettingsViewController
     }
     
-    class var vip: VipViewController {
-        return UIStoryboard.main.instantiateViewControllerCustom(withIdentifier: VipViewController.identifier) as! VipViewController
-    }
-    
 }
 
 extension UIViewController {
