@@ -12,7 +12,7 @@ import Crashlytics
 import SwiftyStoreKit
 
 import FBSDKCoreKit
-//import AppsFlyerLib
+import AppsFlyerLib
 import Amplitude_iOS
 import AdSupport
 import SwiftKeychainWrapper
@@ -64,8 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func initializeSDKs(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-//        AppsFlyerTracker.shared().appsFlyerDevKey = "put key here"
-//        AppsFlyerTracker.shared().appleAppID = "put id here"
+        AppsFlyerTracker.shared().appsFlyerDevKey = "TjecefJkE5fryTNrfHLsK5"
+        AppsFlyerTracker.shared().appleAppID = "1487861808"
 //        AppsFlyerTracker.shared().delegate = self
         Fabric.with([Crashlytics.self])
         AppEvents.activateApp()

@@ -74,6 +74,7 @@
 		0CB433C724B9E3D40016E7C7 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB433C624B9E3D40016E7C7 /* UIColorExtension.swift */; };
 		0CB433C924B9E97C0016E7C7 /* button.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CB433C824B9E97B0016E7C7 /* button.json */; };
 		0CB433CD24B9EEBD0016E7C7 /* button_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CB433CC24B9EEBD0016E7C7 /* button_bg.png */; };
+		0CB4F9FD24C2FF5000B808D9 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4F9FC24C2FF5000B808D9 /* ApiService.swift */; };
 		0CC0B77B2354ABFA00E1DBA5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */; };
 		0CC0B77D2354FAEC00E1DBA5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */; };
 		0CC0B77F2355C8B700E1DBA5 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0B77E2355C8B700E1DBA5 /* ArrayExtension.swift */; };
@@ -165,6 +166,7 @@
 		0CB433C624B9E3D40016E7C7 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		0CB433C824B9E97B0016E7C7 /* button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = button.json; sourceTree = "<group>"; };
 		0CB433CC24B9EEBD0016E7C7 /* button_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_bg.png; sourceTree = "<group>"; };
+		0CB4F9FC24C2FF5000B808D9 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		0CC0B77A2354ABFA00E1DBA5 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0CC0B77C2354FAEC00E1DBA5 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		0CC0B77E2355C8B700E1DBA5 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 			children = (
 				0C1298E923DF8990001CEFA3 /* GraphQL */,
 				0CE57504242548E7005ADFDB /* ApiHelper.swift */,
+				0CB4F9FC24C2FF5000B808D9 /* ApiService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -644,6 +647,7 @@
 				0CC0B77F2355C8B700E1DBA5 /* ArrayExtension.swift in Sources */,
 				0C1D2EAC22D3DF720015135F /* UIViewExtension.swift in Sources */,
 				0C32D3FA22E59AB30092B6AD /* AuthorizationManager.swift in Sources */,
+				0CB4F9FD24C2FF5000B808D9 /* ApiService.swift in Sources */,
 				0C766139235DD3A800DDE439 /* VipViewController.swift in Sources */,
 				0C5A9CEE22E8E8F100A6ED2E /* UIStorybardExtension.swift in Sources */,
 				0C080C3F234E401400FCF53D /* DetailViewController.swift in Sources */,
@@ -840,7 +844,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 84;
+				CURRENT_PROJECT_VERSION = 85;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -863,7 +867,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 84;
+				CURRENT_PROJECT_VERSION = 85;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
 				INFOPLIST_FILE = Instadoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

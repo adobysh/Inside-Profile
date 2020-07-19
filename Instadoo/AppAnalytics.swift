@@ -14,6 +14,7 @@ import Amplitude_iOS
 import AdSupport
 import SwiftKeychainWrapper
 import UIKit
+import CoreTelephony
 
 enum Event: String {
     
@@ -182,6 +183,11 @@ class AppAnalytics {
         let currencyValue = currency ?? "undefined"
         let identifierValue = identifier ?? "unknown"
         
+        ApiService.shared.registerReceipt(price: price, currency: currency) { _, _ in }
+        
+//        #if DEBUG
+//
+//        #else
         Answers.logPurchase(withPrice: priceValue,
                             currency: currencyValue,
                             success: true,
@@ -194,6 +200,13 @@ class AppAnalytics {
                                         quantity: 1,
                                         price: priceValue)
         
+        AppsFlyerTracker.shared().trackEvent(AFEventPurchase, withValues: [
+            AFEventParamContentId:"0",
+            AFEventParamContentType : "Subscription",
+            AFEventParamRevenue: priceValue,
+            AFEventParamCurrency: currencyValue
+        ])
+        
         AppEvents.logPurchase(priceValue.doubleValue,
                               currency: currencyValue)
         
@@ -201,6 +214,7 @@ class AppAnalytics {
                                          contentType: "product",
                                          currency: currencyValue,
                                          price: priceValue.doubleValue)
+//        #endif
     }
     
 //    class func logPurchase(price: NSDecimalNumber?, currency: String?, identifier: String?) {
@@ -248,6 +262,7 @@ class AppAnalytics {
         let bundleVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion")
         let bundleShortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
         let attributes = try? FileManager().attributesOfFileSystem(forPath: NSHomeDirectory())
+        let carriers = CTTelephonyNetworkInfo().serviceSubscriberCellularProviders?.map { ($0.value.carrierName ?? "") }.joined(separator:", ")
         let extinfo: [Any?] = [
             "i2",
             bundleID,
@@ -257,6 +272,7 @@ class AppAnalytics {
             UIDevice.current.modelName,
             Locale.current.identifier,
             NSTimeZone.system.abbreviation(),
+            carriers,
             UIScreen.main.bounds.width,
             UIScreen.main.bounds.height,
             String(format: "%.02f", UIScreen.main.scale),
@@ -277,15 +293,15 @@ class AppAnalytics {
         ]
     }
     
-//    class func getAppsflyerParameters() -> [String: Any?] {
-//        return [
-//            "appsflyer_id": AppsFlyerTracker.shared()?.getAppsFlyerUID(),
-//            "af_events_api": 1,
-//            "idfa": ASIdentifierManager.shared().advertisingIdentifier.uuidString,
-//            "advertiser_id": AppsFlyerTracker.shared()?.advertiserId,
-//            "bundle_id": Bundle.main.bundleIdentifier
-//        ]
-//    }
+    class func getAppsflyerParameters() -> [String: Any?] {
+        return [
+            "appsflyer_id": AppsFlyerTracker.shared()?.getAppsFlyerUID(),
+            "af_events_api": 1,
+            "idfa": ASIdentifierManager.shared().advertisingIdentifier.uuidString,
+            "advertiser_id": AppsFlyerTracker.shared()?.advertiserId,
+            "bundle_id": Bundle.main.bundleIdentifier
+        ]
+    }
     
     class func setUserId(_ id: String) {
         Amplitude.instance()?.setUserId(id)
