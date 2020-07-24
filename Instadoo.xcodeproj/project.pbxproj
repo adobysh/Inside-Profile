@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0C06756B23C0FE0900D57E73 /* LimitedUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C06756A23C0FE0900D57E73 /* LimitedUserModel.swift */; };
-		0C07145124A744F0001B821D /* CrownTEXT.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C07145024A744F0001B821D /* CrownTEXT.json */; };
 		0C080C3F234E401400FCF53D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C080C3E234E401400FCF53D /* DetailViewController.swift */; };
 		0C1298E523D8FB9A001CEFA3 /* GraphRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1298E423D8FB9A001CEFA3 /* GraphRoutes.swift */; };
 		0C1298E823DA4060001CEFA3 /* GraphProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1298E723DA4060001CEFA3 /* GraphProfile.swift */; };
@@ -59,7 +58,6 @@
 		0C642D1723E2367A00E4833C /* GraphFollowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C642D1623E2367A00E4833C /* GraphFollowing.swift */; };
 		0C642D1A23E237E500E4833C /* GraphUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C642D1923E237E500E4833C /* GraphUser.swift */; };
 		0C654095249F87B5004E85BC /* data3.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C654094249F87B5004E85BC /* data3.json */; };
-		0C6B7E1924AAB9C200CA6719 /* CrownText.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C6B7E1824AAB9C100CA6719 /* CrownText.json */; };
 		0C6ECD4A2374190600D69D91 /* AppAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6ECD492374190600D69D91 /* AppAnalytics.swift */; };
 		0C749B6D247D934D00155A72 /* ProfileStateBundleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C749B6C247D934D00155A72 /* ProfileStateBundleManager.swift */; };
 		0C766139235DD3A800DDE439 /* VipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C766138235DD3A800DDE439 /* VipViewController.swift */; };
@@ -68,6 +66,7 @@
 		0C877C4224B8E53A004FB8B3 /* OldVipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C877C4124B8E53A004FB8B3 /* OldVipViewController.swift */; };
 		0C877C4424B8E546004FB8B3 /* OldVipViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C877C4324B8E546004FB8B3 /* OldVipViewController.storyboard */; };
 		0C905F6E2458AC7B0030BD3A /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C905F6D2458AC7B0030BD3A /* DetailViewModel.swift */; };
+		0C908C9524C4EDAF0038C1A8 /* CrownText.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C908C9424C4EDAF0038C1A8 /* CrownText.json */; };
 		0C9BFEBF24A3F6CA00A0BD52 /* UIStackView+Scalable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BFEBE24A3F6CA00A0BD52 /* UIStackView+Scalable.swift */; };
 		0CA4DA3D24AF28D0001A356A /* VipViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CA4DA3C24AF28D0001A356A /* VipViewController.storyboard */; };
 		0CAEE549234E50F00040284C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEE548234E50F00040284C /* UserCell.swift */; };
@@ -97,7 +96,6 @@
 
 /* Begin PBXFileReference section */
 		0C06756A23C0FE0900D57E73 /* LimitedUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedUserModel.swift; sourceTree = "<group>"; };
-		0C07145024A744F0001B821D /* CrownTEXT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CrownTEXT.json; sourceTree = "<group>"; };
 		0C080C3E234E401400FCF53D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0C1298E423D8FB9A001CEFA3 /* GraphRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphRoutes.swift; sourceTree = "<group>"; };
 		0C1298E723DA4060001CEFA3 /* GraphProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphProfile.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 		0C642D1623E2367A00E4833C /* GraphFollowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphFollowing.swift; sourceTree = "<group>"; };
 		0C642D1923E237E500E4833C /* GraphUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphUser.swift; sourceTree = "<group>"; };
 		0C654094249F87B5004E85BC /* data3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data3.json; sourceTree = "<group>"; };
-		0C6B7E1824AAB9C100CA6719 /* CrownText.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = CrownText.json; path = ../../../../Downloads/VIP/CrownText.json; sourceTree = "<group>"; };
 		0C6ECD492374190600D69D91 /* AppAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppAnalytics.swift; sourceTree = "<group>"; };
 		0C749B6C247D934D00155A72 /* ProfileStateBundleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStateBundleManager.swift; sourceTree = "<group>"; };
 		0C766138235DD3A800DDE439 /* VipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VipViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +157,7 @@
 		0C877C4124B8E53A004FB8B3 /* OldVipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldVipViewController.swift; sourceTree = "<group>"; };
 		0C877C4324B8E546004FB8B3 /* OldVipViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OldVipViewController.storyboard; sourceTree = "<group>"; };
 		0C905F6D2458AC7B0030BD3A /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		0C908C9424C4EDAF0038C1A8 /* CrownText.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CrownText.json; sourceTree = "<group>"; };
 		0C9BFEBE24A3F6CA00A0BD52 /* UIStackView+Scalable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Scalable.swift"; sourceTree = "<group>"; };
 		0CA4DA3C24AF28D0001A356A /* VipViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = VipViewController.storyboard; sourceTree = "<group>"; };
 		0CAEE548234E50F00040284C /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
@@ -288,8 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				0C2992A3249CAA9100FB261D /* BGimg.json */,
-				0C6B7E1824AAB9C100CA6719 /* CrownText.json */,
-				0C07145024A744F0001B821D /* CrownTEXT.json */,
+				0C908C9424C4EDAF0038C1A8 /* CrownText.json */,
 				0C2992A6249CAA9100FB261D /* Recom.json */,
 				0C2992A4249CAA9100FB261D /* UnlinStat.json */,
 				0C2992A5249CAA9100FB261D /* UnSub.json */,
@@ -531,8 +528,8 @@
 				0C2992A9249CAA9100FB261D /* BGimg.json in Resources */,
 				0C299294249CAA7700FB261D /* img_8.png in Resources */,
 				0C299296249CAA7700FB261D /* img_3.png in Resources */,
-				0C07145124A744F0001B821D /* CrownTEXT.json in Resources */,
 				0C29929C249CAA7700FB261D /* img_11.png in Resources */,
+				0C908C9524C4EDAF0038C1A8 /* CrownText.json in Resources */,
 				0C2992AC249CAA9100FB261D /* Recom.json in Resources */,
 				0C29929A249CAA7700FB261D /* img_1.png in Resources */,
 				0C2992AA249CAA9100FB261D /* UnlinStat.json in Resources */,
@@ -542,7 +539,6 @@
 				0C29929E249CAA7700FB261D /* img_2.png in Resources */,
 				0C2992A0249CAA7700FB261D /* img_10.png in Resources */,
 				0CA4DA3D24AF28D0001A356A /* VipViewController.storyboard in Resources */,
-				0C6B7E1924AAB9C200CA6719 /* CrownText.json in Resources */,
 				0C2992A7249CAA9100FB261D /* VipButton.json in Resources */,
 				0C654095249F87B5004E85BC /* data3.json in Resources */,
 				0C2992AB249CAA9100FB261D /* UnSub.json in Resources */,

@@ -200,15 +200,27 @@ class AppAnalytics {
                                         quantity: 1,
                                         price: priceValue)
         
-        AppsFlyerTracker.shared().trackEvent(AFEventPurchase, withValues: [
-            AFEventParamContentId:"0",
+        AppsFlyerTracker.shared().trackEvent(AFEventAddToCart, withValues: [
+            AFEventParamContentId: "0",
             AFEventParamContentType : "Subscription",
             AFEventParamRevenue: priceValue,
             AFEventParamCurrency: currencyValue
         ])
         
-        AppEvents.logPurchase(priceValue.doubleValue,
-                              currency: currencyValue)
+//        AppEvents.logPurchase(priceValue.doubleValue,
+//                              currency: currencyValue)
+        
+        let parameters = [
+            AppEvents.ParameterName.content.rawValue: priceValue,
+            AppEvents.ParameterName.contentID.rawValue: "0",
+            AppEvents.ParameterName.contentType.rawValue: "Subscription",
+            AppEvents.ParameterName.currency.rawValue: currencyValue
+            ] as [String : Any]
+
+        
+        AppEvents.logEvent(.addedToCart, valueToSum: priceValue.doubleValue,
+                           parameters: parameters)
+
         
         AppAnalytics.logAddedToCartEvent(contentId: identifierValue,
                                          contentType: "product",
