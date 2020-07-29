@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class DetailViewController: UIViewController {
     
@@ -256,13 +257,13 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let item = users[safe: indexPath.row] ?? usersCache[usersId[safe: indexPath.row] ?? ""] {
-            let instagramHooks = "instagram://user?username=" + (item.username ?? "")
+        if let username: String = users[safe: indexPath.row]?.username ?? usersCache[usersId[safe: indexPath.row] ?? ""]?.username {
+            let instagramHooks = "instagram://user?username=" + username
             if let instagramUrl = URL(string: instagramHooks), UIApplication.shared.canOpenURL(instagramUrl) {
                 UIApplication.shared.open(instagramUrl)
             } else {
                 //redirect to safari because the user doesn't have Instagram
-                guard let instagramUrl = URL(string: "https://instagram.com/" + (item.username ?? "") + "/") else { return }
+                guard let instagramUrl = URL(string: "https://instagram.com/" + username + "/") else { return }
                 UIApplication.shared.open(instagramUrl)
             }
         }

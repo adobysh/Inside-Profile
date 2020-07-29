@@ -185,9 +185,9 @@ class AppAnalytics {
         
         ApiService.shared.registerReceipt(price: price, currency: currency) { _, _ in }
         
-//        #if DEBUG
-//
-//        #else
+        #if DEBUG
+
+        #else
         Answers.logPurchase(withPrice: priceValue,
                             currency: currencyValue,
                             success: true,
@@ -207,9 +207,6 @@ class AppAnalytics {
             AFEventParamCurrency: currencyValue
         ])
         
-//        AppEvents.logPurchase(priceValue.doubleValue,
-//                              currency: currencyValue)
-        
         let parameters = [
             AppEvents.ParameterName.content.rawValue: priceValue,
             AppEvents.ParameterName.contentID.rawValue: "0",
@@ -226,7 +223,7 @@ class AppAnalytics {
                                          contentType: "product",
                                          currency: currencyValue,
                                          price: priceValue.doubleValue)
-//        #endif
+        #endif
     }
     
 //    class func logPurchase(price: NSDecimalNumber?, currency: String?, identifier: String?) {

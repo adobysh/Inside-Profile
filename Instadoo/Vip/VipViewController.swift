@@ -61,7 +61,6 @@ class VipViewController: UIViewController {
             self?.setupDescriptionTextView(price: price)
             self?.dismissLoadingBlur()
             self?.lottieCrownView?.play()
-//            self?.lottieButton?.play()
         }) { [weak self] error in
             self?.showErrorAlert {
                 self?.dismiss(animated: true, completion: nil)
