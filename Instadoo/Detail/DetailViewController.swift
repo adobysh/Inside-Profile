@@ -266,6 +266,10 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let instagramUrl = URL(string: "https://instagram.com/" + username + "/") else { return }
                 UIApplication.shared.open(instagramUrl)
             }
+        } else if let username = usersUsernames[safe: indexPath.row], contentType == .blocked_by_you {
+            guard let instagramUrl = URL(string: "https://instagram.com/" + username) else { return }
+            let svc = SFSafariViewController(url: instagramUrl)
+            present(svc, animated: true, completion: nil)
         }
     }
     
