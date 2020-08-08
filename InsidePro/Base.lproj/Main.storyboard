@@ -12,7 +12,7 @@
         <!--Get Started View Controller-->
         <scene sceneID="QlJ-Rf-6WG">
             <objects>
-                <viewController storyboardIdentifier="GetStartedViewController" id="IU4-mr-cFb" customClass="GetStartedViewController" customModule="Inside_Profile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GetStartedViewController" id="IU4-mr-cFb" customClass="GetStartedViewController" customModule="InsidePro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="udf-A8-az5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -115,10 +115,10 @@
             </objects>
             <point key="canvasLocation" x="-974" y="21"/>
         </scene>
-        <!--Title-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" id="BYZ-38-t0r" customClass="MainViewController" customModule="Inside_Profile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="BYZ-38-t0r" customClass="MainViewController" customModule="InsidePro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -206,8 +206,8 @@
                                         <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <size key="shadowOffset" width="1" height="1"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@jessica_jones" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsC-IY-bFl">
-                                        <rect key="frame" x="96" y="152" width="183.5" height="38"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsC-IY-bFl">
+                                        <rect key="frame" x="175" y="152" width="25" height="38"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="38" id="aRd-YQ-rSn"/>
                                         </constraints>
@@ -297,40 +297,44 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="FDg-gE-CPE">
                                                 <rect key="frame" x="0.0" y="0.0" width="163.5" height="338"/>
                                                 <subviews>
-                                                    <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DDT-9Z-Ydl" customClass="ActivityIndicatorButton" customModule="Inside_Profile" customModuleProvider="target">
+                                                    <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DDT-9Z-Ydl" customClass="ActivityIndicatorButton" customModule="InsidePro" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="163.5" height="72.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Top likers"/>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="Top likers"/>
                                                             <userDefinedRuntimeAttribute type="image" keyPath="image" value="ic_top_likers"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="value" value="0"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="st2-Dr-ftu" customClass="ActivityIndicatorButton" customModule="Inside_Profile" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="st2-Dr-ftu" customClass="ActivityIndicatorButton" customModule="InsidePro" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="88.5" width="163.5" height="72.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Lost followers"/>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="Lost followers"/>
                                                             <userDefinedRuntimeAttribute type="image" keyPath="image" value="ic_lost_followers"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="value" value="0"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Hj-Ih-mW7" customClass="ActivityIndicatorButton" customModule="Inside_Profile" customModuleProvider="target">
+                                                    <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Hj-Ih-mW7" customClass="ActivityIndicatorButton" customModule="InsidePro" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="177" width="163.5" height="72.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="You don't follow"/>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="You don't follow"/>
                                                             <userDefinedRuntimeAttribute type="image" keyPath="image" value="ic_you_dont_follow"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="value" value="0"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCe-NW-WyH" customClass="ActivityIndicatorButton" customModule="Inside_Profile" customModuleProvider="target">
+                                                    <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCe-NW-WyH" customClass="ActivityIndicatorButton" customModule="InsidePro" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="265.5" width="163.5" height="72.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Blocked accounts"/>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="Blocked accounts"/>
                                                             <userDefinedRuntimeAttribute type="image" keyPath="image" value="ic_blocked"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="value" value="0"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                 </subviews>
@@ -338,40 +342,44 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="0Od-Jf-IBP">
                                                 <rect key="frame" x="179.5" y="0.0" width="163.5" height="338"/>
                                                 <subviews>
-                                                    <view tag="7" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYe-oc-AOu" customClass="ActivityIndicatorButton" customModule="Inside_Profile" customModuleProvider="target">
+                                                    <view tag="7" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYe-oc-AOu" customClass="ActivityIndicatorButton" customModule="InsidePro" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="163.5" height="72.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Top commenters"/>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="Top commenters"/>
                                                             <userDefinedRuntimeAttribute type="image" keyPath="image" value="ic_top_commenters"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="value" value="0"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQa-4r-2mm" customClass="ActivityIndicatorButton" customModule="Inside_Profile" customModuleProvider="target">
+                                                    <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQa-4r-2mm" customClass="ActivityIndicatorButton" customModule="InsidePro" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="88.5" width="163.5" height="72.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Gained followers"/>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="Gained followers"/>
                                                             <userDefinedRuntimeAttribute type="image" keyPath="image" value="ic_gained_followers"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="value" value="0"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5OI-2V-agn" customClass="ActivityIndicatorButton" customModule="Inside_Profile" customModuleProvider="target">
+                                                    <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5OI-2V-agn" customClass="ActivityIndicatorButton" customModule="InsidePro" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="177" width="163.5" height="72.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Unfollowers"/>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="Unfollowers"/>
                                                             <userDefinedRuntimeAttribute type="image" keyPath="image" value="ic_unfollowers"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="value" value="0"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1H-an-dsy" customClass="ActivityIndicatorButton" customModule="Inside_Profile" customModuleProvider="target">
+                                                    <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1H-an-dsy" customClass="ActivityIndicatorButton" customModule="InsidePro" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="265.5" width="163.5" height="72.5"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Recomendation"/>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="valueDescription" value="Recomendation"/>
                                                             <userDefinedRuntimeAttribute type="image" keyPath="image" value="ic_recommended"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="value" value="0"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                 </subviews>
@@ -382,28 +390,28 @@
                                 <constraints>
                                     <constraint firstItem="KPC-cI-5s8" firstAttribute="centerY" secondItem="ssa-3R-MRV" secondAttribute="centerY" id="1or-yZ-nCJ"/>
                                     <constraint firstItem="xie-wn-RA0" firstAttribute="trailing" secondItem="ssa-3R-MRV" secondAttribute="trailing" id="4IA-XV-6yO"/>
-                                    <constraint firstItem="WmQ-wQ-aX1" firstAttribute="top" secondItem="Sye-oX-SoT" secondAttribute="bottom" constant="17" id="7r0-TR-4jJ" customClass="ScalableConstraint" customModule="Inside_Profile" customModuleProvider="target"/>
-                                    <constraint firstItem="vsC-IY-bFl" firstAttribute="top" secondItem="ssa-3R-MRV" secondAttribute="bottom" constant="12" id="9dw-3x-Zhu" customClass="ScalableConstraint" customModule="Inside_Profile" customModuleProvider="target"/>
+                                    <constraint firstItem="WmQ-wQ-aX1" firstAttribute="top" secondItem="Sye-oX-SoT" secondAttribute="bottom" constant="17" id="7r0-TR-4jJ" customClass="ScalableConstraint" customModule="InsidePro" customModuleProvider="target"/>
+                                    <constraint firstItem="vsC-IY-bFl" firstAttribute="top" secondItem="ssa-3R-MRV" secondAttribute="bottom" constant="12" id="9dw-3x-Zhu" customClass="ScalableConstraint" customModule="InsidePro" customModuleProvider="target"/>
                                     <constraint firstItem="Sye-oX-SoT" firstAttribute="centerX" secondItem="0k6-g2-t7T" secondAttribute="centerX" id="CH7-rB-CB9"/>
                                     <constraint firstItem="Sga-Tz-b6A" firstAttribute="height" secondItem="ssa-3R-MRV" secondAttribute="height" multiplier="1.2:1" id="On2-17-DSF"/>
                                     <constraint firstItem="Sga-Tz-b6A" firstAttribute="centerX" secondItem="ssa-3R-MRV" secondAttribute="centerX" id="RBK-Fh-25U"/>
                                     <constraint firstItem="vsC-IY-bFl" firstAttribute="centerX" secondItem="0k6-g2-t7T" secondAttribute="centerX" id="SiX-L0-X4B"/>
-                                    <constraint firstItem="WmQ-wQ-aX1" firstAttribute="leading" secondItem="0k6-g2-t7T" secondAttribute="leading" constant="16" id="U1K-pf-pdo" customClass="ScalableConstraint" customModule="Inside_Profile" customModuleProvider="target"/>
-                                    <constraint firstAttribute="bottom" secondItem="WmQ-wQ-aX1" secondAttribute="bottom" constant="16" id="XMl-gc-MKb" customClass="ScalableConstraint" customModule="Inside_Profile" customModuleProvider="target"/>
+                                    <constraint firstItem="WmQ-wQ-aX1" firstAttribute="leading" secondItem="0k6-g2-t7T" secondAttribute="leading" constant="16" id="U1K-pf-pdo" customClass="ScalableConstraint" customModule="InsidePro" customModuleProvider="target"/>
+                                    <constraint firstAttribute="bottom" secondItem="WmQ-wQ-aX1" secondAttribute="bottom" constant="16" id="XMl-gc-MKb" customClass="ScalableConstraint" customModule="InsidePro" customModuleProvider="target"/>
                                     <constraint firstItem="ssa-3R-MRV" firstAttribute="centerX" secondItem="0k6-g2-t7T" secondAttribute="centerX" id="XP9-PH-99a"/>
                                     <constraint firstItem="qGt-4d-cJk" firstAttribute="trailing" secondItem="0k6-g2-t7T" secondAttribute="trailing" id="eK8-gp-LUu"/>
                                     <constraint firstItem="Sga-Tz-b6A" firstAttribute="centerY" secondItem="ssa-3R-MRV" secondAttribute="centerY" id="egc-AQ-mG9"/>
                                     <constraint firstItem="xie-wn-RA0" firstAttribute="top" secondItem="ssa-3R-MRV" secondAttribute="top" id="foo-jC-398"/>
                                     <constraint firstItem="KPC-cI-5s8" firstAttribute="centerX" secondItem="ssa-3R-MRV" secondAttribute="centerX" id="hni-UU-g3g"/>
-                                    <constraint firstAttribute="trailing" secondItem="WmQ-wQ-aX1" secondAttribute="trailing" constant="16" id="mo2-ex-Ebw" customClass="ScalableConstraint" customModule="Inside_Profile" customModuleProvider="target"/>
+                                    <constraint firstAttribute="trailing" secondItem="WmQ-wQ-aX1" secondAttribute="trailing" constant="16" id="mo2-ex-Ebw" customClass="ScalableConstraint" customModule="InsidePro" customModuleProvider="target"/>
                                     <constraint firstItem="xie-wn-RA0" firstAttribute="leading" secondItem="ssa-3R-MRV" secondAttribute="leading" id="pcG-Ab-aLv"/>
                                     <constraint firstItem="qGt-4d-cJk" firstAttribute="bottom" secondItem="0k6-g2-t7T" secondAttribute="bottom" id="s9a-Vs-Mjk"/>
                                     <constraint firstItem="qGt-4d-cJk" firstAttribute="leading" secondItem="0k6-g2-t7T" secondAttribute="leading" id="sHl-BH-R1M"/>
                                     <constraint firstItem="qGt-4d-cJk" firstAttribute="top" secondItem="0k6-g2-t7T" secondAttribute="top" id="sJ7-P8-kFk"/>
                                     <constraint firstItem="Sye-oX-SoT" firstAttribute="width" secondItem="0k6-g2-t7T" secondAttribute="width" multiplier="312:375" id="tAf-bG-jN9"/>
-                                    <constraint firstItem="Sye-oX-SoT" firstAttribute="top" secondItem="vsC-IY-bFl" secondAttribute="bottom" constant="12" id="u7k-zf-bFt" customClass="ScalableConstraint" customModule="Inside_Profile" customModuleProvider="target"/>
+                                    <constraint firstItem="Sye-oX-SoT" firstAttribute="top" secondItem="vsC-IY-bFl" secondAttribute="bottom" constant="12" id="u7k-zf-bFt" customClass="ScalableConstraint" customModule="InsidePro" customModuleProvider="target"/>
                                     <constraint firstItem="xie-wn-RA0" firstAttribute="bottom" secondItem="ssa-3R-MRV" secondAttribute="bottom" id="yDq-m6-obw"/>
-                                    <constraint firstItem="ssa-3R-MRV" firstAttribute="top" secondItem="0k6-g2-t7T" secondAttribute="top" constant="16" id="zoE-1l-gwl" customClass="ScalableConstraint" customModule="Inside_Profile" customModuleProvider="target"/>
+                                    <constraint firstItem="ssa-3R-MRV" firstAttribute="top" secondItem="0k6-g2-t7T" secondAttribute="top" constant="16" id="zoE-1l-gwl" customClass="ScalableConstraint" customModule="InsidePro" customModuleProvider="target"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -425,7 +433,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" largeTitleDisplayMode="never" id="K31-QT-JD9">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="K31-QT-JD9">
                         <barButtonItem key="leftBarButtonItem" image="icSettings2" id="Q1N-An-uuM">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -470,7 +478,7 @@
         <!--Recomendation-->
         <scene sceneID="JXT-EV-36u">
             <objects>
-                <viewController storyboardIdentifier="DetailViewController" id="6Nn-Yq-xDm" customClass="DetailViewController" customModule="Inside_Profile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="6Nn-Yq-xDm" customClass="DetailViewController" customModule="InsidePro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SvL-wb-b5M">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -489,7 +497,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="112" id="KFQ-Jd-GQQ" customClass="UserCell" customModule="Inside_Profile" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="112" id="KFQ-Jd-GQQ" customClass="UserCell" customModule="InsidePro" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KFQ-Jd-GQQ" id="avT-i0-r1N">
@@ -634,7 +642,7 @@ Update tomorrow</string>
         <!--Settings-->
         <scene sceneID="QYK-1p-cYx">
             <objects>
-                <viewController storyboardIdentifier="SettingsViewController" id="POf-Zp-Wac" userLabel="Settings" customClass="SettingsViewController" customModule="Inside_Profile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="POf-Zp-Wac" userLabel="Settings" customClass="SettingsViewController" customModule="InsidePro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lyu-OP-vZ5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -800,7 +808,7 @@ Update tomorrow</string>
         <!--Recomendation-->
         <scene sceneID="avo-EE-Dtk">
             <objects>
-                <viewController storyboardIdentifier="AuthorizationViewController" id="Scr-oN-zKo" customClass="AuthorizationViewController" customModule="Inside_Profile" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthorizationViewController" id="Scr-oN-zKo" customClass="AuthorizationViewController" customModule="InsidePro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6qH-UP-hMc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -48,8 +48,12 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         view.scale()
         
+        resetUI()
+        hideUI()
+        
         setupLoadingBlur()
         fetchDataOrAuthorization() { [weak self] in
+//            self?.showUI()
             self?.dismissLoadingBlur()
         }
         
@@ -66,6 +70,69 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = .clear
+    }
+    
+    private func resetUI() {
+        followersCountLabel?.text = "0"
+        followingCountLabel?.text = "0"
+        navigationItem.title = ""
+        loginLabel?.text = ""
+    }
+    
+    private func hideUI() {
+        scrollView?.alpha = 0
+        textProgressLabel?.alpha = 0
+        avatarImageView?.alpha = 0
+        avatarBlur?.alpha = 0
+        followersCountLabel?.alpha = 0
+        followingCountLabel?.alpha = 0
+        likesCountLabel?.alpha = 0
+        commentsCountLabel?.alpha = 0
+        loginLabel?.alpha = 0
+        superButtons?.forEach { $0.alpha = 0 }
+        scrollView?.alpha = 0
+        circularProgressView?.alpha = 0
+        
+        scrollView?.isHidden = true
+        textProgressLabel?.isHidden = true
+        avatarImageView?.isHidden = true
+        avatarBlur?.isHidden = true
+        followersCountLabel?.isHidden = true
+        followingCountLabel?.isHidden = true
+        likesCountLabel?.isHidden = true
+        commentsCountLabel?.isHidden = true
+        loginLabel?.isHidden = true
+        superButtons?.forEach { $0.isHidden = true }
+        scrollView?.isHidden = true
+        circularProgressView?.isHidden = true
+    }
+    
+    private func showUI() {
+        scrollView?.alpha = 1
+        textProgressLabel?.alpha = 1
+        avatarImageView?.alpha = 1
+        avatarBlur?.alpha = 1
+        followersCountLabel?.alpha = 1
+        followingCountLabel?.alpha = 1
+        likesCountLabel?.alpha = 1
+        commentsCountLabel?.alpha = 1
+        loginLabel?.alpha = 1
+        superButtons?.forEach { $0.alpha = 1 }
+        scrollView?.alpha = 1
+        circularProgressView?.alpha = 1
+        
+        scrollView?.isHidden = false
+        textProgressLabel?.isHidden = false
+        avatarImageView?.isHidden = false
+        avatarBlur?.isHidden = false
+        followersCountLabel?.isHidden = false
+        followingCountLabel?.isHidden = false
+        likesCountLabel?.isHidden = false
+        commentsCountLabel?.isHidden = false
+        loginLabel?.isHidden = false
+        superButtons?.forEach { $0.isHidden = false }
+        scrollView?.isHidden = false
+        circularProgressView?.isHidden = false
     }
     
     private func fetchDataOrAuthorization(onSuccess: (()->())? = nil) {
@@ -403,6 +470,8 @@ extension MainViewController {
 extension MainViewController {
     
     func fetchInfo(completion: (() -> Void)? = nil) {
+        showUI()
+        
         superButtons?.forEach {
             $0.value = "0"
             $0.inProgress = true
