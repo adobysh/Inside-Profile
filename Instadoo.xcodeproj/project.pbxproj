@@ -100,7 +100,7 @@
 		0C1298E423D8FB9A001CEFA3 /* GraphRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphRoutes.swift; sourceTree = "<group>"; };
 		0C1298E723DA4060001CEFA3 /* GraphProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphProfile.swift; sourceTree = "<group>"; };
 		0C1298ED23DF9127001CEFA3 /* GraphPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphPost.swift; sourceTree = "<group>"; };
-		0C1D2E9522D3C17F0015135F /* Instadoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instadoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C1D2E9522D3C17F0015135F /* InsidePro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InsidePro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C1D2E9822D3C17F0015135F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C1D2E9A22D3C17F0015135F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0C1D2E9D22D3C17F0015135F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -227,7 +227,7 @@
 		0C1D2E8C22D3C17F0015135F = {
 			isa = PBXGroup;
 			children = (
-				0C1D2E9722D3C17F0015135F /* Instadoo */,
+				0C1D2E9722D3C17F0015135F /* InsidePro */,
 				0C1D2E9622D3C17F0015135F /* Products */,
 				8928E9977B5B15536083CB5B /* Pods */,
 				986AB714E7F75199121F7187 /* Frameworks */,
@@ -237,12 +237,12 @@
 		0C1D2E9622D3C17F0015135F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0C1D2E9522D3C17F0015135F /* Instadoo.app */,
+				0C1D2E9522D3C17F0015135F /* InsidePro.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0C1D2E9722D3C17F0015135F /* Instadoo */ = {
+		0C1D2E9722D3C17F0015135F /* InsidePro */ = {
 			isa = PBXGroup;
 			children = (
 				0C749B69247D83BA00155A72 /* Story */,
@@ -264,7 +264,7 @@
 				0C766137235DD37D00DDE439 /* Vip */,
 				0C1D2EAA22D3DF590015135F /* Extension */,
 			);
-			path = Instadoo;
+			path = InsidePro;
 			sourceTree = "<group>";
 		};
 		0C1D2EAA22D3DF590015135F /* Extension */ = {
@@ -480,7 +480,7 @@
 			);
 			name = Instadoo;
 			productName = IGHelper;
-			productReference = 0C1D2E9522D3C17F0015135F /* Instadoo.app */;
+			productReference = 0C1D2E9522D3C17F0015135F /* InsidePro.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -840,16 +840,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 87;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
-				INFOPLIST_FILE = Instadoo/Info.plist;
+				INFOPLIST_FILE = InsidePro/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.instadoo;
-				PRODUCT_NAME = Instadoo;
+				PRODUCT_NAME = InsidePro;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -863,16 +863,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 87;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = Q28H8UC8RG;
-				INFOPLIST_FILE = Instadoo/Info.plist;
+				INFOPLIST_FILE = InsidePro/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.andreidobysh.instadoo;
-				PRODUCT_NAME = Instadoo;
+				PRODUCT_NAME = InsidePro;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;

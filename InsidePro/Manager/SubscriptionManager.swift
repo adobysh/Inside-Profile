@@ -11,7 +11,6 @@ import StoreKit
 import SwiftyStoreKit
 
 enum SubscriptionType: String, CaseIterable {
-//    case month = "com.andreidobysh.nativereader.month"
     case week = "com.andreidobysh.instadoo.1week"
 }
 

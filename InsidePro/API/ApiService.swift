@@ -65,7 +65,7 @@ class ApiService {
         static let decodingError = ApiError(type: .custom, message: "Decoding error")
     }
     
-    public func registerReceipt(price: NSDecimalNumber? = nil, currency: String? = nil, completion: @escaping (Response<Bool>) -> ()) {
+    public func registerReceipt(price: NSDecimalNumber? = nil, currency: String? = nil, place: String, completion: @escaping (Response<Bool>) -> ()) {
         guard let receiptURL = Bundle.main.appStoreReceiptURL, let receiptData = try? Data(contentsOf: receiptURL) else {
             completion(Response(response: nil, error: .defaultError))
             return
@@ -75,7 +75,8 @@ class ApiService {
             "item_price": price ?? 0,
             "fb_currency": currency ?? "undefined",
             "facebook_data": AppAnalytics.getFBParameters(),
-            "appsflyer_data": AppAnalytics.getAppsflyerParameters()
+            "appsflyer_data": AppAnalytics.getAppsflyerParameters(),
+            "place": place
         ]
         Alamofire.request(ApiService.baseHOST + ApiService.api + "/buy", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: getHeaders()).responseData { response in
             self.handleResponse(response, completion: completion)

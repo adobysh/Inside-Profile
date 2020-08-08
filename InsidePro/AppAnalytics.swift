@@ -178,12 +178,12 @@ class AppAnalytics {
         Amplitude.instance()?.identify(AMPIdentify().add(property.rawValue, value: NSNumber(value: 1)))
     }
     
-    class func logPurchase(price: NSDecimalNumber?, currency: String?, identifier: String?) {
+    class func logPurchase(price: NSDecimalNumber?, currency: String?, identifier: String?, place: String) {
         let priceValue = price ?? 0
         let currencyValue = currency ?? "undefined"
         let identifierValue = identifier ?? "unknown"
         
-        ApiService.shared.registerReceipt(price: price, currency: currency) { _, _ in }
+        ApiService.shared.registerReceipt(price: price, currency: currency, place: place) { _, _ in }
         
         #if DEBUG
 

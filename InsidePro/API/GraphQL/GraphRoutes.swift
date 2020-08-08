@@ -556,6 +556,23 @@ class GraphRoutes {
         }
     }
     
+    public static func followV2(id: String, username: String, completion: @escaping (Completion<Int>) -> Void) {
+        let url = "https://www.instagram.com/web/friendships/" + id + "/follow/"
+        guard let headers = getHeaders(XCsrftocken: true, XInstagramAjax: true) else {
+            completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
+            return
+        }
+        
+        Alamofire.request(url, method: .post, headers: headers).responseString { response in
+            if let statusCode = response.response?.statusCode, statusCode == 200 {
+                print("!!! response", response.value)
+                completion(.success(statusCode))
+            } else {
+                completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
+            }
+        }
+    }
+    
     public static func follow(id: String, username: String, completion: @escaping (Completion<Int>) -> Void) {
         let url = "https://www.instagram.com/web/friendships/" + id + "/follow/"
         guard let headers = getHeaders(XCsrftocken: true) else {
@@ -563,8 +580,9 @@ class GraphRoutes {
             return
         }
         
-        Alamofire.request(url, method: .post, headers: headers).response { response in
+        Alamofire.request(url, method: .post, headers: headers).responseString { response in
             if let statusCode = response.response?.statusCode, statusCode == 200 {
+                print("!!! response", response.value)
                 completion(.success(statusCode))
             } else {
                 completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
@@ -759,7 +777,7 @@ class GraphRoutes {
 // MARK: - Utils
 extension GraphRoutes {
     
-    public static func getHeaders(XCsrftocken: Bool = false, cookieBase64: String? = nil) -> HTTPHeaders? {
+    public static func getHeaders(XCsrftocken: Bool = false, XInstagramAjax: Bool = false, cookieBase64: String? = nil) -> HTTPHeaders? {
         guard let cookiesBase64 = cookieBase64 ?? AuthorizationManager.shared.cookies else { return nil }
         guard let cookiesJsonData = Data(base64Encoded: cookiesBase64) else { return nil }
         guard let cookiesDictionary = (try? JSONSerialization.jsonObject(with: cookiesJsonData, options: [])) as? [String: Any] else { return nil }
@@ -777,7 +795,22 @@ extension GraphRoutes {
         if XCsrftocken {
             headers["x-csrftoken"] = ((cookeisArray.first(where: { ($0["key"] as? String) == "csrftoken" }))?["value"] as? String) ?? ""
         }
+        if XInstagramAjax {
+            headers["x-instagram-ajax"] = randomString(length: 12)
+        }
         return headers
+    }
+    
+    private static func randomString(length: Int) -> String {
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyz0123456789"
+        let len = UInt32(letters.length)
+        var randomString = ""
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(len)
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+        return randomString
     }
     
 }

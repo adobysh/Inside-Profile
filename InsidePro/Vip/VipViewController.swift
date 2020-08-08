@@ -143,11 +143,10 @@ class VipViewController: UIViewController {
                             SubscriptionKeychain.registerSubscription(expirationDate: subscriptionExpirationDate)
                             self?.onPaymentSuccess?()
                             guard let product = self?.product, let source = self?.source else { return }
-                            AppAnalytics.logPurchase(
-                                price: product.price,
-                                currency: product.priceLocale.currencyCode,
-                                identifier: product.productIdentifier
-                            )
+                            AppAnalytics.logPurchase(price: product.price,
+                                                     currency: product.priceLocale.currencyCode,
+                                                     identifier: product.productIdentifier,
+                                                     place: source.rawValue)
                             let properties: [String: String] = [
                                 "source": source.rawValue,
 //                                "type": self?.isOffer == true ? "offer" : "vip",
