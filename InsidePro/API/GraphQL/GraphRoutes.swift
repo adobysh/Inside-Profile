@@ -556,7 +556,7 @@ class GraphRoutes {
         }
     }
     
-    public static func followV2(id: String, username: String, completion: @escaping (Completion<Int>) -> Void) {
+    public static func follow(id: String, username: String, completion: @escaping (Completion<FollowStatus>) -> Void) {
         let url = "https://www.instagram.com/web/friendships/" + id + "/follow/"
         guard let headers = getHeaders(XCsrftocken: true, XInstagramAjax: true) else {
             completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
@@ -565,25 +565,21 @@ class GraphRoutes {
         
         Alamofire.request(url, method: .post, headers: headers).responseString { response in
             if let statusCode = response.response?.statusCode, statusCode == 200 {
-                print("!!! response", response.value)
-                completion(.success(statusCode))
-            } else {
-                completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
-            }
-        }
-    }
-    
-    public static func follow(id: String, username: String, completion: @escaping (Completion<Int>) -> Void) {
-        let url = "https://www.instagram.com/web/friendships/" + id + "/follow/"
-        guard let headers = getHeaders(XCsrftocken: true) else {
-            completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
-            return
-        }
-        
-        Alamofire.request(url, method: .post, headers: headers).responseString { response in
-            if let statusCode = response.response?.statusCode, statusCode == 200 {
-                print("!!! response", response.value)
-                completion(.success(statusCode))
+                guard let dictionary = response.value?.asDictionary else {
+                    completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
+                    return
+                }
+                
+                var followStatus: FollowStatus
+                if (dictionary["result"] as? String) == "requested" {
+                    followStatus = .requested
+                } else if (dictionary["result"] as? String) == "following" {
+                    followStatus = .yes
+                } else {
+                    followStatus = .disabled
+                }
+                
+                completion(.success(followStatus))
             } else {
                 completion(.error(ErrorModel(file: #file, function: #function, line: #line)))
             }

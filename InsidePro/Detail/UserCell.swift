@@ -14,11 +14,11 @@ class UserCell: UITableViewCell {
     @IBOutlet var nameLabel: UILabel?
     @IBOutlet var descriptionLabel: UILabel?
     @IBOutlet var followButton: UIButton?
-    public var onFollow: (( ((FollowStatus)->Void)? )->())?
+    public var onFollow: ((User) -> Void)?
     
     private var user: User?
     
-    func configure(user: User?, onFollow: (( ((FollowStatus)->Void)? )->())?) {
+    func configure(user: User?, onFollow: ((User) -> Void)?) {
         self.user = user
         self.onFollow = onFollow
         
@@ -72,19 +72,21 @@ class UserCell: UITableViewCell {
             GraphRoutes.unfollow(id: user.id ?? "", completion: { [weak self] result in
                 sender.isEnabled = true
                 if let _ = result.value {
-                    self?.onFollow?() { [weak self] followStatus in
-                        self?.user?.followStatus = followStatus
-                        self?.updateFollowButton()
+                    self?.user?.followStatus = .no
+                    self?.updateFollowButton()
+                    if let user = self?.user {
+                        self?.onFollow?(user)
                     }
                 }
             })
         case .no:
             GraphRoutes.follow(id: user.id ?? "", username: user.username ?? "", completion: { [weak self] result in
                 sender.isEnabled = true
-                if let _ = result.value {
-                    self?.onFollow?() { [weak self] followStatus in
-                        self?.user?.followStatus = followStatus
-                        self?.updateFollowButton()
+                if let followStatus = result.value {
+                    self?.user?.followStatus = followStatus
+                    self?.updateFollowButton()
+                    if let user = self?.user {
+                        self?.onFollow?(user)
                     }
                 }
             })
@@ -92,9 +94,10 @@ class UserCell: UITableViewCell {
             GraphRoutes.unfollow(id: user.id ?? "", completion: { [weak self] result in
                 sender.isEnabled = true
                 if let _ = result.value {
-                    self?.onFollow?() { [weak self] followStatus in
-                        self?.user?.followStatus = followStatus
-                        self?.updateFollowButton()
+                    self?.user?.followStatus = .no
+                    self?.updateFollowButton()
+                    if let user = self?.user {
+                        self?.onFollow?(user)
                     }
                 }
             })

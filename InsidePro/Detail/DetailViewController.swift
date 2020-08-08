@@ -44,7 +44,7 @@ class DetailViewController: UIViewController {
         return mainScreenInfo?.limitedDataDownloadMode
     }
     
-    public var onFollow: (( _ onUpdate: ((Error?)->Void)? )->())?
+    public var onFollow: (( _ user: User, _ onUpdate: ((Error?)->Void)? )->())?
     public var onUpdate: (( _ onUpdate: (()->Void)? )->())?
     
     override func viewDidLoad() {
@@ -219,16 +219,12 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             if limitedDataDownloadMode == false && contentType != .blocked_by_you {
                 user = UserModel.addFollowStatus(user, following, followRequests)
             }
-            cell.configure(user: user, onFollow: { [weak self] onFollow in
-                self?.onFollow?() { [weak self] error in
+            cell.configure(user: user, onFollow: { [weak self] user in
+                self?.onFollow?(user) { error in
                     if let _ = error {
                         self?.showErrorAlert()
                         return
                     }
-                    
-                    user = UserModel.addFollowStatus(user, self?.following, self?.followRequests)
-                    guard let followStatus = user.followStatus else { return }
-                    onFollow?(followStatus)
                 }
             })
         }

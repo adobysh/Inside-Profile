@@ -234,59 +234,120 @@ class MainViewController: UIViewController {
         vc.suggestedUsers = viewModel.state.suggestedUsers
         vc.monthHistoryUsers = viewModel.state.monthHistoryUsers
         vc.blockedByYouUsernames = viewModel.state.blockedByYouUsernames
-        vc.onFollow = { [weak self] onUpdate in
+        let onFollow: (( _ user: User, _ onUpdate: ((Error?)->Void)? )->())? = { user, onUpdate in
             let onError: (Error)->() = { error in onUpdate?(error) }
             
-            GraphRoutes.getCurrentProfile(completion: { result in
-                if let error = result.error {
-                    onError(error)
-                    return
-                }
-                
-                guard let profileInfo = result.value else {
-                    onError(ErrorModel(file: #file, function: #function, line: #line))
-                    return
-                }
-            
-                let limitedDataDownloadMode = profileInfo.limitedDataDownloadMode == true
-                let userId = profileInfo.id ?? ""
-                
-                GraphRoutes.getUserFollowings(limited: limitedDataDownloadMode,
-                                              id: userId,
-                                              onSubpartLoaded: { _ in },
-                                              completion: { [weak self] result in
-                    guard let following = result.value else {
-                        onError(result.error ?? ErrorModel(file: #file, function: #function, line: #line))
+            if user.followStatus == .requested || user.followStatus == .disabled {
+                // do nothing
+            } else {
+                GraphRoutes.getCurrentProfile(completion: { [weak self] result in
+                    if let error = result.error {
+                        onError(error)
                         return
                     }
                     
+                    guard let profileInfo = result.value else {
+                        onError(ErrorModel(file: #file, function: #function, line: #line))
+                        return
+                    }
+                    
+    //                GraphRoutes.getUserFollowings
+                    
+                    if user.followStatus == .yes {
+                        self?.viewModel.state.following?.append(GraphUser(user: user))
+                    } else if user.followStatus == .no {
+                        self?.viewModel.state.following?.removeAll(where: { (followingUser) -> Bool in
+                            if let followingUserId = followingUser.id, let userId = user.id {
+                                return followingUserId == userId
+                            } else if let followingUserName = followingUser.username, let userName = user.username {
+                                return followingUserName == userName
+                            } else {
+                                return false
+                            }
+                        })
+                    }
+
                     GraphRoutes.getFollowRequests(completion: { [weak self] result in
                         if let error = result.error {
                             onError(error)
                             return
                         }
-                        
+
                         guard let followRequests = result.value else { return }
                         self?.viewModel.state.mainScreenInfo = profileInfo
-                        self?.viewModel.state.following = following
                         self?.viewModel.state.followRequests = followRequests
-                        
+
                         if let state = self?.viewModel.state {
                             ProfileStateBundleManager().save(state)
                         }
-                        
+
                         vc.mainScreenInfo = profileInfo
-                        vc.following = following
+                        vc.following = self?.viewModel.state.following
                         vc.followRequests = followRequests
-                        
+
                         self?.viewModel.tryToUpdate_youDontFollow_n_unfollowers()
                         self?.viewModelDidUpdateMainInfo(profileInfo)
-                        
+
                         onUpdate?(nil)
                     })
                 })
-            })
+            }
         }
+        
+        vc.onFollow = onFollow
+//        vc.onFollow = { [weak self] in
+//            let onError: (Error)->() = { error in onUpdate?(error) }
+//
+//            GraphRoutes.getCurrentProfile(completion: { result in
+//                if let error = result.error {
+//                    onError(error)
+//                    return
+//                }
+//
+//                guard let profileInfo = result.value else {
+//                    onError(ErrorModel(file: #file, function: #function, line: #line))
+//                    return
+//                }
+//
+//                let limitedDataDownloadMode = profileInfo.limitedDataDownloadMode == true
+//                let userId = profileInfo.id ?? ""
+//
+//                GraphRoutes.getUserFollowings(limited: limitedDataDownloadMode,
+//                                              id: userId,
+//                                              onSubpartLoaded: { _ in },
+//                                              completion: { [weak self] result in
+//                    guard let following = result.value else {
+//                        onError(result.error ?? ErrorModel(file: #file, function: #function, line: #line))
+//                        return
+//                    }
+//
+//                    GraphRoutes.getFollowRequests(completion: { [weak self] result in
+//                        if let error = result.error {
+//                            onError(error)
+//                            return
+//                        }
+//
+//                        guard let followRequests = result.value else { return }
+//                        self?.viewModel.state.mainScreenInfo = profileInfo
+//                        self?.viewModel.state.following = following
+//                        self?.viewModel.state.followRequests = followRequests
+//
+//                        if let state = self?.viewModel.state {
+//                            ProfileStateBundleManager().save(state)
+//                        }
+//
+//                        vc.mainScreenInfo = profileInfo
+//                        vc.following = following
+//                        vc.followRequests = followRequests
+//
+//                        self?.viewModel.tryToUpdate_youDontFollow_n_unfollowers()
+//                        self?.viewModelDidUpdateMainInfo(profileInfo)
+//
+//                        onUpdate?(nil)
+//                    })
+//                })
+//            })
+//        }
         vc.onUpdate = { [weak self] onUpdate in
             self?.fetchInfo(completion: { [weak self] in
                 vc.mainScreenInfo = self?.viewModel.state.mainScreenInfo

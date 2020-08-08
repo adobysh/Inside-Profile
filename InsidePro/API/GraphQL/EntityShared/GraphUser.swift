@@ -60,6 +60,23 @@ struct GraphUser: User, Codable, Comparable {
     static func < (lhs: GraphUser, rhs: GraphUser) -> Bool {
         return (lhs.full_name ?? "") < (rhs.full_name ?? "")
     }
+    
+    init(user: User) {
+        self.edge_followed_by = nil
+        self.followed_by_viewer = nil
+        self.full_name =        user.full_name
+        self.id =               user.id
+        self.is_private =       nil
+        self.is_verified =      user.is_verified
+        self.is_viewer =        nil
+        self.profile_pic_url =  user.profile_pic_url
+        self.requested_by_viewer = nil
+        self.username =         user.username
+        self.descriptionText =  user.descriptionText
+        self.followStatus =     user.followStatus
+        self.yourPostsLikes =   user.yourPostsLikes
+        self.connectionsCount = user.connectionsCount
+    }
 }
 
 struct EdgeFollowedBy: Codable {
